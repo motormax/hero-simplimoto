@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,4 +15,9 @@ const App = () => (
     </p>
   </div>);
 
-export default App;
+
+const mapStateToProps = state => ({
+  nombre: state.nombre || 'lucas',
+});
+
+export default connect(mapStateToProps)(App);
