@@ -8,7 +8,7 @@ import './App.css';
 
 const Coso = () => (
   <div>This shows up if the route is /thing</div>
-)
+);
 
 const App = ({ nombre }) => (
   <div className="App">
@@ -18,13 +18,13 @@ const App = ({ nombre }) => (
     </header>
     <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
-      <Route path={'/thing'} component={Coso} />
+      <Route path="/thing" component={Coso} />
     </p>
   </div>);
 
 App.propTypes = {
   nombre: propTypes.string.isRequired,
-}
+};
 
 
 const mapStateToProps = store => ({
