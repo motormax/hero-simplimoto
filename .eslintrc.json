@@ -1,4 +1,8 @@
 {
   "extends": "airbnb",
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "rules": {
+    // class modules are there to add propTypes as static class properties
+    "react/prefer-stateless-function": "off"
+  }
 }
