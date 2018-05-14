@@ -7,15 +7,18 @@ import { translate } from 'react-i18next';
 import logo from './logo.svg';
 import './App.css';
 
+import GruveoEmbed from '../gruveo';
+
 const Coso = () => (
   <div>This shows up if the route is /thing</div>
 );
+
 
 class App extends React.Component {
   static propTypes = {
     nombre: propTypes.string.isRequired,
     t: propTypes.func.isRequired,
-  }
+  };
 
   render() {
     const { nombre, t } = this.props;
@@ -30,7 +33,7 @@ class App extends React.Component {
           {t('contenido', { nombre })}
           <Route path="/thing" component={Coso} />
         </p>
-        <div id="test-call-room" />
+        <GruveoEmbed />
       </div>
     );
   }

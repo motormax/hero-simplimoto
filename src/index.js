@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { I18nextProvider } from 'react-i18next';
+import './gruveo';
 
 import './index.css';
 import App from './components/App';
