@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { translate } from 'react-i18next';
+import 'semantic-ui-css/semantic.min.css';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
