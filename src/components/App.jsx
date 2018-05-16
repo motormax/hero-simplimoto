@@ -7,6 +7,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
+import CustomizationPage from './CustomizationPage/CustomizationPage';
 
 class App extends React.Component {
   static propTypes = {
@@ -20,6 +21,7 @@ class App extends React.Component {
       <div className="App">
         <h1>{t('Simplimoto')}</h1>
         <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/customization" component={CustomizationPage} />
       </div>
     );
   }
