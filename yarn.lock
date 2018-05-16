@@ -2354,6 +2354,10 @@ eslint-plugin-import@2.8.0:
     minimatch "^3.0.3"
     read-pkg-up "^2.0.0"
 
+eslint-plugin-jest@^21.15.1:
+  version "21.15.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.15.1.tgz#662a3f0888002878f0f388efd09c190a95c33d82"
+
 eslint-plugin-jsx-a11y@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-5.1.1.tgz#5c96bb5186ca14e94db1095ff59b3e2bd94069b1"
@@ -3948,6 +3952,31 @@ jest-message-util@^20.0.3:
 jest-mock@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-20.0.3.tgz#8bc070e90414aa155c11a8d64c869a0d5c71da59"
+
+jest-plugin-action@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/jest-plugin-action/-/jest-plugin-action-2.9.0.tgz#027f3b91c39e0a492927b65dea90207db2c6b1be"
+  dependencies:
+    jest-plugin-set "^2.9.0"
+
+jest-plugin-context@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/jest-plugin-context/-/jest-plugin-context-2.9.0.tgz#602aacbe61213a3bb229067db0eee9e003eb1931"
+
+jest-plugin-its@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/jest-plugin-its/-/jest-plugin-its-2.9.0.tgz#c450891784710ec7314ba7ad18a68a061d40a2f8"
+  dependencies:
+    invariant "^2.2.2"
+    jest-plugin-set "^2.9.0"
+
+jest-plugin-set@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/jest-plugin-set/-/jest-plugin-set-2.9.0.tgz#95d4cb0e25e117b8a0b19846598887bf4bb95fca"
+
+jest-plugins@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/jest-plugins/-/jest-plugins-2.9.0.tgz#9323583ad9d5eaa321723d7601c16192bfcda7db"
 
 jest-regex-util@^20.0.3:
   version "20.0.3"
