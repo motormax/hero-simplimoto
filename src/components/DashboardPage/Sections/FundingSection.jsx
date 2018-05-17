@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
+import { Button, Card, Icon } from 'semantic-ui-react';
 
 
 class FundingSection extends Component {
@@ -12,11 +13,27 @@ class FundingSection extends Component {
   render() {
     const { t, funding } = this.props;
 
+    const isOk = true;
+    const icon = isOk ? 'check circle outline' : 'warning circle';
+    const color = isOk ? 'green' : 'red';
+
     return (
-      <div>
-        <h2>{t('title')}</h2>
-        <div>{`Financiado?: ${funding.isDefault}`}</div>
-      </div>
+      <Card fluid color={color}>
+        <Card.Content>
+          <Card.Header>
+            <Icon color={color} name={icon} />
+            {t('title')}
+          </Card.Header>
+          <Card.Meta>{`Financiado: ${funding.isDefault}`}</Card.Meta>
+          <Card.Description>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Nunc pulvinar tristique nisi et posuere
+          </Card.Description>
+          <Card.Content textAlign="right" extra>
+            <Button primary>Change</Button>
+          </Card.Content>
+        </Card.Content>
+      </Card>
     );
   }
 }
