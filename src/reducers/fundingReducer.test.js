@@ -3,7 +3,7 @@ import { createStore } from 'redux';
 
 import fundingReducer from './fundingReducer';
 
-describe('stageReducer', () => {
+describe('fundingReducer', () => {
   set('store', () => createStore(fundingReducer));
   subject(() => store.getState());
 
