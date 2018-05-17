@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:jest/recommended"],
   "parser": "babel-eslint",
   "rules": {
     // class modules are there to add propTypes as static class properties
