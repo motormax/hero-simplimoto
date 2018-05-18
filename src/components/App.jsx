@@ -6,6 +6,7 @@ import { translate } from 'react-i18next';
 
 import logo from './logo.svg';
 import './App.css';
+import VideoPage from './VideoPage/VideoPage';
 
 const Coso = () => (
   <div>This shows up if the route is /thing</div>
@@ -24,12 +25,13 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Bienvenido a {nombre}</h1>
+          <h1 className="App-title">Bienvenido a {nombre}</h1>          
         </header>
         <p className="App-intro">
           {t('contenido', { nombre })}
           <Route path="/thing" component={Coso} />
         </p>
+        <Route path="/phygital" component={VideoPage} />
       </div>
     );
   }
