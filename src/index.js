@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import { Route } from 'react-router'
+import { Route } from 'react-router';
 import { I18nextProvider } from 'react-i18next';
 
 import './index.css';

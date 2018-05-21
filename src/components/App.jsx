@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
-import { Switch } from 'react-router-dom'
+import { Switch } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import 'semantic-ui-css/semantic.min.css';
 
