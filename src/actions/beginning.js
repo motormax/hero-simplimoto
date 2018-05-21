@@ -1,8 +1,8 @@
-import * as actionTypes from './actionTypes';
+import actionTypes from './actionTypes';
 
 export default {
-  changeName: name => ({
-    type: actionTypes.changeName, name,
+  changeBikeModel: bikeModel => ({
+    type: actionTypes.changeBikeModel, bikeModel,
   }),
 };
 
