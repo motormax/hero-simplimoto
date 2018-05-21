@@ -72,6 +72,7 @@ export default class VideoPage extends Component {
       });
     }
     this.detachParticipantTracks(this.state.room.localParticipant);
+    this.detachParticipantTracks = this.detachParticipantTracks.bind(this);
     this.state.room.participants.forEach(this.detachParticipantTracks);      
     this.setState({ room: undefined });
     this.buttonJoin.style.display = 'inline';
@@ -197,7 +198,7 @@ export default class VideoPage extends Component {
         </div>
         <div id="controls">
           <div id="preview">
-            <p>Please join our channel to meet your bike</p>            
+            <p>Please join our channel to meet your bike. Version 1.0</p>            
             <div
               id="local-media"
               ref={(div) => { this.localMedia = div; }}>
