@@ -1,8 +1,8 @@
 import actionTypes from './actionTypes';
 
-export default {
-  changeBikeModel: bikeModel => ({
-    type: actionTypes.changeBikeModel, bikeModel,
-  }),
-};
+export const changeBikeModel = bikeModel => ({
+  type: actionTypes.changeBikeModel, bikeModel,
+});
+
+export const noop = () => ({ type: 'NOOP' });
 

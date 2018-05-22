@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
+import { changeBikeModel } from '../actions/beginning'
 
 class MainPage extends Component {
   static propTypes = {
@@ -28,7 +29,7 @@ class MainPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   pickBike: (bikeModel) => {
-    dispatch({ type: 'CHANGE_BIKE_MODEL', bikeModel });
+    dispatch(changeBikeModel(bikeModel));
     dispatch(push('/dashboard'));
   },
 });
