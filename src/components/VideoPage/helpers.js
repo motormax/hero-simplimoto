@@ -41,7 +41,7 @@ function applyAudioOutputDeviceSelection(deviceId, audio) {
  * @param {HTMLVideoElement} video
  * @returns {Promise<void>}
  */
-function applyVideoInputDeviceSelection(deviceId, video) {
+export function ApplyVideoInputDeviceSelection(deviceId, video) {
   return createLocalVideoTrack({
     deviceId: deviceId,
     height: 240,
