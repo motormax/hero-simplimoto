@@ -24,13 +24,13 @@ class FinancingSection extends Component {
             <Icon color={color} name={icon} />
             {t('title')}
           </Card.Header>
-          <Card.Meta>{`Financiado: ${financing.isDefault}`}</Card.Meta>
+          <Card.Meta>{`${financing.isDefault}`}</Card.Meta>
           <Card.Description>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc pulvinar tristique nisi et posuere
           </Card.Description>
           <Card.Content textAlign="right" extra>
-            <Button primary>Change</Button>
+            <Button primary>{t('change')}</Button>
           </Card.Content>
         </Card.Content>
       </Card>
@@ -38,4 +38,4 @@ class FinancingSection extends Component {
   }
 }
 
-export default translate('funding')(FinancingSection);
+export default translate('financing')(FinancingSection);

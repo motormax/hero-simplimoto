@@ -9,17 +9,18 @@ import FundingSection from './Sections/FinancingSection';
 
 class DashboardPage extends Component {
   static propTypes = {
+    t: propTypes.func.isRequired,
     stages: propTypes.shape({
       isDefault: propTypes.bool,
     }).isRequired,
-  }
+  };
 
   render() {
-    const { stages } = this.props;
+    const { stages, t } = this.props;
 
     return (
       <React.Fragment>
-        <Header size="large">Dashboard</Header>
+        <Header size="large">{t('dashboard')}</Header>
         <div ref={(ref) => { this.ref = ref; }}>
           <Grid>
             <Grid.Column floated="left" style={{ textAlign: 'left' }} width={10}>
@@ -59,4 +60,4 @@ class DashboardPage extends Component {
 
 const mapStateToProps = store => ({ stages: store.main.stages });
 
-export default translate('translations')(connect(mapStateToProps)(DashboardPage));
+export default translate('dashboard')(connect(mapStateToProps)(DashboardPage));

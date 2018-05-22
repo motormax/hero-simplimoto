@@ -1,48 +1,56 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
+import { translate } from 'react-i18next';
 import { Button, Card, Header, Icon, Table } from 'semantic-ui-react';
 
 class CheckoutSummary extends Component {
+  static propTypes = {
+    t: propTypes.func.isRequired,
+  };
+
   render() {
+    const { t } = this.props;
+
     return (
       <Card fluid>
         <Card.Header>
-          <Header>Factura</Header>
+          <Header>{t('title')}</Header>
         </Card.Header>
         <Card.Content>
           <Table size="large">
             <Table.Body>
               <Table.Row>
-                <Table.Cell>Modelo de moto</Table.Cell>
+                <Table.Cell>{t('bike_model')}</Table.Cell>
                 <Table.Cell textAlign="right">$452,25</Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell>Accesorios</Table.Cell>
+                <Table.Cell>{t('accessories')}</Table.Cell>
                 <Table.Cell textAlign="right">$152</Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell>Delivery</Table.Cell>
+                <Table.Cell>{t('delivery')}</Table.Cell>
                 <Table.Cell textAlign="right">$0</Table.Cell>
               </Table.Row>
               <Table.Row error>
-                <Table.Cell><Icon name="warning sign" />Seguro</Table.Cell>
+                <Table.Cell><Icon name="warning sign" />{t('insurance_options')}</Table.Cell>
                 <Table.Cell textAlign="right">-</Table.Cell>
               </Table.Row>
             </Table.Body>
 
             <Table.Footer>
               <Table.Row>
-                <Table.HeaderCell size="big">Total</Table.HeaderCell>
+                <Table.HeaderCell size="big">{t('total')}</Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">$522,25</Table.HeaderCell>
               </Table.Row>
             </Table.Footer>
           </Table>
         </Card.Content>
         <Card.Content textAlign="center" extra>
-          <Button size="massive" primary positive>CONSEGUIR MOTO!</Button>
+          <Button size="massive" primary positive>{t('buy_bike')}</Button>
         </Card.Content>
       </Card>
     );
   }
 }
 
-export default CheckoutSummary;
+export default translate('checkout')(CheckoutSummary);

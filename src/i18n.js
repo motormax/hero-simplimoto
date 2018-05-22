@@ -5,19 +5,24 @@ export default i18next.init({
   debug: process.env.NODE_ENV !== 'test',
   resources: {
     en: {
-      translations: {
-        contenido: 'Hello, {{nombre}}',
+      index: {
+        simplimoto: 'Simplimoto',
       },
-      funding: {
-        title: 'Funding',
+      dashboard: {
+        dashboard: 'Dashboard',
       },
-    },
-    es: {
-      translations: {
-        contenido: 'Hola, {{nombre}}',
+      checkout: {
+        title: 'Checkout Summary',
+        bike_model: 'Bike model',
+        accessories: 'Accessories',
+        delivery: 'Delivery',
+        insurance_options: 'Insurance Options',
+        total: 'Total',
+        buy_bike: 'Buy bike!',
       },
-      funding: {
-        title: 'Financiamiento',
+      financing: {
+        title: 'Financing',
+        change: 'Change',
       },
     },
   },

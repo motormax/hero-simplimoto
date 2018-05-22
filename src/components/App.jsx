@@ -20,7 +20,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>{t('Simplimoto')}</h1>
+        <h1>{t('simplimoto')}</h1>
         <Switch>
           <Route exact path="/" component={MainPage} />
           <Route path="/dashboard" component={DashboardPage} />
@@ -34,4 +34,4 @@ const mapStateToProps = store => ({
   funding: store.main.stages.funding,
 });
 
-export default translate('translations')(connect(mapStateToProps)(App));
+export default translate('index')(connect(mapStateToProps)(App));
