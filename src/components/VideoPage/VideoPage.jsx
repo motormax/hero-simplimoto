@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect, createLocalTracks } from 'twilio-video';
 import { jwt } from 'twilio';
-import { GetDeviceSelectionOptions } from './helpers'
+import { GetDeviceSelectionOptions, ApplyVideoInputDeviceSelection } from './helpers'
 
 const { AccessToken } = jwt;
 const { VideoGrant } = AccessToken;
@@ -71,7 +71,7 @@ export default class VideoPage extends Component {
         let label = kindDeviceInfo.label || 'Device [ id: '
           + deviceId.substr(0, 5) + '... ]';
 
-          videoDevicesOptions.push(<option key='{deviceId}' value='{deviceId}'>{label}</option>);
+          videoDevicesOptions.push(<option key={deviceId} value={deviceId}>{label}</option>);
       });
       this.setState({
         videoDevices: videoDevicesOptions
@@ -174,6 +174,13 @@ export default class VideoPage extends Component {
     });
   }
 
+  handleApplyVideoInputButton(event) {
+    console.log('click '+ this.localMedia);
+    ApplyVideoInputDeviceSelection(this.videoinputSeviceSelection.value, this.localMedia);
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   handleLeaveClick() {
     this.log('Leaving room...');
     this.state.room.disconnect();
@@ -247,11 +254,14 @@ export default class VideoPage extends Component {
             <div className="form-group">
               <label className="form-text text-muted">Video Input</label>
               <div className="input-group">
-                <select id="videoinput" name="videoinput">
+                <select id="videoinput" name="videoinput"
+                       ref={(select) => { this.videoinputSeviceSelection = select; }}>
                 { this.state.videoDevices }
                 </select>
                 <span className="input-group-btn">
-                  <button id="videoinputapply" className="btn btn-primary btn-sm">Apply</button>
+                  <button id="videoinputapply" className="btn btn-primary btn-sm"
+                    onClick={this.handleApplyVideoInputButton.bind(this)}
+                  >Apply</button>
                 </span>
               </div>
             </div>
