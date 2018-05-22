@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Header, Icon, Table } from 'semantic-ui-react';
 
-class CurrentBill extends Component {
+class CheckoutSummary extends Component {
   render() {
     return (
       <Card fluid>
@@ -45,4 +45,4 @@ class CurrentBill extends Component {
   }
 }
 
-export default CurrentBill;
+export default CheckoutSummary;

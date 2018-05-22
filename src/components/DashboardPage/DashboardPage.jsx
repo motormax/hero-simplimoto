@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 import { Grid, Card, Header, Sticky } from 'semantic-ui-react';
 
-import CurrentBill from './CurrentBill';
-import FundingSection from './Sections/FundingSection';
+import CheckoutSummary from './CheckoutSummary';
+import FundingSection from './Sections/FinancingSection';
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -24,30 +24,30 @@ class DashboardPage extends Component {
           <Grid>
             <Grid.Column floated="left" style={{ textAlign: 'left' }} width={10}>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection funding={stages.funding} />
+                <FundingSection financing={stages.funding} />
               </Card.Group>
             </Grid.Column>
             <Grid.Column floated="right" width={6}>
               <Sticky context={this.ref}>
-                <CurrentBill />
+                <CheckoutSummary />
               </Sticky>
             </Grid.Column>
           </Grid>

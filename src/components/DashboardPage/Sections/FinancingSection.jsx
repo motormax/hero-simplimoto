@@ -4,14 +4,14 @@ import { translate } from 'react-i18next';
 import { Button, Card, Icon } from 'semantic-ui-react';
 
 
-class FundingSection extends Component {
+class FinancingSection extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    funding: propTypes.shape({}).isRequired,
+    financing: propTypes.shape({}).isRequired,
   }
 
   render() {
-    const { t, funding } = this.props;
+    const { t, financing } = this.props;
 
     const isOk = true;
     const icon = isOk ? 'check circle outline' : 'warning circle';
@@ -24,7 +24,7 @@ class FundingSection extends Component {
             <Icon color={color} name={icon} />
             {t('title')}
           </Card.Header>
-          <Card.Meta>{`Financiado: ${funding.isDefault}`}</Card.Meta>
+          <Card.Meta>{`Financiado: ${financing.isDefault}`}</Card.Meta>
           <Card.Description>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc pulvinar tristique nisi et posuere
@@ -38,4 +38,4 @@ class FundingSection extends Component {
   }
 }
 
-export default translate('funding')(FundingSection);
+export default translate('funding')(FinancingSection);
