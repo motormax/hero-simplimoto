@@ -165,7 +165,7 @@ export default class VideoPage extends Component {
   handlePreviewClick() {
     const localTracksPromise = this.previewTracks
       ? Promise.resolve(this.previewTracks)
-      : createLocalTracks();
+      : createLocalTracks({facingMode: "environment"});
 
     this.localTracksPromiseHandler = this.localTracksPromiseHandler.bind(this);
     localTracksPromise.then(this.localTracksPromiseHandler, (error) => {
@@ -175,7 +175,6 @@ export default class VideoPage extends Component {
   }
 
   handleApplyVideoInputButton(event) {
-    console.log('click '+ this.localMedia);
     ApplyVideoInputDeviceSelection(this.videoinputSeviceSelection.value, this.localMedia);
     event.preventDefault();
     event.stopPropagation();
