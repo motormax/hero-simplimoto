@@ -30,6 +30,7 @@ class App extends React.Component {
           {t('contenido', { nombre })}
           <Route path="/thing" component={Coso} />
         </p>
+        <div id="test-call-room" />
       </div>
     );
   }
