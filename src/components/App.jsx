@@ -19,7 +19,6 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>{t('Simplimoto')}</h1>
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/customization" component={CustomizationPage} />
       </div>

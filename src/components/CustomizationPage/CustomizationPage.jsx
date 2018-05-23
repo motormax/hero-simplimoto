@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'semantic-ui-react';
+
 import { translate } from 'react-i18next';
+import CustomizationPanel from './CustomizationPanel';
 
 
 class CustomizationPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mirrorOption: 1,
-      seatOption: 1,
-      color: 'red',
-    };
-  }
+  static propTypes = {
+    chosenMirror: propTypes.number.isRequired,
+  };
+
   render() {
     return (
-      <div >
+      <div>
         <h1>Personalización</h1>
         <div className="ui equal width celled grid">
           <div className="row">
             <div className="column">
               <div className="ui two column grid">
                 <div className="right aligned twelve wide column">
-                  <h2 style={{ fontSize: '40px' }}>Personalizá tu moto</h2>
+                  <h2 style={{   fontSize: '40px' }}>Personalizá tu moto</h2>
                 </div>
                 <div className="right floated four wide column">
-                  <button className="ui button">Pantalla completa</button>
+                  <Button>Pantalla completa</Button>
                 </div>
               </div>
               <img
@@ -34,32 +34,7 @@ class CustomizationPage extends Component {
               />
             </div>
             <div className="column">
-              <div className="ui three column celled grid">
-                <div className="column">
-                  <h3>Espejos</h3>
-                  <img
-                    alt="Mirror"
-                    style={{ width: '113px' }}
-                    src="http://www.triumphdirect.co.uk/ekmps/shops/122f9c/images/oval-style-mirror-drilled-stem-2180-p.jpg"
-                  />
-                </div>
-                <div className="column">
-                  <h3>Asiento</h3>
-                  <img
-                    alt="Mirror"
-                    style={{ width: '113px' }}
-                    src="https://3.imimg.com/data3/RO/IU/MY-15304011/motorbike-seat-500x500.png"
-                  />
-                </div>
-                <div className="column">
-                  <h3>Color</h3>
-                  <img
-                    alt="Color"
-                    style={{ width: '113px' }}
-                    src="https://www.colorcombos.com/images/colors/FF0000.png"
-                  />
-                </div>
-              </div>
+              <CustomizationPanel />
             </div>
           </div>
         </div>
@@ -68,6 +43,13 @@ class CustomizationPage extends Component {
   }
 }
 
-const mapStateToProps = store => ({ stages: store.main.stages });
+const mapStateToProps =
+  store => ({ chosenMirror: store.main.stages.customization.chosenMirror });
+const mapDispatchToProps = dispatch => ({
+  changeMirror: optionNumber => dispatch({
+    type: 'CHANGE_MIRROR',
+    chosenOption: optionNumber,
+  }),
+});
 
-export default translate('translations')(connect(mapStateToProps)(CustomizationPage));
+export default translate('translations')(connect(mapStateToProps, mapDispatchToProps)(CustomizationPage));

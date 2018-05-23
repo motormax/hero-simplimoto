@@ -12,11 +12,10 @@ class DashboardPage extends Component {
     stages: propTypes.shape({
       isDefault: propTypes.bool,
     }).isRequired,
-  }
+  };
 
   render() {
     const { stages } = this.props;
-
     return (
       <React.Fragment>
         <Header size="large">Dashboard</Header>
