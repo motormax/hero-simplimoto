@@ -1,28 +1,34 @@
 import React, { Component } from 'react';
 
-class DashboardIMGPage extends Component {
+class HomeIMGPage extends Component {
   render() {
     return (
       <div style={{
         width: '1338px',
         margin: 'auto',
         position: 'relative',
-      }}>
-        <img style={{
+      }}
+      >
+        <img
+          style={{
           position: 'relative',
           display: 'block',
-        }} src={`${process.env.PUBLIC_URL}/Hero-Dashboard.png`}/>
-        <a style={{
-          position: 'absolute',
-          width: '145.83px',
-          height: '31.81px',
-          top: '602px',
-          left: '618px',
         }}
-           href='customization'/>
+          src={`${process.env.PUBLIC_URL}/Hero-Home.png`}
+        />
+        <a
+          style={{
+          position: 'absolute',
+          width: '158.12px',
+          height: '46.59px',
+          top: '659.74px',
+          left: '409.97px',
+        }}
+          href="dashboard-img"
+        />
       </div>
     );
   }
 }
 
-export default DashboardIMGPage;
+export default HomeIMGPage;

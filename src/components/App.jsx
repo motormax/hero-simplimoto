@@ -9,6 +9,7 @@ import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import CustomizationPage from './CustomizationPage/CustomizationPage';
 import DashboardIMGPage from './ImagePages/DashboardIMGPage';
+import HomeIMGPage from './ImagePages/HomeIMGPage';
 
 class App extends React.Component {
   static propTypes = {
