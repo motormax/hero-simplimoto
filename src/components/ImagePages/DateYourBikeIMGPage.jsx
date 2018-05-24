@@ -1,38 +1,49 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
+
+import imageUrl from './DateYourBike.png';
 
 class DateYourBike extends Component {
   render() {
     return (
       <div style={{
-        width: '1338px',
         margin: 'auto',
         position: 'relative',
+        width: '2000px',
+        textAlign: 'center',
       }}
       >
         <img
+          src={imageUrl}
+          alt=""
           style={{
-          position: 'relative',
-          display: 'block',
-          width: '1338px',
-        }}
-          src={`${process.env.PUBLIC_URL}/img/DateYourBike.png`}
-        />
-        <input
-          style={{
-          position: 'absolute', width: '570px', height: '49px', top: '545px', left: '384px',
-        }}
-        />
-        <a
-          style={{
-           position: 'absolute',
-           width: '370px',
-           height: '61px',
-           left: '485px',
-           top: '663px',
+            display: 'inline',
+            width: '100%',
+            position: 'relative',
           }}
-          href="dashboard-img"
         />
+        <Input
+          size="massive"
+          style={{
+            position: 'absolute',
+            width: '852px',
+            height: '73px',
+            top: '814px',
+            left: '574px',
+        }}
+        />
+        <Link to="/dashboard-img">
+          <span
+            style={{
+              position: 'absolute',
+              width: '552px',
+              height: '88px',
+              left: '725px',
+              top: '992px',
+          }}
+          />
+        </Link>
       </div>
     );
   }
