@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Input } from 'semantic-ui-react';
 
 class DateYourBike extends Component {
   render() {
@@ -7,19 +8,31 @@ class DateYourBike extends Component {
         width: '1338px',
         margin: 'auto',
         position: 'relative',
-      }}>
-        <img style={{
+      }}
+      >
+        <img
+          style={{
           position: 'relative',
           display: 'block',
-        }} src={`${process.env.PUBLIC_URL}/Hero-Dashboard.png`}/>
-        <a style={{
-          position: 'absolute',
-          width: '145.83px',
-          height: '31.81px',
-          top: '602px',
-          left: '618px',
+          width: '1338px',
         }}
-           href='customization'/>
+          src={`${process.env.PUBLIC_URL}/img/DateYourBike.png`}
+        />
+        <input
+          style={{
+          position: 'absolute', width: '570px', height: '49px', top: '545px', left: '384px',
+        }}
+        />
+        <a
+          style={{
+           position: 'absolute',
+           width: '370px',
+           height: '61px',
+           left: '485px',
+           top: '663px',
+          }}
+          href="dashboard-img"
+        />
       </div>
     );
   }

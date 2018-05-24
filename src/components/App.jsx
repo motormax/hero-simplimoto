@@ -12,6 +12,7 @@ import CustomizationPage from './CustomizationPage/CustomizationPage';
 import DashboardIMGPage from './ImagePages/DashboardIMGPage';
 import HomeIMGPage from './ImagePages/HomeIMGPage';
 import MainPage from './MainPage';
+import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
 
 class App extends React.Component {
   static propTypes = {
@@ -23,14 +24,14 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>{t('simplimoto')}</h1>
         <Switch>
           <Route exact path="/" component={MainPage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/customization" component={CustomizationPage} />
           <Route path="/dashboard-img" component={DashboardIMGPage} />
           <Route path="/home-img" component={HomeIMGPage} />
-          <Route path="/customization" component={CustomizationPage} />
-          </Switch>
+          <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
+        </Switch>
       </div>
     );
   }
