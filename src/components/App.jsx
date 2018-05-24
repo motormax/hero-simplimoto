@@ -10,6 +10,9 @@ import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import CustomizationPage from './CustomizationPage/CustomizationPage';
 import DashboardIMGPage from './ImagePages/DashboardIMGPage';
+import FinancingIMGLoadingPage from './ImagePages/FinancingIMGLoadingPage';
+import FinancingIMGOptionsPage from './ImagePages/FinancingIMGOptionsPage';
+import FinancingIMGPage from './ImagePages/FinancingIMGPage';
 import HomeIMGPage from './ImagePages/HomeIMGPage';
 import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
@@ -30,6 +33,9 @@ class App extends React.Component {
           <Route path="/customization" component={CustomizationPage} />
           <Route path="/dashboard-img" component={DashboardIMGPage} />
           <Route path="/home-img" component={HomeIMGPage} />
+          <Route path="/financing-img" component={FinancingIMGPage} />
+          <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
+          <Route path="/financing-options-img" component={FinancingIMGOptionsPage} />
           <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
         </Switch>
       </div>
