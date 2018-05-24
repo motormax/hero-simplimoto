@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import { Route } from 'react-router';
 import { I18nextProvider } from 'react-i18next';
 
 import './index.css';
@@ -17,10 +18,15 @@ ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       <ConnectedRouter history={history}>
-        <App />
+        <Route component={App} />
       </ConnectedRouter>
     </I18nextProvider>
   </Provider>
   , document.getElementById('root'),
 );
 registerServiceWorker();
+
+if (module.hot) {
+  module.hot.accept();
+}
+
