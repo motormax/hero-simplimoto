@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class DashboardIMGPage extends Component {
+class DateYourBike extends Component {
   render() {
     return (
       <div style={{
@@ -11,7 +11,7 @@ class DashboardIMGPage extends Component {
         <img style={{
           position: 'relative',
           display: 'block',
-        }} src={`${process.env.PUBLIC_URL}/img/Dashboard.png`}/>
+        }} src={`${process.env.PUBLIC_URL}/Hero-Dashboard.png`}/>
         <a style={{
           position: 'absolute',
           width: '145.83px',
@@ -25,4 +25,4 @@ class DashboardIMGPage extends Component {
   }
 }
 
-export default DashboardIMGPage;
+export default DateYourBike;

@@ -14,7 +14,7 @@ class HomeIMGPage extends Component {
           position: 'relative',
           display: 'block',
         }}
-          src={`${process.env.PUBLIC_URL}/Hero-Home.png`}
+          src={`${process.env.PUBLIC_URL}/img/Home.png`}
         />
         <a
           style={{
