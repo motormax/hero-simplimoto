@@ -2,49 +2,36 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
+import { Switch } from 'react-router-dom';
 import { translate } from 'react-i18next';
+import 'semantic-ui-css/semantic.min.css';
 
-import logo from './logo.svg';
 import './App.css';
-import VideoPage from './VideoPage/VideoPage';
-
-const Coso = () => (
-  <div>This shows up if the route is /thing</div>
-);
+import DashboardPage from './DashboardPage/DashboardPage';
+import MainPage from './MainPage';
 
 class App extends React.Component {
   static propTypes = {
-    nombre: propTypes.string.isRequired,
     t: propTypes.func.isRequired,
-  }
+  };
 
   render() {
-    const { nombre, t } = this.props;
+    const { t } = this.props;
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Bienvenido a {nombre}</h1>
-        </header>
-        <p className="App-intro">
-          {t('contenido', { nombre })}
-          <Route path="/thing" component={Coso} />
-        </p>
-        <Route path="/phygital" component={VideoPage} />
+        <h1>{t('simplimoto')}</h1>
+        <Switch>
+          <Route exact path="/" component={MainPage} />
+          <Route path="/dashboard" component={DashboardPage} />
+        </Switch>
       </div>
     );
   }
 }
 
-App.propTypes = {
-  nombre: propTypes.string.isRequired,
-  t: propTypes.func.isRequired,
-};
-
-
 const mapStateToProps = store => ({
-  nombre: store.main.nombre,
+  funding: store.main.stages.funding,
 });
 
-export default translate('translations')(connect(mapStateToProps)(App));
+export default translate('index')(connect(mapStateToProps)(App));

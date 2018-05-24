@@ -12,11 +12,14 @@
     "react-i18next": "^7.6.1",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "twilio": "3.0.0-rc.16",
-    "twilio-video": "^1.9.0"
+    "twilio-video": "^1.9.0",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.80.0"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",
@@ -24,5 +27,13 @@
     "lint": "eslint --ext .jsx,.js src",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint-plugin-jest": "^21.15.1",
+    "jest-plugin-action": "^2.9.0",
+    "jest-plugin-context": "^2.9.0",
+    "jest-plugin-its": "^2.9.0",
+    "jest-plugin-set": "^2.9.0",
+    "jest-plugins": "^2.9.0"
   }
 }
