@@ -1,3 +1,3 @@
 export default {
-  changeName: 'CAMBIAR_NOMBRE',
+  changeBikeModel: 'CHANGE_BIKE_MODEL',
 };
