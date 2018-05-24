@@ -21,7 +21,7 @@ class CustomizationPage extends Component {
             <div className="column">
               <div className="ui two column grid">
                 <div className="right aligned twelve wide column">
-                  <h2 style={{   fontSize: '40px' }}>Personalizá tu moto</h2>
+                  <h2 style={{ fontSize: '40px' }}>Personalizá tu moto</h2>
                 </div>
                 <div className="right floated four wide column">
                   <Button>Pantalla completa</Button>

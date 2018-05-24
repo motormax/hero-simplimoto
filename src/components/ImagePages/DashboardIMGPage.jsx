@@ -7,19 +7,25 @@ class DashboardIMGPage extends Component {
         width: '1338px',
         margin: 'auto',
         position: 'relative',
-      }}>
-        <img style={{
+      }}
+      >
+        <img
+          src={`${process.env.PUBLIC_URL}/Hero-Dashboard.png`}
+          style={{
           position: 'relative',
           display: 'block',
-        }} src={`${process.env.PUBLIC_URL}/Hero-Dashboard.png`}/>
-        <a style={{
+        }}
+        />
+        <a
+          style={{
           position: 'absolute',
           width: '145.83px',
           height: '31.81px',
           top: '602px',
           left: '618px',
         }}
-           href='customization'/>
+          href="customization"
+        />
       </div>
     );
   }
