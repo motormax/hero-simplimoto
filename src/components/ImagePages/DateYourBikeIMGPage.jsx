@@ -1,28 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
 import imageUrl from './DateYourBike.png';
+import IMGPage from './IMGPage';
 
-class DateYourBike extends Component {
+
+class DateYourBike extends IMGPage {
   render() {
-    return (
-      <div style={{
-        margin: 'auto',
-        position: 'relative',
-        width: '2000px',
-        textAlign: 'center',
-      }}
-      >
-        <img
-          src={imageUrl}
-          alt=""
-          style={{
-            display: 'inline',
-            width: '100%',
-            position: 'relative',
-          }}
-        />
+    return this.renderImg(
+      imageUrl,
+      <span>
         <Input
           size="massive"
           style={{
@@ -44,7 +32,7 @@ class DateYourBike extends Component {
           }}
           />
         </Link>
-      </div>
+      </span>,
     );
   }
 }
