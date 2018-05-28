@@ -23,8 +23,6 @@ class App extends React.Component {
   };
 
   render() {
-    const { t } = this.props;
-
     return (
       <div className="App">
         <Switch>

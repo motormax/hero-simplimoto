@@ -3,78 +3,63 @@ import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
 import imageUrl from './Financiación@2x.png';
+import IMGPage from './IMGPage';
 
 class FinancingIMGPage extends Component {
   render() {
     return (
-      <div style={{
-        margin: 'auto',
-        position: 'relative',
-        width: '2000px',
-        textAlign: 'center',
-      }}
-      >
-        <img
-          src={imageUrl}
-          alt=""
+      <IMGPage imgUrl={imageUrl}>
+        <Input
+          size="massive"
           style={{
-            display: 'inline',
-            width: '100%',
-            position: 'relative',
+            position: 'absolute',
+            top: '264px',
+            left: '382px',
+            width: '574px',
+            height: '50px',
           }}
         />
         <Input
           size="massive"
           style={{
             position: 'absolute',
-            top: '394px',
-            left: '574px',
-            width: '852px',
-            height: '74px',
+            top: '380px',
+            left: '382px',
+            width: '296px',
+            height: '50px',
           }}
         />
         <Input
           size="massive"
           style={{
             position: 'absolute',
-            top: '569px',
-            left: '574px',
-            width: '852px',
-            height: '74px',
+            left: '667px',
+            top: '380px',
+            width: '288px',
+            height: '50px',
           }}
         />
         <Input
           size="massive"
           style={{
             position: 'absolute',
-            top: '569px',
-            left: '996px',
-            width: '431px',
-            height: '74px',
+            top: '510px',
+            left: '382px',
+            width: '574px',
+            height: '50px',
           }}
         />
-        <Input
-          size="massive"
+        <Link
+          to="/financing-loading-img"
           style={{
             position: 'absolute',
-            top: '759px',
-            left: '574px',
-            width: '852px',
-            height: '74px',
+            width: '221px',
+            height: '58px',
+            top: '599px',
+            left: '559px',
           }}
         />
-        <Link to="/financing-loading-img">
-          <span
-            style={{
-              position: 'absolute',
-              width: '331px',
-              height: '90px',
-              top: '894px',
-              left: '834px',
-            }}
-          />
-        </Link>
-      </div>
+      </IMGPage>
     );
   }
 }
