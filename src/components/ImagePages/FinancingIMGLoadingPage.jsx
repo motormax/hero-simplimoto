@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import imageUrl from './FinancingLoading.png';
+import IMGPage from './IMGPage';
 
 class FinancingIMGLoadingPage extends Component {
   static propTypes = {
@@ -10,30 +11,18 @@ class FinancingIMGLoadingPage extends Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.props.continueFlow();
     }, 3000);
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
   render() {
     return (
-      <div style={{
-        margin: 'auto',
-        position: 'relative',
-        width: '2000px',
-        textAlign: 'center',
-      }}
-      >
-        <img
-          src={imageUrl}
-          alt=""
-          style={{
-            display: 'inline',
-            width: '100%',
-            position: 'relative',
-          }}
-        />
-      </div>
+      <IMGPage imgUrl={imageUrl} />
     );
   }
 }

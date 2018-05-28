@@ -1,38 +1,23 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import imageUrl from './FinancingOptions.png';
+import IMGPage from './IMGPage';
 
 class FinancingIMGOptionsPage extends Component {
   render() {
     return (
-      <div style={{
-        margin: 'auto',
-        position: 'relative',
-        width: '2000px',
-        textAlign: 'center',
-      }}
-      >
-        <img
-          src={imageUrl}
-          alt=""
+      <IMGPage imgUrl={imageUrl}>
+        <Link
+          to="/dashboard-img"
           style={{
-            display: 'inline',
-            width: '100%',
-            position: 'relative',
+            position: 'absolute',
+            width: '417px',
+            height: '60px',
+            top: '708px',
+            left: '461px',
           }}
         />
-        <Link to="/dashboard-img">
-          <span
-            style={{
-              position: 'absolute',
-              width: '624px',
-              height: '93px',
-              top: '1057px',
-              left: '688px',
-            }}
-          />
-        </Link>
-      </div>
+      </IMGPage>
     );
   }
 }
