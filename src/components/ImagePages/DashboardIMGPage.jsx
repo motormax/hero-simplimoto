@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class DashboardIMGPage extends Component {
+import imageUrl from './Dashboard01@2x.png';
+import IMGPage from './IMGPage';
+
+class Dashboard01IMGPage extends IMGPage {
   render() {
-    return (
-      <div style={{
-        width: '1338px',
-        margin: 'auto',
-        position: 'relative',
-      }}>
-        <img style={{
-          position: 'relative',
-          display: 'block',
-        }} src={`${process.env.PUBLIC_URL}/img/Dashboard.png`}/>
-        <a style={{
-          position: 'absolute',
-          width: '145.83px',
-          height: '31.81px',
-          top: '602px',
-          left: '618px',
-        }}
-           href='customization'/>
-      </div>
+    return this.renderImg(
+      imageUrl,
+      <span>
+          <a
+            style={{
+              position: 'absolute',
+              width: '145.83px',
+              height: '31.81px',
+              top: '602px',
+              left: '618px',
+            }}
+            href="customization"
+          />
+      </span>,
     );
   }
 }
 
-export default DashboardIMGPage;
+export default Dashboard01IMGPage;

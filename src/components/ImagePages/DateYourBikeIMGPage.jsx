@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
-import imageUrl from './DateYourBike.png';
+import imageUrl from './DateYourBike@2x.png';
 import IMGPage from './IMGPage';
 
 
@@ -15,24 +15,33 @@ class DateYourBike extends IMGPage {
           size="massive"
           style={{
             position: 'absolute',
-            width: '852px',
-            height: '73px',
-            top: '814px',
-            left: '574px',
-        }}
-        />
+            width: '570px',
+            height: '49px',
+            top: '569px',
+            left: '405px',
+            border: 'none',
+            background: 'transparent',
+          }}
+        >
+          <input style={{
+            border: 'none',
+            background: 'transparent',
+          }}
+          />
+        </Input>
         <Link to="/dashboard-img">
           <span
             style={{
               position: 'absolute',
-              width: '552px',
-              height: '88px',
-              left: '725px',
-              top: '992px',
-          }}
+              width: '369px',
+              height: '58px',
+              left: '485px',
+              top: '1064px',
+            }}
           />
         </Link>
-      </span>,
+      </span>
+      ,
     );
   }
 }

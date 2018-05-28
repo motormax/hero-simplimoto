@@ -6,7 +6,7 @@ export default class IMGPage extends Component {
       <div style={{
         margin: 'auto',
         position: 'relative',
-        width: '2000px',
+        width: '1338px',
         textAlign: 'center',
       }}
       >
