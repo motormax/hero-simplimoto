@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
 
 export default class IMGPage extends Component {
-  renderImg(imgUrl, inner) {
+  static propTypes = {
+    imgUrl: propTypes.string.isRequired,
+    children: propTypes.node.isRequired,
+  };
+
+  render() {
     return (
       <div style={{
         margin: 'auto',
@@ -11,7 +17,7 @@ export default class IMGPage extends Component {
       }}
       >
         <img
-          src={imgUrl}
+          src={this.props.imgUrl}
           alt=""
           style={{
             display: 'inline',
@@ -19,7 +25,7 @@ export default class IMGPage extends Component {
             position: 'relative',
           }}
         />
-        {inner}
+        {this.props.children}
       </div>
     );
   }

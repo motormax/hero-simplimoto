@@ -9,7 +9,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import CustomizationPage from './CustomizationPage/CustomizationPage';
-import Dashboard01IMGPage from './ImagePages/DashboardIMGPage';
+import Dashboard01IMGPage from './ImagePages/Dashboard01IMGPage';
 import FinancingIMGLoadingPage from './ImagePages/FinancingIMGLoadingPage';
 import FinancingIMGOptionsPage from './ImagePages/FinancingIMGOptionsPage';
 import FinancingIMGPage from './ImagePages/FinancingIMGPage';
