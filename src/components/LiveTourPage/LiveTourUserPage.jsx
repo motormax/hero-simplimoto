@@ -1,48 +1,50 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect, createLocalTracks } from 'twilio-video';
-import { attachTracks, detachTracks, detachParticipantTracks } from './helpers'
-import { GetTwilioToken } from './twilioToken'
+import { connect } from 'twilio-video';
+import { attachTracks, detachTracks, detachParticipantTracks } from './helpers';
+import { GetTwilioToken } from './twilioToken';
 import IMGPage from '../ImagePages/IMGPage';
 import liveTourTransmisionImageUrl from './images/LiveTourTransmision.png';
 import liveTourHomeImageUrl from './images/LiveTourHome@2x.png';
 
 const joinTourButtonStyles = {
-    cursor: 'pointer',
-    position: 'absolute',
-    width: '352px',
-    height: '55px',
-    left: '495px',
-    top: '620px',  
+  cursor: 'pointer',
+  position: 'absolute',
+  width: '352px',
+  height: '55px',
+  left: '495px',
+  top: '620px',
 };
 const leaveTourButtonStyles = {
-    cursor: 'pointer',
-    position: 'absolute',
-    width: '352px',
-    height: '55px',
-    left: '495px',
-    top: '705px',  
+  cursor: 'pointer',
+  position: 'absolute',
+  width: '352px',
+  height: '55px',
+  left: '495px',
+  top: '705px',
 };
 
 const videoTrackStyles = {
-    position: 'absolute', 
-    width: '670px', 
-    height: '502px', 
-    top: '185px', 
-    left: '335px' 
+  position: 'absolute',
+  width: '670px',
+  height: '502px',
+  top: '185px',
+  left: '335px',
 };
 
 export default class LiveTourPage extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {roomJoined: false, 
+    this.state = {
+      roomJoined: false,
       imageUrl: liveTourHomeImageUrl,
-      tourButtonStyles: joinTourButtonStyles};
+      tourButtonStyles: joinTourButtonStyles,
+    };
+    this.remoteMedia = React.createRef();
   }
 
-  componentDidMount = () => {        
+  componentDidMount = () => {
   }
 
   componentWillUnmount = () => {
@@ -53,7 +55,6 @@ export default class LiveTourPage extends Component {
 
   displayMessage = (message) => {
     console.log(message);
-    this.setState({presenterMessage: message});
   }
 
   log = (message) => {
@@ -63,24 +64,22 @@ export default class LiveTourPage extends Component {
   handleDisconnect = () => {
     this.log('Left');
     this.displayMessage('Please click Join Room to start a Live Tour');
-
     this.state.room.participants.forEach(detachParticipantTracks);
-    this.setState({ room: undefined, 
-      roomJoined: false, 
+    this.setState({
+      room: undefined,
+      roomJoined: false,
       imageUrl: liveTourHomeImageUrl,
-      tourButtonStyles: joinTourButtonStyles});
+      tourButtonStyles: joinTourButtonStyles,
+    });
   }
 
   // Successfully connected!
   roomJoined = (room) => {
-    this.setState({ room }); 
-
+    this.setState({ room });
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach((participant) => {
       this.log(`Already in Room: '${participant.identity}'`);
-      const remoteContainer = this.refs.remoteMedia;
-      // attachParticipantTracks(participant, remoteContainer);
-      attachTracks(participant.tracks, this.refs.remoteMedia);
+      attachTracks(participant.tracks, this.remoteMedia);
     });
 
     // When a Participant joins the Room, log the event.
@@ -91,12 +90,14 @@ export default class LiveTourPage extends Component {
     // When a Participant adds a Track, attach it to the DOM.
     room.on('trackAdded', (track, participant) => {
       this.log(`${participant.identity} added track: ${track.kind}!`);
-      const remoteContainer = this.refs.remoteMedia;
+      const remoteContainer = this.remoteMedia;
       attachTracks([track], remoteContainer);
-      if (track.kind == 'video') {
-        this.setState({ roomJoined: true, 
+      if (track.kind === 'video') {
+        this.setState({
+          roomJoined: true,
           imageUrl: liveTourTransmisionImageUrl,
-          tourButtonStyles: leaveTourButtonStyles }); 
+          tourButtonStyles: leaveTourButtonStyles,
+        });
       }
     });
 
@@ -117,7 +118,6 @@ export default class LiveTourPage extends Component {
     this.handleDisconnect = this.handleDisconnect.bind(this);
     room.on('disconnected', this.handleDisconnect);
   }
-
   handleJoinLeaveClick = () => {
     if (this.state.roomJoined) {
       this.handleLeaveClick();
@@ -125,50 +125,44 @@ export default class LiveTourPage extends Component {
       this.handleJoinClick();
     }
   }
-
   handleLeaveClick = () => {
     this.log('Leaving room...');
     this.state.room.disconnect();
   }
-
   handleJoinClick = () => {
     this.roomName = 'Hero-Bike-Live-Tour';
     this.log(`Joining room '${this.roomName}'...`);
     const connectOptions = {
       name: this.roomName,
-      logLevel: 'debug'
+      logLevel: 'debug',
     };
-
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
-    const participantId = 'Bike_Fan_' + Math.floor(Math.random()*100);
-
+    const participantId = `Bike_Fan_${Math.floor(Math.random() * 100)}`;
     this.roomJoined = this.roomJoined.bind(this);
     connect(GetTwilioToken(participantId), connectOptions).then(this.roomJoined, (error) => {
       console.log(`Could not connect to Twilio: ${error.message}`);
       this.log('Could not connect to Twilio');
     });
   }
-
   render() {
     return (
       <IMGPage imgUrl={this.state.imageUrl}>
-        <div ref='remoteMedia' className='media-container' style={videoTrackStyles}></div>
+        <div ref={this.remoteMedia} className="media-container" style={videoTrackStyles} />
         <a
           style={this.state.tourButtonStyles}
           onClick={this.handleJoinLeaveClick}
-          ref='joinButton'
         />
         <Link to="/dashboard-img">
-            <span
-              style={{                
+          <span
+            style={{
               position: 'absolute',
               width: '220px',
               height: '28px',
               left: '54px',
               top: '34px',
             }}
-            />
+          />
         </Link>
       </IMGPage>
     );
