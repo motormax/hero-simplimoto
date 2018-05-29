@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import imageUrl from './FinancingLoading.png';
 import IMGPage from './IMGPage';
+import dollarSpinner from './dollar_spinner.gif';
 
 class FinancingIMGLoadingPage extends Component {
   static propTypes = {
@@ -22,7 +23,18 @@ class FinancingIMGLoadingPage extends Component {
 
   render() {
     return (
-      <IMGPage imgUrl={imageUrl} />
+      <IMGPage imgUrl={imageUrl}>
+        <img
+          alt="loading"
+          src={dollarSpinner}
+          style={{
+            position: 'absolute',
+            top: 300,
+            left: 562,
+            width: 200,
+          }}
+        />
+      </IMGPage>
     );
   }
 }
