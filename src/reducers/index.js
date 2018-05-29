@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import fundingReducer from './fundingReducer';
+import customizationReducer from './customizationReducer';
 
 const stagesReducer = combineReducers({
   funding: fundingReducer,
+  customization: customizationReducer,
   // Translate this to english eventually
   // accesorios: stageReducer,
   // customaizaciones: stageReducer,

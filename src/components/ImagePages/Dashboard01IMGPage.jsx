@@ -1,0 +1,36 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+import imageUrl from './Dashboard01@2x.png';
+import IMGPage from './IMGPage';
+
+class Dashboard01IMGPage extends Component {
+  render() {
+    return (
+      <IMGPage imgUrl={imageUrl}>
+        <Link
+          to="customization-img"
+          style={{
+            position: 'absolute',
+            width: '145.83px',
+            height: '31.81px',
+            top: '602px',
+            left: '618px',
+          }}
+        />
+        <Link
+          to="dateyourbike-img"
+          style={{
+            position: 'absolute',
+            width: '172px',
+            height: '37px',
+            top: '222px',
+            left: '626px',
+          }}
+        />
+      </IMGPage>
+    );
+  }
+}
+
+export default Dashboard01IMGPage;

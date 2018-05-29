@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
@@ -8,22 +7,37 @@ import 'semantic-ui-css/semantic.min.css';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
+import CustomizationPage from './CustomizationPage/CustomizationPage';
+import CustomizationIMGPage from './ImagePages/CustomizationIMGPage';
+import Dashboard01IMGPage from './ImagePages/Dashboard01IMGPage';
+import FinancingIMGLoadingPage from './ImagePages/FinancingIMGLoadingPage';
+import FinancingIMGOptionsPage from './ImagePages/FinancingIMGOptionsPage';
+import FinancingIMGPage from './ImagePages/FinancingIMGPage';
+import HomeIMGPage from './ImagePages/HomeIMGPage';
 import MainPage from './MainPage';
+import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
+import LiveTourPresenterPage from './LiveTourPage/LiveTourPresenterPage';
+import LiveTourUserPage from './LiveTourPage/LiveTourUserPage';
+import BikeSentIMGPage from './ImagePages/BikeSentIMGPage';
 
 class App extends React.Component {
-  static propTypes = {
-    t: propTypes.func.isRequired,
-  };
-
   render() {
-    const { t } = this.props;
-
     return (
       <div className="App">
-        <h1>{t('simplimoto')}</h1>
         <Switch>
           <Route exact path="/" component={MainPage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/customization" component={CustomizationPage} />
+          <Route path="/customization-img" component={CustomizationIMGPage} />
+          <Route path="/dashboard-img" component={Dashboard01IMGPage} />
+          <Route path="/home-img" component={HomeIMGPage} />
+          <Route path="/financing-img" component={FinancingIMGPage} />
+          <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
+          <Route path="/financing-options-img" component={FinancingIMGOptionsPage} />
+          <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
+          <Route path="/bikesent-img" component={BikeSentIMGPage} />
+          <Route path="/live-tour-presenter" component={LiveTourPresenterPage} />
+          <Route path="/live-tour" component={LiveTourUserPage} />
         </Switch>
       </div>
     );

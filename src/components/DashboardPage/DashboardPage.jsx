@@ -17,7 +17,6 @@ class DashboardPage extends Component {
 
   render() {
     const { stages, t } = this.props;
-
     return (
       <React.Fragment>
         <Header size="large">{t('dashboard')}</Header>
