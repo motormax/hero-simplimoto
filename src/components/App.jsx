@@ -19,6 +19,7 @@ import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
 import LiveTourPresenterPage from './LiveTourPage/LiveTourPresenterPage';
 import LiveTourUserPage from './LiveTourPage/LiveTourUserPage';
+import BikeSentIMGPage from './ImagePages/BikeSentIMGPage';
 
 class App extends React.Component {
   render() {
@@ -35,6 +36,7 @@ class App extends React.Component {
           <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
           <Route path="/financing-options-img" component={FinancingIMGOptionsPage} />
           <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
+          <Route path="/bikesent-img" component={BikeSentIMGPage} />
           <Route path="/live-tour-presenter" component={LiveTourPresenterPage} />
           <Route path="/live-tour" component={LiveTourUserPage} />
           <Route path="/insurance-img" component={InsuranceIMGPage} />
