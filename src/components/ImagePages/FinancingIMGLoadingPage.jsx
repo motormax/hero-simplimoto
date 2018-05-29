@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import imageUrl from './FinancingLoading.png';
 import IMGPage from './IMGPage';
@@ -32,6 +33,16 @@ class FinancingIMGLoadingPage extends Component {
             top: 300,
             left: 562,
             width: 200,
+          }}
+        />
+        <Link // cancel and go back to dashboard
+          to="/dashboard-img"
+          style={{
+            position: 'absolute',
+            width: '328px',
+            height: '42px',
+            left: '32px',
+            top: '20px',
           }}
         />
       </IMGPage>
