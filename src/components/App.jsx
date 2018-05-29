@@ -15,6 +15,8 @@ import FinancingIMGPage from './ImagePages/FinancingIMGPage';
 import HomeIMGPage from './ImagePages/HomeIMGPage';
 import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
+import VideoPresenterPage from './VideoPage/VideoPresenterPage';
+import VideoUserPage from './VideoPage/VideoUserPage';
 
 class App extends React.Component {
   render() {
@@ -30,6 +32,8 @@ class App extends React.Component {
           <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
           <Route path="/financing-options-img" component={FinancingIMGOptionsPage} />
           <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
+          <Route path="/live-tour-presenter" component={VideoPresenterPage} />
+          <Route path="/live-tour" component={VideoUserPage} />
         </Switch>
       </div>
     );
