@@ -8,6 +8,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import CustomizationPage from './CustomizationPage/CustomizationPage';
+import CustomizationIMGPage from './ImagePages/CustomizationIMGPage';
 import Dashboard01IMGPage from './ImagePages/Dashboard01IMGPage';
 import FinancingIMGLoadingPage from './ImagePages/FinancingIMGLoadingPage';
 import FinancingIMGOptionsPage from './ImagePages/FinancingIMGOptionsPage';
@@ -26,6 +27,7 @@ class App extends React.Component {
           <Route exact path="/" component={MainPage} />
           <Route path="/dashboard" component={DashboardPage} />
           <Route path="/customization" component={CustomizationPage} />
+          <Route path="/customization-img" component={CustomizationIMGPage} />
           <Route path="/dashboard-img" component={Dashboard01IMGPage} />
           <Route path="/home-img" component={HomeIMGPage} />
           <Route path="/financing-img" component={FinancingIMGPage} />

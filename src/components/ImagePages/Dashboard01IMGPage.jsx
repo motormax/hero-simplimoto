@@ -9,7 +9,7 @@ class Dashboard01IMGPage extends Component {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Link
-          to="customization"
+          to="customization-img"
           style={{
             position: 'absolute',
             width: '145.83px',
