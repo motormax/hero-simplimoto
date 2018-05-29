@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect, createLocalTracks } from 'twilio-video';
 import { attachTracks, detachTracks, detachParticipantTracks } from './helpers'
 import { GetTwilioToken } from './twilioToken'
@@ -150,13 +151,6 @@ export default class LiveTourPage extends Component {
   }
 
   render() {
-    // const imageUrl = require(`./images/live-tour-home.png`);
-    // let sectionStyle = {
-    //   width: "100%",
-    //   height: "400px",
-    //   backgroundImage: `url(${imageUrl})`,
-    //   display: this.state.roomJoined ? 'none' : 'block'
-    // };
     return (
       <IMGPage imgUrl={this.state.imageUrl}>
         <div ref='remoteMedia' className='media-container' style={videoTrackStyles}></div>
@@ -165,66 +159,18 @@ export default class LiveTourPage extends Component {
           onClick={this.handleJoinLeaveClick}
           ref='joinButton'
         />
+        <Link to="/dashboard-img">
+            <span
+              style={{                
+              position: 'absolute',
+              width: '220px',
+              height: '28px',
+              left: '54px',
+              top: '34px',
+            }}
+            />
+        </Link>
       </IMGPage>
-      // <div style={{
-      //   width: '1338px',
-      //   margin: 'auto',
-      //   position: 'relative',
-      // }}
-      // >
-      //   <img
-      //       style={{
-      //       position: 'relative',
-      //       display: 'block',
-      //       width: '1338px',
-      //     }}
-      //       src={`${imageUrl}`}
-      //     />
-        // <div ref='remoteMedia' className='media-container' style={{
-        //   position: 'absolute', width: '708px', height: '321px', top: '265px', left: '281px',
-        // }} ></div>
-      //   <a
-      //     style={{
-      //       position: 'absolute',
-      //       width: '327px',
-      //       height: '58px',
-      //       left: '558px',
-      //       top: '621px',
-      //     }}
-      //     onClick={this.handleJoinLeaveClick}
-      //     ref='joinButton'
-      //   />
-      // </div>
-      // <div ref='remoteMedia' className='media-container' ></div>
-      // <video ref='remoteMedia' autoPlay align="center" style={{
-      //   position: 'absolute', width: '708px', height: '321px', top: '265px', left: '281px',
-      // }}></video>  
-
-      // <Container textAlign='center'>
-      //       <h2>Start a Live Tour</h2>
-      //       <p>
-      //       Meet our bikes guided by one our of specialists. Join a live chat and get all your questions answered about the bike you are interested in.
-      //       </p>
-      //       <div ref='localMedia' className='media-container'></div>
-      //       <div style={ sectionStyle } />
-      //       <div ref='remoteMedia' className='media-container'>
-      //       </div>
-
-      //       <p>{this.state.presenterMessage}</p>
-      //       <Button primary
-      //         style={{ display: this.state.roomJoined ? 'none' : 'inline'}}
-      //         id='button-join'
-      //         onClick={this.handleJoinClick}
-      //         ref='joinButton'
-      //       >Start a Live Tour</Button>
-      //       <Button primary
-      //         style={{ display: !this.state.roomJoined ? 'none' : 'inline'}}
-      //         id='button-leave'
-      //         onClick={this.handleLeaveClick}
-      //         ref='leaveButton'
-      //         >End the tour</Button>
-      //         <p>Live tour is available from Monday to Friday between 10am-7pm EST.</p>
-      //   </Container>
     );
   }
 }
