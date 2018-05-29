@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
@@ -18,10 +17,6 @@ import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
 
 class App extends React.Component {
-  static propTypes = {
-    t: propTypes.func.isRequired,
-  };
-
   render() {
     return (
       <div className="App">
