@@ -9,6 +9,8 @@ import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage';
+import VideoPresenterPage from './VideoPage/VideoPresenterPage';
+import VideoUserPage from './VideoPage/VideoUserPage';
 
 class App extends React.Component {
   static propTypes = {
@@ -20,10 +22,11 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>{t('simplimoto')}</h1>
         <Switch>
           <Route exact path="/" component={MainPage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/live-tour-presenter" component={VideoPresenterPage} />
+          <Route path="/live-tour" component={VideoUserPage} />
         </Switch>
       </div>
     );
