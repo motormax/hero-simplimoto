@@ -10,10 +10,9 @@ class DateYourBike extends Component {
   render() {
     return (
       <IMGPage imgUrl={imageUrl}>
-        <span>
-          <Input
-            size="massive"
-            style={{
+        <Input
+          size="huge"
+          style={{
             position: 'absolute',
             width: '570px',
             height: '49px',
@@ -22,25 +21,33 @@ class DateYourBike extends Component {
             border: 'none',
             background: 'transparent',
           }}
-          >
-            <input style={{
+        >
+          <input style={{
             border: 'none',
             background: 'transparent',
           }}
-            />
-          </Input>
-          <Link to="/dashboard-img">
-            <span
-              style={{
-              position: 'absolute',
-              width: '369px',
-              height: '58px',
-              left: '485px',
-              top: '1064px',
-            }}
-            />
-          </Link>
-        </span>
+          />
+        </Input>
+        <Link
+          to="/bikesent-img"
+          style={{
+            position: 'absolute',
+            width: '369px',
+            height: '58px',
+            left: '485px',
+            top: '1064px',
+          }}
+        />
+        <Link
+          to="/dashboard-img"
+          style={{
+            position: 'absolute',
+            width: '328px',
+            height: '42px',
+            left: '32px',
+            top: '20px',
+          }}
+        />
       </IMGPage>
     );
   }

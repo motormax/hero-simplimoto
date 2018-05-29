@@ -18,6 +18,16 @@ class Dashboard01IMGPage extends Component {
             left: '618px',
           }}
         />
+        <Link
+          to="dateyourbike-img"
+          style={{
+            position: 'absolute',
+            width: '172px',
+            height: '37px',
+            top: '222px',
+            left: '626px',
+          }}
+        />
       </IMGPage>
     );
   }
