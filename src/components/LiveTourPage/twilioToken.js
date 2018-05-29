@@ -3,7 +3,7 @@ import { jwt } from 'twilio';
 const { AccessToken } = jwt;
 const { VideoGrant } = AccessToken;
 
-export default function GetTwilioToken(identity) {
+export function GetTwilioToken(identity) {
   // Create an access token which we will sign and return to the client,
   // containing the grant we just created.
   const token = new AccessToken(

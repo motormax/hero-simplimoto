@@ -51,12 +51,12 @@ export default class LiveTourPresenterPage extends Component {
 
       createLocalTracks().then((tracks) => {
         this.setState({ previewTracks: tracks });
-        attachTracks(tracks, this.localMedia);
+        attachTracks(tracks, this.localMedia.current);
       });
 
       room.participants.forEach((participant) => {
         this.displayMessage(`Already in Room: '${participant.identity}'`);
-        attachTracks(participant.tracks, this.remoteMedia);
+        attachTracks(participant.tracks, this.remoteMedia.current);
       });
 
       room.on('participantConnected', (participant) => {
@@ -65,7 +65,7 @@ export default class LiveTourPresenterPage extends Component {
 
       room.on('trackAdded', (track, participant) => {
         this.displayMessage(`${participant.identity} added track: ${track.kind}!`);
-        attachTracks([track], this.remoteMedia);
+        attachTracks([track], this.remoteMedia.current);
       });
 
       room.on('trackRemoved', (track, participant) => {

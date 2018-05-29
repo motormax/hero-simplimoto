@@ -79,7 +79,7 @@ export default class LiveTourPage extends Component {
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach((participant) => {
       this.log(`Already in Room: '${participant.identity}'`);
-      attachTracks(participant.tracks, this.remoteMedia);
+      attachTracks(participant.tracks, this.remoteMedia.current);
     });
 
     // When a Participant joins the Room, log the event.
@@ -90,8 +90,7 @@ export default class LiveTourPage extends Component {
     // When a Participant adds a Track, attach it to the DOM.
     room.on('trackAdded', (track, participant) => {
       this.log(`${participant.identity} added track: ${track.kind}!`);
-      const remoteContainer = this.remoteMedia;
-      attachTracks([track], remoteContainer);
+      attachTracks([track], this.remoteMedia.current);
       if (track.kind === 'video') {
         this.setState({
           roomJoined: true,
