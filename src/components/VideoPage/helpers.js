@@ -1,75 +1,19 @@
-import { createLocalVideoTrack, createLocalAudioTrack } from 'twilio-video';
-
-/**
- * Get the list of available media devices of the given kind.
- * @param {Array<MediaDeviceInfo>} deviceInfos
- * @param {string} kind - One of 'audioinput', 'audiooutput', 'videoinput'
- * @returns {Array<MediaDeviceInfo>} - Only those media devices of the given kind
- */
-function getDevicesOfKind(deviceInfos, kind) {
-  return deviceInfos.filter(function(deviceInfo) {
-    return deviceInfo.kind === kind;
+export function attachTracks(participantTracks, container) {
+  const tracks = Array.from(participantTracks.values());
+  tracks.forEach((track) => {
+    container.appendChild(track.attach());
   });
 }
 
-/**
- * Apply the selected audio input device.
- * @param {string} deviceId
- * @param {HTMLAudioElement} audio
- * @returns {Promise<void>}
- */
-function applyAudioInputDeviceSelection(deviceId, audio) {
-  return createLocalAudioTrack({
-    deviceId: deviceId
-  }).then(function(localTrack) {
-    localTrack.attach(audio);
+export function detachParticipantTracks(participant) {
+  const tracks = Array.from(participant.tracks.values());
+  detachTracks(tracks);
+}
+
+export function detachTracks(tracks) {
+  tracks.forEach((track) => {
+    track.detach().forEach((detachedElement) => {
+      detachedElement.remove();
+    });
   });
 }
-
-/**
- * Apply the selected audio output device.
- * @param {string} deviceId
- * @param {HTMLAudioElement} audio
- */
-function applyAudioOutputDeviceSelection(deviceId, audio) {
-  audio.setSinkId(deviceId);
-}
-
-/**
- * Apply the selected video input device.
- * @param {string} deviceId
- * @param {HTMLVideoElement} video
- * @returns {Promise<void>}
- */
-export function ApplyVideoInputDeviceSelection(deviceId, video) {
-  return createLocalVideoTrack({
-    deviceId: deviceId,
-    height: 240,
-    width: 320
-  }).then(function(localTrack) {
-    localTrack.attach(video);
-  });
-}
-
-/**
- * Get the list of available media devices.
- * @returns {Promise<DeviceSelectionOptions>}
- * @typedef {object} DeviceSelectionOptions
- * @property {Array<MediaDeviceInfo>} audioinput
- * @property {Array<MediaDeviceInfo>} audiooutput
- * @property {Array<MediaDeviceInfo>} videoinput
- */
-export function GetDeviceSelectionOptions() {
-  return navigator.mediaDevices.enumerateDevices().then(function(deviceInfos) {
-    var kinds = [ 'audioinput', 'audiooutput', 'videoinput' ];
-    return kinds.reduce(function(deviceSelectionOptions, kind) {
-      deviceSelectionOptions[kind] = getDevicesOfKind(deviceInfos, kind);
-      return deviceSelectionOptions;
-    }, {});
-  });
-}
-
-// module.exports.applyAudioInputDeviceSelection = applyAudioInputDeviceSelection;
-// module.exports.applyAudioOutputDeviceSelection = applyAudioOutputDeviceSelection;
-// module.exports.applyVideoInputDeviceSelection = applyVideoInputDeviceSelection;
-// module.exports.applyVideoInputDeviceSelection = applyVideoInputDeviceSelection;

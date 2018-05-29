@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@babel/runtime@^7.0.0-beta.46":
+  version "7.0.0-beta.47"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.47.tgz#273f5e71629e80f6cbcd7507503848615e59f7e0"
+  dependencies:
+    core-js "^2.5.3"
+    regenerator-runtime "^0.11.1"
+
 "@twilio/sip.js@^0.7.7":
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/@twilio/sip.js/-/sip.js-0.7.7.tgz#cff50f66f9b295d46f219737b72780c7d0e6df52"
@@ -9,12 +16,6 @@
 "@twilio/webrtc@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@twilio/webrtc/-/webrtc-2.0.0.tgz#ae96446b2e9e2932bb3838d5ccb7dba4752bc158"
-"@babel/runtime@^7.0.0-beta.46":
-  version "7.0.0-beta.47"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.47.tgz#273f5e71629e80f6cbcd7507503848615e59f7e0"
-  dependencies:
-    core-js "^2.5.3"
-    regenerator-runtime "^0.11.1"
 
 abab@^1.0.3:
   version "1.0.4"
@@ -4305,6 +4306,7 @@ jws@^3.0.0:
   dependencies:
     jwa "^1.1.5"
     safe-buffer "^5.0.1"
+
 keyboard-key@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/keyboard-key/-/keyboard-key-1.0.1.tgz#a946294fe59ad5431c63a3ea269f023e51fac6aa"
@@ -4460,6 +4462,10 @@ lodash.templatesettings@^4.0.0:
 lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
+
+lodash@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.0.0.tgz#9ac43844c595e28d30108b7ba583703395922dfc"
 
 "lodash@>=3.5 <5", lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0:
   version "4.17.10"
