@@ -14,6 +14,7 @@ import FinancingIMGLoadingPage from './ImagePages/FinancingIMGLoadingPage';
 import FinancingIMGOptionsPage from './ImagePages/FinancingIMGOptionsPage';
 import FinancingIMGPage from './ImagePages/FinancingIMGPage';
 import HomeIMGPage from './ImagePages/HomeIMGPage';
+import InsuranceIMGPage from './ImagePages/InsuranceIMGPage';
 import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
 import LiveTourPresenterPage from './LiveTourPage/LiveTourPresenterPage';
@@ -25,17 +26,18 @@ class App extends React.Component {
       <div className="App">
         <Switch>
           <Route exact path="/" component={MainPage} />
+          <Route path="/home-img" component={HomeIMGPage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/dashboard-img" component={Dashboard01IMGPage} />
           <Route path="/customization" component={CustomizationPage} />
           <Route path="/customization-img" component={CustomizationIMGPage} />
-          <Route path="/dashboard-img" component={Dashboard01IMGPage} />
-          <Route path="/home-img" component={HomeIMGPage} />
           <Route path="/financing-img" component={FinancingIMGPage} />
           <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
           <Route path="/financing-options-img" component={FinancingIMGOptionsPage} />
           <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
           <Route path="/live-tour-presenter" component={LiveTourPresenterPage} />
           <Route path="/live-tour" component={LiveTourUserPage} />
+          <Route path="/insurance-img" component={InsuranceIMGPage} />
         </Switch>
       </div>
     );
