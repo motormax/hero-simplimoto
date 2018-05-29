@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { Button, Header, Menu, Tab } from 'semantic-ui-react';
@@ -37,6 +38,7 @@ class CustomizationChooser extends Component {
     );
   }
 }
+
 
 class CustomizationPanel extends Component {
   static propTypes = {

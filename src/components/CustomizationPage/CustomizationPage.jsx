@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
@@ -8,10 +7,6 @@ import CustomizationPanel from './CustomizationPanel';
 
 
 class CustomizationPage extends Component {
-  static propTypes = {
-    chosenMirror: propTypes.number.isRequired,
-  };
-
   render() {
     return (
       <div>
@@ -43,8 +38,10 @@ class CustomizationPage extends Component {
   }
 }
 
-const mapStateToProps =
-  store => ({ chosenMirror: store.main.stages.customization.chosenMirror });
+const mapStateToProps = store => ({
+  chosenMirror: store.main.stages.customization.chosenMirror,
+});
+
 const mapDispatchToProps = dispatch => ({
   changeMirror: optionNumber => dispatch({
     type: 'CHANGE_MIRROR',

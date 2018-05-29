@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import imageUrl from './Home.png';
+import IMGPage from './IMGPage';
 
 class HomeIMGPage extends Component {
   render() {
     return (
-      <div style={{
-        width: '1338px',
-        margin: 'auto',
-        position: 'relative',
-      }}
-      >
-        <img
-          style={{
-            position: 'relative',
-            display: 'block',
-          }}
-          src={`${process.env.PUBLIC_URL}/img/Home.png`}
-        />
-        <a
+      <IMGPage imgUrl={imageUrl}>
+        <Link
+          to="dashboard-img"
           style={{
             position: 'absolute',
             width: '158.12px',
@@ -24,9 +16,8 @@ class HomeIMGPage extends Component {
             top: '659.74px',
             left: '409.97px',
           }}
-          href="dashboard-img"
         />
-      </div>
+      </IMGPage>
     );
   }
 }
