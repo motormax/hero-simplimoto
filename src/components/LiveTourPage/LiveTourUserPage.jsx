@@ -62,8 +62,7 @@ export default class LiveTourPage extends Component {
   }
 
   handleDisconnect = () => {
-    this.log('Left');
-    this.displayMessage('Please click Join Room to start a Live Tour');
+    this.log('Disconnected from room. Detaching participants');
     this.state.room.participants.forEach(detachParticipantTracks);
     this.setState({
       room: undefined,
@@ -75,7 +74,13 @@ export default class LiveTourPage extends Component {
 
   // Successfully connected!
   roomJoined = (room) => {
-    this.setState({ room });
+    this.setState({
+      room,
+      roomJoined: true,
+      imageUrl: liveTourTransmisionImageUrl,
+      tourButtonStyles: leaveTourButtonStyles,
+    });
+
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach((participant) => {
       this.log(`Already in Room: '${participant.identity}'`);
@@ -91,13 +96,6 @@ export default class LiveTourPage extends Component {
     room.on('trackAdded', (track, participant) => {
       this.log(`${participant.identity} added track: ${track.kind}!`);
       attachTracks([track], this.remoteMedia.current);
-      if (track.kind === 'video') {
-        this.setState({
-          roomJoined: true,
-          imageUrl: liveTourTransmisionImageUrl,
-          tourButtonStyles: leaveTourButtonStyles,
-        });
-      }
     });
 
     // When a Participant removes a Track, detach it from the DOM.
@@ -137,7 +135,7 @@ export default class LiveTourPage extends Component {
     };
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
-    const participantId = `Bike_Fan_${Math.floor(Math.random() * 100)}`;
+    const participantId = `Bike_Fan_${Math.floor(Math.random() * 1000)}`;
     this.roomJoined = this.roomJoined.bind(this);
     connect(GetTwilioToken(participantId), connectOptions).then(this.roomJoined, (error) => {
       console.log(`Could not connect to Twilio: ${error.message}`);

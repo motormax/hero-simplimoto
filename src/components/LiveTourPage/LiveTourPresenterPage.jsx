@@ -86,7 +86,7 @@ export default class LiveTourPresenterPage extends Component {
         audio: true,
         video: { facingMode: { exact: 'environment' } },
       }).then((mediaStream) => {
-        const participantId = `Bike_Expert_${Math.floor(Math.random() * 100)}`;
+        const participantId = `Bike_Expert_${Math.floor(Math.random() * 1000)}`;
         this.displayMessage(`Participant Id'${participantId}' is joining`);
         return connect(GetTwilioToken(participantId), {
           name: 'Hero-Bike-Live-Tour',
