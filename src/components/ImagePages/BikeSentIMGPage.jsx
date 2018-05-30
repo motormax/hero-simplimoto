@@ -10,7 +10,7 @@ class BikeSentIMGPage extends Component {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Link
-          to="/dashboard-img"
+          to="/dashboard2-img"
           style={{
             position: 'absolute',
             width: '369px',
@@ -18,10 +18,9 @@ class BikeSentIMGPage extends Component {
             left: '485px',
             top: '677px',
           }}
-          dfsdkj
         />
-        <Link
-          to="/dashboard-img"
+        <Link // cancel and go back to dashboard
+          to="/dashboard2-img"
           style={{
             position: 'absolute',
             width: '328px',

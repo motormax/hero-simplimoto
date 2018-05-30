@@ -59,6 +59,17 @@ class FinancingIMGPage extends Component {
             left: '559px',
           }}
         />
+        <Link // cancel and go back to dashboard
+          to="/dashboard-img"
+          style={{
+            position: 'absolute',
+            width: '328px',
+            height: '42px',
+            left: '32px',
+            top: '20px',
+          }}
+        />
+
       </IMGPage>
     );
   }

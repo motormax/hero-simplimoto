@@ -20,6 +20,7 @@ import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
 import LiveTourPresenterPage from './LiveTourPage/LiveTourPresenterPage';
 import LiveTourUserPage from './LiveTourPage/LiveTourUserPage';
 import BikeSentIMGPage from './ImagePages/BikeSentIMGPage';
+import Dashboard02IMGPage from './ImagePages/Dashboard02IMGPage';
 
 class App extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class App extends React.Component {
           <Route path="/home-img" component={HomeIMGPage} />
           <Route path="/dashboard" component={DashboardPage} />
           <Route path="/dashboard-img" component={Dashboard01IMGPage} />
+          <Route path="/dashboard2-img" component={Dashboard02IMGPage} />
           <Route path="/customization" component={CustomizationPage} />
           <Route path="/customization-img" component={CustomizationIMGPage} />
           <Route path="/financing-img" component={FinancingIMGPage} />

@@ -38,7 +38,7 @@ class DateYourBike extends Component {
             top: '1064px',
           }}
         />
-        <Link
+        <Link // cancel and go back to dashboard
           to="/dashboard-img"
           style={{
             position: 'absolute',
