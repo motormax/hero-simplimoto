@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
-import imageUrl from './DateYourBike@2x.png';
+import imageUrl from './img/DateYourBike@2x.png';
 import IMGPage from './IMGPage';
 
 
@@ -14,10 +14,10 @@ class DateYourBike extends Component {
           size="huge"
           style={{
             position: 'absolute',
-            width: '570px',
-            height: '49px',
-            top: '569px',
-            left: '405px',
+            width: 544 - 20,
+            left: 368 + 20,
+            height: 45,
+            top: 545,
             border: 'none',
             background: 'transparent',
           }}
@@ -32,10 +32,10 @@ class DateYourBike extends Component {
           to="/bikesent-img"
           style={{
             position: 'absolute',
-            width: '369px',
-            height: '58px',
-            left: '485px',
-            top: '1064px',
+            width: 352.58,
+            height: 55.93,
+            top: 1037.98,
+            left: 464,
           }}
         />
         <Link // cancel and go back to dashboard

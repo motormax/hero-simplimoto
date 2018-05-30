@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import imageUrl from './Dashboard01@2x.png';
+import imageUrl from './img/Dashboard01@2x.png';
 import IMGPage from './IMGPage';
 
 // In this dashboard no step is completed
@@ -14,20 +14,20 @@ class Dashboard01IMGPage extends Component {
           to="livetour-img"
           style={{
             position: 'absolute',
-            width: '172px',
-            height: '37px',
-            top: '180px',
-            left: '626px',
+            width: 164,
+            height: 35,
+            top: 172,
+            left: 599,
           }}
         />
         <Link
           to="financing-img"
           style={{
             position: 'absolute',
-            width: '137px',
-            height: '39px',
-            top: '424px',
-            left: '649px',
+            width: 130,
+            height: 35,
+            top: 407,
+            left: 633,
           }}
         />
       </IMGPage>

@@ -18,7 +18,7 @@ export default class IMGPage extends Component {
           margin: 'auto',
           position: 'relative',
           display: 'block',
-          width: '1338px',
+          width: '1280px',
           textAlign: 'center',
         }}
       >

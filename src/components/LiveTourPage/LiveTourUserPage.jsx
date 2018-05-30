@@ -11,18 +11,18 @@ import liveTourHomeImageUrl from './images/LiveTourHome@2x.png';
 const joinTourButtonStyles = {
   cursor: 'pointer',
   position: 'absolute',
-  width: '352px',
-  height: '55px',
-  left: '495px',
-  top: '620px',
+  width: 352.58,
+  left: 464,
+  height: 55.93,
+  top: 593.98,
 };
 const leaveTourButtonStyles = {
   cursor: 'pointer',
   position: 'absolute',
-  width: '352px',
-  height: '55px',
-  left: '495px',
-  top: '705px',
+  width: 352.58,
+  left: 464,
+  height: 55.93,
+  top: 671.98,
 };
 
 const videoTrackStyles = {

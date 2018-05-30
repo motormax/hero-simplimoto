@@ -3,9 +3,9 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
-import imageUrl from './FinancingLoading.png';
+import imageUrl from './img/FinancingLoading.png';
 import IMGPage from './IMGPage';
-import dollarSpinner from './dollar_spinner.gif';
+import dollarSpinner from './img/dollar_spinner.gif';
 
 class FinancingIMGLoadingPage extends Component {
   static propTypes = {

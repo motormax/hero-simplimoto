@@ -57,9 +57,10 @@ class CustomizationIMGPage extends Component {
           src={this.bikeImage}
           style={{
             position: 'absolute',
-            left: 21,
-            top: 239,
             width: 640,
+            left: 0,
+            height: 399,
+            top: 220,
           }}
         />
         <div
@@ -69,10 +70,11 @@ class CustomizationIMGPage extends Component {
           style={{
             cursor: 'pointer',
             position: 'absolute',
-            left: 732,
-            top: 605,
-            width: 126,
-            height: 36,
+
+            width: 118.86,
+            left: 701.24,
+            height: 31.81,
+            top: 586,
           }}
         />
         <div
@@ -82,10 +84,10 @@ class CustomizationIMGPage extends Component {
           style={{
             cursor: 'pointer',
             position: 'absolute',
-            left: 941,
-            top: 605,
-            width: 126,
-            height: 36,
+            width: 118.86,
+            left: 901.24,
+            height: 31.81,
+            top: 586,
           }}
         />
         <div
@@ -95,21 +97,31 @@ class CustomizationIMGPage extends Component {
           style={{
             cursor: 'pointer',
             position: 'absolute',
-            left: 1150,
-            top: 605,
-            width: 126,
-            height: 36,
+            width: 118.86,
+            left: 1101.41,
+            height: 31.81,
+            top: 586,
           }}
         />
         <Link
-          to="dashboard-img"
+          to="dashboard4-img"
           tabIndex={0}
           style={{
             position: 'absolute',
-            left: 891,
-            top: 713,
-            width: 420,
-            height: 61,
+            width: 398,
+            left: 854,
+            height: 55.93,
+            top: 682.98,
+          }}
+        />
+        <Link // cancel and go back to dashboard
+          to="/dashboard3-img"
+          style={{
+            position: 'absolute',
+            width: '328px',
+            height: '42px',
+            left: '32px',
+            top: '20px',
           }}
         />
       </IMGPage>

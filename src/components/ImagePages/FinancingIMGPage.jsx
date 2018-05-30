@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
-import imageUrl from './Financiación@2x.png';
+import imageUrl from './img/Financiación@2x.png';
 import IMGPage from './IMGPage';
 
 class FinancingIMGPage extends Component {
@@ -10,53 +10,53 @@ class FinancingIMGPage extends Component {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
-            top: '264px',
-            left: '382px',
-            width: '574px',
-            height: '50px',
+            width: 544,
+            left: 368,
+            height: 48,
+            top: 270,
           }}
         />
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
-            top: '380px',
-            left: '382px',
-            width: '296px',
-            height: '50px',
+            width: 544,
+            left: 368,
+            height: 48,
+            top: 380,
           }}
         />
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
-            left: '667px',
-            top: '380px',
-            width: '288px',
-            height: '50px',
+            width: 324,
+            left: 588,
+            height: 48,
+            top: 380,
           }}
         />
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
-            top: '510px',
-            left: '382px',
-            width: '574px',
-            height: '50px',
+            width: 544,
+            left: 368,
+            height: 45,
+            top: 501,
           }}
         />
         <Link
           to="/financing-loading-img"
           style={{
             position: 'absolute',
-            width: '221px',
-            height: '58px',
-            top: '599px',
-            left: '559px',
+            width: 352.58,
+            height: 55.93,
+            top: 597.98,
+            left: 464,
           }}
         />
         <Link // cancel and go back to dashboard

@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import imageUrl from './img/Dashboard02@2x.png';
+import imageUrl from './img/Dashboard03@2x.png';
 import IMGPage from './IMGPage';
 
-// In this dashboard only the financing step is completed
+// In this dashboard the reservation is/should be payed
 
-class Dashboard02IMGPage extends Component {
+class Dashboard03IMGPage extends Component {
   render() {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Link
-          to="dateyourbike-img"
+          to="customization-img"
           style={{
             position: 'absolute',
-            width: 164,
-            left: 599,
+            width: 130,
             height: 35,
-            top: 213,
+            top: 604,
+            left: 633,
           }}
         />
       </IMGPage>
     );
   }
 }
-
-export default Dashboard02IMGPage;
+export default Dashboard03IMGPage;
