@@ -48,8 +48,8 @@ export default class LiveTourPresenterPage extends Component {
 
     roomJoined = (room) => {
       this.setState({ room, roomJoined: true });
-
-      createLocalTracks().then((tracks) => {
+      
+      createLocalTracks({ audio: true, video: { facingMode: { exact: 'environment' } } }).then((tracks) => {
         this.setState({ previewTracks: tracks });
         attachTracks(tracks, this.localMedia.current);
       });
