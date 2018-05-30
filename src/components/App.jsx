@@ -24,6 +24,7 @@ import BikeSentIMGPage from './ImagePages/BikeSentIMGPage';
 import Dashboard02IMGPage from './ImagePages/Dashboard02IMGPage';
 import Dashboard03IMGPage from './ImagePages/Dashboard03IMGPage';
 import Dashboard04IMGPage from './ImagePages/Dashboard04IMGPage';
+import Dashboard05IMGPage from './ImagePages/Dashboard05IMGPage';
 
 class App extends React.Component {
   render() {
@@ -38,6 +39,7 @@ class App extends React.Component {
           <Route path="/dashboard2-img" component={Dashboard02IMGPage} />
           <Route path="/dashboard3-img" component={Dashboard03IMGPage} />
           <Route path="/dashboard4-img" component={Dashboard04IMGPage} />
+          <Route path="/dashboard5-img" component={Dashboard05IMGPage} />
           <Route path="/customization-img" component={CustomizationIMGPage} />
           <Route path="/financing-img" component={FinancingIMGPage} />
           <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
@@ -47,7 +49,7 @@ class App extends React.Component {
           <Route path="/live-tour-presenter" component={LiveTourPresenterPage} />
           <Route path="/livetour-img" component={LiveTourUserPage} />
           <Route path="/insurance-img" component={InsuranceIMGPage} />
-          <Route path="/success" component={SuccessIMGPage} />
+          <Route path="/success-img" component={SuccessIMGPage} />
         </Switch>
       </div>
     );

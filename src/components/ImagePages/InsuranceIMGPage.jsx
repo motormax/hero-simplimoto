@@ -8,13 +8,23 @@ class InsuranceIMGPage extends Component {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Link
-          to="dashboard-img"
+          to="dashboard5-img"
           style={{
             position: 'absolute',
             top: 677,
             left: 487,
             width: 364,
             height: 60,
+          }}
+        />
+        <Link // cancel and go back to dashboard
+          to="/dashboard4-img"
+          style={{
+            position: 'absolute',
+            width: '328px',
+            height: '42px',
+            left: '32px',
+            top: '20px',
           }}
         />
       </IMGPage>
