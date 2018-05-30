@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import imageUrl from './FinancingOptions.png';
+import imageUrl from './img/FinancingOptions.png';
 import IMGPage from './IMGPage';
 
 class FinancingIMGOptionsPage extends Component {

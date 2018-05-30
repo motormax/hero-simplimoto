@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import IMGPage from './IMGPage';
-import imageUrl from './Success.png';
+import imageUrl from './img/Success.png';
 
 class SuccessIMGPage extends Component {
   render() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import imageUrl from './Home@2x.png';
+import imageUrl from './img/Home@2x.png';
 import IMGPage from './IMGPage';
 
 class HomeIMGPage extends Component {

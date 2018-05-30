@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import imageUrl from './BikeSent@2x.png';
+import imageUrl from './img/BikeSent@2x.png';
 import IMGPage from './IMGPage';
 
 
@@ -10,7 +10,7 @@ class BikeSentIMGPage extends Component {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Link
-          to="/dashboard2-img"
+          to="/dashboard3-img"
           style={{
             position: 'absolute',
             width: '369px',

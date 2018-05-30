@@ -102,7 +102,7 @@ class CustomizationIMGPage extends Component {
           }}
         />
         <Link
-          to="dashboard-img"
+          to="dashboard4-img"
           tabIndex={0}
           style={{
             position: 'absolute',
@@ -110,6 +110,16 @@ class CustomizationIMGPage extends Component {
             top: 713,
             width: 420,
             height: 61,
+          }}
+        />
+        <Link // cancel and go back to dashboard
+          to="/dashboard3-img"
+          style={{
+            position: 'absolute',
+            width: '328px',
+            height: '42px',
+            left: '32px',
+            top: '20px',
           }}
         />
       </IMGPage>

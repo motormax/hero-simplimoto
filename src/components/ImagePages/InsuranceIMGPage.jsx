@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import IMGPage from './IMGPage';
-import imageUrl from './Insurance.png';
+import imageUrl from './img/Insurance.png';
 
 class InsuranceIMGPage extends Component {
   render() {

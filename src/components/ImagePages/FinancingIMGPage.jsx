@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
-import imageUrl from './Financiación@2x.png';
+import imageUrl from './img/Financiación@2x.png';
 import IMGPage from './IMGPage';
 
 class FinancingIMGPage extends Component {
@@ -10,7 +10,7 @@ class FinancingIMGPage extends Component {
     return (
       <IMGPage imgUrl={imageUrl}>
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
             top: '264px',
@@ -20,17 +20,17 @@ class FinancingIMGPage extends Component {
           }}
         />
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
             top: '380px',
             left: '382px',
-            width: '296px',
+            width: '287px',
             height: '50px',
           }}
         />
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
             left: '667px',
@@ -39,8 +39,18 @@ class FinancingIMGPage extends Component {
             height: '50px',
           }}
         />
+        <div
+          style={{
+            position: 'absolute',
+            top: '510px',
+            left: '350px',
+            width: '600px',
+            height: '70px',
+            backgroundColor: '#ebebeb',
+          }}
+        />
         <Input
-          size="massive"
+          size="huge"
           style={{
             position: 'absolute',
             top: '510px',

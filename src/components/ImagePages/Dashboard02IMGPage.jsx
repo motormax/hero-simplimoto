@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import imageUrl from './Dashboard02@2x.png';
+import imageUrl from './img/Dashboard02@2x.png';
 import IMGPage from './IMGPage';
 
 // In this dashboard only the financing step is completed

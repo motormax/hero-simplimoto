@@ -22,18 +22,22 @@ import LiveTourPresenterPage from './LiveTourPage/LiveTourPresenterPage';
 import LiveTourUserPage from './LiveTourPage/LiveTourUserPage';
 import BikeSentIMGPage from './ImagePages/BikeSentIMGPage';
 import Dashboard02IMGPage from './ImagePages/Dashboard02IMGPage';
+import Dashboard03IMGPage from './ImagePages/Dashboard03IMGPage';
+import Dashboard04IMGPage from './ImagePages/Dashboard04IMGPage';
 
 class App extends React.Component {
   render() {
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/" component={MainPage} />
+          <Route exact path="/" component={HomeIMGPage} />
           <Route path="/home-img" component={HomeIMGPage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/customization" component={CustomizationPage} />
           <Route path="/dashboard-img" component={Dashboard01IMGPage} />
           <Route path="/dashboard2-img" component={Dashboard02IMGPage} />
-          <Route path="/customization" component={CustomizationPage} />
+          <Route path="/dashboard3-img" component={Dashboard03IMGPage} />
+          <Route path="/dashboard4-img" component={Dashboard04IMGPage} />
           <Route path="/customization-img" component={CustomizationIMGPage} />
           <Route path="/financing-img" component={FinancingIMGPage} />
           <Route path="/financing-loading-img" component={FinancingIMGLoadingPage} />
@@ -41,7 +45,7 @@ class App extends React.Component {
           <Route path="/dateyourbike-img" component={DateYourBikeIMGPage} />
           <Route path="/bikesent-img" component={BikeSentIMGPage} />
           <Route path="/live-tour-presenter" component={LiveTourPresenterPage} />
-          <Route path="/live-tour" component={LiveTourUserPage} />
+          <Route path="/livetour-img" component={LiveTourUserPage} />
           <Route path="/insurance-img" component={InsuranceIMGPage} />
           <Route path="/success" component={SuccessIMGPage} />
         </Switch>

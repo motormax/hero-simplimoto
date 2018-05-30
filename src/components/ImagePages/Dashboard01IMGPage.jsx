@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import imageUrl from './Dashboard01@2x.png';
+import imageUrl from './img/Dashboard01@2x.png';
 import IMGPage from './IMGPage';
 
 // In this dashboard no step is completed

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'semantic-ui-react';
 
-import imageUrl from './DateYourBike@2x.png';
+import imageUrl from './img/DateYourBike@2x.png';
 import IMGPage from './IMGPage';
 
 
