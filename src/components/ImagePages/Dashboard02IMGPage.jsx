@@ -14,10 +14,10 @@ class Dashboard02IMGPage extends Component {
           to="dateyourbike-img"
           style={{
             position: 'absolute',
-            width: '172px',
-            height: '37px',
-            top: '222px',
-            left: '626px',
+            width: 164,
+            left: 599,
+            height: 35,
+            top: 213,
           }}
         />
       </IMGPage>

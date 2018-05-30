@@ -14,10 +14,10 @@ class Dashboard05IMGPage extends Component {
           to="success-img"
           style={{
             position: 'absolute',
-            width: '322px',
-            height: '71px',
-            top: '710px',
-            left: '908px',
+            width: 307,
+            height: 68,
+            top: 679,
+            left: 869,
           }}
         />
       </IMGPage>

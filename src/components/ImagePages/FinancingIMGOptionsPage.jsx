@@ -11,10 +11,10 @@ class FinancingIMGOptionsPage extends Component {
           to="/dashboard2-img"
           style={{
             position: 'absolute',
-            width: '417px',
-            height: '60px',
-            top: '708px',
-            left: '461px',
+            width: 398,
+            left: 441,
+            height: 55.93,
+            top: 662.98,
           }}
         />
         <Link // cancel and go back to dashboard

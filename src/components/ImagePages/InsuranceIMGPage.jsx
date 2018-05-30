@@ -11,10 +11,10 @@ class InsuranceIMGPage extends Component {
           to="dashboard5-img"
           style={{
             position: 'absolute',
-            top: 677,
-            left: 487,
-            width: 364,
-            height: 60,
+            width: 370.58,
+            left: 455,
+            height: 55.93,
+            top: 647.98,
           }}
         />
         <Link // cancel and go back to dashboard

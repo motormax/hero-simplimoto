@@ -11,30 +11,31 @@ class HomeIMGPage extends Component {
           to="dashboard-img"
           style={{
             position: 'absolute',
-            width: '166px',
-            height: '52px',
-            top: '689px',
-            left: '428px',
+            width: '158.12px',
+            left: '409.97px',
+            height: '46.59px',
+            top: '659.74px',
           }}
         />
         <Link
           to="livetour-img"
           style={{
             position: 'absolute',
-            width: '100px',
-            height: '35px',
-            top: '747px',
-            left: '396px',
+            width: 92.49,
+            left: 373.85,
+            height: 30.92,
+            top: 716.01,
+
           }}
         />
         <Link
           to="dateyourbike-img"
           style={{
             position: 'absolute',
-            width: '135px',
-            height: '29px',
-            top: '750px',
-            left: '504px',
+            width: 122.33,
+            left: 478,
+            height: 27,
+            top: 718,
           }}
         />
       </IMGPage>

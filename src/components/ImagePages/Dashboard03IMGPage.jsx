@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Header } from 'semantic-ui-react';
 
-import imageUrl from './img/Dashboard02@2x.png'; // design of 03 not yet ready
+import imageUrl from './img/Dashboard03@2x.png';
 import IMGPage from './IMGPage';
 
 // In this dashboard the reservation is/should be payed
@@ -15,25 +14,12 @@ class Dashboard03IMGPage extends Component {
           to="customization-img"
           style={{
             position: 'absolute',
-            width: '136px',
-            height: '37px',
-            top: '631px',
-            left: '649px',
+            width: 130,
+            height: 35,
+            top: 604,
+            left: 633,
           }}
         />
-        <Header
-          style={{
-            position: 'absolute',
-            width: '136px',
-            height: '165px',
-            top: '200px',
-            left: '1000px',
-            fontSize: 'xx-large',
-            backgroundColor: 'red',
-          }}
-        >
-          FALTA LA RESERVA ACÁ
-        </Header>
       </IMGPage>
     );
   }

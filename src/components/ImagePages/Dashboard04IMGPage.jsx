@@ -14,10 +14,10 @@ class Dashboard04IMGPage extends Component {
           to="insurance-img"
           style={{
             position: 'absolute',
-            width: '234px',
-            height: '46px',
-            top: '617px',
-            left: '1035px',
+            width: 222,
+            left: 991,
+            height: 44,
+            top: 590,
           }}
         />
       </IMGPage>

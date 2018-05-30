@@ -13,10 +13,10 @@ class BikeSentIMGPage extends Component {
           to="/dashboard3-img"
           style={{
             position: 'absolute',
-            width: '369px',
-            height: '59px',
-            left: '485px',
-            top: '677px',
+            width: 352.58,
+            left: 472,
+            height: 55.93,
+            top: 647.98,
           }}
         />
         <Link // cancel and go back to dashboard
