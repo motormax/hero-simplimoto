@@ -14,6 +14,7 @@ import FinancingIMGLoadingPage from './ImagePages/FinancingIMGLoadingPage';
 import FinancingIMGOptionsPage from './ImagePages/FinancingIMGOptionsPage';
 import FinancingIMGPage from './ImagePages/FinancingIMGPage';
 import HomeIMGPage from './ImagePages/HomeIMGPage';
+import SuccessIMGPage from './ImagePages/SuccessIMGPage';
 import InsuranceIMGPage from './ImagePages/InsuranceIMGPage';
 import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
@@ -42,6 +43,7 @@ class App extends React.Component {
           <Route path="/live-tour-presenter" component={LiveTourPresenterPage} />
           <Route path="/live-tour" component={LiveTourUserPage} />
           <Route path="/insurance-img" component={InsuranceIMGPage} />
+          <Route path="/success" component={SuccessIMGPage} />
         </Switch>
       </div>
     );
