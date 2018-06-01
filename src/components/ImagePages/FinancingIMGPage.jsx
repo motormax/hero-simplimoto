@@ -17,18 +17,34 @@ class FinancingIMGPage extends Component {
             left: 368,
             height: 48,
             top: 270,
+            border: 'none',
+            background: 'transparent',
           }}
-        />
+        >
+          <input style={{
+            border: 'none',
+            background: 'transparent',
+          }}
+          />
+        </Input>
         <Input
           size="huge"
           style={{
             position: 'absolute',
-            width: 544,
+            width: 215,
             left: 368,
             height: 48,
             top: 380,
+            border: 'none',
+            background: 'transparent',
           }}
-        />
+        >
+          <input style={{
+            border: 'none',
+            background: 'transparent',
+          }}
+          />
+        </Input>
         <Input
           size="huge"
           style={{
@@ -37,18 +53,34 @@ class FinancingIMGPage extends Component {
             left: 588,
             height: 48,
             top: 380,
+            border: 'none',
+            background: 'transparent',
           }}
-        />
+        >
+          <input style={{
+            border: 'none',
+            background: 'transparent',
+          }}
+          />
+        </Input>
         <Input
           size="huge"
           style={{
             position: 'absolute',
-            width: 544,
-            left: 368,
+            width: 505,
+            left: 410,
             height: 45,
             top: 501,
+            border: 'none',
+            background: 'transparent',
           }}
-        />
+        >
+          <input style={{
+            border: 'none',
+            background: 'transparent',
+          }}
+          />
+        </Input>
         <Link
           to="/financing-loading-img"
           style={{
@@ -69,7 +101,6 @@ class FinancingIMGPage extends Component {
             top: '20px',
           }}
         />
-
       </IMGPage>
     );
   }
