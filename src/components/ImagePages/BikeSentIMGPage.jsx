@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Youtube from 'react-youtube';
 
 import imageUrl from './img/BikeSent@2x.png';
 import IMGPage from './IMGPage';
-
 
 class BikeSentIMGPage extends Component {
   render() {
@@ -29,6 +29,27 @@ class BikeSentIMGPage extends Component {
             top: '20px',
           }}
         />
+        <div
+          style={{
+            position: 'absolute',
+            left: 61,
+            top: 207,
+          }}
+        >
+          <Youtube
+            videoId="JjllsGhEoBo"
+            opts={{
+              width: 730,
+              height: 410,
+              playerVars: { // https://developers.google.com/youtube/player_parameters
+                color: 'white',
+                rel: 0,
+                loop: 0,
+                autoplay: 1,
+              },
+            }}
+          />
+        </div>
       </IMGPage>
     );
   }
