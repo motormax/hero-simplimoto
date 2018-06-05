@@ -2,33 +2,38 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'twilio-video';
+
 import { attachTracks, detachTracks, detachParticipantTracks } from './helpers';
 import { GetTwilioToken } from './twilioToken';
 import IMGPage from '../ImagePages/IMGPage';
 import liveTourTransmisionImageUrl from './images/LiveTourTransmision.png';
 import liveTourHomeImageUrl from './images/LiveTourHome@2x.png';
+import endCommunicationBtnUrl from './images/end_communication_btn.png';
 
 const joinTourButtonStyles = {
   cursor: 'pointer',
   position: 'absolute',
   width: 352.58,
-  left: 464,
+  left: 130,
   height: 55.93,
-  top: 593.98,
+  top: 410,
 };
 const leaveTourButtonStyles = {
   cursor: 'pointer',
   position: 'absolute',
-  width: 352.58,
-  left: 464,
-  height: 55.93,
-  top: 671.98,
+  width: '357px',
+  height: '56px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  left: 0,
+  right: 0,
+  backgroundImage: `url(${endCommunicationBtnUrl})`,
 };
 
 const videoTrackStyles = {
   position: 'absolute',
   width: '670px',
-  height: '502px',
+  minHeight: '502px',
   top: '185px',
   left: '335px',
 };
@@ -45,7 +50,13 @@ export default class LiveTourPage extends Component {
   }
 
   componentDidMount = () => {
+    window.onbeforeunload = this.handleOnBeforeUnload;
   }
+
+  handleOnBeforeUnload = (e) => {
+    this.componentWillUnmount();
+    return undefined;
+  };
 
   componentWillUnmount = () => {
     if (this.state.room && this.state.room.state === 'connected') {
@@ -132,6 +143,8 @@ export default class LiveTourPage extends Component {
     const connectOptions = {
       name: this.roomName,
       logLevel: 'debug',
+      audio: true,
+      video: false
     };
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
@@ -145,11 +158,13 @@ export default class LiveTourPage extends Component {
   render() {
     return (
       <IMGPage imgUrl={this.state.imageUrl}>
-        <div ref={this.remoteMedia} className="media-container" style={videoTrackStyles} />
-        <a
-          style={this.state.tourButtonStyles}
-          onClick={this.handleJoinLeaveClick}
-        />
+        <div style={videoTrackStyles}>
+          <div ref={this.remoteMedia} className="media-container"  />
+          <a
+            style={this.state.tourButtonStyles}
+            onClick={this.handleJoinLeaveClick}
+          />
+        </div>
         <Link to="/dashboard-img">
           <span
             style={{

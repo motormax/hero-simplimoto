@@ -16,8 +16,14 @@ export default class LiveTourPresenterPage extends Component {
   }
 
     componentDidMount = () => {
+      window.onbeforeunload = this.handleOnBeforeUnload;
     }
 
+    handleOnBeforeUnload = (e) => {
+      this.componentWillUnmount();
+      return undefined;
+    };
+  
     componentWillUnmount = () => {
       if (this.state.room && this.state.room.state === 'connected') {
         this.state.room.disconnect();
@@ -41,6 +47,7 @@ export default class LiveTourPresenterPage extends Component {
         this.state.previewTracks.forEach((track) => {
           console.log(`detach track ${track.name}`);
           track.stop();
+          detachTracks([track]);
         });
       }
       this.setState({ room: undefined, roomJoined: false, previewTracks: undefined });
