@@ -45,7 +45,7 @@ class BikeSentIMGPage extends Component {
                 color: 'white',
                 rel: 0,
                 loop: 0,
-                autoplay: 1,
+                autoplay: 0,
               },
             }}
           />
