@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, createLocalTracks } from 'twilio-video';
 import { Button, Container } from 'semantic-ui-react';
 
-import { GetTwilioToken } from './twilioToken';
+import { getTwilioToken } from './twilioToken';
 import { attachTracks, detachTracks, detachParticipantTracks } from './helpers';
 
 export default class LiveTourPresenterPage extends Component {
@@ -16,8 +16,14 @@ export default class LiveTourPresenterPage extends Component {
   }
 
     componentDidMount = () => {
+      window.onbeforeunload = this.handleOnBeforeUnload;
     }
 
+    handleOnBeforeUnload = (e) => {
+      this.componentWillUnmount();
+      return undefined;
+    };
+  
     componentWillUnmount = () => {
       if (this.state.room && this.state.room.state === 'connected') {
         this.state.room.disconnect();
@@ -41,6 +47,7 @@ export default class LiveTourPresenterPage extends Component {
         this.state.previewTracks.forEach((track) => {
           console.log(`detach track ${track.name}`);
           track.stop();
+          detachTracks([track]);
         });
       }
       this.setState({ room: undefined, roomJoined: false, previewTracks: undefined });
@@ -88,7 +95,7 @@ export default class LiveTourPresenterPage extends Component {
       }).then((mediaStream) => {
         const participantId = `Bike_Expert_${Math.floor(Math.random() * 1000)}`;
         this.displayMessage(`Participant Id'${participantId}' is joining`);
-        return connect(GetTwilioToken(participantId), {
+        return connect(getTwilioToken(participantId), {
           name: 'Hero-Bike-Live-Tour',
           tracks: mediaStream.getTracks(),
         });

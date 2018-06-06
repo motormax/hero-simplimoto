@@ -1,34 +1,38 @@
-
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'twilio-video';
+
 import { attachTracks, detachTracks, detachParticipantTracks } from './helpers';
-import { GetTwilioToken } from './twilioToken';
+import { getTwilioToken } from './twilioToken';
 import IMGPage from '../ImagePages/IMGPage';
 import liveTourTransmisionImageUrl from './images/LiveTourTransmision.png';
 import liveTourHomeImageUrl from './images/LiveTourHome@2x.png';
+import endCommunicationBtnUrl from './images/end_communication_btn.png';
 
 const joinTourButtonStyles = {
   cursor: 'pointer',
   position: 'absolute',
   width: 352.58,
-  left: 464,
+  left: 130,
   height: 55.93,
-  top: 593.98,
+  top: 410,
 };
 const leaveTourButtonStyles = {
   cursor: 'pointer',
   position: 'absolute',
-  width: 352.58,
-  left: 464,
-  height: 55.93,
-  top: 671.98,
+  width: '357px',
+  height: '56px',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  left: 0,
+  right: 0,
+  backgroundImage: `url(${endCommunicationBtnUrl})`,
 };
 
 const videoTrackStyles = {
   position: 'absolute',
   width: '670px',
-  height: '502px',
+  minHeight: '502px',
   top: '185px',
   left: '335px',
 };
@@ -41,25 +45,28 @@ export default class LiveTourPage extends Component {
       imageUrl: liveTourHomeImageUrl,
       tourButtonStyles: joinTourButtonStyles,
     };
-    this.remoteMedia = React.createRef();
+    this.audioMedia = React.createRef();
+    this.videoMedia = React.createRef();
   }
 
   componentDidMount = () => {
-  }
+    window.addEventListener('beforeunload', this.cleanUp);
+  };
 
   componentWillUnmount = () => {
+    window.removeEventListener('beforeunload', this.cleanUp);
+    this.cleanUp();
+  };
+
+  cleanUp = () => {
     if (this.state.room && this.state.room.state === 'connected') {
       this.state.room.disconnect();
     }
-  }
-
-  displayMessage = (message) => {
-    console.log(message);
-  }
+  };
 
   log = (message) => {
     console.log(message);
-  }
+  };
 
   handleDisconnect = () => {
     this.log('Disconnected from room. Detaching participants');
@@ -70,7 +77,7 @@ export default class LiveTourPage extends Component {
       imageUrl: liveTourHomeImageUrl,
       tourButtonStyles: joinTourButtonStyles,
     });
-  }
+  };
 
   // Successfully connected!
   roomJoined = (room) => {
@@ -84,7 +91,7 @@ export default class LiveTourPage extends Component {
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach((participant) => {
       this.log(`Already in Room: '${participant.identity}'`);
-      attachTracks(participant.tracks, this.remoteMedia.current);
+      participant.tracks.forEach(this.attachTrack);
     });
 
     // When a Participant joins the Room, log the event.
@@ -95,7 +102,8 @@ export default class LiveTourPage extends Component {
     // When a Participant adds a Track, attach it to the DOM.
     room.on('trackAdded', (track, participant) => {
       this.log(`${participant.identity} added track: ${track.kind}!`);
-      attachTracks([track], this.remoteMedia.current);
+      console.log(participant);
+      this.attachTrack(track);
     });
 
     // When a Participant removes a Track, detach it from the DOM.
@@ -112,55 +120,86 @@ export default class LiveTourPage extends Component {
 
     // Once the LocalParticipant leaves the room, detach the Tracks
     // of all Participants, including that of the LocalParticipant.
-    this.handleDisconnect = this.handleDisconnect.bind(this);
     room.on('disconnected', this.handleDisconnect);
+  };
+
+  attachTrack(track) {
+    switch (track.kind) {
+      case 'audio':
+        track.attach(this.audioMedia.current);
+        break;
+      case 'video':
+        track.attach(this.videoMedia.current);
+        break;
+      default:
+        console.error('unknown track kind', track);
+    }
   }
+
   handleJoinLeaveClick = () => {
     if (this.state.roomJoined) {
       this.handleLeaveClick();
     } else {
       this.handleJoinClick();
     }
-  }
+  };
+
   handleLeaveClick = () => {
     this.log('Leaving room...');
     this.state.room.disconnect();
-  }
-  handleJoinClick = () => {
+  };
+
+  handleJoinClick = async () => {
     this.roomName = 'Hero-Bike-Live-Tour';
     this.log(`Joining room '${this.roomName}'...`);
     const connectOptions = {
       name: this.roomName,
       logLevel: 'debug',
+      audio: true,
+      video: false,
     };
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
     const participantId = `Bike_Fan_${Math.floor(Math.random() * 1000)}`;
-    this.roomJoined = this.roomJoined.bind(this);
-    connect(GetTwilioToken(participantId), connectOptions).then(this.roomJoined, (error) => {
-      console.log(`Could not connect to Twilio: ${error.message}`);
-      this.log('Could not connect to Twilio');
-    });
-  }
+    const room = await connect(getTwilioToken(participantId), connectOptions);
+    this.roomJoined(room);
+  };
+
   render() {
     return (
+
       <IMGPage imgUrl={this.state.imageUrl}>
-        <div ref={this.remoteMedia} className="media-container" style={videoTrackStyles} />
-        <a
-          style={this.state.tourButtonStyles}
-          onClick={this.handleJoinLeaveClick}
-        />
-        <Link to="/dashboard-img">
-          <span
-            style={{
-              position: 'absolute',
-              width: '220px',
-              height: '28px',
-              left: '54px',
-              top: '34px',
-            }}
+        <div style={videoTrackStyles}>
+          <audio
+            ref={this.audioMedia}
+            autoPlay
           />
-        </Link>
+          <video
+            ref={this.videoMedia}
+            style={{
+              width: videoTrackStyles.width,
+              maxHeight: videoTrackStyles.height,
+            }}
+            autoPlay
+          />
+          <div
+            tabIndex={0}
+            role="button"
+            onKeyPress={() => undefined}
+            style={this.state.tourButtonStyles}
+            onClick={this.handleJoinLeaveClick}
+          />
+        </div>
+        <Link
+          to="/dashboard-img"
+          style={{
+            position: 'absolute',
+            width: '220px',
+            height: '28px',
+            left: '54px',
+            top: '34px',
+          }}
+        />
       </IMGPage>
     );
   }
