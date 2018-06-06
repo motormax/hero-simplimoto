@@ -16,7 +16,6 @@ import FinancingIMGPage from './ImagePages/FinancingIMGPage';
 import HomeIMGPage from './ImagePages/HomeIMGPage';
 import SuccessIMGPage from './ImagePages/SuccessIMGPage';
 import InsuranceIMGPage from './ImagePages/InsuranceIMGPage';
-import MainPage from './MainPage';
 import DateYourBikeIMGPage from './ImagePages/DateYourBikeIMGPage';
 import LiveTourPresenterPage from './LiveTourPage/LiveTourPresenterPage';
 import LiveTourUserPage from './LiveTourPage/LiveTourUserPage';
