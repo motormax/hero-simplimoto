@@ -13,7 +13,7 @@ defmodule HeroDigitalWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", HeroDigitalWeb do
+  scope "/admin", HeroDigitalWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
