@@ -8,7 +8,7 @@ class FinancingSection extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
     financing: propTypes.shape({}).isRequired,
-    saveFinancing: propTypes.func.isRequired,
+    // saveFinancing: propTypes.func.isRequired,
   }
 
   render() {
