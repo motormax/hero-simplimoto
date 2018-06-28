@@ -19,12 +19,20 @@
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.80.0"
   },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:4000"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint --ext .jsx,.js src",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+
+    "heroku-postbuild": "cp -ar build/. ../backend/priv/static/",
+    "postinstall": "yarn build"
   },
   "devDependencies": {
     "eslint-plugin-jest": "^21.15.1",

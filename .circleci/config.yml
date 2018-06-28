@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  frontend:
     docker:
       # specify the version you desire here
       - image: circleci/node:9
@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/repo
+    working_directory: ~/app
 
     steps:
       - checkout
@@ -22,19 +22,104 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-{{ checksum "frontend/package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install --frozen-lockfile
+      - run:
+          name: install dependencies
+          command: yarn install --frozen-lockfile
+          working_directory: ~/app/frontend/
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - frontend/node_modules
+          key: v1-dependencies-{{ checksum "frontend/package.json" }}
 
-      # run linting
-      - run: yarn lint
-      # run tests!
-      - run: yarn test
+      - run:
+          name: run linter
+          command: yarn lint
+          working_directory: ~/app/frontend/
+
+      - run:
+          name: run tests
+          command: yarn test
+          working_directory: ~/app/frontend/
+
+
+  backend:
+    docker:
+      - image: circleci/elixir:1.5
+        environment:
+          MIX_ENV: test
+      - image: circleci/postgres:10.1-alpine
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: hero_digital_test
+          POSTGRES_PASSWORD: postgres
+    working_directory: ~/app
+
+    steps:
+      - checkout
+
+      - run:
+          name: install Hex locally
+          command: mix local.hex --force
+          working_directory: ~/app/backend/
+
+      - run:
+          name: fetch a copy of rebar
+          command: mix local.rebar --force
+          working_directory: ~/app/backend/
+
+      - restore_cache:  # restores saved mix cache
+          keys:  # list of cache keys, in decreasing specificity
+            - v1-mix-cache-{{ checksum "backend/mix.lock" }}
+            - v1-mix-cache-{{ .Branch }}
+            - v1-mix-cache
+      - restore_cache:  # restores saved build cache
+          keys:
+            - v1-build-cache-{{ .Branch }}
+            - v1-build-cache
+      - run:
+          name: get updated dependencies and compile them
+          command: mix do deps.get, compile
+          working_directory: ~/app/backend/
+      - save_cache:  # generate and store cache so `restore_cache` works
+          key: v1-mix-cache-{{ checksum "backend/mix.lock" }}
+          paths: backend/deps
+      - save_cache:  # make another less specific cache
+          key: v1-mix-cache-{{ .Branch }}
+          paths: backend/deps
+      - save_cache:  # you should really save one more cache just in case
+          key: v1-mix-cache
+          paths: backend/deps
+      - save_cache: # don't forget to save a *build* cache, too
+          key: v1-mix-cache-{{ checksum "backend/mix.lock" }}
+          paths: backend/_build
+      - save_cache: # don't forget to save a *build* cache, too
+          key: v1-build-cache-{{ .Branch }}
+          paths: backend/_build
+      - save_cache: # and one more build cache for good measure
+          key: v1-build-cache
+          paths: backend/_build
+
+      - run: # special utility that stalls main process until DB is ready
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: run all tests in project
+          command: mix test
+          working_directory: ~/app/backend/
+
+      - store_test_results:  # upload test results for display in Test Summary
+          path: backend/_build/test/junit
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - frontend
+      - backend
 
