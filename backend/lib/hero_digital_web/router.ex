@@ -1,5 +1,6 @@
 defmodule HeroDigitalWeb.Router do
   use HeroDigitalWeb, :router
+  use ExAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,10 +14,15 @@ defmodule HeroDigitalWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/admin", HeroDigitalWeb do
+  scope "/", HeroDigitalWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+  end
+
+  scope "/admin", ExAdmin do
+    pipe_through :browser
+    admin_routes()
   end
 
   # Other scopes may use custom stacks.
