@@ -4,7 +4,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
-import { changeBikeModel } from '../actions/beginning';
+import { changeBikeModel } from '../../actions/beginning';
 
 class MainPage extends Component {
   static propTypes = {

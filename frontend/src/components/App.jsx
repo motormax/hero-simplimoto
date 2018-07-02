@@ -9,7 +9,9 @@ import { Container } from 'semantic-ui-react';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
-import MainPage from './MainPage';
+import MainPage from './MainPage/MainPage';
+
+import logoUrl from './hero-logo.png';
 
 class App extends React.Component {
   static propTypes = {
@@ -21,7 +23,9 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>{t('simplimoto')}</h1>
+        <header>
+          <img className="logo" alt="Hero digital" src={logoUrl} />
+        </header>
         <Container>
           <Switch>
             <Route exact path="/" component={MainPage} />
