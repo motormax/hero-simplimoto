@@ -5,7 +5,7 @@ import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import 'semantic-ui-css/semantic.min.css';
-import { Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
