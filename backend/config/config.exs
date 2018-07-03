@@ -27,6 +27,7 @@ config :ex_admin,
   module: HeroDigitalWeb,    # MyProject.Web for phoenix >= 1.3.0-rc 
   modules: [
     HeroDigitalWeb.ExAdmin.Dashboard,
+    HeroDigital.ExAdmin.Core.Motorcycle,
   ]
 
 config :hero_digital, basic_auth: [
