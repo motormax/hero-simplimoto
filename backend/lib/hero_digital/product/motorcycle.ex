@@ -1,4 +1,4 @@
-defmodule HeroDigital.Core.Motorcycle do
+defmodule HeroDigital.Product.Motorcycle do
   use Ecto.Schema
   import Ecto.Changeset
 

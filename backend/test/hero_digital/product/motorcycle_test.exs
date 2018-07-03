@@ -1,7 +1,7 @@
-defmodule HeroDigital.Core.MotorcycleTest do
+defmodule HeroDigital.Product.MotorcycleTest do
   use HeroDigital.DataCase
 
-  alias HeroDigital.Core.Motorcycle
+  alias HeroDigital.Product.Motorcycle
 
   @valid_attrs %{name: "some name", price: 42}
   @invalid_attrs %{}
