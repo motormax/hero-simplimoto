@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import axios from 'axios';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
-import { changeBikeModel } from '../actions/beginning';
+import { userFetched } from '../actions/beginning';
 
 class MainPage extends Component {
   static propTypes = {
@@ -32,8 +33,10 @@ class MainPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  pickBike: (bikeModel) => {
-    dispatch(changeBikeModel(bikeModel));
+  pickBike: async (bikeModel) => {
+    const { data: { data: user } } = await axios.post("/api/users/", {});
+
+    dispatch(userFetched(user));
     dispatch(push('/dashboard'));
   },
 });

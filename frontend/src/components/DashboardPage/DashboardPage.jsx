@@ -10,40 +10,43 @@ import FundingSection from './Sections/FinancingSection';
 class DashboardPage extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    stages: propTypes.shape({
+    user: propTypes.shape({
+      id: propTypes.string,
+    }).isRequired,
+    funding: propTypes.shape({
       isDefault: propTypes.bool,
     }).isRequired,
   };
 
   render() {
-    const { stages, t } = this.props;
+    const { funding, user, t } = this.props;
 
     return (
       <React.Fragment>
-        <Header size="large">{t('dashboard')}</Header>
+        <Header size="large">{t('dashboard')} ({user.id})</Header>
         <div ref={(ref) => { this.ref = ref; }}>
           <Grid>
             <Grid.Column floated="left" style={{ textAlign: 'left' }} width={10}>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
               <Card.Group>
-                <FundingSection financing={stages.funding} />
+                <FundingSection financing={funding} />
               </Card.Group>
             </Grid.Column>
             <Grid.Column floated="right" width={6}>
@@ -58,6 +61,9 @@ class DashboardPage extends Component {
   }
 }
 
-const mapStateToProps = store => ({ stages: store.main.stages });
+const mapStateToProps = store => ({
+  funding: store.main.funding,
+  user: store.main.user
+});
 
 export default translate('dashboard')(connect(mapStateToProps)(DashboardPage));
