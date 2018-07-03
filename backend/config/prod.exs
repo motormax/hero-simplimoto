@@ -68,3 +68,9 @@ config :hero_digital, HeroDigital.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true,
   database: "hero_digital_prod"
+
+config :hero_digital, basic_auth: [
+  username: {:system, "BASIC_AUTH_USERNAME"},
+  password: {:system, "BASIC_AUTH_PASSWORD"},
+  realm:    {:system, "BASIC_AUTH_REALM"}
+]

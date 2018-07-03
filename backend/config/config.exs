@@ -28,7 +28,13 @@ config :ex_admin,
   modules: [
     HeroDigitalWeb.ExAdmin.Dashboard,
   ]
-  
+
+config :hero_digital, basic_auth: [
+  username: "admin",
+  password: "admin",
+  realm: "Admin Area"
+]  
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
