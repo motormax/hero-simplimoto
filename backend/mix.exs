@@ -39,9 +39,11 @@ defmodule HeroDigital.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 0.13.1"},
       {:cowboy, "~> 1.0"},
-      {:plug_static_index_html, "~> 1.0"}
+      {:plug_static_index_html, "~> 1.0"},
+      {:ex_admin, github: "smpallen99/ex_admin", ref: "5e375a98346b5dd81096d3e208b663ee4fc13c0d"}, # Latest commit from branch phx-1.3
+      {:basic_auth, "~> 2.2.2"}
     ]
   end
 

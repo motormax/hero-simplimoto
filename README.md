@@ -82,3 +82,62 @@ The project is defined in heroku using the `.buildpacks` and it's roughly outlin
 * In the frontend, build the project into static files and copy them over to the static directory in the backend
 
 To run the project we just start the elixir server which server the frontend static files.
+
+## Add a new model to the Backoffice (ExAdmin)
+
+### Create model
+
+1. On the `${PROJECT_HOME}/backend/` folder run:
+
+```
+$ mix phx.gen.schema Context.ModelName table_name field_1:type field_2:type
+```
+
+Example:
+
+```
+$ mix phx.gen.schema Product.Motorcycle motorcycles name:string price:integer
+```
+
+2. Run the migrations
+
+```
+$ mix ecto.migrate
+```
+
+### Generate and configure ExAdmin for the new model
+
+1. On the `${PROJECT_HOME}/backend/` folder run:
+
+```
+$ mix admin.gen.resource Context.ModelName
+```
+
+Example:
+
+```
+$ mix admin.gen.resource Product.Motorcycle
+```
+
+2. Edit the file `${PROJECT_HOME}/backend/config/config.exs` 
+
+3. Add the generated ExAdmin module to the ex_admin module list. 
+
+```
+config :ex_admin,
+  modules: [
+    HeroDigitalWeb.ExAdmin.Dashboard,
+    HeroDigital.ExAdmin.Context.ModuleName,
+  ]
+```
+
+Example:
+```
+config :ex_admin,
+  modules: [
+    HeroDigitalWeb.ExAdmin.Dashboard,
+    HeroDigital.ExAdmin.Product.Motorcycle,
+  ]
+```
+
+4. Find more about ExAdmin configuration [here](https://github.com/smpallen99/ex_admin/tree/phx-1.3#customizing-the-index-page) and [here](https://github.com/smpallen99/ex_admin/wiki)

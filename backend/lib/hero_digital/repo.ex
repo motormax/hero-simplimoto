@@ -1,6 +1,7 @@
 defmodule HeroDigital.Repo do
   use Ecto.Repo, otp_app: :hero_digital
-
+  use Scrivener, page_size: 10
+  
   @doc """
   Dynamically loads the repository url from the
   DATABASE_URL environment variable.
