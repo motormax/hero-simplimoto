@@ -1,6 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i');
+
 @import 'AppStyles/variables';
 @import 'AppStyles/mainHeader';
+@import 'AppStyles/mainPageCarrousel';
+
 
 .App{
   background-color: $background-page-color;
+  min-height: 100vh;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.ui.button{
+  border-radius: 50px;
+  padding: .5em 2em;
+  &.primary{
+    background-color: $primary-color;
+    &:hover{
+      background-color: darken($primary-color, 15%);
+    }
+  }
 }

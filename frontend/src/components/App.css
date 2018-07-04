@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i");
 header {
   padding: 1.4em 0;
   text-align: center;
@@ -6,5 +7,99 @@ header {
   header .logo {
     width: 250px; }
 
+.home {
+  background: url("./MainPage/images/Degrade-dashboard.png") no-repeat center top;
+  background-size: 100%;
+  margin-top: -1em;
+  padding-top: 1em; }
+
+h1.home-title {
+  text-align: center;
+  font-weight: normal;
+  font-size: 1.7em;
+  line-height: 1.7em; }
+  h1.home-title .emphasis {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.8em; }
+
+.cards-content {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.carrousel-item.card {
+  width: 240px;
+  border-radius: 0;
+  text-align: center;
+  margin: 1em 1em 2.5em 1em; }
+  .carrousel-item.card:first-child, .carrousel-item.card:last-child {
+    margin: 1em 1em 2.5em 1em; }
+  .carrousel-item.card .brand-image {
+    border-radius: 0;
+    width: 55px;
+    top: -11px;
+    left: 1em; }
+  .carrousel-item.card .bike-image {
+    background-color: transparent;
+    height: 160px;
+    margin: auto; }
+  .carrousel-item.card .bike-name {
+    font-size: 1em;
+    margin: 0 0 1em 0;
+    font-weight: bold; }
+  .carrousel-item.card .bike-accessories {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1em; }
+    .carrousel-item.card .bike-accessories .bike-accessory {
+      max-width: 25%;
+      position: relative;
+      text-align: center; }
+      .carrousel-item.card .bike-accessories .bike-accessory::after {
+        content: '/';
+        position: absolute;
+        color: #BFBFBF;
+        right: -35%;
+        top: 10px; }
+      .carrousel-item.card .bike-accessories .bike-accessory img {
+        height: 35px;
+        margin: auto; }
+      .carrousel-item.card .bike-accessories .bike-accessory:last-child::after {
+        content: ''; }
+  .carrousel-item.card .content {
+    padding: 0 1em;
+    border: none; }
+    .carrousel-item.card .content .price {
+      font-size: 1.2em;
+      color: #BFBFBF;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      justify-content: center;
+      margin: 1.5em 0 0 0; }
+      .carrousel-item.card .content .price .price-number {
+        font-size: 2em;
+        font-weight: bold;
+        color: black;
+        margin: 0 .1em .1em .1em; }
+    .carrousel-item.card .content .button {
+      position: relative;
+      bottom: -1em; }
+
 .App {
-  background-color: #EBEBEB; }
+  background-color: #EBEBEB;
+  min-height: 100vh;
+  font-family: 'Open Sans', sans-serif; }
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Open Sans', sans-serif; }
+
+.ui.button {
+  border-radius: 50px;
+  padding: .5em 2em; }
+  .ui.button.primary {
+    background-color: #FF0000; }
+    .ui.button.primary:hover {
+      background-color: #b30000; }
