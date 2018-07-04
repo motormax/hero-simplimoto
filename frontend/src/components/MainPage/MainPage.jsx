@@ -26,13 +26,13 @@ class MainPage extends Component {
 
     return (
       <div className="home">
-        <h1 className="home-title">By the bike you want <br/> <span className="emphasis">100% online</span></h1>
+        <h1 className="home-title">By the bike you want <br /> <span className="emphasis">100% online</span></h1>
 
         <div className="cards-content">
 
-          <Card className='carrousel-item'>
-            <Image  className='brand-image' src={brandImgUrl} />
-            <Image  className='bike-image' src={hankImgUrl} />
+          <Card className="carrousel-item">
+            <Image className="brand-image" src={brandImgUrl} />
+            <Image className="bike-image" src={hankImgUrl} />
             <h3 className="bike-name">Hunk</h3>
             <div className="bike-accessories">
               <div className="bike-accessory">
@@ -55,9 +55,9 @@ class MainPage extends Component {
             </Card.Content>
           </Card>
 
-          <Card className='carrousel-item'>
-            <Image  className='brand-image' src={brandImgUrl} />
-            <Image  className='bike-image' src={ignitorImgUrl} />
+          <Card className="carrousel-item">
+            <Image className="brand-image" src={brandImgUrl} />
+            <Image className="bike-image" src={ignitorImgUrl} />
             <h3 className="bike-name">Ignitor</h3>
             <div className="bike-accessories">
               <div className="bike-accessory">
@@ -80,9 +80,9 @@ class MainPage extends Component {
             </Card.Content>
           </Card>
 
-          <Card className='carrousel-item'>
-            <Image  className='brand-image' src={brandImgUrl} />
-            <Image  className='bike-image' src={hankImgUrl} />
+          <Card className="carrousel-item">
+            <Image className="brand-image" src={brandImgUrl} />
+            <Image className="bike-image" src={hankImgUrl} />
             <h3 className="bike-name">Hunk</h3>
             <div className="bike-accessories">
               <div className="bike-accessory">

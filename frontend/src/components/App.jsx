@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
@@ -14,13 +13,7 @@ import MainPage from './MainPage/MainPage';
 import logoUrl from './hero-logo.png';
 
 class App extends React.Component {
-  static propTypes = {
-    t: propTypes.func.isRequired,
-  };
-
   render() {
-    const { t } = this.props;
-
     return (
       <div className="App">
         <header>

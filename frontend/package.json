@@ -36,7 +36,8 @@
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js",
 
-    "lint": "eslint --ext .jsx,.js src",
+    "lint-js": "eslint --ext .jsx,.js src",
+    "lint": "npm-run-all build-css lint-js",
     "test": "react-scripts test --env=jsdom",
 
     "eject": "react-scripts eject",
