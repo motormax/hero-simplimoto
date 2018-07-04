@@ -25,7 +25,7 @@ class MainPage extends Component {
           <Card.Description>An awesome bike</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Button size="big" primary onClick={() => { this.props.pickBike('HUNK'); }}>{t('buy')}</Button>
+          <Button size="big" primary onClick={() => { this.props.pickBike(); }}>{t('buy')}</Button>
         </Card.Content>
       </Card>
     );
@@ -33,8 +33,8 @@ class MainPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  pickBike: async (bikeModel) => {
-    const { data: { data: user } } = await axios.post("/api/users/", {});
+  pickBike: async () => {
+    const { data: { data: user } } = await axios.post('/api/users/', {});
 
     dispatch(userFetched(user));
     dispatch(push('/dashboard'));

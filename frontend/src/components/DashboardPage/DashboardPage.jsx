@@ -63,7 +63,7 @@ class DashboardPage extends Component {
 
 const mapStateToProps = store => ({
   funding: store.main.funding,
-  user: store.main.user
+  user: store.main.user,
 });
 
 export default translate('dashboard')(connect(mapStateToProps)(DashboardPage));

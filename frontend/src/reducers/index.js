@@ -1,5 +1,7 @@
+/* eslint-env browser */
+
 import fundingReducer from './fundingReducer';
-import actionTypes from "../actions/actionTypes";
+import actionTypes from '../actions/actionTypes';
 
 
 const defaultState = {
