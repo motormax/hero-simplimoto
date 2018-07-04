@@ -21,7 +21,14 @@ defmodule HeroDigitalWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", HeroDigitalWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", HeroDigitalWeb do
+    pipe_through :api
+    match :*, "/*path", StaticFilesController, :not_found
+  end
+
+  # We respond to every other request with the react index since it's probably a react route.
+  scope "/", HeroDigitalWeb do
+    get "/*path", StaticFilesController, :static
+  end
+
 end
