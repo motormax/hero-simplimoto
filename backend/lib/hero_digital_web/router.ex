@@ -24,8 +24,8 @@ defmodule HeroDigitalWeb.Router do
   scope "/api", HeroDigitalWeb do
     pipe_through :api
     resources "/users", UserController, only: [:create, :show]
-    match :*, "/*path", StaticFilesController, :not_found
     resources "/delivery_data", DeliveryDataController, except: [:new, :edit]
+    match :*, "/*path", StaticFilesController, :not_found
   end
 
   # We respond to every other request with the react index since it's probably a react route.
