@@ -1,4 +1,4 @@
-defmodule HeroDigitalWeb.PageControllerTest do
+defmodule HeroDigitalWeb.ExAdmin.DashboardTest do
   use HeroDigitalWeb.ConnCase
 
   @username Application.get_env(:hero_digital, :basic_auth)[:username]
