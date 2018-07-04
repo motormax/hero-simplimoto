@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import axios from 'axios';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Button, Card, Image, Divider } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
-import { changeBikeModel } from '../../actions/beginning';
+import { userFetched } from '../../actions/beginning';
 
 import brandImgUrl from './images/marca-hero.png';
 import hankImgUrl from './images/Hunk.png';
@@ -101,7 +102,7 @@ class MainPage extends Component {
             <Card.Content>
               <Divider />
               <p className="price">AR$<span className="price-number">10.000</span>/ month </p>
-              <Button size="big" primary onClick={() => { this.props.pickBike('HUNK'); }}>{t('Buy')}</Button>
+              <Button size="big" primary onClick={() => { this.props.pickBike(); }}>{t('Buy')}</Button>
             </Card.Content>
           </Card>
 
@@ -113,8 +114,10 @@ class MainPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  pickBike: (bikeModel) => {
-    dispatch(changeBikeModel(bikeModel));
+  pickBike: async () => {
+    const { data: { data: user } } = await axios.post('/api/users/', {});
+
+    dispatch(userFetched(user));
     dispatch(push('/dashboard'));
   },
 });

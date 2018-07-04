@@ -13,6 +13,13 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { store, history } from './store';
 import i18n from './i18n';
+import { userFetched } from './actions/beginning';
+
+
+const userId = window.localStorage.getItem('userId');
+if (userId) {
+  store.dispatch(userFetched({ id: userId }));
+}
 
 ReactDOM.render(
   <Provider store={store}>

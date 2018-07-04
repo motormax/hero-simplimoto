@@ -31,7 +31,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  funding: store.main.stages.funding,
+  funding: store.main.funding,
 });
 
 export default translate('index')(connect(mapStateToProps)(App));

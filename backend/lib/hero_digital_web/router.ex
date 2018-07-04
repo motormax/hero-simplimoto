@@ -23,6 +23,7 @@ defmodule HeroDigitalWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", HeroDigitalWeb do
     pipe_through :api
+    resources "/users", UserController, only: [:create, :show]
     match :*, "/*path", StaticFilesController, :not_found
   end
 
@@ -30,5 +31,4 @@ defmodule HeroDigitalWeb.Router do
   scope "/", HeroDigitalWeb do
     get "/*path", StaticFilesController, :static
   end
-
 end
