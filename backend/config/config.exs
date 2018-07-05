@@ -28,7 +28,7 @@ config :ex_admin,
   modules: [
     HeroDigitalWeb.ExAdmin.Dashboard,
     HeroDigital.ExAdmin.Product.Motorcycle,
-    HeroDigital.ExAdmin.UserData.DeliveryData,
+    HeroDigital.ExAdmin.UserData.Address,
   ]
 
 config :hero_digital, basic_auth: [

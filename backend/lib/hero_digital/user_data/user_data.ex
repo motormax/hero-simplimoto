@@ -6,99 +6,99 @@ defmodule HeroDigital.UserData do
   import Ecto.Query, warn: false
   alias HeroDigital.Repo
 
-  alias HeroDigital.UserData.DeliveryData
+  alias HeroDigital.UserData.Address
 
   @doc """
-  Returns the list of delivery_data.
+  Returns the list of addresses.
 
   ## Examples
 
-      iex> list_delivery_data()
-      [%DeliveryData{}, ...]
+      iex> list_addresses()
+      [%Address{}, ...]
 
   """
-  def list_delivery_data do
-    Repo.all(DeliveryData)
+  def list_addresses do
+    Repo.all(Address)
   end
 
   @doc """
-  Gets a single delivery_data.
+  Gets a single address.
 
-  Raises `Ecto.NoResultsError` if the Delivery data does not exist.
+  Raises `Ecto.NoResultsError` if the Address does not exist.
 
   ## Examples
 
-      iex> get_delivery_data!(123)
-      %DeliveryData{}
+      iex> get_address!(123)
+      %Address{}
 
-      iex> get_delivery_data!(456)
+      iex> get_address!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_delivery_data!(id), do: Repo.get!(DeliveryData, id)
+  def get_address!(id), do: Repo.get!(Address, id)
 
   @doc """
-  Creates a delivery_data.
+  Creates a address.
 
   ## Examples
 
-      iex> create_delivery_data(%{field: value})
-      {:ok, %DeliveryData{}}
+      iex> create_address(%{field: value})
+      {:ok, %Address{}}
 
-      iex> create_delivery_data(%{field: bad_value})
+      iex> create_address(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_delivery_data(attrs \\ %{}) do
-    %DeliveryData{}
-    |> DeliveryData.changeset(attrs)
+  def create_address(attrs \\ %{}) do
+    %Address{}
+    |> Address.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a delivery_data.
+  Updates a address.
 
   ## Examples
 
-      iex> update_delivery_data(delivery_data, %{field: new_value})
-      {:ok, %DeliveryData{}}
+      iex> update_address(address, %{field: new_value})
+      {:ok, %Address{}}
 
-      iex> update_delivery_data(delivery_data, %{field: bad_value})
+      iex> update_address(address, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_delivery_data(%DeliveryData{} = delivery_data, attrs) do
-    delivery_data
-    |> DeliveryData.changeset(attrs)
+  def update_address(%Address{} = address, attrs) do
+    address
+    |> Address.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a DeliveryData.
+  Deletes a Address.
 
   ## Examples
 
-      iex> delete_delivery_data(delivery_data)
-      {:ok, %DeliveryData{}}
+      iex> delete_address(address)
+      {:ok, %Address{}}
 
-      iex> delete_delivery_data(delivery_data)
+      iex> delete_address(address)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_delivery_data(%DeliveryData{} = delivery_data) do
-    Repo.delete(delivery_data)
+  def delete_address(%Address{} = address) do
+    Repo.delete(address)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking delivery_data changes.
+  Returns an `%Ecto.Changeset{}` for tracking address changes.
 
   ## Examples
 
-      iex> change_delivery_data(delivery_data)
-      %Ecto.Changeset{source: %DeliveryData{}}
+      iex> change_address(address)
+      %Ecto.Changeset{source: %Address{}}
 
   """
-  def change_delivery_data(%DeliveryData{} = delivery_data) do
-    DeliveryData.changeset(delivery_data, %{})
+  def change_address(%Address{} = address) do
+    Address.changeset(address, %{})
   end
 end
