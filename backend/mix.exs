@@ -20,7 +20,7 @@ defmodule HeroDigital.Mixfile do
   def application do
     [
       mod: {HeroDigital.Application, []},
-      extra_applications: [:logger, :runtime_tools, :sentry, :logger]
+      extra_applications: [:logger, :runtime_tools, :sentry]
     ]
   end
 
