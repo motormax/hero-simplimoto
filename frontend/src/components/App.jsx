@@ -12,6 +12,8 @@ import MainPage from './MainPage/MainPage';
 
 import logoUrl from './hero-logo.png';
 
+import Analytics from 'react-router-ga';
+
 class App extends React.Component {
   render() {
     return (
@@ -19,12 +21,14 @@ class App extends React.Component {
         <header>
           <img className="logo" alt="Hero digital" src={logoUrl} />
         </header>
-        <Container>
-          <Switch>
-            <Route exact path="/" component={MainPage} />
-            <Route path="/dashboard" component={DashboardPage} />
-          </Switch>
-        </Container>
+        <Analytics id="UA-121891800-1" debug>
+          <Container>
+            <Switch>
+              <Route exact path="/" component={MainPage} />
+              <Route path="/dashboard" component={DashboardPage} />
+            </Switch>
+          </Container>
+        </Analytics>
       </div>
     );
   }
