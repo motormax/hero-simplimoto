@@ -5,14 +5,13 @@ import { Switch } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import 'semantic-ui-css/semantic.min.css';
 import { Container } from 'semantic-ui-react';
+import { Analytics } from 'react-router-ga';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
 
 import logoUrl from './hero-logo.png';
-
-import Analytics from 'react-router-ga';
 
 class App extends React.Component {
   render() {
