@@ -20,7 +20,7 @@ defmodule HeroDigital.Mixfile do
   def application do
     [
       mod: {HeroDigital.Application, []},
-      extra_applications: [:logger, :runtime_tools, :sentry]
+      extra_applications: [:logger, :runtime_tools, :logglix, :httpoison, :sentry]
     ]
   end
 
@@ -44,7 +44,8 @@ defmodule HeroDigital.Mixfile do
       {:plug_static_index_html, "~> 1.0"},
       {:ex_admin, github: "smpallen99/ex_admin", ref: "5e375a98346b5dd81096d3e208b663ee4fc13c0d"}, # Latest commit from branch phx-1.3
       {:basic_auth, "~> 2.2.2"},
-      {:sentry, "~> 6.3"}
+      {:logglix, "~> 1.0.0"},
+      {:sentry, "~> 6.3"},
     ]
   end
 
