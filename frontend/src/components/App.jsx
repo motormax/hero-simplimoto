@@ -5,7 +5,6 @@ import { Switch } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import 'semantic-ui-css/semantic.min.css';
 import { Container } from 'semantic-ui-react';
-import { Analytics } from 'react-router-ga';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
@@ -20,14 +19,12 @@ class App extends React.Component {
         <header>
           <img className="logo" alt="Hero digital" src={logoUrl} />
         </header>
-        <Analytics id="UA-121891800-1" debug>
-          <Container>
-            <Switch>
-              <Route exact path="/" component={MainPage} />
-              <Route path="/dashboard" component={DashboardPage} />
-            </Switch>
-          </Container>
-        </Analytics>
+        <Container>
+          <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route path="/dashboard" component={DashboardPage} />
+          </Switch>
+        </Container>
       </div>
     );
   }
