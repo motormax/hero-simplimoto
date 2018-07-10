@@ -6,28 +6,19 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { userFetched } from '../../actions/beginning';
 
-import ItemCarrousel from './ItemCarrousel';
-
-import hankImgUrl from './images/Hunk.png';
-import ignitorImgUrl from './images/Ignitor-blue.png';
+import HomeCarrousel from './HomeCarrousel';
 
 
 class MainPage extends Component {
   static propTypes = {
-    t: propTypes.func.isRequired,
     pickBike: propTypes.func.isRequired,
   };
 
   render() {
-
     return (
       <div className="home">
         <h1 className="home-title">By the bike you want <br /> <span className="emphasis">100% online</span></h1>
-        <div className="cards-content">
-          <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={nombreDeLaMoto => this.props.pickBike()} />
-          <ItemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
-          <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
-        </div>
+        <HomeCarrousel />
       </div>
     );
   }
