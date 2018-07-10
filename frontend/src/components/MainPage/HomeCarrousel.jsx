@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import propTypes from 'prop-types';
 
-import ItemCarrousel from './ItemCarrousel';
+import CarrouselItem from './CarrouselItem';
 
 import hankImgUrl from './images/Hunk.png';
 import ignitorImgUrl from './images/Ignitor-blue.png';
 
 class HomeCarrousel extends Component {
+  static propTypes = {
+    pickBike: propTypes.func.isRequired,
+  };
+
   render() {
-    const settings =  {
+    const settings = {
       className: 'pepe',
       centerMode: false,
       infinite: true,
@@ -20,28 +25,28 @@ class HomeCarrousel extends Component {
       <div>
         <Slider {...settings}>
           <div>
-            <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
           </div>
           <div>
-            <ItemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
           </div>
         </Slider>
       </div>

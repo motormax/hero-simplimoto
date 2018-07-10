@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
 import axios from 'axios';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -10,10 +9,6 @@ import HomeCarrousel from './HomeCarrousel';
 
 
 class MainPage extends Component {
-  static propTypes = {
-    pickBike: propTypes.func.isRequired,
-  };
-
   render() {
     return (
       <div className="home">
