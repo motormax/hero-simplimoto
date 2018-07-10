@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import axios from 'axios';
-import { translate } from 'react-i18next';
-import { connect } from 'react-redux';
 import { Button, Card, Image, Divider } from 'semantic-ui-react';
-import { push } from 'react-router-redux';
-import { userFetched } from '../../actions/beginning';
 
 import brandImgUrl from './images/marca-hero.png';
 import glovesImgUrl from './images/Guantes.png';
 import helmetImgUrl from './images/Casco.png';
 import trunkImgUrl from './images/Baul.png';
 
-class HolaHola extends Component {
+class itemCarrousel extends Component {
   static propTypes = {
     bikeImageUrl: propTypes.string.isRequired,
     bikeName: propTypes.string.isRequired,
@@ -51,4 +46,4 @@ class HolaHola extends Component {
   }
 }
 
-export default HolaHola;
+export default itemCarrousel;
