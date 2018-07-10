@@ -1,6 +1,8 @@
 defmodule HeroDigitalWeb.Router do
   use HeroDigitalWeb, :router
   use ExAdmin.Router
+  use Plug.ErrorHandler
+  use Sentry.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
