@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { userFetched } from '../../actions/beginning';
 
-import itemCarrousel from './itemCarrousel';
+import ItemCarrousel from './ItemCarrousel';
 
 import hankImgUrl from './images/Hunk.png';
 import ignitorImgUrl from './images/Ignitor-blue.png';
@@ -19,14 +19,14 @@ class MainPage extends Component {
   };
 
   render() {
-    
+
     return (
       <div className="home">
         <h1 className="home-title">By the bike you want <br /> <span className="emphasis">100% online</span></h1>
         <div className="cards-content">
-          <itemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={nombreDeLaMoto => this.props.pickBike(nombreDeLaMoto)} />
-          <itemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
-          <itemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+          <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={nombreDeLaMoto => this.props.pickBike()} />
+          <ItemCarrousel bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+          <ItemCarrousel bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
         </div>
       </div>
     );

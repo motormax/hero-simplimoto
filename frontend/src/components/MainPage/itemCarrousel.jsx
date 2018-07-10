@@ -7,7 +7,7 @@ import glovesImgUrl from './images/Guantes.png';
 import helmetImgUrl from './images/Casco.png';
 import trunkImgUrl from './images/Baul.png';
 
-class itemCarrousel extends Component {
+class ItemCarrousel extends Component {
   static propTypes = {
     bikeImageUrl: propTypes.string.isRequired,
     bikeName: propTypes.string.isRequired,
@@ -46,4 +46,4 @@ class itemCarrousel extends Component {
   }
 }
 
-export default itemCarrousel;
+export default ItemCarrousel;
