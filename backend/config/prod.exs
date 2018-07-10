@@ -75,6 +75,7 @@ config :hero_digital, basic_auth: [
   realm:    {:system, "BASIC_AUTH_REALM"}
 ]
 
+
 config :logger,
   backends: [{Logglix, :logglix}, :console]
 
@@ -82,3 +83,13 @@ config :logger, :logglix,
   loggly_key: {:system, "LOGGLY_KEY"},
   tags: ["herodigital", "elixir"],
   level: :info
+
+config :sentry,
+  dsn: {:system, "SENTRY_DSN"},
+  environment_name: :prod,
+  enable_source_code_context: true,
+  root_source_code_path: File.cwd!,
+  tags: %{
+    env: "production"
+  },
+  included_environments: [:prod]
