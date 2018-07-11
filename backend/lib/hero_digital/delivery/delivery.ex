@@ -7,6 +7,7 @@ defmodule HeroDigital.Delivery do
   alias HeroDigital.Repo
 
   alias HeroDigital.Delivery.DeliveryChoice
+  alias HeroDigital.UserData
 
   @doc """
   Returns the list of delivery_choices.
@@ -18,7 +19,7 @@ defmodule HeroDigital.Delivery do
 
   """
   def list_delivery_choices do
-    Repo.all(DeliveryChoice)
+    Repo.all from delivery_choice in DeliveryChoice, preload: [:address]
   end
 
   @doc """
@@ -35,7 +36,10 @@ defmodule HeroDigital.Delivery do
       ** (Ecto.NoResultsError)
 
   """
-  def get_delivery_choice!(id), do: Repo.get!(DeliveryChoice, id)
+  def get_delivery_choice!(id) do
+    delivery_choice = Repo.get!(DeliveryChoice, id)
+    Repo.preload(delivery_choice, [:address])
+  end
 
   @doc """
   Creates a delivery_choice.
@@ -50,9 +54,19 @@ defmodule HeroDigital.Delivery do
 
   """
   def create_delivery_choice(attrs \\ %{}) do
-    %DeliveryChoice{}
-    |> DeliveryChoice.changeset(attrs)
-    |> Repo.insert()
+    attrs = if attrs["address"] do
+      address_attrs = Map.merge(attrs["address"], %{"user_id" => attrs["user_id"]})
+      {:ok, address} = UserData.create_address(address_attrs)
+      Map.merge(attrs, %{"address_id" => address.id})
+    else
+      attrs
+    end
+    with {:ok, delivery_choice} <- %DeliveryChoice{}
+                                   |> DeliveryChoice.changeset(attrs)
+                                   |> Repo.insert() do
+      delivery_choice = Repo.preload(delivery_choice, [:address])
+      {:ok, delivery_choice}
+    end
   end
 
   @doc """

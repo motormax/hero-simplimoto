@@ -19,4 +19,8 @@ defmodule HeroDigitalWeb.AddressView do
       postal_code: address.postal_code,
       telephone_number: address.telephone_number}
   end
+
+  def render("address_without_id.json", %{address: address}) do
+    Map.delete(render("address.json", %{address: address}), :id)
+  end
 end

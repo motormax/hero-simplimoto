@@ -5,6 +5,8 @@ import { Button, Form, Message } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
 import pickupLocations from './Delivery/pickupLocations';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const deliveryMethods = [
   {
@@ -21,6 +23,12 @@ const deliveryMethods = [
 
 
 class DeliverySection extends Component {
+  static propTypes = {
+    user: propTypes.shape({
+      id: propTypes.string,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -55,6 +63,7 @@ class DeliverySection extends Component {
 
   sendDeliveryData = () => {
     const body = { delivery_data: humps.decamelizeKeys(this.state.deliveryData) };
+    body.userId = this.props.user.id;
     axios.post('api/delivery_data', body)
       .then(() => {
         // TODO: persist data on Redux and set Delivery stage as complete on Dashboard
@@ -164,4 +173,8 @@ class DeliverySection extends Component {
   }
 }
 
-export default translate('delivery')(DeliverySection);
+const mapStateToProps = store => ({
+  user: store.main.user,
+});
+
+export default translate('delivery')(connect(mapStateToProps)(DeliverySection));

@@ -10,7 +10,7 @@ defmodule HeroDigital.UserData.Address do
     field :street, :string
     field :telephone_number, :string
     field :town, :string
-    belongs_to :user, HeroDigital.Identity.User
+    belongs_to :user, HeroDigital.Identity.User, type: Ecto.UUID
 
     timestamps()
   end
@@ -18,7 +18,7 @@ defmodule HeroDigital.UserData.Address do
   @doc false
   def changeset(address, attrs) do
     address
-    |> cast(attrs, [:street, :number, :complements, :town, :postal_code, :telephone_number])
-    |> validate_required([:street, :number, :town, :postal_code, :telephone_number])
+    |> cast(attrs, [:street, :number, :complements, :town, :postal_code, :telephone_number, :user_id])
+    |> validate_required([:street, :number, :town, :postal_code, :telephone_number, :user_id])
   end
 end

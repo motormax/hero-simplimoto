@@ -11,7 +11,18 @@ defmodule HeroDigitalWeb.DeliveryChoiceView do
   end
 
   def render("delivery_choice.json", %{delivery_choice: delivery_choice}) do
-    %{id: delivery_choice.id,
-      pickup_location: delivery_choice.pickup_location}
+    if !delivery_choice.address do
+      %{
+        id: delivery_choice.id,
+        pickup_location: delivery_choice.pickup_location,
+        address: nil
+      }
+    else
+      %{
+        id: delivery_choice.id,
+        pickup_location: nil,
+        address: HeroDigitalWeb.AddressView.render("address_without_id.json", %{address: delivery_choice.address})
+      }
+    end
   end
 end
