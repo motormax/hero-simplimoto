@@ -20,7 +20,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.80.0"
+    "semantic-ui-react": "^0.80.0",
+    "react-router-ga": "^1.0.0"
   },
   "proxy": {
     "/api": {
