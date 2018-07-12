@@ -8,18 +8,22 @@ import { ConnectedRouter } from 'react-router-redux';
 import { Route } from 'react-router';
 import { I18nextProvider } from 'react-i18next';
 import Analytics from 'react-router-ga';
+import axios from 'axios';
 
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { store, history } from './store';
 import i18n from './i18n';
-import { userFetched } from './actions/beginning';
+import { userFetched, startedFetchingUser } from './actions/beginning';
 
 
 const userId = window.localStorage.getItem('userId');
 if (userId) {
-  store.dispatch(userFetched({ id: userId }));
+  store.dispatch(startedFetchingUser());
+  axios.get(`/api/users/${userId}`).then((response) => {
+    store.dispatch(userFetched(response.data.data));
+  });
 }
 
 ReactDOM.render(
