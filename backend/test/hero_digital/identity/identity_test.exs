@@ -3,30 +3,30 @@ defmodule HeroDigital.IdentityTest do
 
   alias HeroDigital.Identity
 
-  describe "users" do
+  describe "leads" do
     alias HeroDigital.Identity.User
 
     @valid_attrs %{id: "7488a646-e31f-11e4-aace-600308960662"}
     @update_attrs %{id: "7488a646-e31f-11e4-aace-600308960668"}
     @invalid_attrs %{}
 
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
+    def lead_fixture(attrs \\ %{}) do
+      {:ok, lead} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Identity.create_user()
+        |> Identity.create_lead()
 
-      user
+      lead
     end
 
-    test "list_users/0 returns all users" do
-      user = user_fixture()
-      assert Identity.list_users() == [user]
+    test "list_leads/0 returns all leads" do
+      lead = lead_fixture()
+      assert Identity.list_leads() == [lead]
     end
 
-    test "get_user!/1 returns the user with given id" do
-      user = user_fixture()
-      assert Identity.get_user!(user.id) == user
+    test "get_lead!/1 returns the lead with given id" do
+      lead = lead_fixture()
+      assert Identity.get_lead!(lead.id) == lead
     end
   end
 end
