@@ -70,24 +70,6 @@ defmodule HeroDigital.Delivery do
   end
 
   @doc """
-  Updates a delivery_choice.
-
-  ## Examples
-
-      iex> update_delivery_choice(delivery_choice, %{field: new_value})
-      {:ok, %DeliveryChoice{}}
-
-      iex> update_delivery_choice(delivery_choice, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_delivery_choice(%DeliveryChoice{} = delivery_choice, attrs) do
-    delivery_choice
-    |> DeliveryChoice.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
   Deletes a DeliveryChoice.
 
   ## Examples

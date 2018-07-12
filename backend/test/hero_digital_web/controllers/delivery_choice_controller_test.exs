@@ -32,7 +32,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
   }
 
   def fixture(:delivery_choice, user) do
-    pickup_attrs = Map.merge(@pickup_attrs, %{"user_id": user.id})
+    pickup_attrs = %{@pickup_attrs | "user_id": user.id}
     {:ok, delivery_choice} = Delivery.create_delivery_choice(pickup_attrs)
     delivery_choice
   end
@@ -55,7 +55,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
 
   describe "create delivery_choice" do
     test "renders delivery_choice when it is pickup location", %{user: user, conn: conn} do
-      pickup_attrs = Map.merge(@pickup_attrs, %{"user_id": user.id})
+      pickup_attrs = %{@pickup_attrs | "user_id": user.id}
       conn = post conn, delivery_choice_path(conn, :create), delivery_choice: pickup_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
@@ -68,7 +68,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
     end
 
     test "renders delivery_choice when it is home delivery", %{user: user, conn: conn} do
-      address_attrs = Map.merge(@address_attrs, %{"user_id": user.id})
+      address_attrs = %{@address_attrs | "user_id": user.id}
       conn = post conn, delivery_choice_path(conn, :create), delivery_choice: address_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
@@ -88,14 +88,14 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
     end
 
     test "renders errors when data is invalid because no home address nor pikcup location", %{user: user, conn: conn} do
-      invalid_attrs_none = Map.merge(@invalid_attrs_none, %{"user_id": user.id})
+      invalid_attrs_none = %{@invalid_attrs_none | "user_id": user.id}
       conn = post conn, delivery_choice_path(conn, :create), delivery_choice: invalid_attrs_none
       assert json_response(conn, 422)["errors"] != %{}
     end
 
     test "renders errors when data is invalid because both home address and pickup location",
          %{user: user, conn: conn} do
-      invalid_attrs_both = Map.merge(@invalid_attrs_both, %{"user_id": user.id})
+      invalid_attrs_both = %{@invalid_attrs_both | "user_id": user.id}
       conn = post conn, delivery_choice_path(conn, :create), delivery_choice: invalid_attrs_both
       assert json_response(conn, 422)["errors"] != %{}
     end

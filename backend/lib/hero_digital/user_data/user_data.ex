@@ -56,24 +56,6 @@ defmodule HeroDigital.UserData do
   end
 
   @doc """
-  Updates a address.
-
-  ## Examples
-
-      iex> update_address(address, %{field: new_value})
-      {:ok, %Address{}}
-
-      iex> update_address(address, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_address(%Address{} = address, attrs) do
-    address
-    |> Address.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
   Deletes a Address.
 
   ## Examples
