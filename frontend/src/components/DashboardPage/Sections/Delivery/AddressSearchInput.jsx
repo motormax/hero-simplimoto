@@ -4,7 +4,7 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 
 import { Form } from 'semantic-ui-react';
 
-import { loadMap } from './mapsHelper';
+import loadMap from './mapsHelper';
 
 const LOADING_STATE_NONE = 'NONE';
 const LOADING_STATE_LOADED = 'LOADED';

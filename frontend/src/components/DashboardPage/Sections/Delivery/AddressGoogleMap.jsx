@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import pickupLocations from './pickupLocations';
-import { loadMap } from './mapsHelper';
+import loadMap from './mapsHelper';
 
 // Parque Centenario - centro de la Capital Federal
 const cityCenter = {
