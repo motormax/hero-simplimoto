@@ -1,3 +1,5 @@
+/* eslint max-len: ["error", { "code": 200 }] */
+
 const pickupLocationsData = [
   {
     value: 'FS Motos, Hipolito Irigoyen 566, Entre Ríos, Victoria, 03436-425197', title: 'FS Motos', latitude: -32.623430, longitude: -60.151828,
