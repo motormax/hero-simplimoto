@@ -2,10 +2,8 @@ defmodule HeroDigitalWeb.PersonalDataControllerTest do
   use HeroDigitalWeb.ConnCase
 
   alias HeroDigital.UserData
-  alias HeroDigital.UserData.PersonalData
 
   @create_attrs %{dni: "some dni", last_name: "some last_name", name: "some name", lead_id: "7488a646-e31f-11e4-aace-600308960662"}
-  @update_attrs %{dni: "some updated dni", last_name: "some updated last_name", name: "some updated name", lead_id: "7488a646-e31f-11e4-aace-600308960662"}
   @invalid_attrs %{dni: nil, last_name: nil, name: nil}
 
   def fixture(:personal_data) do
@@ -34,10 +32,5 @@ defmodule HeroDigitalWeb.PersonalDataControllerTest do
       conn = post conn, personal_data_path(conn, :create), personal_data: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
-  end
-
-  defp create_personal_data(_) do
-    personal_data = fixture(:personal_data)
-    {:ok, personal_data: personal_data}
   end
 end
