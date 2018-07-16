@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
-
 import axios from 'axios';
 import humps from 'humps';
-import pickupLocations from './Delivery/pickupLocations';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import pickupLocations from './Delivery/pickupLocations';
+import AddressSearchInput from './Delivery/AddressSearchInput';
+import AddressGoogleMap from './Delivery/AddressGoogleMap';
 
 const deliveryMethods = [
   {
@@ -31,6 +33,7 @@ class DeliverySection extends Component {
 
   constructor(props) {
     super(props);
+    this.addressMap = React.createRef();
     this.state = {
       chosenDeliveryMethod: 'delivery',
       chosenPickupLocation: '',
@@ -57,7 +60,7 @@ class DeliverySection extends Component {
       this.sendDeliveryData();
     } else {
       // TODO: persist data on Redux and set Delivery stage as complete on Dashboard
-      alert('Datos cargados correctamente.');
+      console.log('Datos cargados correctamente'); // eslint-disable-line no-console
     }
   };
 
@@ -67,7 +70,7 @@ class DeliverySection extends Component {
     axios.post('api/delivery_data', body)
       .then(() => {
         // TODO: persist data on Redux and set Delivery stage as complete on Dashboard
-        alert('Datos cargados correctamente.');
+        console.log('Datos cargados correctamente'); // eslint-disable-line no-console
       })
       .catch((error) => {
         // TODO: handle specific input validation errors
@@ -85,12 +88,30 @@ class DeliverySection extends Component {
     this.setState({ deliveryData: newData });
   };
 
+  handleAddressDataChange = (address) => {
+    const newData = this.state.deliveryData;
+    newData.address = address;
+    this.setState({ deliveryData: newData });
+  };
+
   handleDeliveryMethodChange = (e, { value }) => {
     this.setState({ chosenDeliveryMethod: value });
+    this.addressMap.current.cleanMarkers();
+
+    if (value === 'pickup') {
+      this.addressMap.current.showPickupMarkers();
+    } else {
+      this.addressMap.current.reset(this.state.deliveryData.address);
+    }
+  };
+
+  handleGeocodeLocationChange = (latitude, longitude) => {
+    this.addressMap.current.changeDeliveryGeolocation(latitude, longitude);
   };
 
   handlePickupLocationChange = (e, { value }) => {
     this.setState({ chosenPickupLocation: value });
+    this.addressMap.current.changePickupLocation(value);
   };
 
   render() {
@@ -101,26 +122,12 @@ class DeliverySection extends Component {
     if (this.state.chosenDeliveryMethod === 'delivery') {
       formGroup = (
         <Form.Group widths="equal">
-          <Form.Input
-            fluid
-            required
-            label="Dirección"
-            type="text"
-            name="address"
+          <AddressSearchInput
             value={this.state.deliveryData.address}
-            error={this.state.errors.address}
-            onChange={this.handleDeliveryDataChange}
+            onAddressChange={this.handleAddressDataChange}
+            onGeocodeLocationChange={this.handleGeocodeLocationChange}
           />
-          <Form.Input
-            fluid
-            required
-            label="Localidad"
-            type="text"
-            name="town"
-            value={this.state.deliveryData.town}
-            error={this.state.errors.town}
-            onChange={this.handleDeliveryDataChange}
-          />
+
           <Form.Input
             fluid
             required
@@ -154,21 +161,27 @@ class DeliverySection extends Component {
       );
     }
     return (
-      <Form onSubmit={this.handleSubmit} error={error}>
-        <Form.Select
-          fluid
-          options={deliveryMethods}
-          value={this.state.chosenDeliveryMethod}
-          onChange={this.handleDeliveryMethodChange}
+      <div>
+        <Form onSubmit={this.handleSubmit} error={error}>
+          <Form.Select
+            fluid
+            options={deliveryMethods}
+            value={this.state.chosenDeliveryMethod}
+            onChange={this.handleDeliveryMethodChange}
+          />
+          {formGroup}
+          <Message
+            error
+            header="Error"
+            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+          />
+          <Button type="submit">Continuar</Button>
+        </Form>
+        <AddressGoogleMap
+          ref={this.addressMap}
+          onPickupLocationChange={this.handlePickupLocationChange}
         />
-        {formGroup}
-        <Message
-          error
-          header="Error"
-          content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-        />
-        <Button type="submit">Continuar</Button>
-      </Form>
+      </div>
     );
   }
 }

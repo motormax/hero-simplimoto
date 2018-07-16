@@ -14,6 +14,7 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-i18next": "^7.6.1",
+    "react-places-autocomplete": "^7.2.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -21,7 +22,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.80.0"
+    "semantic-ui-react": "^0.80.0",
+    "scriptjs": "^2.5.8"
   },
   "proxy": {
     "/api": {
@@ -31,17 +33,13 @@
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "build-js": "react-scripts build",
-
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
-
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js",
-
     "lint-js": "eslint --ext .jsx,.js src",
     "lint": "npm-run-all build-css lint-js",
     "test": "react-scripts test --env=jsdom",
-
     "eject": "react-scripts eject",
     "heroku-postbuild": "cp -ar build/. ../backend/priv/static/",
     "postinstall": "yarn build"
