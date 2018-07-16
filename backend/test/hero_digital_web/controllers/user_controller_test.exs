@@ -2,11 +2,8 @@ defmodule HeroDigitalWeb.UserControllerTest do
   use HeroDigitalWeb.ConnCase
 
   alias HeroDigital.Identity
-  alias HeroDigital.Identity.User
 
   @create_attrs %{}
-  @update_attrs %{id: "7488a646-e31f-11e4-aace-600308960668"}
-  @invalid_attrs %{id: nil}
 
   def fixture(:user) do
     {:ok, user} = Identity.create_user(@create_attrs)
@@ -25,10 +22,5 @@ defmodule HeroDigitalWeb.UserControllerTest do
       conn = get conn, user_path(conn, :show, id)
       assert %{"id" => _aRandomId} = json_response(conn, 200)["data"]
     end
-  end
-
-  defp create_user(_) do
-    user = fixture(:user)
-    {:ok, user: user}
   end
 end

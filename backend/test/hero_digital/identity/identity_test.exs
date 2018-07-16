@@ -4,11 +4,7 @@ defmodule HeroDigital.IdentityTest do
   alias HeroDigital.Identity
 
   describe "users" do
-    alias HeroDigital.Identity.User
-
     @valid_attrs %{id: "7488a646-e31f-11e4-aace-600308960662"}
-    @update_attrs %{id: "7488a646-e31f-11e4-aace-600308960668"}
-    @invalid_attrs %{}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =

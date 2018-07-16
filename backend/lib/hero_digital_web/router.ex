@@ -26,6 +26,8 @@ defmodule HeroDigitalWeb.Router do
   scope "/api", HeroDigitalWeb do
     pipe_through :api
     resources "/users", UserController, only: [:create, :show]
+    resources "/addresses", AddressController, except: [:new, :edit]
+    resources "/delivery_choices", DeliveryChoiceController, except: [:new, :edit]
     match :*, "/*path", StaticFilesController, :not_found
   end
 
