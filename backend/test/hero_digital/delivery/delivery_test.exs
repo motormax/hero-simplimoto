@@ -7,7 +7,7 @@ defmodule HeroDigital.DeliveryTest do
   describe "delivery_choices" do
     alias HeroDigital.Delivery.DeliveryChoice
 
-    @valid_attrs %{pickup_location: 42, address: nil, user_id: nil}
+    @valid_attrs %{pickup_location: "some pickup_location", address: nil, user_id: nil}
     @invalid_attrs %{pickup_location: nil, address: nil, user_id: nil}
 
     setup do
@@ -38,7 +38,7 @@ defmodule HeroDigital.DeliveryTest do
     test "create_delivery_choice/1 with valid data creates a delivery_choice", %{user: user} do
       valid_attrs = %{@valid_attrs | "user_id": user.id}
       assert {:ok, %DeliveryChoice{} = delivery_choice} = Delivery.create_delivery_choice(valid_attrs)
-      assert delivery_choice.pickup_location == 42
+      assert delivery_choice.pickup_location == "some pickup_location"
     end
 
     test "create_delivery_choice/1 with invalid data returns error changeset" do

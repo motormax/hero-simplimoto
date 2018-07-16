@@ -14,7 +14,7 @@ class AddressSearchInput extends React.Component {
     value: PropTypes.string.isRequired,
     onAddressChange: PropTypes.func.isRequired,
     onGeocodeLocationChange: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);

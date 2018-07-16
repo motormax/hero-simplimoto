@@ -4,7 +4,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
   alias HeroDigital.Delivery
   alias HeroDigital.Identity
 
-  @pickup_attrs %{user_id: "", pickup_location: 42, address: nil}
+  @pickup_attrs %{user_id: "", pickup_location: "some pickup_location", address: nil}
   @address_attrs %{
     user_id: "",
     pickup_location: nil,
@@ -20,7 +20,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
   @invalid_attrs_none %{user_id: nil, pickup_location: nil, address: nil}
   @invalid_attrs_both %{
     user_id: "",
-    pickup_location: 42,
+    pickup_location: "some pickup_location",
     address: %{
       complements: "some complements",
       number: "some number",
@@ -62,7 +62,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
       conn = get conn, delivery_choice_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
-               "pickup_location" => 42,
+               "pickup_location" => "some pickup_location",
                "address" => nil
              }
     end

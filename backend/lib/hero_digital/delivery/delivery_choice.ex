@@ -4,7 +4,7 @@ defmodule HeroDigital.Delivery.DeliveryChoice do
 
 
   schema "delivery_choices" do
-    field :pickup_location, :integer
+    field :pickup_location, :string
     belongs_to :address, HeroDigital.UserData.Address
     belongs_to :user, HeroDigital.Identity.User, type: Ecto.UUID
 

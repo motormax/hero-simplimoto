@@ -37,16 +37,20 @@ class DeliverySection extends Component {
     this.state = {
       chosenDeliveryMethod: 'delivery',
       chosenPickupLocation: '',
-      deliveryData: {
-        address: '',
+      address: {
+        street: '',
+        number: '',
         town: '',
+        complements: '',
         postalCode: '',
         telephoneNumber: '',
       },
       errors: {
         general: false,
-        address: false,
+        street: false,
+        number: false,
         town: false,
+        complements: false,
         postalCode: false,
         telephoneNumber: false,
         description: '',
@@ -56,18 +60,25 @@ class DeliverySection extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.chosenDeliveryMethod === 'delivery') {
-      this.sendDeliveryData();
-    } else {
-      // TODO: persist data on Redux and set Delivery stage as complete on Dashboard
-      console.log('Datos cargados correctamente'); // eslint-disable-line no-console
-    }
+    this.sendDeliveryData();
+    // TODO: persist data on Redux and set Delivery stage as complete on Dashboard
+    console.log('Datos cargados correctamente'); // eslint-disable-line no-console
   };
 
   sendDeliveryData = () => {
-    const body = { delivery_data: humps.decamelizeKeys(this.state.deliveryData) };
-    body.userId = this.props.user.id;
-    axios.post('api/delivery_data', body)
+    const body = {};
+    if (this.state.chosenDeliveryMethod === 'delivery') {
+      body.delivery_choice = {
+        address: humps.decamelizeKeys(this.state.address),
+      };
+    }
+    if (this.state.chosenDeliveryMethod === 'pickup') {
+      body.delivery_choice = {
+        pickup_location: this.state.chosenPickupLocation,
+      };
+    }
+    body.delivery_choice.user_id = this.props.user.id;
+    axios.post('api/delivery_choices', body)
       .then(() => {
         // TODO: persist data on Redux and set Delivery stage as complete on Dashboard
         console.log('Datos cargados correctamente'); // eslint-disable-line no-console
@@ -83,15 +94,15 @@ class DeliverySection extends Component {
 
   handleDeliveryDataChange = (event) => {
     const { name: inputName, value } = event.target;
-    const newData = this.state.deliveryData;
+    const newData = this.state.address;
     newData[inputName] = value;
-    this.setState({ deliveryData: newData });
+    this.setState({ address: newData });
   };
 
-  handleAddressDataChange = (address) => {
-    const newData = this.state.deliveryData;
-    newData.address = address;
-    this.setState({ deliveryData: newData });
+  handleAddressDataChange = (street) => {
+    const newData = this.state.address;
+    newData.street = street;
+    this.setState({ address: newData });
   };
 
   handleDeliveryMethodChange = (e, { value }) => {
@@ -101,7 +112,7 @@ class DeliverySection extends Component {
     if (value === 'pickup') {
       this.addressMap.current.showPickupMarkers();
     } else {
-      this.addressMap.current.reset(this.state.deliveryData.address);
+      this.addressMap.current.reset(this.state.address.street);
     }
   };
 
@@ -123,18 +134,27 @@ class DeliverySection extends Component {
       formGroup = (
         <Form.Group widths="equal">
           <AddressSearchInput
-            value={this.state.deliveryData.address}
+            value={this.state.address.street}
             onAddressChange={this.handleAddressDataChange}
             onGeocodeLocationChange={this.handleGeocodeLocationChange}
           />
-
+          <Form.Input
+            fluid
+            required
+            label="Piso/Depto"
+            type="text"
+            name="complements"
+            value={this.state.address.complements}
+            error={this.state.errors.complements}
+            onChange={this.handleDeliveryDataChange}
+          />
           <Form.Input
             fluid
             required
             label="Código postal"
             type="text"
             name="postalCode"
-            value={this.state.deliveryData.postalCode}
+            value={this.state.address.postalCode}
             error={this.state.errors.postalCode}
             onChange={this.handleDeliveryDataChange}
           />
@@ -144,7 +164,7 @@ class DeliverySection extends Component {
             label="Teléfono"
             type="text"
             name="telephoneNumber"
-            value={this.state.deliveryData.telephoneNumber}
+            value={this.state.address.telephoneNumber}
             error={this.state.errors.telephoneNumber}
             onChange={this.handleDeliveryDataChange}
           />
@@ -173,7 +193,8 @@ class DeliverySection extends Component {
           <Message
             error
             header="Error"
-            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+            content={'Hubo un error al procesar la solicitud. '.concat(
+              this.state.errors.description)}
           />
           <Button type="submit">Continuar</Button>
         </Form>
