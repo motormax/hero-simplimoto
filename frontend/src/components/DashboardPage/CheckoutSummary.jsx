@@ -5,7 +5,6 @@ import { Button, Card, Icon, List, Divider } from 'semantic-ui-react';
 import bankImage from './../images/banks-logos/icbc-logo.png';
 
 class CheckoutSummary extends Component {
-
   render() {
     const bikeName = 'Moto Piola';
     const bankName = 'ICBC';
@@ -16,23 +15,23 @@ class CheckoutSummary extends Component {
           <h3 className="summary-title">Resúmen de tu Moto</h3>
 
           <Card.Content>
-            <List className="summary-list" verticalAlign='middle'>
+            <List className="summary-list" verticalAlign="middle">
               <List.Item>
-                <List.Content className="price-column" floated='right'>
+                <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small med-gray">AR$</span>
                   <span>30,000</span>
                 </List.Content>
                 <List.Content>{bikeName}</List.Content>
               </List.Item>
               <List.Item>
-                <List.Content className="price-column" floated='right'>
+                <List.Content className="price-column" floated="right">
                   <span className="green fs-small uppercase">¡grátis!</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Personalización</List.Content>
               </List.Item>
               <List.Item>
-                <List.Content className="price-column" floated='right'>
+                <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small med-gray">AR$</span>
                   <span>1,200</span>
                 </List.Content>
@@ -40,7 +39,7 @@ class CheckoutSummary extends Component {
                 <List.Content>Accesorios</List.Content>
               </List.Item>
               <List.Item>
-                <List.Content className="price-column" floated='right'>
+                <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small med-gray">AR$</span>
                   <span>1,200</span>
                 </List.Content>
@@ -48,7 +47,7 @@ class CheckoutSummary extends Component {
                 <List.Content>Patentamiento online</List.Content>
               </List.Item>
               <List.Item>
-                <List.Content className="price-column" floated='right'>
+                <List.Content className="price-column" floated="right">
                   <span className="green fs-small uppercase">¡grátis!</span>
                 </List.Content>
                 <Icon name="arrow right" />
@@ -70,7 +69,7 @@ class CheckoutSummary extends Component {
             </div>
 
             <div className="finnancial-bank">
-              <img src={bankImage} alt={bankName}/>
+              <img src={bankImage} alt={bankName} />
               <div className="right-column dark-gray">
                 <p className="fw-bold fs-small">Préstamo {bankName}</p>
                 <p className="fs-tinny">85 cuotas de AR$ 1,300-</p>

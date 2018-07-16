@@ -19,14 +19,14 @@ class DashboardPage extends Component {
   };
 
   render() {
-    const { funding, t } = this.props;
+    const { funding, user, t } = this.props;
 
     return (
       <React.Fragment>
         <div className="dashboard" ref={(ref) => { this.ref = ref; }}>
           <Grid>
             <Grid.Column width={10}>
-              <Header size="large">{t('dashboard')}</Header>
+              <Header size="large">{t('dashboard')} ({user.id})</Header>
               <Card.Group>
                 <FundingSection financing={funding} />
               </Card.Group>
