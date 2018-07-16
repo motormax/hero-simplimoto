@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Route } from 'react-router';
 import { I18nextProvider } from 'react-i18next';
+import Analytics from 'react-router-ga';
 
 import './index.css';
 import App from './components/App';
@@ -25,7 +26,9 @@ ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       <ConnectedRouter history={history}>
-        <Route component={App} />
+        <Analytics id="UA-121891800-1" debug>
+          <Route component={App} />
+        </Analytics>
       </ConnectedRouter>
     </I18nextProvider>
   </Provider>
