@@ -27,6 +27,7 @@ defmodule HeroDigitalWeb.Router do
     pipe_through :api
     resources "/leads", LeadController, only: [:create, :show]
     resources "/personal_data", PersonalDataController, only: [:create, :show]
+    resources "/email", EmailController, only: [:create, :show]
     match :*, "/*path", StaticFilesController, :not_found
   end
 
