@@ -19,6 +19,6 @@ defmodule HeroDigital.UserData.Address do
   def changeset(address, attrs) do
     address
     |> cast(attrs, [:street, :number, :complements, :town, :postal_code, :telephone_number, :user_id])
-    |> validate_required([:street, :number, :town, :postal_code, :telephone_number, :user_id])
+    |> validate_required([:street, :postal_code, :telephone_number, :user_id])
   end
 end

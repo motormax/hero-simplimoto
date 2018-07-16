@@ -3,7 +3,7 @@ defmodule HeroDigital.Repo.Migrations.CreateDeliveryChoices do
 
   def change do
     create table(:delivery_choices) do
-      add :pickup_location, :integer
+      add :pickup_location, :string
       add :address_id, references(:addresses, on_delete: :nothing)
       add :user_id, references(:users, type: :uuid, on_delete: :delete_all)
       timestamps()
