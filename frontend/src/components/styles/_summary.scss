@@ -1,0 +1,69 @@
+.checkoutSummary{
+  margin-top: -70px;
+  .summary-title{
+    font-size: 1.7em;
+    text-align: center;
+    margin: 0;
+    padding: 1em;
+  }
+  .ui.card>.content,
+  .ui.cards>.card>.content{
+    border: none;
+  }
+  .summary-list{
+    .item{
+      font-size: 1.2em;
+      font-weight: bold;
+      color: $dark-gray;
+      .price-column{
+        width: 35%;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .icon{
+        color: $med-gray;
+      }
+    }
+    .summary-list-btn-container{
+      display: flex;
+      align-items: center;
+      .content{
+        margin-right: .5em;
+      }
+    }
+  }
+  .final-price{
+    font-size: 1.5em;
+    color: $med-gray;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    justify-content: center;
+    line-height: 2em;
+    .final-price-number{
+      font-size: 2.4em;
+      font-weight: bold;
+      color: black;
+      margin: 0 .3em .3em .3em;
+    }
+  }
+  .finnancial-bank{
+    width: 80%;
+    margin: auto;
+    max-width: 240px;
+    display: flex;
+    align-items: flex-start;
+    img{
+      width: 100px;
+    }
+    .right-column{
+      width: calc(100% - 100px);
+      padding: .5em 0 0 .5em;
+      line-height: .8em;
+      .fs-large{
+        line-height: 2em;
+      }
+    }
+  }
+}

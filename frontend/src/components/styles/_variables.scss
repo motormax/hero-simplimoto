@@ -3,13 +3,38 @@
 
 $background-page-color: #EBEBEB;
 $med-gray: #BFBFBF;
+$dark-gray: #4D4D4D;
+$green: #62C84A;
 
 $red: #FF0000;
 $primary-color: $red;
 
 
+.green{
+  color: $green;
+}
+
+.med-gray{
+  color: $med-gray;
+}
+
+.dark-gray{
+  color: $dark-gray;
+}
 //typography
 
+
+
 //sizes
+
+$mini: .5em;
+$tinny: .6em;
+$small: .8em;
+$medium: 1em;
+$large: 1.2em;
+$big: 1.5em;
+$huge: 2em;
+$massive: 2.5em;
+
 
 //@mixin

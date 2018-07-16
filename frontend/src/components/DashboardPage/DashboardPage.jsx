@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import { Grid, Card, Header, Sticky } from 'semantic-ui-react';
+import { Grid, Card, Header } from 'semantic-ui-react';
 
 import CheckoutSummary from './CheckoutSummary';
 import FundingSection from './Sections/FinancingSection';
@@ -19,14 +19,14 @@ class DashboardPage extends Component {
   };
 
   render() {
-    const { funding, user, t } = this.props;
+    const { funding, t } = this.props;
 
     return (
       <React.Fragment>
-        <Header size="large">{t('dashboard')} ({user.id})</Header>
-        <div ref={(ref) => { this.ref = ref; }}>
+        <div className="dashboard" ref={(ref) => { this.ref = ref; }}>
           <Grid>
-            <Grid.Column floated="left" style={{ textAlign: 'left' }} width={10}>
+            <Grid.Column width={10}>
+              <Header size="large">{t('dashboard')}</Header>
               <Card.Group>
                 <FundingSection financing={funding} />
               </Card.Group>
@@ -49,10 +49,10 @@ class DashboardPage extends Component {
                 <FundingSection financing={funding} />
               </Card.Group>
             </Grid.Column>
-            <Grid.Column floated="right" width={6}>
-              <Sticky context={this.ref}>
+            <Grid.Column width={6}>
+              <div context={this.ref}>
                 <CheckoutSummary />
-              </Sticky>
+              </div>
             </Grid.Column>
           </Grid>
         </div>
