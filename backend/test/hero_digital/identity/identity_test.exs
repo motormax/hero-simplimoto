@@ -6,7 +6,7 @@ defmodule HeroDigital.IdentityTest do
   describe "create" do
 
     test "create_lead/0 returns a new lead" do
-      {key, lead} = Identity.create_lead()
+      {_, lead} = Identity.create_lead()
       refute lead.id == nil
     end
 
