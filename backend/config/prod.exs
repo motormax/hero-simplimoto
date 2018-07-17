@@ -80,7 +80,7 @@ config :logger,
   backends: [{Logglix, :logglix}, :console]
 
 config :logger, :logglix,
-  loggly_key: {:system, "LOGGLY_KEY"},
+  loggly_key: System.get_env("LOGGLY_KEY"),
   tags: ["herodigital", "elixir"],
   level: :info
 
