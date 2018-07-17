@@ -4,8 +4,12 @@
 @import "~slick-carousel/slick/slick-theme.css";
 
 @import 'styles/variables';
+@import 'styles/fonts-classes';
 @import 'styles/mainHeader';
+@import 'styles/buttons';
 @import 'styles/mainPageCarrousel';
+@import 'styles/dashBoard';
+@import 'styles/summary';
 @import 'styles/deliveryPage';
 
 
@@ -17,15 +21,4 @@
 
 h1, h2, h3, h4, h5 {
   font-family: 'Open Sans', sans-serif;
-}
-
-.ui.button{
-  border-radius: 50px;
-  padding: .5em 2em;
-  &.primary{
-    background-color: $primary-color;
-    &:hover{
-      background-color: darken($primary-color, 15%);
-    }
-  }
 }
