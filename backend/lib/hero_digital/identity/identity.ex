@@ -35,7 +35,10 @@ defmodule HeroDigital.Identity do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    Repo.get!(User, id)
+    |> Repo.preload(:motorcycle)
+  end
 
   @doc """
   Creates a user.
@@ -50,9 +53,9 @@ defmodule HeroDigital.Identity do
 
   """
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    with {:ok, user } <- (%User{} |> User.changeset(attrs) |> Repo.insert()) do
+      {:ok, get_user!(user.id)}
+    end
   end
 
   @doc """

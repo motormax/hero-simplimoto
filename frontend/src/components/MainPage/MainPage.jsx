@@ -52,7 +52,7 @@ class MainPage extends Component {
             <Card.Content>
               <Divider />
               <p className="price">AR$<span className="price-number">10.000</span>/ month </p>
-              <Button size="big" primary onClick={() => { this.props.pickBike('HUNK'); }}>{t('Buy')}</Button>
+              <Button size="big" primary onClick={() => { this.props.pickBike(1); }}>{t('Buy')}</Button>
             </Card.Content>
           </Card>
 
@@ -77,7 +77,7 @@ class MainPage extends Component {
             <Card.Content>
               <Divider />
               <p className="price">AR$<span className="price-number">10.000</span>/ month </p>
-              <Button size="big" primary onClick={() => { this.props.pickBike('HUNK'); }}>{t('Buy')}</Button>
+              <Button size="big" primary onClick={() => { this.props.pickBike(2); }}>{t('Buy')}</Button>
             </Card.Content>
           </Card>
 
@@ -102,7 +102,7 @@ class MainPage extends Component {
             <Card.Content>
               <Divider />
               <p className="price">AR$<span className="price-number">10.000</span>/ month </p>
-              <Button size="big" primary onClick={() => { this.props.pickBike(); }}>{t('Buy')}</Button>
+              <Button size="big" primary onClick={() => { this.props.pickBike(3); }}>{t('Buy')}</Button>
             </Card.Content>
           </Card>
 
@@ -114,8 +114,8 @@ class MainPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  pickBike: async () => {
-    const { data: { data: user } } = await axios.post('/api/users/', {});
+  pickBike: async (motorcycleId) => {
+    const { data: { data: user } } = await axios.post('/api/users/', { user: { motorcycle_id: motorcycleId } });
 
     dispatch(userFetched(user));
     dispatch(push('/dashboard'));

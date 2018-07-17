@@ -9,5 +9,9 @@ export const userFetched = user => ({
   user,
 });
 
+export const startedFetchingUser = () => ({
+  type: actionTypes.startedFetchingUser,
+});
+
 export const noop = () => ({ type: 'NOOP' });
 

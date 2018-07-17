@@ -6,6 +6,7 @@ import { Grid, Card, Header, Sticky } from 'semantic-ui-react';
 
 import CheckoutSummary from './CheckoutSummary';
 import FundingSection from './Sections/FinancingSection';
+import BikeModelSection from './Sections/BikeModelSection';
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -21,6 +22,10 @@ class DashboardPage extends Component {
   render() {
     const { funding, user, t } = this.props;
 
+    if (user.isLoading) {
+      return <h1>CARGANDO</h1>;
+    }
+
     return (
       <React.Fragment>
         <Header size="large">{t('dashboard')} ({user.id})</Header>
@@ -28,7 +33,7 @@ class DashboardPage extends Component {
           <Grid>
             <Grid.Column floated="left" style={{ textAlign: 'left' }} width={10}>
               <Card.Group>
-                <FundingSection financing={funding} />
+                <BikeModelSection motorcycle={user.motorcycle} />
               </Card.Group>
               <Card.Group>
                 <FundingSection financing={funding} />

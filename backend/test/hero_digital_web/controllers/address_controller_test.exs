@@ -3,6 +3,7 @@ defmodule HeroDigitalWeb.AddressControllerTest do
 
   alias HeroDigital.Identity
   alias HeroDigital.UserData
+  alias HeroDigital.Product.Motorcycle
 
   @create_attrs %{
     user_id: nil,
@@ -23,15 +24,20 @@ defmodule HeroDigitalWeb.AddressControllerTest do
     town: nil
   }
 
+  setup do
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    %{motorcycle: motorcycle}
+  end
+
+  setup %{motorcycle: motorcycle} do
+    {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
+    %{user: user}
+  end
+
   def fixture(:address, user) do
     create_attrs = %{@create_attrs | "user_id": user.id}
     {:ok, address} = UserData.create_address(create_attrs)
     address
-  end
-
-  setup do
-    {:ok, user} = Identity.create_user()
-    %{user: user}
   end
 
   setup %{conn: conn} do

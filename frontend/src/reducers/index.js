@@ -19,6 +19,11 @@ const reducer = (state = defaultState, action) => {
         user: action.user,
         funding: fundingReducer(undefined, action),
       };
+    case actionTypes.startedFetchingUser:
+      return {
+        ...state,
+        user: { isLoading: true },
+      };
     default:
       return ({
         ...state,
