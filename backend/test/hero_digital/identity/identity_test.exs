@@ -3,13 +3,21 @@ defmodule HeroDigital.IdentityTest do
 
   alias HeroDigital.Identity
 
+  describe "create" do
+
+    test "create_lead/0 returns a new lead" do
+      {key, lead} = Identity.create_lead()
+      refute lead.id == nil
+    end
+
+  end
+
   describe "leads" do
 
     def lead_fixture(attrs \\ %{}) do
       {:ok, lead} =
         attrs
         |> Identity.create_lead()
-
       lead
     end
 
