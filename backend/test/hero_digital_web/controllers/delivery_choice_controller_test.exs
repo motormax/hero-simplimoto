@@ -3,6 +3,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
 
   alias HeroDigital.Delivery
   alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
   @pickup_attrs %{user_id: "", pickup_location: "some pickup_location", address: nil}
   @address_attrs %{
@@ -31,15 +32,20 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
     }
   }
 
+  setup do
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    %{motorcycle: motorcycle}
+  end
+
+  setup %{motorcycle: motorcycle} do
+    {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
+    %{user: user}
+  end
+
   def fixture(:delivery_choice, user) do
     pickup_attrs = %{@pickup_attrs | "user_id": user.id}
     {:ok, delivery_choice} = Delivery.create_delivery_choice(pickup_attrs)
     delivery_choice
-  end
-
-  setup do
-    {:ok, user} = Identity.create_user()
-    %{user: user}
   end
 
   setup %{conn: conn} do
