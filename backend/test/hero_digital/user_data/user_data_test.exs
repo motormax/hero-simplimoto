@@ -2,10 +2,12 @@ defmodule HeroDigital.UserDataTest do
   use HeroDigital.DataCase
 
   alias HeroDigital.UserData
+  alias HeroDigital.Identity
 
   describe "personal_data" do
 
-    @valid_attrs %{dni: "some dni", last_name: "some last_name", name: "some name", lead_id: "7488a646-e31f-11e4-aace-600308960662"}
+    @valid_attrs %{dni: "some dni", last_name: "some last_name", name: "some name", lead_id: nil}
+    @invalid_attrs %{dni: nil, last_name: nil, name: nil, lead_id: nil}
 
     def personal_data_fixture(attrs \\ %{}) do
       {:ok, personal_data} =
@@ -16,20 +18,24 @@ defmodule HeroDigital.UserDataTest do
       personal_data
     end
 
-    test "list_personal_data/0 returns all personal_data" do
-      personal_data = personal_data_fixture()
+    setup do
+      {:ok, lead} = Identity.create_lead()
+      %{lead: lead}
+    end
+
+    test "list_personal_data/0 returns all personal_data", %{lead: lead} do
+      personal_data = personal_data_fixture(%{lead_id: lead.id})
       assert UserData.list_personal_data() == [personal_data]
     end
 
-    test "get_personal_data!/1 returns the personal_data with given id" do
-      personal_data = personal_data_fixture()
+    test "get_personal_data!/1 returns the personal_data with given id", %{lead: lead} do
+      personal_data = personal_data_fixture(%{lead_id: lead.id})
       assert UserData.get_personal_data!(personal_data.id) == personal_data
     end
   end
 
   describe "email" do
     alias HeroDigital.UserData.Email
-    alias HeroDigital.Identity
 
     @valid_attrs %{email: "some email", lead_id: nil}
     @invalid_attrs %{email: nil, lead_id: nil}
