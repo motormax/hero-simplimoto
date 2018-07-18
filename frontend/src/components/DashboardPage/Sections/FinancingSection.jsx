@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Card, Icon } from 'semantic-ui-react';
+import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 
 
 class FinancingSection extends Component {
@@ -16,25 +16,27 @@ class FinancingSection extends Component {
 
     const isOk = true;
     const icon = isOk ? 'check circle outline' : 'warning circle';
-    const color = isOk ? 'green' : 'red';
+    const color = isOk ? 'darkgray' : 'red';
 
     return (
-      <Card fluid color={color}>
-        <Card.Content>
-          <Card.Header>
-            <Icon color={color} name={icon} />
-            {t('title')}
-          </Card.Header>
-          <Card.Meta>{`${financing.isDefault}`}</Card.Meta>
-          <Card.Description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={1}>
+              <Icon size="large" color={color} name="arrow right" />
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <h3 className="fw-bold fs-big">{t('title')}</h3>
+              <p className="txt-med-gray fs-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc pulvinar tristique nisi et posuere
-          </Card.Description>
-          <Card.Content textAlign="right" extra>
-            <Button primary>{t('change')}</Button>
-          </Card.Content>
-        </Card.Content>
-      </Card>
+              </p>
+            </Grid.Column>
+            <Grid.Column width={5}>
+              <Button className="btn-outline" fluid secondary>{t('change')}</Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
     );
   }
 }

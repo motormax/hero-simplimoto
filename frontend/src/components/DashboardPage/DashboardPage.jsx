@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import { Grid, Card, Header } from 'semantic-ui-react';
+import { Grid, Segment, Header } from 'semantic-ui-react';
 
 import CheckoutSummary from './CheckoutSummary';
 import FundingSection from './Sections/FinancingSection';
+import DeliverySegment from './Sections/DeliverySegment';
+
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -27,27 +29,12 @@ class DashboardPage extends Component {
           <Grid>
             <Grid.Column width={10}>
               <Header size="large">{t('dashboard')} ({user.id})</Header>
-              <Card.Group>
+              <Segment.Group>
                 <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
                 <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
                 <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
+                <DeliverySegment />
+              </Segment.Group>
             </Grid.Column>
             <Grid.Column width={6}>
               <div context={this.ref}>
