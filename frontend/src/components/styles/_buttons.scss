@@ -1,0 +1,52 @@
+$gray-btn: #AFAFAF;
+
+.ui.button{
+  border-radius: 50px;
+  padding: .5em 2em;
+  &.primary{
+    background-color: $primary-color;
+    &:focus{
+      background-color: $primary-color;
+    }
+    &:hover,
+    &:active{
+      background-color: darken($primary-color, 15%);
+    }
+  }
+
+  &.secondary{
+    background-color: $gray-btn;
+    &:focus{
+      background-color: $gray-btn;
+    }
+    &:hover,
+    &:active{
+      background-color: darken($gray-btn, 15%);
+    }
+    &.btn-outline{
+      background: transparent;
+      border: 2px solid $gray-btn;
+      color: $gray-btn;
+      &:focus{
+        background: transparent;
+        border: 2px solid $gray-btn;
+        color: $gray-btn;
+      }
+      &:hover,
+      &:active{
+        border: 2px solid darken($gray-btn, 15%);
+        color: darken($gray-btn, 15%);
+      }
+    }
+  }
+}
+
+.btn-displaced-container{
+  padding-bottom: 0 !important;
+}
+.btn-displaced{
+  position: relative;
+  bottom: -1em;
+  left: 50%;
+  transform: translateX(-50%);
+}

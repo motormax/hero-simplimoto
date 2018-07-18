@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { Button, Card, Icon } from 'semantic-ui-react';
+import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 
 
 class BikeModelSection extends Component {
@@ -16,22 +16,24 @@ class BikeModelSection extends Component {
     const { motorcycle } = this.props;
 
     return (
-      <Card fluid color="green">
-        <Card.Content>
-          <Card.Header>
-            <Icon color="green" name="check circle outline" />
-            Modelo
-          </Card.Header>
-          <Card.Meta>{`${motorcycle.name}|${motorcycle.price}`}</Card.Meta>
-          <Card.Description>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      <Segment className="dashboard-card" style={{ borderLeftColor: '#21ba45' }}>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={1}>
+              <Icon size="large" color="green" name="check" />
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <h3 className="fw-bold fs-big">Modelo de moto ({motorcycle.name})</h3>
+              <p className="txt-med-gray fs-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc pulvinar tristique nisi et posuere
-          </Card.Description>
-          <Card.Content textAlign="right" extra>
-            <Button primary>Cambiar</Button>
-          </Card.Content>
-        </Card.Content>
-      </Card>
+              </p>
+            </Grid.Column>
+            <Grid.Column width={5}>
+              <Button className="btn-outline" fluid secondary>Cambiar</Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
     );
   }
 }

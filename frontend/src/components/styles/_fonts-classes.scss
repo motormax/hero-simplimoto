@@ -1,0 +1,54 @@
+//colors
+
+.txt-green{
+  color: $green;
+}
+
+.txt-med-gray{
+  color: $med-gray;
+}
+
+.txt-dark-gray{
+  color: $dark-gray;
+}
+
+//weight
+
+.fw-bold{
+  font-weight: bold;
+}
+
+.fw-normal{
+  font-weight: normal;
+}
+
+.uppercase{
+  text-transform: uppercase;
+}
+
+//sizes
+
+.fs-mini{
+  font-size: .5em;
+}
+.fs-tinny{
+  font-size: .6em;
+}
+.fs-small{
+  font-size: .8em;
+}
+.fs-medium{
+  font-size: 1em;
+}
+.fs-large{
+  font-size: 1.2em;
+}
+.fs-big{
+  font-size: 1.5em;
+}
+.fs-huge{
+  font-size: 2em;
+}
+.fs-massivve{
+  font-size: 2.5em;
+}
