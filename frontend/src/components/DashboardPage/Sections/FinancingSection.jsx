@@ -7,15 +7,13 @@ import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 class FinancingSection extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    financing: propTypes.shape({}).isRequired,
     // saveFinancing: propTypes.func.isRequired,
   }
 
   render() {
-    const { t, financing } = this.props;
+    const { t } = this.props;
 
     const isOk = true;
-    const icon = isOk ? 'check circle outline' : 'warning circle';
     const color = isOk ? 'darkgray' : 'red';
 
     return (

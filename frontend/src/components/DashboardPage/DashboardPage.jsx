@@ -33,7 +33,7 @@ class DashboardPage extends Component {
                 <FundingSection financing={funding} />
                 <FundingSection financing={funding} />
                 <FundingSection financing={funding} />
-                <DeliverySegment />
+                <DeliverySegment changeToDelivery={() => alert('ir a delivery page')} /> /* do the link work */
               </Segment.Group>
             </Grid.Column>
             <Grid.Column width={6}>
