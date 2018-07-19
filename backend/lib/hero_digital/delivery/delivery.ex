@@ -41,6 +41,11 @@ defmodule HeroDigital.Delivery do
     Repo.preload(delivery_choice, [:address])
   end
 
+  def get_delivery_choice_for_user(user_id) do
+    delivery_choice = Repo.one(from d in DeliveryChoice, where: d.user_id == ^user_id, order_by: d.inserted_at, limit: 1)
+    Repo.preload(delivery_choice, [:address])
+  end
+
   @doc """
   Creates a delivery_choice.
 
@@ -54,18 +59,18 @@ defmodule HeroDigital.Delivery do
 
   """
   def create_delivery_choice(attrs \\ %{}) do
-    attrs = if attrs["address"] do
-      address_attrs = Map.merge(attrs["address"], %{"user_id" => attrs["user_id"]})
-      {:ok, address} = UserData.create_address(address_attrs)
-      Map.merge(attrs, %{"address_id" => address.id})
-    else
-      attrs
-    end
-    with {:ok, delivery_choice} <- %DeliveryChoice{}
+    with {:ok, attrs} <- (case attrs do
+            %{"address" => address} when is_map(address) ->
+               address_attrs = Map.merge(address, %{"user_id" => attrs["user_id"]})
+               with {:ok, address} <- UserData.create_address(address_attrs) do
+                 {:ok, Map.merge(attrs, %{"address_id" => address.id})}
+               end
+            attrs -> {:ok, attrs}
+            end),
+         {:ok, delivery_choice} <- %DeliveryChoice{}
                                    |> DeliveryChoice.changeset(attrs)
                                    |> Repo.insert() do
-      delivery_choice = Repo.preload(delivery_choice, [:address])
-      {:ok, delivery_choice}
+      {:ok, Repo.preload(delivery_choice, [:address])}
     end
   end
 

@@ -9,7 +9,7 @@ import { Container } from 'semantic-ui-react';
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
-import DeliverySection from './DashboardPage/Sections/DeliverySection';
+import DeliverySection from './DeliveryPage';
 
 import logoUrl from './hero-logo.png';
 

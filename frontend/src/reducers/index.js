@@ -1,5 +1,6 @@
 /* eslint-env browser */
 
+import deliveryReducer from './deliveryReducer';
 import fundingReducer from './fundingReducer';
 import actionTypes from '../actions/actionTypes';
 
@@ -18,6 +19,7 @@ const reducer = (state = defaultState, action) => {
         ...state,
         user: action.user,
         funding: fundingReducer(undefined, action),
+        delivery: deliveryReducer(undefined, action),
       };
     case actionTypes.startedFetchingUser:
       return {
@@ -28,6 +30,7 @@ const reducer = (state = defaultState, action) => {
       return ({
         ...state,
         funding: fundingReducer(state.funding, action),
+        delivery: deliveryReducer(state.delivery, action),
       });
   }
 };

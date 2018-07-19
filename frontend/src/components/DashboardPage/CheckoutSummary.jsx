@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Button, Card, Icon, List, Divider } from 'semantic-ui-react';
 
-// FIXME this should be there
-//import bankImage from '../images/banks-logos/icbc-logo.png';
-const bankImage = 'https://i.forbesimg.com/media/lists/companies/icbc_416x416.jpg'
+import bankImage from './images/banks-logos/icbc-logo.png';
 
 class CheckoutSummary extends Component {
   render() {

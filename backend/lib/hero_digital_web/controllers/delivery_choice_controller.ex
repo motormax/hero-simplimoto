@@ -11,17 +11,19 @@ defmodule HeroDigitalWeb.DeliveryChoiceController do
     render(conn, "index.json", delivery_choices: delivery_choices)
   end
 
-  def create(conn, %{"delivery_choice" => delivery_choice_params}) do
-    with {:ok, %DeliveryChoice{} = delivery_choice} <- Delivery.create_delivery_choice(delivery_choice_params) do
+  def create(conn, %{"user_id" => user_id, "delivery_choice" => delivery_choice_params}) do
+    IO.inspect(user_id)
+    IO.inspect(delivery_choice_params)
+    with {:ok, %DeliveryChoice{} = delivery_choice} <- Delivery.create_delivery_choice(Map.put(delivery_choice_params, "user_id", user_id)) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", delivery_choice_path(conn, :show, delivery_choice))
+      |> put_resp_header("location", user_delivery_choice_path(conn, :show, delivery_choice))
       |> render("show.json", delivery_choice: delivery_choice)
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    delivery_choice = Delivery.get_delivery_choice!(id)
+  def show(conn, %{"user_id" => user_id}) do
+    delivery_choice = Delivery.get_delivery_choice_for_user(user_id)
     render(conn, "show.json", delivery_choice: delivery_choice)
   end
 

@@ -6,7 +6,7 @@ import { Grid, Segment, Header } from 'semantic-ui-react';
 
 import CheckoutSummary from './CheckoutSummary';
 import FundingSection from './Sections/FinancingSection';
-import DeliverySegment from './Sections/DeliverySegment';
+import DeliverySegment from './Sections/DeliverySection';
 import BikeModelSection from './Sections/BikeModelSection';
 
 class DashboardPage extends Component {
@@ -33,13 +33,13 @@ class DashboardPage extends Component {
             <Grid.Column width={10}>
               <Header size="large">{t('dashboard')} ({user.id})</Header>
               <Segment.Group>
-                <BikeModelSection motorcycle={user.motorcycle}/>
+                <BikeModelSection motorcycle={user.motorcycle} />
                 <FundingSection financing={funding} />
-                <DeliverySegment changeToDelivery={() => alert('ir a delivery page')} /> /* do the link work */
+                <DeliverySegment />
               </Segment.Group>
             </Grid.Column>
             <Grid.Column width={6}>
-              <div context={this.ref}>
+              <div>
                 <CheckoutSummary />
               </div>
             </Grid.Column>
