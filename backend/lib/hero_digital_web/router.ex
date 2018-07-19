@@ -28,6 +28,7 @@ defmodule HeroDigitalWeb.Router do
     resources "/users", UserController, only: [:create, :show]
     resources "/addresses", AddressController, except: [:new, :edit]
     resources "/delivery_choices", DeliveryChoiceController, except: [:new, :edit]
+    resources "/date_appointments", DateAppointmentController, except: [:new, :edit]
     match :*, "/*path", StaticFilesController, :not_found
   end
 

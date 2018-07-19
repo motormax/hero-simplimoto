@@ -90,7 +90,7 @@ class DeliverySection extends Component {
         // TODO: handle specific input validation errors
         const newErrors = this.state.errors;
         newErrors.general = true;
-        newErrors.description = error.response.data;
+        newErrors.description = error.response.message;
         this.setState({ errors: newErrors });
       });
   };
