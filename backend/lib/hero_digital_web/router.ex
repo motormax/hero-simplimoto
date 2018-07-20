@@ -29,6 +29,7 @@ defmodule HeroDigitalWeb.Router do
     resources "/personal_data", PersonalDataController, only: [:create, :show]
     resources "/email", EmailController, only: [:create, :show]
     resources "/phone", PhoneController, only: [:create, :show]
+    resources "/plate_registration", PlateRegistrationDataController, only: [:create, :show]
     match :*, "/*path", StaticFilesController, :not_found
   end
 

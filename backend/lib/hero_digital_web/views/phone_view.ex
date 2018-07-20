@@ -11,7 +11,9 @@ defmodule HeroDigitalWeb.PhoneView do
   end
 
   def render("phone.json", %{phone: phone}) do
-    %{id: phone.id,
-      phone: phone.phone}
+    %{
+      id: phone.id,
+      phone: phone.phone,
+    }
   end
 end

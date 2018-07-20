@@ -25,12 +25,12 @@ defmodule HeroDigitalWeb.PhoneControllerTest do
     test "renders phone when data is valid", %{lead: lead, conn: conn} do
       create_attrs = %{@create_attrs | "lead_id": lead.id}
       conn = post conn, phone_path(conn, :create), phone: create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      assert %{"id" => id, "phone" => phone} = json_response(conn, 201)["data"]
 
       conn = get conn, phone_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
-        "phone" => "some phone"}
+        "phone" => phone}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

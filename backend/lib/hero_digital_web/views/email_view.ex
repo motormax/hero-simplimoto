@@ -11,7 +11,9 @@ defmodule HeroDigitalWeb.EmailView do
   end
 
   def render("email.json", %{email: email}) do
-    %{id: email.id,
-      email: email.email}
+    %{
+      id: email.id,
+      email: email.email,
+    }
   end
 end

@@ -17,4 +17,5 @@ defmodule HeroDigitalWeb.FallbackController do
     |> put_status(:not_found)
     |> render(HeroDigitalWeb.ErrorView, :"404")
   end
+
 end
