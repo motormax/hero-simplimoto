@@ -56,12 +56,16 @@ defmodule HeroDigital.PlateRegistration do
   def create_plate_registration_data(attrs \\ %{}) do
     with {:ok, email} <- UserData.create_email(%{"email" => attrs["email"], "lead_id" => attrs["lead_id"]}),
          {:ok, phone} <- UserData.create_phone(%{"phone" => attrs["phone"], "lead_id" => attrs["lead_id"]}),
+         {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
+         {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
          plate_registration_data_attrs <- %{
            lead_id: attrs["lead_id"],
            email_id: email.id,
            phone_id: phone.id,
-           personal_data_id: personal_data.id
+           personal_data_id: personal_data.id,
+           front_dni_image_id: front_dni_image.id,
+           back_dni_image_id: back_dni_image.id,
          },
          {:ok, plate_registration_data} <- %PlateRegistrationData{}
                                            |> PlateRegistrationData.changeset(plate_registration_data_attrs)

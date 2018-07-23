@@ -16,6 +16,11 @@ defmodule HeroDigital.PlateRegistrationTest do
     end
 
     @personal_data %{"dni" => "some dni", "last_name" => "some last_name", "name" => "some name"}
+    @dni_image %{
+      "name" => "file.png",
+      "type" => "image/png",
+      "data" => "YW5vdGhlciBpbWFnZQ==",
+    }
     @email "some email"
     @phone "some phone"
 
@@ -25,19 +30,19 @@ defmodule HeroDigital.PlateRegistrationTest do
     end
 
     test "list_plate_registration_data/0 returns all plate_registration_data", %{lead: lead, personal_data: personal_data, email: email, phone: phone} do
-      attrs = %{"lead_id" => lead.id, "personal_data" => personal_data, "email" => email, "phone" => phone}
+      attrs = %{"lead_id" => lead.id, "personal_data" => personal_data, "email" => email, "phone" => phone, "front_dni_image" => @dni_image, "back_dni_image" => @dni_image}
       plate_registration_data = plate_registration_data_fixture(attrs)
       assert PlateRegistration.list_plate_registration_data() == [plate_registration_data]
     end
 
     test "get_plate_registration_data!/1 returns the plate_registration_data with given id", %{lead: lead, personal_data: personal_data, email: email, phone: phone} do
-      attrs = %{"lead_id" => lead.id, "personal_data" => personal_data, "email" => email, "phone" => phone}
+      attrs = %{"lead_id" => lead.id, "personal_data" => personal_data, "email" => email, "phone" => phone, "front_dni_image" => @dni_image, "back_dni_image" => @dni_image}
       plate_registration_data = plate_registration_data_fixture(attrs)
       assert PlateRegistration.get_plate_registration_data!(plate_registration_data.id) == plate_registration_data
     end
 
     test "create_plate_registration_data/1 with valid data creates a plate_registration_data", %{lead: lead, personal_data: personal_data, email: email, phone: phone} do
-      attrs = %{"lead_id" => lead.id, "personal_data" => personal_data, "email" => email, "phone" => phone}
+      attrs = %{"lead_id" => lead.id, "personal_data" => personal_data, "email" => email, "phone" => phone, "front_dni_image" => @dni_image, "back_dni_image" => @dni_image}
       assert {:ok, %PlateRegistrationData{} = plate_registration_data} = PlateRegistration.create_plate_registration_data(attrs)
       assert plate_registration_data.email.email == email
       assert plate_registration_data.phone.phone == phone

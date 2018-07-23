@@ -15,8 +15,25 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
 
   setup do
     with {:ok, lead} = Identity.create_lead()
-    do
-      %{attrs: %{lead_id: lead.id, email: @valid_email, personal_data: @valid_personal_data, phone: @valid_phone}}
+      do
+      %{
+        attrs: %{
+          lead_id: lead.id,
+          email: @valid_email,
+          personal_data: @valid_personal_data,
+          phone: @valid_phone,
+          front_dni_image: %{
+            name: "file.png",
+            type: "image/png",
+            data: "YW4gaW1hZ2U="
+          },
+          back_dni_image: %{
+            name: "file.png",
+            type: "image/png",
+            data: "YW5vdGhlciBpbWFnZQ=="
+          }
+        }
+      }
     end
   end
 
@@ -40,7 +57,7 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      invalid_attrs = %{lead_id: nil, personal_data_id: nil, email: nil, phone: nil}
+      invalid_attrs = %{lead_id: nil, personal_data: nil, email: nil, phone: nil}
       conn = post conn, plate_registration_data_path(conn, :create), plate_registration_data: invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end

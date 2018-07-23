@@ -7,6 +7,8 @@ defmodule HeroDigital.Repo.Migrations.CreatePlateRegistrationData do
       add :personal_data_id, references(:personal_data, type: :integer)
       add :phone_id, references(:phones, type: :integer)
       add :email_id, references(:emails, type: :integer)
+      add :front_dni_image_id, references(:images, type: :integer)
+      add :back_dni_image_id, references(:images, type: :integer)
 
       timestamps()
     end

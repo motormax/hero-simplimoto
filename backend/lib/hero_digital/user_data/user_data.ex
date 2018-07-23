@@ -7,6 +7,7 @@ defmodule HeroDigital.UserData do
   alias HeroDigital.Repo
 
   alias HeroDigital.UserData.PersonalData
+  alias HeroDigital.UserData.Image
 
   @doc """
   Returns the list of personal_data.
@@ -292,5 +293,11 @@ defmodule HeroDigital.UserData do
   """
   def change_phone(%Phone{} = phone) do
     Phone.changeset(phone, %{})
+  end
+
+  def create_image(attrs \\ %{}) do
+    %Image{}
+    |> Image.changeset(attrs)
+    |> Repo.insert()
   end
 end
