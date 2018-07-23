@@ -25,28 +25,28 @@ class HomeCarrousel extends Component {
       <div>
         <Slider {...settings}>
           <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(1)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike(2)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(1)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike(1)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(2)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike(1)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(2)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike()} />
+            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike(1)} />
           </div>
         </Slider>
       </div>
