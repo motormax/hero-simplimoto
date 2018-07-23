@@ -28,6 +28,10 @@ config :ex_admin,
   modules: [
     HeroDigitalWeb.ExAdmin.Dashboard,
     HeroDigital.ExAdmin.Product.Motorcycle,
+    HeroDigital.ExAdmin.UserData.Email,
+    HeroDigital.ExAdmin.UserData.Phone,
+    HeroDigital.ExAdmin.UserData.PersonalData,
+    HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationData
   ]
 
 config :hero_digital, basic_auth: [
