@@ -20,10 +20,12 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
+    "react-slick": "^0.23.1",
     "redux": "^4.0.0",
     "scriptjs": "^2.5.8",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.80.0",
+    "slick-carousel": "^1.8.1",
     "react-router-ga": "^1.0.0"
   },
   "proxy": {
