@@ -1,36 +1,35 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { translate } from 'react-i18next';
 import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 
 
-class FinancingSection extends Component {
+class BikeModelSection extends Component {
   static propTypes = {
-    t: propTypes.func.isRequired,
-    // saveFinancing: propTypes.func.isRequired,
+    motorcycle: propTypes.shape({
+      id: propTypes.number.isRequired,
+      name: propTypes.string.isRequired,
+      price: propTypes.string.isRequired,
+    }).isRequired,
   }
 
   render() {
-    const { t } = this.props;
-
-    const isOk = true;
-    const color = isOk ? 'darkgray' : 'red';
+    const { motorcycle } = this.props;
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: '#21ba45' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              <Icon size="large" color={color} name="arrow right" />
+              <Icon size="large" color="green" name="check" />
             </Grid.Column>
             <Grid.Column width={10}>
-              <h3 className="fw-bold fs-big">{t('title')}</h3>
+              <h3 className="fw-bold fs-big">Modelo de moto ({motorcycle.name})</h3>
               <p className="txt-med-gray fs-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc pulvinar tristique nisi et posuere
               </p>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button className="btn-outline" fluid secondary>{t('change')}</Button>
+              <Button className="btn-outline" fluid secondary>Cambiar</Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -39,4 +38,4 @@ class FinancingSection extends Component {
   }
 }
 
-export default translate('financing')(FinancingSection);
+export default BikeModelSection;

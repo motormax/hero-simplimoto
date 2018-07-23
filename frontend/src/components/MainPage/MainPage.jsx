@@ -25,8 +25,8 @@ class MainPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  pickBike: async () => {
-    const { data: { data: user } } = await axios.post('/api/users/', {});
+  pickBike: async (motorcycleId) => {
+    const { data: { data: user } } = await axios.post('/api/users/', { user: { motorcycle_id: motorcycleId } });
 
     dispatch(userFetched(user));
     dispatch(push('/dashboard'));
