@@ -16,7 +16,7 @@ class MainPage extends Component {
 
   render() {
     return (
-      <div className="home">
+      <div>
         <h1 className="home-title">By the bike you want <br /> <span className="emphasis">100% online</span></h1>
         <HomeCarrousel pickBike={this.props.pickBike} />
       </div>

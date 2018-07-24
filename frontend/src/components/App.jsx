@@ -20,7 +20,7 @@ class App extends React.Component {
         <header>
           <img className="logo" alt="Hero digital" src={logoUrl} />
         </header>
-        <Container>
+        <Container className="main-container">
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/dashboard" component={DashboardPage} />

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { Button, Card, Image, Divider } from 'semantic-ui-react';
+import { Button, Card, Image, Divider, List, Icon } from 'semantic-ui-react';
 
-import brandImgUrl from './images/marca-hero.png';
 import glovesImgUrl from './images/Guantes.png';
 import helmetImgUrl from './images/Casco.png';
 import trunkImgUrl from './images/Baul.png';
@@ -19,7 +18,6 @@ class CarrouselItem extends Component {
 
     return (
       <Card className="carrousel-item">
-        <Image className="brand-image" src={brandImgUrl} />
         <Image className="bike-image" src={bikeImageUrl} />
         <h3 className="bike-name">{bikeName}</h3>
         <div className="bike-accessories">
@@ -39,8 +37,18 @@ class CarrouselItem extends Component {
         <Card.Content>
           <Divider />
           <p className="price">AR$<span className="price-number">10.000</span>/ month </p>
-          <Button size="big" primary onClick={() => { onBuy(bikeName); }}>Buy</Button>
+          <Button size="big" primary onClick={() => { onBuy(bikeName); }}>Comprar</Button>
         </Card.Content>
+        <List className="bottom-links" horizontal link>
+          <List.Item as='a'>
+            <Icon disabled name='play circle' />
+            Tour en vivo
+          </List.Item>
+          <List.Item as='a'>
+            <Icon disabled name='heart' />
+            Arreglar una cita
+          </List.Item>
+        </List>
       </Card>
     );
   }
