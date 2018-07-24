@@ -11,13 +11,16 @@ import HomeCarrousel from './HomeCarrousel';
 
 class MainPage extends Component {
   static propTypes = {
+    t: propTypes.func.isRequired,
     pickBike: propTypes.func.isRequired,
   };
 
   render() {
+    const { t } = this.props;
+
     return (
       <div>
-        <h1 className="home-title">By the bike you want <br /> <span className="emphasis">100% online</span></h1>
+        <h1 className="home-title">{t('buy_the_bike')} <br /> <span className="emphasis">{t('online')}</span></h1>
         <HomeCarrousel pickBike={this.props.pickBike} />
       </div>
     );
