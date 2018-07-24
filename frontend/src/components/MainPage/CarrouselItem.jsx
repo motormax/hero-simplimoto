@@ -16,7 +16,9 @@ class CarrouselItem extends Component {
   }
 
   render() {
-    const { bikeImageUrl, bikeName, onBuy, t } = this.props;
+    const {
+      bikeImageUrl, bikeName, onBuy, t,
+    } = this.props;
 
     return (
       <Card className="carrousel-item">
@@ -42,12 +44,12 @@ class CarrouselItem extends Component {
           <Button size="big" primary onClick={() => { onBuy(bikeName); }}>{t('buy')}</Button>
         </Card.Content>
         <List className="bottom-links" horizontal link>
-          <List.Item as='a'>
-            <Icon disabled name='play circle' />
+          <List.Item as="a">
+            <Icon disabled name="play circle" />
             {t('live_tour')}
           </List.Item>
-          <List.Item as='a'>
-            <Icon disabled name='heart' />
+          <List.Item as="a">
+            <Icon disabled name="heart" />
             {t('appointment')}
           </List.Item>
         </List>
@@ -56,4 +58,4 @@ class CarrouselItem extends Component {
   }
 }
 
-export default translate('motorcycleCard') (CarrouselItem);
+export default translate('motorcycleCard')(CarrouselItem);

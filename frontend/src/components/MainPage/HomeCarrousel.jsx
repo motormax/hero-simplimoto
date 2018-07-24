@@ -10,7 +10,6 @@ import ignitorImgUrl from './images/Ignitor-blue.png';
 
 
 class HomeCarrousel extends Component {
-
   static propTypes = {
     pickBike: propTypes.func.isRequired,
   };
@@ -23,14 +22,14 @@ class HomeCarrousel extends Component {
       slidesToShow: 3,
       speed: 500,
       responsive: [
-       {
-         breakpoint: 1024,
-         settings: {
-           slidesToShow: 1,
-           infinite: true
-         }
-       }
-      ]
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 1,
+            infinite: true,
+          },
+        },
+      ],
     };
 
     return (

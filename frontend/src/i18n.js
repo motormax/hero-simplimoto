@@ -7,7 +7,7 @@ export default i18next.init({
     es: {
       index: {
         buy_the_bike: 'Comprá tu próxima moto',
-        online:'100% online',
+        online: '100% online',
       },
       motorcycleCard: {
         gloves: 'Guantes',
