@@ -10,6 +10,8 @@ import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
 import DeliverySection from './DeliveryPage';
+import Footer from './Footer';
+
 
 import logoUrl from './hero-logo.png';
 
@@ -27,6 +29,7 @@ class App extends React.Component {
             <Route path="/delivery" component={DeliverySection} />
           </Switch>
         </Container>
+        <Footer />
       </div>
     );
   }
