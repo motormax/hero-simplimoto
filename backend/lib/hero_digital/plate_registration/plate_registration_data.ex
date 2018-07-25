@@ -10,13 +10,14 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
     belongs_to :phone, HeroDigital.UserData.Phone
     belongs_to :front_dni_image, HeroDigital.UserData.Image
     belongs_to :back_dni_image, HeroDigital.UserData.Image
+    belongs_to :address, HeroDigital.UserData.Address
 
     timestamps()
   end
 
   @doc false
   def changeset(plate_registration_data, attrs) do
-    attributes = [:lead_id, :personal_data_id, :email_id, :phone_id, :front_dni_image_id, :back_dni_image_id]
+    attributes = [:lead_id, :personal_data_id, :email_id, :phone_id, :front_dni_image_id, :back_dni_image_id, :address_id]
     plate_registration_data
     |> cast(attrs, attributes)
     |> validate_required(attributes)

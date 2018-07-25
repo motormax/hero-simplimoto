@@ -8,6 +8,14 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
   @valid_email "some email"
   @valid_phone "some phone"
   @valid_personal_data %{:dni => "some dni", :last_name => "some last_name", :name => "some name"}
+  @address %{
+    complements: "some complements",
+    number: "some number",
+    postal_code: "some postal_code",
+    street: "some street",
+    telephone_number: "some telephone_number",
+    town: "some town"
+  }
 
   def fixture(:plate_registration_data) do
     {:ok, plate_registration_data} = PlateRegistration.create_plate_registration_data()
@@ -33,7 +41,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
             name: "file.png",
             type: "image/png",
             data: "YW5vdGhlciBpbWFnZQ=="
-          }
+          },
+          address: @address
         }
       }
     end
@@ -56,6 +65,12 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
       assert response["personal_data"]["dni"] == attrs.personal_data.dni
       assert response["personal_data"]["name"] == attrs.personal_data.name
       assert response["personal_data"]["last_name"] == attrs.personal_data.last_name
+      assert response["address"]["complements"] == attrs.address.complements
+      assert response["address"]["number"] == attrs.address.number
+      assert response["address"]["postal_code"] == attrs.address.postal_code
+      assert response["address"]["street"] == attrs.address.street
+      assert response["address"]["telephone_number"] == attrs.address.telephone_number
+      assert response["address"]["town"] == attrs.address.town
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

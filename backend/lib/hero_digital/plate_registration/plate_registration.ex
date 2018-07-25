@@ -19,7 +19,7 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def list_plate_registration_data do
-    Repo.all from plate_registration_data in PlateRegistrationData, preload: [:email, :personal_data, :phone]
+    Repo.all from plate_registration_data in PlateRegistrationData, preload: [:email, :personal_data, :phone, :address]
   end
 
   @doc """
@@ -38,7 +38,7 @@ defmodule HeroDigital.PlateRegistration do
   """
   def get_plate_registration_data!(id) do
     plate_registration_data = Repo.get!(PlateRegistrationData, id)
-    Repo.preload(plate_registration_data, [:email, :personal_data, :phone])
+    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
   end
 
   @doc """
@@ -59,6 +59,7 @@ defmodule HeroDigital.PlateRegistration do
          {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
+         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
          plate_registration_data_attrs <- %{
            lead_id: attrs["lead_id"],
            email_id: email.id,
@@ -66,12 +67,13 @@ defmodule HeroDigital.PlateRegistration do
            personal_data_id: personal_data.id,
            front_dni_image_id: front_dni_image.id,
            back_dni_image_id: back_dni_image.id,
+           address_id: address.id
          },
          {:ok, plate_registration_data} <- %PlateRegistrationData{}
                                            |> PlateRegistrationData.changeset(plate_registration_data_attrs)
                                            |> Repo.insert()
     do
-      {:ok, Repo.preload(plate_registration_data, [:email, :personal_data, :phone])}
+      {:ok, Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])}
     end
   end
 
