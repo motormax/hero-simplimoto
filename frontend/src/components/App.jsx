@@ -10,8 +10,8 @@ import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
 import DeliverySection from './DeliveryPage';
+import DateYourBikeSection from './DashboardPage/Sections/DateYourBikeSection';
 import Footer from './Footer';
-
 
 import logoUrl from './hero-logo.png';
 import ignitorImgUrl from './images/Ignitor-blue.png';
@@ -29,6 +29,7 @@ class App extends React.Component {
             <Route exact path="/" component={MainPage} />
             <Route path="/dashboard" component={DashboardPage} />
             <Route path="/delivery" component={DeliverySection} />
+            <Route path="/date" component={DateYourBikeSection} />
           </Switch>
         </Container>
         <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />

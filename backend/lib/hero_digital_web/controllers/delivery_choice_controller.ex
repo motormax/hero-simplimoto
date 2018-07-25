@@ -12,8 +12,6 @@ defmodule HeroDigitalWeb.DeliveryChoiceController do
   end
 
   def create(conn, %{"user_id" => user_id, "delivery_choice" => delivery_choice_params}) do
-    IO.inspect(user_id)
-    IO.inspect(delivery_choice_params)
     with {:ok, %DeliveryChoice{} = delivery_choice} <- Delivery.create_delivery_choice(Map.put(delivery_choice_params, "user_id", user_id)) do
       conn
       |> put_status(:created)
