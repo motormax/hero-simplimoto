@@ -41,6 +41,11 @@ defmodule HeroDigital.PlateRegistration do
     Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
   end
 
+  def get_plate_registration_data_for_lead!(lead_id) do
+    plate_registration_data = Repo.one(from p in PlateRegistrationData, where: p.lead_id == ^lead_id, order_by: p.inserted_at, limit: 1)
+    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
+  end
+
   @doc """
   Creates a plate_registration_data.
 

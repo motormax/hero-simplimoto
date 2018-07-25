@@ -54,10 +54,10 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
 
   describe "create plate_registration_data" do
     test "renders plate_registration_data when data is valid", %{attrs: attrs, conn: conn} do
-      conn = post conn, plate_registration_data_path(conn, :create), plate_registration_data: attrs
+      conn = post conn, lead_plate_registration_data_path(conn, :create, attrs.lead_id), plate_registration_data: attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, plate_registration_data_path(conn, :show, id)
+      conn = get conn, lead_plate_registration_data_path(conn, :show, attrs.lead_id)
       response = json_response(conn, 200)["data"]
       assert response["id"] == id
       assert response["phone"]["phone"] == attrs.phone
@@ -73,9 +73,9 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
       assert response["address"]["town"] == attrs.address.town
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      invalid_attrs = %{lead_id: nil, personal_data: nil, email: nil, phone: nil}
-      conn = post conn, plate_registration_data_path(conn, :create), plate_registration_data: invalid_attrs
+    test "renders errors when data is invalid", %{attrs: attrs, conn: conn} do
+      invalid_attrs = %{lead_id: attrs.lead_id, personal_data: nil, email: nil, phone: nil, address: nil}
+      conn = post conn, lead_plate_registration_data_path(conn, :create, attrs.lead_id), plate_registration_data: invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

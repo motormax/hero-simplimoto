@@ -2,7 +2,7 @@ defmodule HeroDigitalWeb.Router do
   use HeroDigitalWeb, :router
   use ExAdmin.Router
   use Plug.ErrorHandler
-  use Sentry.Plug
+  #use Sentry.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -28,12 +28,14 @@ defmodule HeroDigitalWeb.Router do
     resources "/personal_data", PersonalDataController, only: [:create, :show]
     resources "/email", EmailController, only: [:create, :show]
     resources "/phone", PhoneController, only: [:create, :show]
-    resources "/plate_registration", PlateRegistrationDataController, only: [:create, :show]
+
 
     resources "/leads", LeadController, only: [:create, :show] do
       get "/delivery_choice", DeliveryChoiceController, :show
       post "/delivery_choice", DeliveryChoiceController, :create
       get "/addresses", AddressController, :index
+      post "/plate_registration", PlateRegistrationDataController, :create
+      get "/plate_registration", PlateRegistrationDataController, :show
     end
     match :*, "/*path", StaticFilesController, :not_found
   end
