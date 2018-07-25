@@ -23,15 +23,9 @@ $massive: 2.5em;
 
 //@mixin
 
-@mixin prefix($property, $val){
-  #{'-webkit-' + $property}: $val;
-  #{'-moz-' + $property}: $val;
-  #{'-ms-' + $property}: $val;
-  #{$property}: $val;
-}
 
 //placeholders
 
 %box-shadow{
-  @include prefix(box-shadow, 0px 0px 25px 0px rgba(0,0,0,0.3));
+  box-shadow, 0px 0px 25px 0px rgba(0,0,0,0.3);
 }
