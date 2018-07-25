@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+
+HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "DASH", price: 11111})
+HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK", price: 22222})
