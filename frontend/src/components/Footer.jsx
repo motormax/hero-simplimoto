@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { Container, Grid, List, Icon, Divider, Card, Feed, Button } from 'semantic-ui-react';
+import { Container, Grid, List, Icon, Divider, Card, Button } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 
 import logoUrl from './hero-logo.png';
 
-class Footer extends Component{
-
+class Footer extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
     bikeImageUrl: propTypes.string.isRequired,
     bikeName: propTypes.string.isRequired,
   };
 
-  render(){
-
-    const {t, bikeImageUrl, bikeName} = this.props;
+  render() {
+    const { t, bikeImageUrl, bikeName } = this.props;
 
     return (
       <footer className="footer">
@@ -26,22 +24,22 @@ class Footer extends Component{
               <Grid.Column width={5}>
                 <List>
                   <List.Item>
-                    <Icon className="txt-med-gray" name='map marker alternate' />
+                    <Icon className="txt-med-gray" name="map marker alternate" />
                     <List.Content>
                       <List.Header className="uppercase">{t('company_name')}</List.Header>
                       <List.Description className="txt-med-gray">{t('company_adress')}</List.Description>
                     </List.Content>
                   </List.Item>
                   <List.Item>
-                    <Icon className="txt-med-gray" name='phone' />
+                    <Icon className="txt-med-gray" name="phone" />
                     <List.Content>
                       {t('showroom')} : <span className="fw-bold"> {t('showroom_phone_number')} </span>
                     </List.Content>
                   </List.Item>
                   <List.Item>
-                    <Icon className="txt-med-gray" name='mail' />
+                    <Icon className="txt-med-gray" name="mail" />
                     <List.Content>
-                      {t('email')} : <a>{t('email_adress')} </a>
+                      {t('email')} : {t('email_adress')}
                     </List.Content>
                   </List.Item>
                 </List>
@@ -78,7 +76,7 @@ class Footer extends Component{
                       <Grid fluid>
                         <Grid.Row>
                           <Grid.Column width={5}>
-                            <img className="bike-img" src={bikeImageUrl} />
+                            <img className="bike-img" alt={bikeImageUrl} src={bikeImageUrl} />
                           </Grid.Column>
                           <Grid.Column width={11}>
                             <div>
@@ -97,9 +95,9 @@ class Footer extends Component{
         </Container>
         <Divider />
         <Container>
-          <List floated='right' celled horizontal link>
-          <List.Item as="a">{t('privacy_policy')}</List.Item>
-          <List.Item as="a">{t('disclaimer')}</List.Item>
+          <List floated="right" celled horizontal link>
+            <List.Item as="a">{t('privacy_policy')}</List.Item>
+            <List.Item as="a">{t('disclaimer')}</List.Item>
           </List>
           <List horizontal link>
             <List.Item>
@@ -112,7 +110,6 @@ class Footer extends Component{
       </footer>
     );
   }
+}
 
-};
-
-export default translate('footer') (Footer);
+export default translate('footer')(Footer);
