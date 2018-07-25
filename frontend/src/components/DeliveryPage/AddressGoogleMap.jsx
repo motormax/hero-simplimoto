@@ -14,7 +14,7 @@ const cityCenter = {
 class AddressGoogleMap extends React.Component {
     static propTypes = {
       onPickupLocationChange: PropTypes.func.isRequired,
-    }
+    };
     constructor(props) {
       super(props);
       this.state = {

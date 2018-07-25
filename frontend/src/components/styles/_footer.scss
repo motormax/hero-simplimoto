@@ -1,0 +1,36 @@
+.footer{
+  border-top: 3px solid $med-gray;
+  color: $dark-gray;
+  margin-top: 3em;
+  .container{
+    .item{
+      margin-bottom: $small;
+      .header{
+        color: $dark-gray;
+        font-size: $large;
+      }
+    }
+    .gray-card{
+      padding: .5em;
+      background-color: #F4F4F4;
+      .row .column{
+        .bike-img{
+          position: absolute;
+          max-width: 125%;
+          top: -5%;
+        }
+        div{
+          padding-left: 1em;
+          .bike-name{
+            margin-bottom: .5em;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  .footer-img{
+    width: 240px;
+    margin: 2em 0;
+  }
+}
