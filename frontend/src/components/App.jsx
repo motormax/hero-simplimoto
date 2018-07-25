@@ -11,6 +11,7 @@ import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
 import DeliverySection from './DeliveryPage';
 import DateYourBikeSection from './DashboardPage/Sections/DateYourBikeSection';
+import PlateRegistrationSection from './DashboardPage/Sections/PlateRegistrationSection';
 import Footer from './Footer';
 
 import logoUrl from './hero-logo.png';
@@ -30,6 +31,7 @@ class App extends React.Component {
             <Route path="/dashboard" component={DashboardPage} />
             <Route path="/delivery" component={DeliverySection} />
             <Route path="/date" component={DateYourBikeSection} />
+            <Route path="/plate-registration" component={PlateRegistrationSection} />
           </Switch>
         </Container>
         <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />

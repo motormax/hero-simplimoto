@@ -34,10 +34,10 @@ defmodule HeroDigital.PlateRegistrationTest do
     }
 
     @valid_attrs %{
-      "personal_data" => @personal_data, 
-      "email" => @email, 
-      "phone" => @phone, 
-      "front_dni_image" => @dni_image, 
+      "personal_data" => @personal_data,
+      "email" => @email,
+      "phone" => @phone,
+      "front_dni_image" => @dni_image,
       "back_dni_image" => @dni_image,
       "address" => @address
     }
@@ -78,11 +78,11 @@ defmodule HeroDigital.PlateRegistrationTest do
 
     test "create_plate_registration_data/1 with invalid data returns error changeset" do
       invalid_attrs = %{
-        "lead_id" => nil, 
-        "personal_data" => nil, 
-        "email" => nil, 
-        "phone" => nil, 
-        "front_dni_image" => nil, 
+        "lead_id" => nil,
+        "personal_data" => nil,
+        "email" => nil,
+        "phone" => nil,
+        "front_dni_image" => nil,
         "back_dni_image" => nil,
         "address" => nil
       }
