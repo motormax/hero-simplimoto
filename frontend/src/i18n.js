@@ -6,7 +6,18 @@ export default i18next.init({
   resources: {
     es: {
       index: {
-        simplimoto: 'Simplimoto',
+        buy_the_bike: 'Comprá tu próxima moto',
+        online: '100% online',
+      },
+      motorcycleCard: {
+        gloves: 'Guantes',
+        helmet: 'Casco',
+        trunks: 'Baúl',
+        buy: 'Comprar',
+        live_tour: 'Tour en vivo',
+        appointment: 'Arreglá una cita',
+        currency_sign: 'AR$',
+        month: 'mes',
       },
       footer: {
         company_name: 'Hero Motors Argentina S.A',
@@ -33,7 +44,6 @@ export default i18next.init({
         cancel_order: 'Cancelar compra',
       },
     },
-
     en: {
       dashboard: {
         dashboard: 'Dashboard',
