@@ -8,22 +8,6 @@ export default i18next.init({
       index: {
         simplimoto: 'Simplimoto',
       },
-      dashboard: {
-        dashboard: 'Dashboard',
-      },
-      checkout: {
-        title: 'Checkout Summary',
-        bike_model: 'Bike model',
-        accessories: 'Accessories',
-        delivery: 'Delivery',
-        insurance_options: 'Insurance Options',
-        total: 'Total',
-        buy_bike: 'Buy bike!',
-      },
-      financing: {
-        title: 'Financing',
-        change: 'Change',
-      },
       footer: {
         company_name: 'Hero Motors Argentina S.A',
         company_adress: 'Av. del Libertados 1150, Vicente Lopez. Buenos Aires, Argentina',
@@ -42,6 +26,30 @@ export default i18next.init({
         advice: 'Consejos',
         maintenance: 'Plan de Servicio y Mantenimiento',
         i3s: 'Descubrí el sistema I3s',
+        you_are_buying: 'Estás comprando una ...',
+        follow_us: 'Seguinos',
+        privacy_policy: 'Politica de Privacidad',
+        disclaimer: 'Descargo de Responsabilidad',
+        cancel_order: 'Cancelar compra',
+      },
+    },
+
+    en: {
+      dashboard: {
+        dashboard: 'Dashboard',
+      },
+      checkout: {
+        title: 'Checkout Summary',
+        bike_model: 'Bike model',
+        accessories: 'Accessories',
+        delivery: 'Delivery',
+        insurance_options: 'Insurance Options',
+        total: 'Total',
+        buy_bike: 'Buy bike!',
+      },
+      financing: {
+        title: 'Financing',
+        change: 'Change',
       },
     },
   },

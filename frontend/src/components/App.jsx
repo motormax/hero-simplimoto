@@ -14,6 +14,8 @@ import Footer from './Footer';
 
 
 import logoUrl from './hero-logo.png';
+import ignitorImgUrl from './images/Ignitor-blue.png';
+
 
 class App extends React.Component {
   render() {
@@ -29,7 +31,7 @@ class App extends React.Component {
             <Route path="/delivery" component={DeliverySection} />
           </Switch>
         </Container>
-        <Footer />
+        <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />
       </div>
     );
   }
