@@ -8,6 +8,8 @@ import CheckoutSummary from './CheckoutSummary';
 import FundingSection from './Sections/FinancingSection';
 import DeliverySegment from './Sections/DeliverySection';
 import BikeModelSection from './Sections/BikeModelSection';
+import BikeColorSection from './Sections/BikeColorSection';
+import availableColors from './Sections/customization/availableColors';
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -35,6 +37,7 @@ class DashboardPage extends Component {
               <Segment.Group>
                 <BikeModelSection motorcycle={user.motorcycle} />
                 <FundingSection financing={funding} />
+                <BikeColorSection availableColors={availableColors[user.motorcycle.name]} />
                 <DeliverySegment />
               </Segment.Group>
             </Grid.Column>
