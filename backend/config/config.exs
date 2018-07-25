@@ -24,21 +24,26 @@ config :logger, :console,
 
 config :ex_admin,
   repo: HeroDigital.Repo,
-  module: HeroDigitalWeb,    # MyProject.Web for phoenix >= 1.3.0-rc 
+  module: HeroDigitalWeb,    # MyProject.Web for phoenix >= 1.3.0-rc
   modules: [
     HeroDigitalWeb.ExAdmin.Dashboard,
     HeroDigital.ExAdmin.Product.Motorcycle,
     HeroDigital.ExAdmin.UserData.Email,
     HeroDigital.ExAdmin.UserData.Phone,
     HeroDigital.ExAdmin.UserData.PersonalData,
-    HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationData
+    HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationData,
+    HeroDigital.ExAdmin.UserData.Address,
   ]
 
 config :hero_digital, basic_auth: [
   username: "admin",
   password: "admin",
   realm: "Admin Area"
-]  
+]
+
+config :sentry, dsn: "https://public_key@app.getsentry.com/1",
+  included_environments: [:prod],
+  environment_name: Mix.env
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

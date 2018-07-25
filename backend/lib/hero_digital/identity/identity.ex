@@ -35,7 +35,10 @@ defmodule HeroDigital.Identity do
       ** (Ecto.NoResultsError)
 
   """
-  def get_lead!(id), do: Repo.get!(Lead, id)
+  def get_lead!(id) do
+    Repo.get!(Lead, id)
+    |> Repo.preload(:motorcycle)
+  end
 
   @doc """
   Creates a lead.
@@ -50,9 +53,9 @@ defmodule HeroDigital.Identity do
 
   """
   def create_lead(attrs \\ %{}) do
-    %Lead{}
-    |> Lead.changeset(attrs)
-    |> Repo.insert()
+    with {:ok, lead } <- (%Lead{} |> Lead.changeset(attrs) |> Repo.insert()) do
+      {:ok, get_lead!(lead.id)}
+    end
   end
 
   @doc """

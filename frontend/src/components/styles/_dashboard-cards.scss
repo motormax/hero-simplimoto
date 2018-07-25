@@ -1,0 +1,19 @@
+.ui.segments>.segment.dashboard-card{
+  border-left-width: 30px;
+  border-left-style: solid;
+  background: transparent;
+}
+
+.dashboard-card{
+  .row{
+    &:not(:first-child){
+      padding-top: 0;
+    }
+  }
+  .icon{
+    margin-top: .2em;
+    &.red{
+      color: $red;
+    }
+  }
+}

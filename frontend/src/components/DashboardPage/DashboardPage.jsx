@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
-import { Grid, Card, Header, Sticky } from 'semantic-ui-react';
+import { Grid, Segment, Header } from 'semantic-ui-react';
 
 import CheckoutSummary from './CheckoutSummary';
 import FundingSection from './Sections/FinancingSection';
+import DeliverySegment from './Sections/DeliverySection';
+import BikeModelSection from './Sections/BikeModelSection';
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -20,39 +22,26 @@ class DashboardPage extends Component {
 
   render() {
     const { funding, user, t } = this.props;
+    if (user.isLoading) {
+      return <h1>CARGANDO</h1>;
+    }
 
     return (
       <React.Fragment>
-        <Header size="large">{t('dashboard')} ({user.id})</Header>
-        <div ref={(ref) => { this.ref = ref; }}>
+        <div className="dashboard" ref={(ref) => { this.ref = ref; }}>
           <Grid>
-            <Grid.Column floated="left" style={{ textAlign: 'left' }} width={10}>
-              <Card.Group>
+            <Grid.Column width={10}>
+              <Header size="large">{t('dashboard')} ({user.id})</Header>
+              <Segment.Group>
+                <BikeModelSection motorcycle={user.motorcycle} />
                 <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
-              <Card.Group>
-                <FundingSection financing={funding} />
-              </Card.Group>
+                <DeliverySegment />
+              </Segment.Group>
             </Grid.Column>
-            <Grid.Column floated="right" width={6}>
-              <Sticky context={this.ref}>
+            <Grid.Column width={6}>
+              <div>
                 <CheckoutSummary />
-              </Sticky>
+              </div>
             </Grid.Column>
           </Grid>
         </div>

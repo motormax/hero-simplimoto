@@ -3,6 +3,7 @@ defmodule HeroDigitalWeb.EmailControllerTest do
 
   alias HeroDigital.Identity
   alias HeroDigital.UserData
+  alias HeroDigital.Product.Motorcycle
 
   @create_attrs %{email: "some email", lead_id: nil}
   @invalid_attrs %{email: nil, lead_id: nil}
@@ -13,7 +14,8 @@ defmodule HeroDigitalWeb.EmailControllerTest do
   end
 
   setup do
-    {:ok, lead} = Identity.create_lead()
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    {:ok, lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})
     %{lead: lead}
   end
 

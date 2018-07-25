@@ -11,8 +11,8 @@ defmodule HeroDigitalWeb.LeadController do
     render(conn, "index.json", leads: leads)
   end
 
-  def create(conn, _params) do
-    with {:ok, %Lead{} = lead} <- Identity.create_lead() do
+  def create(conn, %{"lead" => lead_params}) do
+    with {:ok, %Lead{} = lead} <- Identity.create_lead(lead_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", lead_path(conn, :show, lead))

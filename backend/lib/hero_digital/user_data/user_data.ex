@@ -8,6 +8,8 @@ defmodule HeroDigital.UserData do
 
   alias HeroDigital.UserData.PersonalData
   alias HeroDigital.UserData.Image
+  alias HeroDigital.UserData.Address
+  alias HeroDigital.UserData.Email
 
   @doc """
   Returns the list of personal_data.
@@ -102,8 +104,6 @@ defmodule HeroDigital.UserData do
   def change_personal_data(%PersonalData{} = personal_data) do
     PersonalData.changeset(personal_data, %{})
   end
-
-  alias HeroDigital.UserData.Email
 
   @doc """
   Returns the list of email.
@@ -299,5 +299,81 @@ defmodule HeroDigital.UserData do
     %Image{}
     |> Image.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Returns the list of addresses.
+
+  ## Examples
+
+      iex> list_addresses()
+      [%Address{}, ...]
+
+  """
+  def list_addresses do
+    Repo.all(Address)
+  end
+
+  @doc """
+  Gets a single address.
+
+  Raises `Ecto.NoResultsError` if the Address does not exist.
+
+  ## Examples
+
+      iex> get_address!(123)
+      %Address{}
+
+      iex> get_address!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_address!(id), do: Repo.get!(Address, id)
+
+  @doc """
+  Creates a address.
+
+  ## Examples
+
+      iex> create_address(%{field: value})
+      {:ok, %Address{}}
+
+      iex> create_address(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_address(attrs \\ %{}) do
+    %Address{}
+    |> Address.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Deletes a Address.
+
+  ## Examples
+
+      iex> delete_address(address)
+      {:ok, %Address{}}
+
+      iex> delete_address(address)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_address(%Address{} = address) do
+    Repo.delete(address)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking address changes.
+
+  ## Examples
+
+      iex> change_address(address)
+      %Ecto.Changeset{source: %Address{}}
+
+  """
+  def change_address(%Address{} = address) do
+    Address.changeset(address, %{})
   end
 end

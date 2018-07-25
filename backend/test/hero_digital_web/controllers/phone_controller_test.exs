@@ -3,6 +3,7 @@ defmodule HeroDigitalWeb.PhoneControllerTest do
 
   alias HeroDigital.UserData
   alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
   @create_attrs %{phone: "some phone", lead_id: nil}
   @invalid_attrs %{phone: nil, lead_id: nil}
@@ -13,7 +14,8 @@ defmodule HeroDigitalWeb.PhoneControllerTest do
   end
 
   setup do
-    {:ok, lead} = Identity.create_lead()
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    {:ok, lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})
     %{lead: lead}
   end
 

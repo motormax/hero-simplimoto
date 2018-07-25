@@ -3,6 +3,7 @@ defmodule HeroDigitalWeb.PersonalDataControllerTest do
 
   alias HeroDigital.UserData
   alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
   @create_attrs %{dni: "some dni", last_name: "some last_name", name: "some name", lead_id: "7488a646-e31f-11e4-aace-600308960662"}
   @invalid_attrs %{dni: nil, last_name: nil, name: nil, lead_id: nil}
@@ -13,7 +14,8 @@ defmodule HeroDigitalWeb.PersonalDataControllerTest do
   end
 
   setup do
-    {:ok, lead} = Identity.create_lead()
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    {:ok, lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})
     %{lead: lead}
   end
 

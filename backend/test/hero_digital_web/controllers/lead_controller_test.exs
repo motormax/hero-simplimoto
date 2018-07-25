@@ -1,13 +1,11 @@
 defmodule HeroDigitalWeb.LeadControllerTest do
   use HeroDigitalWeb.ConnCase
 
-  alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
-  @create_attrs %{}
-
-  def fixture(:lead) do
-    {:ok, lead} = Identity.create_lead()
-    lead
+  setup do
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    %{motorcycle: motorcycle}
   end
 
   setup %{conn: conn} do
@@ -15,8 +13,9 @@ defmodule HeroDigitalWeb.LeadControllerTest do
   end
 
   describe "create lead" do
-    test "renders lead when data is valid", %{conn: conn} do
-      conn = post conn, lead_path(conn, :create), lead: @create_attrs
+    test "renders lead when data is valid", %{motorcycle: motorcycle, conn: conn} do
+      attrs = %{"motorcycle_id": motorcycle.id}
+      conn = post conn, lead_path(conn, :create), lead: attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, lead_path(conn, :show, id)

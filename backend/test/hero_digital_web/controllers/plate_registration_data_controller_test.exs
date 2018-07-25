@@ -3,6 +3,7 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
 
   alias HeroDigital.PlateRegistration
   alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
   @valid_email "some email"
   @valid_phone "some phone"
@@ -14,7 +15,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
   end
 
   setup do
-    with {:ok, lead} = Identity.create_lead()
+    with motorcycle <- HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200}),
+        {:ok, lead} <- Identity.create_lead(%{:motorcycle_id => motorcycle.id})
       do
       %{
         attrs: %{

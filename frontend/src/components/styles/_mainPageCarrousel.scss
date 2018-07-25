@@ -17,21 +17,16 @@ h1.home-title{
   }
 }
 
-.cards-content{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .carrousel-item{
   &.card{
     width: 240px;
     border-radius: 0;
     text-align: center;
-    margin: 1em 1em 2.5em 1em;
+    margin: 1em auto 2.5em auto;
     &:first-child,
     &:last-child{
-      margin: 1em 1em 2.5em 1em;
+      margin: 1em auto 2.5em auto;
     }
     .brand-image{
       border-radius: 0;
