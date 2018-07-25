@@ -7,9 +7,9 @@ import 'semantic-ui-css/semantic.min.css';
 import { Container } from 'semantic-ui-react';
 
 import './App.css';
-import MainPage from './MainPage/MainPage';
 import DashboardPage from './DashboardPage/DashboardPage';
-import DeliverySection from './DashboardPage/Sections/DeliverySection';
+import MainPage from './MainPage/MainPage';
+import DeliverySection from './DeliveryPage';
 import DateYourBikeSection from './DashboardPage/Sections/DateYourBikeSection';
 
 import logoUrl from './hero-logo.png';
@@ -21,7 +21,7 @@ class App extends React.Component {
         <header>
           <img className="logo" alt="Hero digital" src={logoUrl} />
         </header>
-        <Container>
+        <Container className="main-container">
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/dashboard" component={DashboardPage} />

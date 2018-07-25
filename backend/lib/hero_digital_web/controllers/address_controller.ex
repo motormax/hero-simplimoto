@@ -15,7 +15,7 @@ defmodule HeroDigitalWeb.AddressController do
     with {:ok, %Address{} = address} <- UserData.create_address(address_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", address_path(conn, :show, address))
+      |> put_resp_header("location", user_address_path(conn, :show, address.user_id))
       |> render("show.json", address: address)
     end
   end

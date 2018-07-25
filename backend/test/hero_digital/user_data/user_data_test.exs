@@ -3,6 +3,7 @@ defmodule HeroDigital.UserDataTest do
 
   alias HeroDigital.UserData
   alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
   describe "addresses" do
     alias HeroDigital.UserData.Address
@@ -27,28 +28,31 @@ defmodule HeroDigital.UserDataTest do
     }
 
     setup do
-      {:ok, user} = Identity.create_user()
+      motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+      %{motorcycle: motorcycle}
+    end
+
+    setup %{motorcycle: motorcycle} do
+      {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
       %{user: user}
     end
 
     def address_fixture(attrs \\ %{}) do
-      {:ok, user} = Identity.create_user()
-      valid_attrs = %{@valid_attrs | "user_id": user.id}
       {:ok, address} =
         attrs
-        |> Enum.into(valid_attrs)
+        |> Enum.into(@valid_attrs)
         |> UserData.create_address()
 
       address
     end
 
-    test "list_addresses/0 returns all addresses" do
-      address = address_fixture()
+    test "list_addresses/0 returns all addresses", %{user: user} do
+      address = address_fixture(%{user_id: user.id})
       assert UserData.list_addresses() == [address]
     end
 
-    test "get_address!/1 returns the address with given id" do
-      address = address_fixture()
+    test "get_address!/1 returns the address with given id", %{user: user} do
+      address = address_fixture(%{user_id: user.id})
       assert UserData.get_address!(address.id) == address
     end
 
@@ -67,14 +71,14 @@ defmodule HeroDigital.UserDataTest do
       assert {:error, %Ecto.Changeset{}} = UserData.create_address(@invalid_attrs)
     end
 
-    test "delete_address/1 deletes the address" do
-      address = address_fixture()
+    test "delete_address/1 deletes the address", %{user: user} do
+      address = address_fixture(%{user_id: user.id})
       assert {:ok, %Address{}} = UserData.delete_address(address)
       assert_raise Ecto.NoResultsError, fn -> UserData.get_address!(address.id) end
     end
 
-    test "change_address/1 returns a address changeset" do
-      address = address_fixture()
+    test "change_address/1 returns a address changeset", %{user: user} do
+      address = address_fixture(%{user_id: user.id})
       assert %Ecto.Changeset{} = UserData.change_address(address)
     end
   end

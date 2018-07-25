@@ -1,3 +1,5 @@
+$gray-btn: #AFAFAF;
+
 .ui.button{
   border-radius: 50px;
   padding: .5em 2em;
@@ -13,27 +15,27 @@
   }
 
   &.secondary{
-    background-color: $med-gray;
+    background-color: $gray-btn;
     &:focus{
-      background-color: $med-gray;
+      background-color: $gray-btn;
     }
     &:hover,
     &:active{
-      background-color: darken($med-gray, 15%);
+      background-color: darken($gray-btn, 15%);
     }
     &.btn-outline{
       background: transparent;
-      border: 2px solid $med-gray;
-      color: $med-gray;
+      border: 2px solid $gray-btn;
+      color: $gray-btn;
       &:focus{
         background: transparent;
-        border: 2px solid $med-gray;
-        color: $med-gray;
+        border: 2px solid $gray-btn;
+        color: $gray-btn;
       }
       &:hover,
       &:active{
-        border: 2px solid darken($med-gray, 15%);
-        color: darken($med-gray, 15%);
+        border: 2px solid darken($gray-btn, 15%);
+        color: darken($gray-btn, 15%);
       }
     }
   }
