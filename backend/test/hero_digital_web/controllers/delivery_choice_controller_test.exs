@@ -54,9 +54,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
 
   describe "create delivery_choice" do
     test "renders delivery_choice when it is pickup location", %{user: user, conn: conn} do
-      IO.inspect(:lalalalalala)
       conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: @pickup_attrs
-      IO.inspect(:lololololo)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, user_delivery_choice_path(conn, :show, user.id)
@@ -86,7 +84,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
              }
     end
 
-    test "renders errors when data is invalid because no home address nor pikcup location", %{user: user, conn: conn} do
+    test "renders errors when data is invalid because no home address nor pickup location", %{user: user, conn: conn} do
       invalid_attrs_none = %{@invalid_attrs_none | "user_id": user.id}
       conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: invalid_attrs_none
       assert json_response(conn, 422)["errors"] != %{}

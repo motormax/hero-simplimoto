@@ -29,6 +29,9 @@ defmodule HeroDigitalWeb.Router do
       get "/delivery_choice", DeliveryChoiceController, :show
       post "/delivery_choice", DeliveryChoiceController, :create
       get "/addresses", AddressController, :index
+
+      get "/date_appointments", DateAppointmentController, :show
+      post "/date_appointments", DateAppointmentController, :create
     end
     match :*, "/*path", StaticFilesController, :not_found
   end
