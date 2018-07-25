@@ -6658,9 +6658,9 @@ selfsigned@^1.9.1:
   dependencies:
     node-forge "0.7.1"
 
-semantic-ui-calendar-react@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/semantic-ui-calendar-react/-/semantic-ui-calendar-react-0.6.0.tgz#2d7847c317772ad8087e91abef7ca309287f4622"
+semantic-ui-calendar-react@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/semantic-ui-calendar-react/-/semantic-ui-calendar-react-0.7.1.tgz#a1bbf46a6fc5b4bd7d3fddc27afb44eaea3ef407"
   dependencies:
     classnames "^2.2.5"
     lodash "^4.17.10"

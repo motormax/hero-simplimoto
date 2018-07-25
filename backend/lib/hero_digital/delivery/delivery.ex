@@ -42,7 +42,7 @@ defmodule HeroDigital.Delivery do
   end
 
   def get_delivery_choice_for_user(user_id) do
-    delivery_choice = Repo.one(from d in DeliveryChoice, where: d.user_id == ^user_id, order_by: d.inserted_at, limit: 1)
+    delivery_choice = Repo.one(from d in DeliveryChoice, where: d.user_id == ^user_id, order_by: [desc: d.inserted_at], limit: 1)
     Repo.preload(delivery_choice, [:address])
   end
 

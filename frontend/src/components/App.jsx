@@ -10,7 +10,7 @@ import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
 import DeliverySection from './DeliveryPage';
-import DateYourBikeSection from './DashboardPage/Sections/DateYourBikeSection';
+import DateYourBikeSection from './DateYourBikePage';
 import Footer from './Footer';
 
 import logoUrl from './hero-logo.png';
