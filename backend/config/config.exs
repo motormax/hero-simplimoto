@@ -28,6 +28,7 @@ config :ex_admin,
   modules: [
     HeroDigitalWeb.ExAdmin.Dashboard,
     HeroDigital.ExAdmin.Product.Motorcycle,
+    HeroDigital.ExAdmin.Identity.Lead,
     HeroDigital.ExAdmin.UserData.Email,
     HeroDigital.ExAdmin.UserData.Phone,
     HeroDigital.ExAdmin.UserData.PersonalData,
