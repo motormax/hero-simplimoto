@@ -2,6 +2,7 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
   use HeroDigitalWeb.ConnCase
 
   alias HeroDigital.Identity
+  alias HeroDigital.Product.Motorcycle
 
   @create_attrs %{
     date: ~D[2010-04-17],
@@ -19,7 +20,12 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
   @invalid_attrs %{date: nil, shift: nil, user_id: nil, address: nil}
 
   setup do
-    {:ok, user} = Identity.create_user()
+    motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+    %{motorcycle: motorcycle}
+  end
+
+  setup %{motorcycle: motorcycle} do
+    {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
     %{user: user}
   end
 
@@ -27,20 +33,12 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "index" do
-    test "lists all date_appointments", %{conn: conn} do
-      conn = get conn, date_appointment_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
-    end
-  end
-
   describe "create date_appointment" do
     test "renders date_appointment when data is valid", %{user: user, conn: conn} do
-      create_attrs = %{@create_attrs | "user_id": user.id}
-      conn = post conn, date_appointment_path(conn, :create), date_appointment: create_attrs
+      conn = post conn, user_date_appointment_path(conn, :create, user.id), date_appointment: @create_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, date_appointment_path(conn, :show, id)
+      conn = get conn, user_date_appointment_path(conn, :show, user.id)
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
                "date" => "2010-04-17",
@@ -57,26 +55,8 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
     end
 
     test "renders errors when data is invalid", %{user: user, conn: conn} do
-      invalid_attrs = %{@invalid_attrs | "user_id": user.id}
-      conn = post conn, date_appointment_path(conn, :create), date_appointment: invalid_attrs
+      conn = post conn, user_date_appointment_path(conn, :create, user.id), date_appointment: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
-
-  describe "delete date_appointment" do
-    setup %{user: user, conn: conn} do
-      create_attrs = %{@create_attrs | "user_id": user.id}
-      conn = post conn, date_appointment_path(conn, :create), date_appointment: create_attrs
-      %{"id" => id} = json_response(conn, 201)["data"]
-      %{date_appointment: id}
-    end
-
-    test "deletes chosen date_appointment", %{conn: conn, date_appointment: date_appointment} do
-      conn = delete conn, date_appointment_path(conn, :delete, date_appointment)
-      assert response(conn, 204)
-      assert_error_sent 404, fn ->
-        get conn, date_appointment_path(conn, :show, date_appointment)
-      end
     end
   end
 end

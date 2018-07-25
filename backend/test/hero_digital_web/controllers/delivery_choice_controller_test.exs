@@ -54,9 +54,7 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
 
   describe "create delivery_choice" do
     test "renders delivery_choice when it is pickup location", %{user: user, conn: conn} do
-      IO.inspect(:lalalalalala)
       conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: @pickup_attrs
-      IO.inspect(:lololololo)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, user_delivery_choice_path(conn, :show, user.id)

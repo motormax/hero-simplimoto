@@ -41,6 +41,11 @@ defmodule HeroDigital.DateYourBike do
     Repo.preload(date_appointment, [:address])
   end
 
+  def get_date_appointment_for_user!(user_id) do
+    date_appointment = Repo.one(from d in DateAppointment, where: d.user_id == ^user_id, order_by: d.inserted_at, limit: 1)
+    Repo.preload(date_appointment, [:address])
+  end
+
   @doc """
   Creates a date_appointment.
 
