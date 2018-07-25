@@ -19,7 +19,7 @@ export default i18next.init({
         currency_sign: 'AR$',
         month: 'mes',
       },
-    }
+    },
     en: {
       dashboard: {
         dashboard: 'Dashboard',
