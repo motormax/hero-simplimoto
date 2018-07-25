@@ -7,8 +7,8 @@ import moment from 'moment';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DateInput } from 'semantic-ui-calendar-react';
-import AddressSearchInput from './Delivery/AddressSearchInput';
-import AddressGoogleMap from './Delivery/AddressGoogleMap';
+import AddressSearchInput from '../../DeliveryPage/AddressSearchInput';
+import AddressGoogleMap from '../../DeliveryPage/AddressGoogleMap';
 
 const MORNING = 'morning';
 const AFTERNOON = 'afternoon';
