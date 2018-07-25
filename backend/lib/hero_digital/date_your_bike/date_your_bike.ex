@@ -41,8 +41,8 @@ defmodule HeroDigital.DateYourBike do
     Repo.preload(date_appointment, [:address])
   end
 
-  def get_date_appointment_for_user!(user_id) do
-    date_appointment = Repo.one(from d in DateAppointment, where: d.user_id == ^user_id, order_by: d.inserted_at, limit: 1)
+  def get_date_appointment_for_lead!(lead_id) do
+    date_appointment = Repo.one(from d in DateAppointment, where: d.lead_id == ^lead_id, order_by: d.inserted_at, limit: 1)
     Repo.preload(date_appointment, [:address])
   end
 
@@ -60,7 +60,7 @@ defmodule HeroDigital.DateYourBike do
   """
   def create_date_appointment(attrs \\ %{}) do
     attrs = if attrs["address"] do
-      address_attrs = Map.merge(attrs["address"], %{"user_id" => attrs["user_id"]})
+      address_attrs = Map.merge(attrs["address"], %{"lead_id" => attrs["lead_id"]})
       {:ok, address} = UserData.create_address(address_attrs)
       Map.merge(attrs, %{"address_id" => address.id})
     else
