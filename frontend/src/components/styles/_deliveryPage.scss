@@ -1,10 +1,11 @@
-.address-search {    
+.address-search {
     width: 100%;
-    
+    margin:0 .5em;
+
     .input-container {
         position: relative;
     }
-    
+
     .clear-button,
     .clear-button:active,
     .clear-button:focus {
@@ -33,7 +34,7 @@
             background-color: #fff;
             cursor: pointer;
         }
-        
+
         .suggestion-item--active {
             background-color: #fafafa;
         }
@@ -42,5 +43,5 @@
         .autocomplete-container {
             text-align: left;
         }
-    }    
+    }
 }
