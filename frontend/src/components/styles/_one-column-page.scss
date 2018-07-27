@@ -1,0 +1,11 @@
+.ui.card.page-column-card{
+  width: 90%;
+  max-width: 750px;
+  margin: auto;
+  .ui.selection.dropdown{
+    border: none;
+  }
+  .ui.segment{
+    background: $background-page-color;
+  }
+}

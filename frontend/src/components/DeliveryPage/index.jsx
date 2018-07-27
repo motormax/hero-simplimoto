@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { translate } from 'react-i18next';
-import { Button, Form, Message } from 'semantic-ui-react';
+import { Button, Form, Message, Card, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
@@ -20,11 +20,13 @@ const deliveryMethods = [
     key: HOME_DELIVERY,
     text: 'Quiero que me envíen la moto',
     value: HOME_DELIVERY,
+    icon: 'truck',
   },
   {
     key: PICKUP,
     text: 'Quiero retirar la moto por un concesionario',
     value: PICKUP,
+    icon: 'building',
   },
 ];
 
@@ -135,43 +137,49 @@ class DeliverySection extends Component {
     let formGroup;
     if (this.state.chosenDeliveryMethod === HOME_DELIVERY) {
       formGroup = (
-        <Form.Group widths="equal">
-          <AddressSearchInput
-            value={this.state.address.street}
-            onAddressChange={this.handleAddressDataChange}
-            onGeocodeLocationChange={this.handleGeocodeLocationChange}
-          />
-          <Form.Input
-            fluid
-            required
-            label="Piso/Depto"
-            type="text"
-            name="complements"
-            value={this.state.address.complements}
-            error={this.state.errors.complements}
-            onChange={this.handleDeliveryDataChange}
-          />
-          <Form.Input
-            fluid
-            required
-            label="Código postal"
-            type="text"
-            name="postalCode"
-            value={this.state.address.postalCode}
-            error={this.state.errors.postalCode}
-            onChange={this.handleDeliveryDataChange}
-          />
-          <Form.Input
-            fluid
-            required
-            label="Teléfono"
-            type="text"
-            name="telephoneNumber"
-            value={this.state.address.telephoneNumber}
-            error={this.state.errors.telephoneNumber}
-            onChange={this.handleDeliveryDataChange}
-          />
-        </Form.Group>);
+        <div>
+          <Form.Group>
+            <AddressSearchInput
+              value={this.state.address.street}
+              onAddressChange={this.handleAddressDataChange}
+              onGeocodeLocationChange={this.handleGeocodeLocationChange}
+            />
+          </Form.Group>
+
+          <Form.Group widths="equal">
+
+            <Form.Input
+              fluid
+              required
+              label="Piso/Depto"
+              type="text"
+              name="complements"
+              value={this.state.address.complements}
+              error={this.state.errors.complements}
+              onChange={this.handleDeliveryDataChange}
+            />
+            <Form.Input
+              fluid
+              required
+              label="Código postal"
+              type="text"
+              name="postalCode"
+              value={this.state.address.postalCode}
+              error={this.state.errors.postalCode}
+              onChange={this.handleDeliveryDataChange}
+            />
+            <Form.Input
+              fluid
+              required
+              label="Teléfono"
+              type="text"
+              name="telephoneNumber"
+              value={this.state.address.telephoneNumber}
+              error={this.state.errors.telephoneNumber}
+              onChange={this.handleDeliveryDataChange}
+            />
+          </Form.Group>
+        </div>);
     } else {
       formGroup = (
         <Form.Select
@@ -185,25 +193,43 @@ class DeliverySection extends Component {
     }
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} error={error}>
-          <Form.Select
-            fluid
-            options={deliveryMethods}
-            value={this.state.chosenDeliveryMethod}
-            onChange={this.handleDeliveryMethodChange}
-          />
-          {formGroup}
-          <Message
-            error
-            header="Error"
-            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-          />
-          <Button type="submit">Continuar</Button>
-        </Form>
-        <AddressGoogleMap
-          ref={this.addressMap}
-          onPickupLocationChange={this.handlePickupLocationChange}
-        />
+        <h2 className="fs-massive fw-bold txt-center">Entrega a domicilio</h2>
+        <p className="fs-huge txt-med-gray txt-center">Con la compra de tu moto Hero tenés el envío <br /> a domicilio totalmente bonificado</p>
+        <Card className="page-column-card">
+          <Card.Content>
+            <Form.Select
+              fluid
+              options={deliveryMethods}
+              value={this.state.chosenDeliveryMethod}
+              onChange={this.handleDeliveryMethodChange}
+              className="fs-big"
+            />
+          </Card.Content>
+
+          <Form onSubmit={this.handleSubmit} error={error}>
+
+            <Segment attached>
+              {formGroup}
+              <Message
+                error
+                header="Error"
+                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+              />
+            </Segment>
+
+            <AddressGoogleMap
+              ref={this.addressMap}
+              onPickupLocationChange={this.handlePickupLocationChange}
+            />
+
+            <Segment attached="bottom" className="txt-center">
+              <Button type="submit" size="big" primary>Continuar</Button>
+            </Segment>
+
+          </Form>
+
+        </Card>
+
       </div>
     );
   }
