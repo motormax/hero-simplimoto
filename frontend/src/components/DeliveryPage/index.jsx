@@ -193,16 +193,16 @@ class DeliverySection extends Component {
     }
     return (
       <div>
-        <h2 className='fs-massive fw-bold txt-center'>Entrega a domicilio</h2>
-        <p className='fs-huge txt-med-gray txt-center'>Con la compra de tu moto Hero tenés el envío <br/> a domicilio totalmente bonificado</p>
+        <h2 className="fs-massive fw-bold txt-center">Entrega a domicilio</h2>
+        <p className="fs-huge txt-med-gray txt-center">Con la compra de tu moto Hero tenés el envío <br /> a domicilio totalmente bonificado</p>
         <Card className="page-column-card">
           <Card.Content>
             <Form.Select
-            fluid
-            options={deliveryMethods}
-            value={this.state.chosenDeliveryMethod}
-            onChange={this.handleDeliveryMethodChange}
-            className="fs-big"
+              fluid
+              options={deliveryMethods}
+              value={this.state.chosenDeliveryMethod}
+              onChange={this.handleDeliveryMethodChange}
+              className="fs-big"
             />
           </Card.Content>
 
@@ -211,19 +211,19 @@ class DeliverySection extends Component {
             <Segment attached>
               {formGroup}
               <Message
-              error
-              header="Error"
-              content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+                error
+                header="Error"
+                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
               />
             </Segment>
 
             <AddressGoogleMap
-            ref={this.addressMap}
-            onPickupLocationChange={this.handlePickupLocationChange}
+              ref={this.addressMap}
+              onPickupLocationChange={this.handlePickupLocationChange}
             />
 
-            <Segment attached='bottom' className='txt-center'>
-              <Button type="submit" size='big' primary>Continuar</Button>
+            <Segment attached="bottom" className="txt-center">
+              <Button type="submit" size="big" primary>Continuar</Button>
             </Segment>
 
           </Form>
