@@ -20,11 +20,13 @@ const deliveryMethods = [
     key: HOME_DELIVERY,
     text: 'Quiero que me envíen la moto',
     value: HOME_DELIVERY,
+    icon: 'truck',
   },
   {
     key: PICKUP,
     text: 'Quiero retirar la moto por un concesionario',
     value: PICKUP,
+    icon: 'building',
   },
 ];
 
@@ -200,6 +202,7 @@ class DeliverySection extends Component {
             options={deliveryMethods}
             value={this.state.chosenDeliveryMethod}
             onChange={this.handleDeliveryMethodChange}
+            className="fs-big"
             />
           </Card.Content>
 
