@@ -5,9 +5,9 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
 
-  @pickup_attrs %{user_id: "", pickup_location: "some pickup_location", address: nil}
+  @pickup_attrs %{lead_id: "", pickup_location: "some pickup_location", address: nil}
   @address_attrs %{
-    user_id: "",
+    lead_id: "",
     pickup_location: nil,
     address: %{
       complements: "some complements",
@@ -18,9 +18,9 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
       town: "some town"
     }
   }
-  @invalid_attrs_none %{user_id: nil, pickup_location: nil, address: nil}
+  @invalid_attrs_none %{lead_id: nil, pickup_location: nil, address: nil}
   @invalid_attrs_both %{
-    user_id: "",
+    lead_id: "",
     pickup_location: "some pickup_location",
     address: %{
       complements: "some complements",
@@ -38,12 +38,12 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
   end
 
   setup %{motorcycle: motorcycle} do
-    {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
-    %{user: user}
+    {:ok, lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
+    %{lead: lead}
   end
 
-  def fixture(:delivery_choice, user) do
-    pickup_attrs = %{@pickup_attrs | "user_id": user.id}
+  def fixture(:delivery_choice, lead) do
+    pickup_attrs = %{@pickup_attrs | "lead_id": lead.id}
     {:ok, delivery_choice} = Delivery.create_delivery_choice(pickup_attrs)
     delivery_choice
   end
@@ -53,11 +53,11 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
   end
 
   describe "create delivery_choice" do
-    test "renders delivery_choice when it is pickup location", %{user: user, conn: conn} do
-      conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: @pickup_attrs
+    test "renders delivery_choice when it is pickup location", %{lead: lead, conn: conn} do
+      conn = post conn, lead_delivery_choice_path(conn, :create, lead.id), delivery_choice: @pickup_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, user_delivery_choice_path(conn, :show, user.id)
+      conn = get conn, lead_delivery_choice_path(conn, :show, lead.id)
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
                "pickup_location" => "some pickup_location",
@@ -65,11 +65,11 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
              }
     end
 
-    test "renders delivery_choice when it is home delivery", %{user: user, conn: conn} do
-      conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: @address_attrs
+    test "renders delivery_choice when it is home delivery", %{lead: lead, conn: conn} do
+      conn = post conn, lead_delivery_choice_path(conn, :create, lead.id), delivery_choice: @address_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, user_delivery_choice_path(conn, :show, user.id)
+      conn = get conn, lead_delivery_choice_path(conn, :show, lead.id)
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
                "pickup_location" => nil,
@@ -84,23 +84,23 @@ defmodule HeroDigitalWeb.DeliveryChoiceControllerTest do
              }
     end
 
-    test "renders errors when data is invalid because no home address nor pickup location", %{user: user, conn: conn} do
-      invalid_attrs_none = %{@invalid_attrs_none | "user_id": user.id}
-      conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: invalid_attrs_none
+    test "renders errors when data is invalid because no home address nor pikcup location", %{lead: lead, conn: conn} do
+      invalid_attrs_none = %{@invalid_attrs_none | "lead_id": lead.id}
+      conn = post conn, lead_delivery_choice_path(conn, :create, lead.id), delivery_choice: invalid_attrs_none
       assert json_response(conn, 422)["errors"] != %{}
     end
 
     test "renders errors when data is invalid because both home address and pickup location",
-         %{user: user, conn: conn} do
-      invalid_attrs_both = %{@invalid_attrs_both | "user_id": user.id}
-      conn = post conn, user_delivery_choice_path(conn, :create, user.id), delivery_choice: invalid_attrs_both
+         %{lead: lead, conn: conn} do
+      invalid_attrs_both = %{@invalid_attrs_both | "lead_id": lead.id}
+      conn = post conn, lead_delivery_choice_path(conn, :create, lead.id), delivery_choice: invalid_attrs_both
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
   describe "delete delivery_choice" do
-    setup %{user: user} do
-      delivery_choice = fixture(:delivery_choice, user)
+    setup %{lead: lead} do
+      delivery_choice = fixture(:delivery_choice, lead)
       {:ok, delivery_choice: delivery_choice}
     end
   end

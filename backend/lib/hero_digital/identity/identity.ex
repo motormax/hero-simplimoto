@@ -6,102 +6,102 @@ defmodule HeroDigital.Identity do
   import Ecto.Query, warn: false
   alias HeroDigital.Repo
 
-  alias HeroDigital.Identity.User
+  alias HeroDigital.Identity.Lead
 
   @doc """
-  Returns the list of users.
+  Returns the list of leads.
 
   ## Examples
 
-      iex> list_users()
-      [%User{}, ...]
+      iex> list_leads()
+      [%Lead{}, ...]
 
   """
-  def list_users do
-    Repo.all(User)
+  def list_leads do
+    Repo.all(Lead)
   end
 
   @doc """
-  Gets a single user.
+  Gets a single lead.
 
-  Raises `Ecto.NoResultsError` if the User does not exist.
+  Raises `Ecto.NoResultsError` if the Lead does not exist.
 
   ## Examples
 
-      iex> get_user!(123)
-      %User{}
+      iex> get_lead!(123)
+      %Lead{}
 
-      iex> get_user!(456)
+      iex> get_lead!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id) do
-    Repo.get!(User, id)
+  def get_lead!(id) do
+    Repo.get!(Lead, id)
     |> Repo.preload(:motorcycle)
   end
 
   @doc """
-  Creates a user.
+  Creates a lead.
 
   ## Examples
 
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
+      iex> create_lead(%{field: value})
+      {:ok, %Lead{}}
 
-      iex> create_user(%{field: bad_value})
+      iex> create_lead(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
-    with {:ok, user } <- (%User{} |> User.changeset(attrs) |> Repo.insert()) do
-      {:ok, get_user!(user.id)}
+  def create_lead(attrs \\ %{}) do
+    with {:ok, lead } <- (%Lead{} |> Lead.changeset(attrs) |> Repo.insert()) do
+      {:ok, get_lead!(lead.id)}
     end
   end
 
   @doc """
-  Updates a user.
+  Updates a lead.
 
   ## Examples
 
-      iex> update_user(user, %{field: new_value})
-      {:ok, %User{}}
+      iex> update_lead(lead, %{field: new_value})
+      {:ok, %Lead{}}
 
-      iex> update_user(user, %{field: bad_value})
+      iex> update_lead(lead, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
+  def update_lead(%Lead{} = lead, attrs) do
+    lead
+    |> Lead.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a User.
+  Deletes a Lead.
 
   ## Examples
 
-      iex> delete_user(user)
-      {:ok, %User{}}
+      iex> delete_lead(lead)
+      {:ok, %Lead{}}
 
-      iex> delete_user(user)
+      iex> delete_lead(lead)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_user(%User{} = user) do
-    Repo.delete(user)
+  def delete_lead(%Lead{} = lead) do
+    Repo.delete(lead)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user changes.
+  Returns an `%Ecto.Changeset{}` for tracking lead changes.
 
   ## Examples
 
-      iex> change_user(user)
-      %Ecto.Changeset{source: %User{}}
+      iex> change_lead(lead)
+      %Ecto.Changeset{source: %Lead{}}
 
   """
-  def change_user(%User{} = user) do
-    User.changeset(user, %{})
+  def change_lead(%Lead{} = lead) do
+    Lead.changeset(lead, %{})
   end
 end

@@ -15,9 +15,9 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
       telephone_number: "some telephone_number",
       town: "some town"
     },
-    user_id: nil
+    lead_id: nil
   }
-  @invalid_attrs %{date: nil, shift: nil, user_id: nil, address: nil}
+  @invalid_attrs %{date: nil, shift: nil, lead_id: nil, address: nil}
 
   setup do
     motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
@@ -25,8 +25,8 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
   end
 
   setup %{motorcycle: motorcycle} do
-    {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
-    %{user: user}
+    {:ok, lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
+    %{lead: lead}
   end
 
   setup %{conn: conn} do
@@ -34,11 +34,11 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
   end
 
   describe "create date_appointment" do
-    test "renders date_appointment when data is valid", %{user: user, conn: conn} do
-      conn = post conn, user_date_appointment_path(conn, :create, user.id), date_appointment: @create_attrs
+    test "renders date_appointment when data is valid", %{lead: lead, conn: conn} do
+      conn = post conn, lead_date_appointment_path(conn, :create, lead.id), date_appointment: @create_attrs
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get conn, user_date_appointment_path(conn, :show, user.id)
+      conn = get conn, lead_date_appointment_path(conn, :show, lead.id)
       assert json_response(conn, 200)["data"] == %{
                "id" => id,
                "date" => "2010-04-17",
@@ -54,8 +54,8 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
              }
     end
 
-    test "renders errors when data is invalid", %{user: user, conn: conn} do
-      conn = post conn, user_date_appointment_path(conn, :create, user.id), date_appointment: @invalid_attrs
+    test "renders errors when data is invalid", %{lead: lead, conn: conn} do
+      conn = post conn, lead_date_appointment_path(conn, :create, lead.id), date_appointment: @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

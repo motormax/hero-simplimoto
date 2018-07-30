@@ -94,7 +94,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchDelivery: async (userId) => {
     dispatch(startedFetchingDelivery());
-    const { data: { data: deliveryChoice } } = await axios.get(`/api/users/${userId}/delivery_choice`);
+    const { data: { data: deliveryChoice } } = await axios.get(`/api/leads/${userId}/delivery_choice`);
     dispatch(deliveryFetched(deliveryChoice || {}));
   },
   changeToDelivery: () => {

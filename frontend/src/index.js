@@ -21,7 +21,7 @@ import { userFetched, startedFetchingUser } from './actions/beginning';
 const userId = window.localStorage.getItem('userId');
 if (userId) {
   store.dispatch(startedFetchingUser());
-  axios.get(`/api/users/${userId}`).then((response) => {
+  axios.get(`/api/leads/${userId}`).then((response) => {
     store.dispatch(userFetched(response.data.data));
   });
 }

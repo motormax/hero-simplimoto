@@ -4,20 +4,19 @@ defmodule HeroDigital.IdentityTest do
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
 
-  describe "users" do
-    alias HeroDigital.Identity.User
+  describe "leads" do
+    alias HeroDigital.Identity.Lead
 
     @valid_attrs %{}
-    @update_attrs %{}
     @invalid_attrs %{}
 
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
+    def lead_fixture(attrs \\ %{}) do
+      {:ok, lead} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Identity.create_user()
+        |> Identity.create_lead()
 
-      user
+      lead
     end
 
     setup do
@@ -25,18 +24,18 @@ defmodule HeroDigital.IdentityTest do
       %{motorcycle: motorcycle}
     end
 
-    test "create_user/1 with valid data creates a user", %{motorcycle: motorcycle} do
-      assert {:ok, %User{} = user} = Identity.create_user(Map.put(@valid_attrs, :motorcycle_id, motorcycle.id))
-      assert user.motorcycle.id == motorcycle.id
+    test "create_lead/1 with valid data creates a lead", %{motorcycle: motorcycle} do
+      assert {:ok, %Lead{} = lead} = Identity.create_lead(Map.put(@valid_attrs, :motorcycle_id, motorcycle.id))
+      assert lead.motorcycle.id == motorcycle.id
     end
 
-    test "create_user/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Identity.create_user(@invalid_attrs)
+    test "create_lead/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Identity.create_lead(@invalid_attrs)
     end
 
-    test "get_user!/1 returns the user with given id", %{motorcycle: motorcycle}  do
-      user = user_fixture(%{motorcycle_id: motorcycle.id})
-      assert Identity.get_user!(user.id) == %{user | motorcycle: motorcycle}
+    test "get_lead!/1 returns the lead with given id", %{motorcycle: motorcycle}  do
+      lead = lead_fixture(%{motorcycle_id: motorcycle.id})
+      assert Identity.get_lead!(lead.id) == %{lead | motorcycle: motorcycle}
     end
   end
 end
