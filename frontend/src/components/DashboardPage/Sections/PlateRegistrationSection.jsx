@@ -6,18 +6,18 @@ import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import FileBase64 from 'react-file-base64';
 
 class PlateRegistrationSection extends Component {
   static propTypes = {
     submitPlateRegistrationData: propTypes.func.isRequired,
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.addressMap = React.createRef();
     this.state = {
       email: '',
       phone: '',
@@ -34,11 +34,18 @@ class PlateRegistrationSection extends Component {
         postalCode: '',
         telephoneNumber: '',
       },
-      frontDniImage: '',
-      backDniImage: '',
+      frontDniImage: {
+        data: '',
+        name: '',
+        type: '',
+      },
+      backDniImage: {
+        data: '',
+        name: '',
+        type: '',
+      },
       errors: {
         general: false,
-        shift: false,
         street: false,
         number: false,
         town: false,
@@ -100,15 +107,15 @@ class PlateRegistrationSection extends Component {
 
     body.plate_registration_data.personal_data = humps.decamelizeKeys(this.state.personalData);
     body.plate_registration_data.address = humps.decamelizeKeys(this.state.address);
-    body.plate_registration_data.lead_id = this.props.user.id;
+    body.plate_registration_data.lead_id = this.props.lead.id;
 
     // a corregir
     body.plate_registration_data.address.telephone_phone = this.state.phone;
-    this.state.frontDniImage = '1';
+    // this.state.frontDniImage = '1';
     this.state.backDniImage = '1';
 
     try {
-      await this.props.submitPlateRegistrationData(this.props.user.id, body);
+      await this.props.submitPlateRegistrationData(this.props.lead.id, body);
     } catch (error) {
       // TODO: handle specific input validation errors
       const newErrors = this.state.errors;
@@ -116,20 +123,6 @@ class PlateRegistrationSection extends Component {
       newErrors.description = error.response.data;
       this.setState({ errors: newErrors });
     }
-
-    /* const url = `api/leads/${this.props.lead.id}/plate_registration/`;
-    axios.post(url, body)
-      .then(() => {
-        console.log('Datos cargados correctamente'); // eslint-disable-line no-console
-        // this.props.history.push('/dashboard'); // dispatch.push
-      })
-      .catch((error) => {
-        // TODO: handle specific input validation errors
-        const newErrors = this.state.errors;
-        newErrors.general = true;
-        newErrors.description = error.message;
-        this.setState({ errors: newErrors });
-      }); */
   };
 
   handleChange = (event, { name, value }) => {
@@ -162,6 +155,26 @@ class PlateRegistrationSection extends Component {
     let newPhone = this.state.phone;
     newPhone = value;
     this.setState({ address: newPhone });
+  };
+
+  handleFrontDniImageChange = (event) => {
+    this.setState({
+      frontDniImage: {
+        data: event.base64,
+        name: event.name,
+        type: event.type,
+      },
+    });
+  };
+
+  handleBackDniImageChange = (event) => {
+    this.setState({
+      backDniImage: {
+        data: event.base64,
+        name: event.name,
+        type: event.type,
+      },
+    });
   };
 
   render() {
@@ -233,6 +246,18 @@ class PlateRegistrationSection extends Component {
           onChange={this.handleAddressDataChange}
         />
       </Form.Group>);
+      /* ESTE ES EL TELEFONO DE LA ADDRESS
+      <Form.Input
+          fluid
+          required
+          label="Teléfono"
+          type="text"
+          name="telephoneNumber"
+          value={this.state.address.telephoneNumber}
+          error={this.state.errors.telephoneNumber}
+          onChange={this.handleAddressDataChange}
+        />
+      */
     const lastFieldsFormGroup = (
       <Form.Group widths="equal">
         <Form.Input
@@ -248,7 +273,7 @@ class PlateRegistrationSection extends Component {
         <Form.Input
           fluid
           required
-          label="Teléfono NOP"
+          label="Teléfono"
           type="text"
           name="phone"
           value={this.state.phone}
@@ -256,24 +281,44 @@ class PlateRegistrationSection extends Component {
           onChange={this.handleChange}
         />
       </Form.Group>);
-      /*
-      <Form.Input
+    const dniFormGroup = (
+      <Form.Group widths="equal">
+        <Form.Input
           fluid
           required
-          label="Teléfono"
-          type="text"
-          name="telephoneNumber"
-          value={this.state.address.telephoneNumber}
-          error={this.state.errors.telephoneNumber}
-          onChange={this.handleAddressDataChange}
+          label="Imagen frontal DNI"
+          type="file"
+          name="frontDniImage"
+          value={this.state.frontDniImage}
+          error={this.state.errors.frontDniImage}
+          onChange={this.handleFrontDniImageChange}
         />
-      */
+      </Form.Group>);
+
+    const labelDniStyle = {
+      color: 'rgba(0,0,0,.87)',
+      'font-size': '.92857143em',
+      'font-weight': '700',
+      'font-family': "'Open Sans', sans-serif",
+    };
     return (
       <div>
         <Form onSubmit={this.handleSubmit} error={error}>
           {personalDataFormGroup}
           {addressFormGroup}
           {lastFieldsFormGroup}
+          <div>
+            <label style={labelDniStyle}>Imagen frontal DNI</label>
+            <FileBase64
+              onDone={this.handleFrontDniImageChange}
+            />
+            <label style={labelDniStyle}>
+              Imagen trasera DNI
+            </label>
+            <FileBase64
+              onDone={this.handleBackDniImageChange}
+            />
+          </div>
           <Message
             error
             header="Error"
@@ -288,8 +333,10 @@ class PlateRegistrationSection extends Component {
   }
 }
 
+// <input type="file" id="frontDniImage" onChange={this.handleFrontDniImageChange} />
+
 const mapStateToProps = store => ({
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 const mapDispatchToProps = dispatch => ({
