@@ -282,44 +282,26 @@ class PlateRegistrationSection extends Component {
           onChange={this.handleChange}
         />
       </Form.Group>);
-    const dniFormGroup = (
-      <Form.Group widths="equal">
-        <Form.Input
-          fluid
-          required
-          label="Imagen frontal DNI"
-          type="file"
-          name="frontDniImage"
-          value={this.state.frontDniImage}
-          error={this.state.errors.frontDniImage}
-          onChange={this.handleFrontDniImageChange}
-        />
-      </Form.Group>);
-
-    const labelDniStyle = {
-      color: 'rgba(0,0,0,.87)',
-      'font-size': '.92857143em',
-      'font-weight': '700',
-      'font-family': "'Open Sans', sans-serif",
-    };
     return (
       <div>
         <Form onSubmit={this.handleSubmit} error={error}>
           {personalDataFormGroup}
           {addressFormGroup}
           {lastFieldsFormGroup}
-          <div>
-            <label style={labelDniStyle}>Imagen frontal DNI</label>
-            <FileBase64
-              onDone={this.handleFrontDniImageChange}
-            />
-            <label style={labelDniStyle}>
-              Imagen trasera DNI
-            </label>
-            <FileBase64
-              onDone={this.handleBackDniImageChange}
-            />
-          </div>
+          <Form.Field>
+            <div className="required field">
+              <label>Imagen frontal DNI</label>
+              <FileBase64
+                onDone={this.handleFrontDniImageChange}
+              />
+            </div>
+            <div className="required field">
+              <label>Imagen trasera DNI</label>
+              <FileBase64
+                onDone={this.handleBackDniImageChange}
+              />
+            </div>
+          </Form.Field>
           <Message
             error
             header="Error"
@@ -333,8 +315,6 @@ class PlateRegistrationSection extends Component {
     );
   }
 }
-
-// <input type="file" id="frontDniImage" onChange={this.handleFrontDniImageChange} />
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
