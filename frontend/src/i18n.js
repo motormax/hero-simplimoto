@@ -43,6 +43,9 @@ export default i18next.init({
         disclaimer: 'Descargo de Responsabilidad',
         cancel_order: 'Cancelar compra',
       },
+      financing: {
+        financing: 'Financiamiento',
+      },
     },
     en: {
       dashboard: {
