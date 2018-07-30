@@ -88,14 +88,14 @@ class PlateRegistrationSection extends Component {
           telephoneNumber: '',
         },
         front_dni_image: {
-          data: 'YW5vdGhlciBpbWFnZQ==',
-          name: 'front dni page',
-          type: 'none',
+          data: '',
+          name: '',
+          type: '',
         },
         back_dni_image: {
-          data: 'YW5vdGhlciBpbWFnZQ==',
-          name: 'back dni page',
-          type: 'none',
+          data: '',
+          name: '',
+          type: '',
         },
       },
     };
@@ -108,11 +108,12 @@ class PlateRegistrationSection extends Component {
     body.plate_registration_data.personal_data = humps.decamelizeKeys(this.state.personalData);
     body.plate_registration_data.address = humps.decamelizeKeys(this.state.address);
     body.plate_registration_data.lead_id = this.props.lead.id;
-
-    // a corregir
-    body.plate_registration_data.address.telephone_phone = this.state.phone;
-    // this.state.frontDniImage = '1';
-    this.state.backDniImage = '1';
+    body.plate_registration_data.front_dni_image.data = this.state.frontDniImage.data;
+    body.plate_registration_data.front_dni_image.name = this.state.frontDniImage.name;
+    body.plate_registration_data.front_dni_image.type = this.state.frontDniImage.type;
+    body.plate_registration_data.back_dni_image.data = this.state.backDniImage.data;
+    body.plate_registration_data.back_dni_image.name = this.state.backDniImage.name;
+    body.plate_registration_data.back_dni_image.type = this.state.backDniImage.type;
 
     try {
       await this.props.submitPlateRegistrationData(this.props.lead.id, body);
