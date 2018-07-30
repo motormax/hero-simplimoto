@@ -46,6 +46,16 @@ export default i18next.init({
         disclaimer: 'Descargo de Responsabilidad',
         cancel_order: 'Cancelar compra',
       },
+      dashboard: {
+        good_choise: '¡Buena elección!',
+        header_intro: 'estás a pocos pasos de tener tu moto en tu casa',
+      },
+      bikeModelSection: {
+        currency_sign: 'AR$',
+        change_model: 'Cambiar Modelo',
+        live_tour: 'Tour en vivo',
+        moto_specs: 'Ficha técnica'
+      },
       financing: {
         financing: 'Financiamiento',
       },
