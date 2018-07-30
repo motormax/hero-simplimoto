@@ -3,9 +3,9 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { Button, Card, Image, Divider, List, Icon } from 'semantic-ui-react';
 
-import glovesImgUrl from './images/Guantes.png';
-import helmetImgUrl from './images/Casco.png';
-import trunkImgUrl from './images/Baul.png';
+import glovesImgUrl from './../images/Guantes.png';
+import helmetImgUrl from './../images/Casco.png';
+import trunkImgUrl from './../images/Baul.png';
 
 class CarrouselItem extends Component {
   static propTypes = {

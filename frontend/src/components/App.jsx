@@ -14,7 +14,7 @@ import DateYourBikeSection from './DashboardPage/Sections/DateYourBikeSection';
 import Footer from './Footer';
 
 import logoUrl from './hero-logo.png';
-import ignitorImgUrl from './images/Ignitor-blue.png';
+import ignitorImgUrl from './images/ignitor.png';
 
 
 class App extends React.Component {

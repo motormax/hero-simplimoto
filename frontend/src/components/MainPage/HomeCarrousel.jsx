@@ -5,8 +5,10 @@ import propTypes from 'prop-types';
 
 import CarrouselItem from './CarrouselItem';
 
-import hankImgUrl from './images/Hunk.png';
-import ignitorImgUrl from './images/Ignitor-blue.png';
+import hankImgUrl from './../images/Hunk.png';
+import hankSportImgUrl from './../images/Hunk-sport.png';
+import dashImgUrl from './../images/dash.png';
+import ignitorImgUrl from './../images/ignitor.png';
 
 
 class HomeCarrousel extends Component {
@@ -42,10 +44,10 @@ class HomeCarrousel extends Component {
             <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike(1)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(1)} />
+            <CarrouselItem bikeImageUrl={hankSportImgUrl} bikeName="Hunk Sport" onBuy={() => this.props.pickBike(1)} />
           </div>
           <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(1)} />
+            <CarrouselItem bikeImageUrl={dashImgUrl} bikeName="Dash" onBuy={() => this.props.pickBike(1)} />
           </div>
         </Slider>
       </div>
