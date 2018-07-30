@@ -1,8 +1,8 @@
-defmodule HeroDigital.Repo.Migrations.AddMotoToUser do
+defmodule HeroDigital.Repo.Migrations.AddMotoToLead do
   use Ecto.Migration
 
   def change do
-    alter table(:users) do
+    alter table(:leads) do
       add :motorcycle_id, references(:motorcycles), null: false
     end
   end

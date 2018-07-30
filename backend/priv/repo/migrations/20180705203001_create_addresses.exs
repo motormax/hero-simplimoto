@@ -9,11 +9,11 @@ defmodule HeroDigital.Repo.Migrations.CreateAddresses do
       add :town, :string
       add :postal_code, :string
       add :telephone_number, :string
-      add :user_id, references(:users, type: :uuid, on_delete: :delete_all)
+      add :lead_id, references(:leads, type: :uuid, on_delete: :delete_all)
 
       timestamps()
     end
 
-    create index(:addresses, [:user_id])
+    create index(:addresses, [:lead_id])
   end
 end

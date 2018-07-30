@@ -6,22 +6,13 @@ defmodule HeroDigitalWeb.AddressControllerTest do
   alias HeroDigital.Product.Motorcycle
 
   @create_attrs %{
-    user_id: nil,
+    lead_id: nil,
     complements: "some complements",
     number: "some number",
     postal_code: "some postal_code",
     street: "some street",
     telephone_number: "some telephone_number",
     town: "some town"
-  }
-  @invalid_attrs %{
-    user_id: nil,
-    complements: nil,
-    number: nil,
-    postal_code: nil,
-    street: nil,
-    telephone_number: nil,
-    town: nil
   }
 
   setup do
@@ -30,12 +21,12 @@ defmodule HeroDigitalWeb.AddressControllerTest do
   end
 
   setup %{motorcycle: motorcycle} do
-    {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
-    %{user: user}
+    {:ok, lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
+    %{lead: lead}
   end
 
-  def fixture(:address, user) do
-    create_attrs = %{@create_attrs | "user_id": user.id}
+  def fixture(:address, lead) do
+    create_attrs = %{@create_attrs | "lead_id": lead.id}
     {:ok, address} = UserData.create_address(create_attrs)
     address
   end
@@ -45,8 +36,8 @@ defmodule HeroDigitalWeb.AddressControllerTest do
   end
 
   describe "index" do
-    test "lists all addresses", %{conn: conn, user: user} do
-      conn = get conn, user_address_path(conn, :index, user.id)
+    test "lists all addresses", %{conn: conn, lead: lead} do
+      conn = get conn, lead_address_path(conn, :index, lead.id)
       assert json_response(conn, 200)["data"] == []
     end
   end

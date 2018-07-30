@@ -241,7 +241,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   submitDeliveryData: async (userId, deliveryChoice) => {
-    const { data: { data: delivery } } = await axios.post(`/api/users/${userId}/delivery_choice`, { delivery_choice: deliveryChoice });
+    const { data: { data: delivery } } = await axios.post(`/api/leads/${userId}/delivery_choice`, { delivery_choice: deliveryChoice });
     dispatch(deliveryFetched(delivery));
     dispatch(push('/dashboard'));
   },
