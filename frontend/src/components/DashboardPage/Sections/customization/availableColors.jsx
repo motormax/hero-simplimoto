@@ -1,3 +1,5 @@
+// Motobike codes can be seen in /backend/priv/repo/seeds.exs
+
 const availableColors = {
   HUNK:
     [
@@ -12,6 +14,25 @@ const availableColors = {
       {
         name: 'Negro Mate',
         imageURL: 'https://dummyimage.com/50/555555/555555',
+      },
+      {
+        name: 'Blanco',
+        imageURL: 'https://dummyimage.com/50/ffffff/ffffff',
+      },
+    ],
+  HUNK_SPORT:
+    [
+      {
+        name: 'Rojo Fiery',
+        imageURL: 'https://dummyimage.com/50/ff0000/ff0000',
+      },
+      {
+        name: 'Negro Panther',
+        imageURL: 'https://dummyimage.com/50/000000/000000',
+      },
+      {
+        name: 'Gris Mercuric',
+        imageURL: 'https://dummyimage.com/50/666666/666666',
       },
       {
         name: 'Blanco',
