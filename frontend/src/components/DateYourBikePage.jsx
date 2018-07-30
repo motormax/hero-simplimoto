@@ -212,7 +212,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   submitDateAppointment: async (userId, dateAppointment) => {
-    const { data: { data: newDateAppointment } } = await axios.post(`/api/users/${userId}/date_appointment`, { date_appointment: dateAppointment });
+    const { data: { data: newDateAppointment } } = await axios.post(`/api/leads/${userId}/date_appointment`, { date_appointment: dateAppointment });
     dispatch(dateAppointmentFetched(newDateAppointment));
     dispatch(push('/dashboard'));
   },
