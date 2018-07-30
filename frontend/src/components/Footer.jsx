@@ -27,7 +27,7 @@ class Footer extends Component {
                     <Icon className="txt-med-gray" name="map marker alternate" />
                     <List.Content>
                       <List.Header className="uppercase">{t('company_name')}</List.Header>
-                      <List.Description className="txt-med-gray">{t('company_adress')}</List.Description>
+                      <List.Description className="txt-med-gray">{t('company_address')}</List.Description>
                     </List.Content>
                   </List.Item>
                   <List.Item>

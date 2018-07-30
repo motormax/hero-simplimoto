@@ -12,7 +12,7 @@ class CheckoutSummary extends Component {
     return (
       <div className="checkoutSummary">
         <Card fluid>
-          <h3 className="summary-title">Resúmen de tu Moto</h3>
+          <h3 className="summary-title">Resumen de tu Moto</h3>
 
           <Card.Content>
             <List className="summary-list" verticalAlign="middle">
@@ -25,7 +25,7 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="txt-green fs-small uppercase">¡grátis!</span>
+                  <span className="txt-green fs-small uppercase">¡gratis!</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Personalización</List.Content>
@@ -48,7 +48,7 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="txt-green fs-small uppercase">¡grátis!</span>
+                  <span className="txt-green fs-small uppercase">¡gratis!</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Entrega a domicilio</List.Content>
