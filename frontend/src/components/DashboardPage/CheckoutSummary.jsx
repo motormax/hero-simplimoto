@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Button, Card, Icon, List, Divider } from 'semantic-ui-react';
 
-import bankImage from './images/banks-logos/icbc-logo.png';
+import bankImage from './../images/banks-logos/icbc-logo.png';
 
 class CheckoutSummary extends Component {
   render() {

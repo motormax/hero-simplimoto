@@ -14,7 +14,7 @@ class FinancingSection extends Component {
     const { t } = this.props;
 
     const isOk = true;
-    const color = isOk ? 'darkgray' : 'red';
+    const color = isOk ? 'red' : 'red';
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
@@ -24,13 +24,12 @@ class FinancingSection extends Component {
               <Icon size="large" color={color} name="arrow right" />
             </Grid.Column>
             <Grid.Column width={10}>
-              <h3 className="fw-bold fs-big">{t('title')}</h3>
-              <p className="txt-med-gray fs-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nunc pulvinar tristique nisi et posuere
+              <h3 className="fw-bold fs-big">Financiamiento</h3>
+              <p className="txt-med-gray fs-medium">Elegí el financiamiento más conveniente
               </p>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button className="btn-outline" fluid secondary>{t('change')}</Button>
+              <Button fluid primary>Seleccionar Financiamiento</Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>
