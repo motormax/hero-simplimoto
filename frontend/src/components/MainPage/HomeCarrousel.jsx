@@ -2,39 +2,8 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import propTypes from 'prop-types';
 
-
 import CarrouselItem from './CarrouselItem';
-
-import hunkImgUrl from './../images/Hunk.png';
-import hunkSportImgUrl from './../images/Hunk-sport.png';
-import ignitorImgUrl from './../images/ignitor.png';
-
-const MOTORBIKE_LIST = [
-  /*
-  Until we implement dynamic motorbike selection, we use hardcoded IDs.
-  Motorbike IDs can be found in backend/priv/repo/seeds.exs (they are 1-indexed).
-  */
-  {
-    id: 1,
-    displayName: 'Hunk',
-    imageUrl: hunkImgUrl,
-  },
-  {
-    id: 2,
-    displayName: 'Ignitor',
-    imageUrl: ignitorImgUrl,
-  },
-  {
-    id: 3,
-    displayName: 'Hunk Sport',
-    imageUrl: hunkSportImgUrl,
-  },
-  {
-    id: 4,
-    displayName: 'Dash',
-    imageUrl: hunkImgUrl,
-  },
-];
+import availableMotorcycles from '../motorcycles/availableMotorcycles';
 
 class HomeCarrousel extends Component {
   static propTypes = {
@@ -59,7 +28,7 @@ class HomeCarrousel extends Component {
       ],
     };
 
-    const carrouselItems = MOTORBIKE_LIST.map(bikeData => (
+    const carrouselItems = Object.values(availableMotorcycles).map(bikeData => (
       <div>
         <CarrouselItem
           bikeImageUrl={bikeData.imageUrl}

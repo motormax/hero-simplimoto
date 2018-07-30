@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { Button, Card, Container, Divider, Grid, Icon, List } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
+import { connect } from 'react-redux';
 
 import logoUrl from './hero-logo.png';
-import connect from 'react-redux/es/connect/connect';
+import availableMotorcycles from './motorcycles/availableMotorcycles';
 
 class Footer extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
     currentBikeModel: propTypes.string.isRequired,
-    bikeImageUrl: propTypes.string.isRequired,
-    bikeName: propTypes.string.isRequired,
   };
 
   render() {
-    const { t, bikeImageUrl, currentBikeModel } = this.props;
+    const { t, currentBikeModel } = this.props;
 
     let youAreBuying;
     if (currentBikeModel) {
+      const bikeImageUrl = availableMotorcycles[currentBikeModel].imageUrl;
+      const bikeDisplayName = availableMotorcycles[currentBikeModel].displayName;
       youAreBuying = (
         <List>
           <List.Item>
@@ -33,7 +34,7 @@ class Footer extends Component {
                   </Grid.Column>
                   <Grid.Column width={11}>
                     <div>
-                      <span className="bike-name fw-bold fs-large">{currentBikeModel}</span>
+                      <span className="bike-name fw-bold fs-large">{bikeDisplayName}</span>
                       <Button className="btn-outline" secondary fluid>{t('cancel_order')}</Button>
                     </div>
                   </Grid.Column>

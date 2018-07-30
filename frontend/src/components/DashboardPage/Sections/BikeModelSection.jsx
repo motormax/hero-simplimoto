@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
+import availableMotorcycles from '../../motorcycles/availableMotorcycles';
 
 
 class BikeModelSection extends Component {
@@ -23,7 +24,7 @@ class BikeModelSection extends Component {
               <Icon size="large" color="green" name="check" />
             </Grid.Column>
             <Grid.Column width={10}>
-              <h3 className="fw-bold fs-big">Modelo de moto ({motorcycle.name})</h3>
+              <h3 className="fw-bold fs-big">Modelo de moto: {availableMotorcycles[motorcycle.name].displayName}</h3>
               <p className="txt-med-gray fs-medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc pulvinar tristique nisi et posuere
               </p>
