@@ -31,7 +31,7 @@ const deliveryMethods = [
 ];
 
 
-class DeliverySection extends Component {
+class DeliveryPage extends Component {
   static propTypes = {
     submitDeliveryData: propTypes.func.isRequired,
     user: propTypes.shape({
@@ -247,4 +247,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default translate('delivery')(connect(mapStateToProps, mapDispatchToProps)(DeliverySection));
+export default translate('delivery')(connect(mapStateToProps, mapDispatchToProps)(DeliveryPage));

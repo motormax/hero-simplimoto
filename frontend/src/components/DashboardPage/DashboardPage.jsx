@@ -5,8 +5,9 @@ import { translate } from 'react-i18next';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 
 import CheckoutSummary from './CheckoutSummary';
+import DateYourBikeSection from './Sections/DateYourBikeSection';
 import FundingSection from './Sections/FinancingSection';
-import DeliverySegment from './Sections/DeliverySection';
+import DeliverySection from './Sections/DeliverySection';
 import BikeModelSection from './Sections/BikeModelSection';
 import BikeColorSection from './Sections/BikeColorSection';
 import availableColors from './Sections/customization/availableColors';
@@ -38,7 +39,8 @@ class DashboardPage extends Component {
                 <BikeModelSection motorcycle={user.motorcycle} />
                 <FundingSection financing={funding} />
                 <BikeColorSection availableColors={availableColors[user.motorcycle.name]} />
-                <DeliverySegment />
+                <DateYourBikeSection />
+                <DeliverySection />
               </Segment.Group>
             </Grid.Column>
             <Grid.Column width={6}>
