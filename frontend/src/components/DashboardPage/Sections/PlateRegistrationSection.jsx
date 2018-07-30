@@ -6,7 +6,6 @@ import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FileBase64 from 'react-file-base64';
 
 class PlateRegistrationSection extends Component {
   static propTypes = {
@@ -158,25 +157,45 @@ class PlateRegistrationSection extends Component {
     this.setState({ address: newPhone });
   };
 
-  handleFrontDniImageChange = (event) => {
-    this.setState({
-      frontDniImage: {
-        data: event.base64,
-        name: event.name,
-        type: event.type,
-      },
-    });
+  handleFrontDniImageChange = async (event) => {
+    const frontDniImage = await this.imageToBase64AndChange(event);
+    this.setState({ frontDniImage });
   };
 
-  handleBackDniImageChange = (event) => {
-    this.setState({
-      backDniImage: {
-        data: event.base64,
-        name: event.name,
-        type: event.type,
-      },
-    });
+  handleBackDniImageChange = async (event) => {
+    const backDniImage = await this.imageToBase64AndChange(event);
+    this.setState({ backDniImage });
   };
+
+  imageToBase64AndChange = event => new Promise((resolve, reject) => {
+    const selectedFile = event.target.files;
+    let file = '';
+    let fileName = '';
+    let fileType = '';
+
+    // Check if File is not empty
+    if (selectedFile.length > 0) {
+      // Select the very first file from list
+      const fileToLoad = selectedFile[0];
+      fileName = fileToLoad.name;
+      fileType = fileToLoad.type;
+      // FileReader function for read the file
+      const fileReader = new FileReader();
+      // Onload of file read the file content
+      fileReader.onload = (fileLoadedEvent) => {
+        file = fileLoadedEvent.target.result;
+        resolve({
+          data: file,
+          name: fileName,
+          type: fileType,
+        });
+      };
+      fileReader.onerror = reject;
+
+      // Convert data to base64
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  });
 
   render() {
     const error = Object.values(this.state.errors)
@@ -290,16 +309,12 @@ class PlateRegistrationSection extends Component {
           {lastFieldsFormGroup}
           <Form.Field>
             <div className="required field">
-              <label>Imagen frontal DNI</label>
-              <FileBase64
-                onDone={this.handleFrontDniImageChange}
-              />
+              <label name="frontDniImage">Imagen frontal DNI</label>
+              <input type="file" onChange={this.handleFrontDniImageChange} />
             </div>
             <div className="required field">
-              <label>Imagen trasera DNI</label>
-              <FileBase64
-                onDone={this.handleBackDniImageChange}
-              />
+              <label name="backDniImage">Imagen trasera DNI</label>
+              <input type="file" onChange={this.handleBackDniImageChange} />
             </div>
           </Form.Field>
           <Message
