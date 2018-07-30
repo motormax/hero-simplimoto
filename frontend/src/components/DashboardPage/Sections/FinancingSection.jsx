@@ -24,7 +24,7 @@ class FinancingSection extends Component {
               <Icon size="large" color={color} name="arrow right" />
             </Grid.Column>
             <Grid.Column width={10}>
-              <h3 className="fw-bold fs-big">{t(financing)}</h3>
+              <h3 className="fw-bold fs-big">{t('financing')}</h3>
               <p className="txt-med-gray fs-medium">Elegí el financiamiento más conveniente
               </p>
             </Grid.Column>
