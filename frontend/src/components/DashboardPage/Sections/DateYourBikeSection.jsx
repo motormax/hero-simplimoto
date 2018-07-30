@@ -62,7 +62,7 @@ class DateYourBikeSection extends Component {
 const mapDispatchToProps = dispatch => ({
   fetchDateAppointment: async (userId) => {
     dispatch(startedFetchingAppointment());
-    const { data: { data: appointmentData } } = await axios.get(`/api/users/${userId}/date_appointment`);
+    const { data: { data: appointmentData } } = await axios.get(`/api/leads/${userId}/date_appointment`);
     dispatch(dateAppointmentFetched(appointmentData));
   },
   changeToDateYourBike: () => {

@@ -7,7 +7,7 @@ defmodule HeroDigital.DateYourBike.DateAppointment do
     field :date, :date
     field :shift, :string
     belongs_to :address, HeroDigital.UserData.Address
-    belongs_to :user, HeroDigital.Identity.User, type: Ecto.UUID
+    belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
 
     timestamps()
   end
@@ -15,7 +15,7 @@ defmodule HeroDigital.DateYourBike.DateAppointment do
   @doc false
   def changeset(date_appointment, attrs) do
     date_appointment
-    |> cast(attrs, [:date, :shift, :address_id, :user_id])
-    |> validate_required([:date, :shift, :user_id, :address_id])
+    |> cast(attrs, [:date, :shift, :address_id, :lead_id])
+    |> validate_required([:date, :shift, :lead_id, :address_id])
   end
 end

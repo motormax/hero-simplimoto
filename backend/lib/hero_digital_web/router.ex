@@ -25,11 +25,18 @@ defmodule HeroDigitalWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api", HeroDigitalWeb do
     pipe_through :api
-    resources "/users", UserController, only: [:create, :show] do
+    resources "/personal_data", PersonalDataController, only: [:create, :show]
+    resources "/email", EmailController, only: [:create, :show]
+    resources "/phone", PhoneController, only: [:create, :show]
+
+
+    resources "/leads", LeadController, only: [:create, :show] do
       get "/delivery_choice", DeliveryChoiceController, :show
       post "/delivery_choice", DeliveryChoiceController, :create
       get "/addresses", AddressController, :index
 
+      post "/plate_registration", PlateRegistrationDataController, :create
+      get "/plate_registration", PlateRegistrationDataController, :show
       get "/date_appointment", DateAppointmentController, :show
       post "/date_appointment", DateAppointmentController, :create
     end

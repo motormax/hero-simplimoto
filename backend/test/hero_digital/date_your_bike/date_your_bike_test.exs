@@ -28,8 +28,8 @@ defmodule HeroDigital.DateYourBikeTest do
     end
 
     setup %{motorcycle: motorcycle} do
-      {:ok, user} = Identity.create_user(%{motorcycle_id: motorcycle.id})
-      %{user: user}
+      {:ok, lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
+      %{lead: lead}
     end
 
     def date_appointment_fixture(attrs \\ %{}) do
@@ -40,35 +40,35 @@ defmodule HeroDigital.DateYourBikeTest do
       date_appointment
     end
 
-    test "list_date_appointments/0 returns all date_appointments", %{user: user} do
-      date_appointment = date_appointment_fixture(%{"user_id" => user.id})
+    test "list_date_appointments/0 returns all date_appointments", %{lead: lead} do
+      date_appointment = date_appointment_fixture(%{"lead_id" => lead.id})
       assert DateYourBike.list_date_appointments() == [date_appointment]
     end
 
-    test "get_date_appointment!/1 returns the date_appointment with given id", %{user: user} do
-      date_appointment = date_appointment_fixture(%{"user_id" => user.id})
+    test "get_date_appointment!/1 returns the date_appointment with given id", %{lead: lead} do
+      date_appointment = date_appointment_fixture(%{"lead_id" => lead.id})
       assert DateYourBike.get_date_appointment!(date_appointment.id) == date_appointment
     end
 
-    test "create_date_appointment/1 with valid data creates a date_appointment", %{user: user} do
-      valid_attrs = Map.put(@valid_attrs, "user_id", user.id)
+    test "create_date_appointment/1 with valid data creates a date_appointment", %{lead: lead} do
+      valid_attrs = Map.put(@valid_attrs, "lead_id", lead.id)
       assert {:ok, %DateAppointment{} = date_appointment} = DateYourBike.create_date_appointment(valid_attrs)
       assert date_appointment.date == ~D[2010-04-17]
       assert date_appointment.shift == "some shift"
     end
 
-    test "create_date_appointment/1 with invalid data returns error changeset", %{user: user} do
+    test "create_date_appointment/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = DateYourBike.create_date_appointment(@invalid_attrs)
     end
 
-    test "delete_date_appointment/1 deletes the date_appointment", %{user: user} do
-      date_appointment = date_appointment_fixture(%{"user_id" => user.id})
+    test "delete_date_appointment/1 deletes the date_appointment", %{lead: lead} do
+      date_appointment = date_appointment_fixture(%{"lead_id" => lead.id})
       assert {:ok, %DateAppointment{}} = DateYourBike.delete_date_appointment(date_appointment)
       assert_raise Ecto.NoResultsError, fn -> DateYourBike.get_date_appointment!(date_appointment.id) end
     end
 
-    test "change_date_appointment/1 returns a date_appointment changeset", %{user: user} do
-      date_appointment = date_appointment_fixture(%{"user_id" => user.id})
+    test "change_date_appointment/1 returns a date_appointment changeset", %{lead: lead} do
+      date_appointment = date_appointment_fixture(%{"lead_id" => lead.id})
       assert %Ecto.Changeset{} = DateYourBike.change_date_appointment(date_appointment)
     end
   end

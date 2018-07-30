@@ -6,7 +6,7 @@ defmodule HeroDigital.Delivery.DeliveryChoice do
   schema "delivery_choices" do
     field :pickup_location, :string
     belongs_to :address, HeroDigital.UserData.Address
-    belongs_to :user, HeroDigital.Identity.User, type: Ecto.UUID
+    belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
 
     timestamps()
   end
@@ -14,8 +14,8 @@ defmodule HeroDigital.Delivery.DeliveryChoice do
   @doc false
   def changeset(delivery_choice, attrs) do
     changeset = delivery_choice
-                |> cast(attrs, [:pickup_location, :address_id, :user_id])
-                |> validate_required([:user_id])
+                |> cast(attrs, [:pickup_location, :address_id, :lead_id])
+                |> validate_required([:lead_id])
     cond do
       !get_field(changeset, :address_id) && !get_field(changeset, :pickup_location) ->
         changeset
