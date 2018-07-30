@@ -12,19 +12,19 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case actionTypes.userFetched:
-      window.localStorage.setItem('userId', action.user.id);
+    case actionTypes.leadFetched:
+      window.localStorage.setItem('leadId', action.lead.id);
 
       return {
         ...state,
-        user: action.user,
+        lead: action.lead,
         funding: fundingReducer(undefined, action),
         delivery: deliveryReducer(undefined, action),
       };
-    case actionTypes.startedFetchingUser:
+    case actionTypes.startedFetchingLead:
       return {
         ...state,
-        user: { isLoading: true },
+        lead: { isLoading: true },
       };
     default:
       return ({

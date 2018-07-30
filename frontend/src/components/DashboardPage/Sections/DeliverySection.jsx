@@ -10,13 +10,13 @@ class DeliverySection extends Component {
   static propTypes = {
     fetchDelivery: propTypes.func.isRequired,
     changeToDelivery: propTypes.func.isRequired,
-    user: propTypes.shape({ id: propTypes.number.isRequired }).isRequired,
+    lead: propTypes.shape({ id: propTypes.number.isRequired }).isRequired,
     delivery: propTypes.shape({ id: propTypes.number.isRequired }).isRequired,
   };
 
   componentDidMount() {
     if (!this.props.delivery.id) {
-      this.props.fetchDelivery(this.props.user.id);
+      this.props.fetchDelivery(this.props.lead.id);
     }
   }
 
@@ -87,14 +87,14 @@ class DeliverySection extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.main.user,
+  lead: state.main.lead,
   delivery: state.main.delivery,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchDelivery: async (userId) => {
+  fetchDelivery: async (leadId) => {
     dispatch(startedFetchingDelivery());
-    const { data: { data: deliveryChoice } } = await axios.get(`/api/leads/${userId}/delivery_choice`);
+    const { data: { data: deliveryChoice } } = await axios.get(`/api/leads/${leadId}/delivery_choice`);
     dispatch(deliveryFetched(deliveryChoice || {}));
   },
   changeToDelivery: () => {

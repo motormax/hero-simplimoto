@@ -34,7 +34,7 @@ const shiftOptions = [
 
 class DateYourBikeSection extends Component {
   static propTypes = {
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
   };
@@ -77,7 +77,7 @@ class DateYourBikeSection extends Component {
     const body = { date_appointment: {} };
     body.date_appointment.shift = this.state.shift;
     body.date_appointment.date = moment(this.state.date, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    body.date_appointment.user_id = this.props.user.id;
+    body.date_appointment.lead_id = this.props.lead.id;
     body.date_appointment.address = humps.decamelizeKeys(this.state.address);
     axios.post('api/date_appointments', body)
       .then(() => {
@@ -204,7 +204,7 @@ class DateYourBikeSection extends Component {
 }
 
 const mapStateToProps = store => ({
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 export default translate('dateYourBike')(connect(mapStateToProps)(DateYourBikeSection));

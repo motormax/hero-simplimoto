@@ -32,7 +32,7 @@ const deliveryMethods = [
 class DeliverySection extends Component {
   static propTypes = {
     submitDeliveryData: propTypes.func.isRequired,
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
   };
@@ -71,7 +71,7 @@ class DeliverySection extends Component {
 
   sendDeliveryData = async () => {
     let deliveryChoice = {
-      user_id: this.props.user.id,
+      lead_id: this.props.lead.id,
     };
     if (this.state.chosenDeliveryMethod === HOME_DELIVERY) {
       deliveryChoice = {
@@ -85,7 +85,7 @@ class DeliverySection extends Component {
     }
 
     try {
-      await this.props.submitDeliveryData(this.props.user.id, deliveryChoice);
+      await this.props.submitDeliveryData(this.props.lead.id, deliveryChoice);
     } catch (error) {
       // TODO: handle specific input validation errors
       const newErrors = this.state.errors;
@@ -210,12 +210,12 @@ class DeliverySection extends Component {
 }
 
 const mapStateToProps = store => ({
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 const mapDispatchToProps = dispatch => ({
-  submitDeliveryData: async (userId, deliveryChoice) => {
-    const { data: { data: delivery } } = await axios.post(`/api/users/${userId}/delivery_choice`, { delivery_choice: deliveryChoice });
+  submitDeliveryData: async (leadId, deliveryChoice) => {
+    const { data: { data: delivery } } = await axios.post(`/api/leads/${leadId}/delivery_choice`, { delivery_choice: deliveryChoice });
     dispatch(deliveryFetched(delivery));
     dispatch(push('/dashboard'));
   },
