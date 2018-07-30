@@ -9,8 +9,8 @@ import { Container } from 'semantic-ui-react';
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
-import DeliverySection from './DeliveryPage';
-import DateYourBikeSection from './DateYourBikePage';
+import DeliveryPage from './DeliveryPage';
+import DateYourBikePage from './DateYourBikePage';
 import Footer from './Footer';
 
 import logoUrl from './hero-logo.png';
@@ -28,8 +28,8 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/dashboard" component={DashboardPage} />
-            <Route path="/delivery" component={DeliverySection} />
-            <Route path="/date" component={DateYourBikeSection} />
+            <Route path="/delivery" component={DeliveryPage} />
+            <Route path="/date" component={DateYourBikePage} />
           </Switch>
         </Container>
         <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />
