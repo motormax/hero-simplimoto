@@ -70,7 +70,7 @@ class DeliverySection extends Component {
             </Grid.Column>
             <Grid.Column width={7}>
               <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToDelivery()}>Ingresar
-                drección del envio
+                drección del envío
               </Button>
             </Grid.Column>
           </Grid.Row>

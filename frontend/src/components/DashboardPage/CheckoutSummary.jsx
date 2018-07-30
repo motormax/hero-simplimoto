@@ -6,7 +6,7 @@ import bankImage from './../images/banks-logos/icbc-logo.png';
 
 class CheckoutSummary extends Component {
   render() {
-    const bikeName = 'Moto Piola';
+    const bikeName = 'DASH';
     const bankName = 'ICBC';
 
     return (

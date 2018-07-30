@@ -5,6 +5,9 @@ export default i18next.init({
   debug: process.env.NODE_ENV !== 'test',
   resources: {
     es: {
+      dashboard: {
+        dashboard: 'Dashboard',
+      },
       index: {
         buy_the_bike: 'Comprá tu próxima moto',
         online: '100% online',
