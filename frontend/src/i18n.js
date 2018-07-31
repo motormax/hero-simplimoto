@@ -47,7 +47,7 @@ export default i18next.init({
         cancel_order: 'Cancelar compra',
       },
       dashboard: {
-        good_choise: '¡Buena elección!',
+        good_choice: '¡Buena elección!',
         header_intro: 'estás a pocos pasos de tener tu moto en tu casa',
       },
       bikeModelSection: {
