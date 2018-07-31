@@ -4,7 +4,7 @@ import axios from 'axios';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { userFetched } from '../../actions/beginning';
+import { leadFetched } from '../../actions/beginning';
 
 import HomeCarrousel from './HomeCarrousel';
 
@@ -29,9 +29,9 @@ class MainPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   pickBike: async (motorcycleId) => {
-    const { data: { data: user } } = await axios.post('/api/leads/', { lead: { motorcycle_id: motorcycleId } });
+    const { data: { data: lead } } = await axios.post('/api/leads/', { lead: { motorcycle_id: motorcycleId } });
 
-    dispatch(userFetched(user));
+    dispatch(leadFetched(lead));
     dispatch(push('/dashboard'));
   },
 });
