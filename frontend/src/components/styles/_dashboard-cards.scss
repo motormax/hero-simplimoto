@@ -4,6 +4,28 @@
     border-left-style: solid;
   }
   background: transparent;
+  &.date-your-bike{
+    background: url('./images/dateyourbike-bg.png') 100% 100%;
+    border-width: 0;
+    padding-left: 35px;
+    img{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+    }
+    h3{
+      margin: 0;
+    }
+    .wide.column{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      &.ten{
+        padding-left: 2.5em;
+      }
+    }
+  }
 }
 
 .dashboard-card{
