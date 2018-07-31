@@ -10,6 +10,7 @@
 @import 'styles/buttons';
 @import 'styles/mainPageCarrousel';
 @import 'styles/dashboard-cards';
+@import 'styles/dashboard';
 @import 'styles/summary';
 @import 'styles/deliveryPage';
 @import 'styles/one-column-page';
@@ -28,6 +29,11 @@
   background-size: 100%;
   margin-top: -1em;
   padding-top: 1em;
+  min-height: calc(100vh - 95px);
+}
+
+*:focus{
+  outline: none;
 }
 
 h1, h2, h3, h4, h5 {

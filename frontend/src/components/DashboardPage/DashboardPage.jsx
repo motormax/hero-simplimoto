@@ -34,7 +34,7 @@ class DashboardPage extends Component {
         <div className="dashboard" ref={(ref) => { this.ref = ref; }}>
           <Grid>
             <Grid.Column width={10}>
-              <Header size="large">{t('dashboard')}</Header>
+              <Header size="huge">{t('good_choice')} <span className="fs-tinny fw-normal txt-med-gray">{t('header_intro')}</span></Header>
               <Segment.Group>
                 <BikeModelSection motorcycle={user.motorcycle} />
                 <FundingSection financing={funding} />

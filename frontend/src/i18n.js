@@ -5,9 +5,6 @@ export default i18next.init({
   debug: process.env.NODE_ENV !== 'test',
   resources: {
     es: {
-      dashboard: {
-        dashboard: 'Dashboard',
-      },
       index: {
         buy_the_bike: 'Comprá tu próxima moto',
         online: '100% online',
@@ -48,6 +45,17 @@ export default i18next.init({
         privacy_policy: 'Política de Privacidad',
         disclaimer: 'Descargo de Responsabilidad',
         cancel_order: 'Cancelar compra',
+      },
+      dashboard: {
+        dashboard: 'Dashboard',
+        good_choice: '¡Buena elección!',
+        header_intro: 'estás a pocos pasos de tener tu moto en tu casa',
+      },
+      bikeModelSection: {
+        currency_sign: 'AR$',
+        change_model: 'Cambiar Modelo',
+        live_tour: 'Tour en vivo',
+        moto_specs: 'Ficha técnica',
       },
       financing: {
         financing: 'Financiamiento',
