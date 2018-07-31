@@ -13,5 +13,11 @@ export const startedFetchingUser = () => ({
   type: actionTypes.startedFetchingUser,
 });
 
+export const insuranceSelected = (quote, brokerName) => ({
+  type: actionTypes.insuranceSelected,
+  quote,
+  broker: brokerName,
+});
+
 export const noop = () => ({ type: 'NOOP' });
 

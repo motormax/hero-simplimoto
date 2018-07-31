@@ -12,6 +12,7 @@ import MainPage from './MainPage/MainPage';
 import DeliveryPage from './DeliveryPage';
 import DateYourBikePage from './DateYourBikePage';
 import Footer from './Footer';
+import InsurancePage from './InsurancePage';
 
 import logoUrl from './hero-logo.png';
 import ignitorImgUrl from './images/ignitor.png';
@@ -30,6 +31,7 @@ class App extends React.Component {
             <Route path="/dashboard" component={DashboardPage} />
             <Route path="/delivery" component={DeliveryPage} />
             <Route path="/date" component={DateYourBikePage} />
+            <Route path="/insurance" component={InsurancePage} />
           </Switch>
         </Container>
         <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />

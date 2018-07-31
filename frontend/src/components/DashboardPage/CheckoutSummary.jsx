@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider } from 'semantic-ui-react';
 
 import bankImage from './../images/banks-logos/icbc-logo.png';
@@ -86,7 +88,7 @@ class CheckoutSummary extends Component {
               <List.Item className="summary-list-btn-container">
                 <Icon name="arrow right" />
                 <List.Content>Seguro</List.Content>
-                <Button className="btn-outline" size="medium" secondary fluid>Elegir seguro</Button>
+                <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Elegir seguro</Button>
               </List.Item>
             </List>
             <Button className="btn-displaced" size="huge" secondary>Preparar la Compra</Button>
@@ -98,4 +100,14 @@ class CheckoutSummary extends Component {
   }
 }
 
-export default translate('checkout')(CheckoutSummary);
+const mapDispatchToProps = dispatch => ({
+  changeToSelectInsurance: () => {
+    dispatch(push('/insurance'));
+  },
+});
+
+const mapStateToProps = state => ({
+  user: state.main.user,
+});
+
+export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));

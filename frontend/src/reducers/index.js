@@ -28,6 +28,15 @@ const reducer = (state = defaultState, action) => {
         ...state,
         user: { isLoading: true },
       };
+    case actionTypes.insuranceSelected:
+      window.localStorage.setItem('insurancePrice', action.quote.price);
+      window.localStorage.setItem('insuranceBroker', action.broker);
+
+      return {
+        ...state,
+        insurancePrice: action.quote.price,
+        insuranceBroker: action.broker,
+      };
     default:
       return ({
         ...state,

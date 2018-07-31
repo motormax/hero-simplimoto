@@ -6,4 +6,5 @@ export default {
   startedFetchingDelivery: 'STARTED_FETCHING_DELIVERY',
   appointmentFetched: 'APPOINTMENT_FETCHED',
   startedFetchingAppointment: 'STARTED_FETCHING_APPOINTMENT',
+  insuranceSelected: 'INSURANCE_SELECTED',
 };
