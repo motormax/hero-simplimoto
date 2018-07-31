@@ -1,6 +1,8 @@
 .ui.segments>.segment.dashboard-card{
-  border-left-width: 30px;
-  border-left-style: solid;
+  &:not(:first-child){
+    border-left-width: 30px;
+    border-left-style: solid;
+  }
   background: transparent;
 }
 
@@ -14,6 +16,33 @@
     margin-top: .2em;
     &.red{
       color: $red;
+    }
+  }
+  &.motorcycle-resume{
+    img{
+      position: absolute;
+      top: -2em;
+    }
+    h3{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0;
+    }
+    ul{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      height: 6.8em;
+      overflow: hidden;
+      li:before{
+        content: '- ';
+      }
+    }
+    .resume-button-container{
+      margin-top: -2.5em;
+      .ui.button{
+        margin: .5em 0;
+      }
     }
   }
 }
