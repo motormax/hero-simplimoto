@@ -1,3 +1,4 @@
+/* global FileReader */
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
@@ -101,7 +102,7 @@ class PlateRegistrationSection extends Component {
     body.plate_registration_data.email = this.state.email;
     body.plate_registration_data.phone = this.state.phone;
 
-    // a corregir
+    // The Address model has a telephone number but also PlateRegistrationData
     this.state.address.telephoneNumber = this.state.phone;
 
     body.plate_registration_data.personal_data = humps.decamelizeKeys(this.state.personalData);
@@ -266,18 +267,6 @@ class PlateRegistrationSection extends Component {
           onChange={this.handleAddressDataChange}
         />
       </Form.Group>);
-      /* ESTE ES EL TELEFONO DE LA ADDRESS
-      <Form.Input
-          fluid
-          required
-          label="Teléfono"
-          type="text"
-          name="telephoneNumber"
-          value={this.state.address.telephoneNumber}
-          error={this.state.errors.telephoneNumber}
-          onChange={this.handleAddressDataChange}
-        />
-      */
     const lastFieldsFormGroup = (
       <Form.Group widths="equal">
         <Form.Input
