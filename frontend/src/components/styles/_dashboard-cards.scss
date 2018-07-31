@@ -67,4 +67,18 @@
       }
     }
   }
+  &_items-container{
+    display: flex;
+    justify-content: space-between;
+    .dashboard-card_items{
+      display: inline-flex;
+      align-items: center;
+      & > *{
+        margin: .3em;
+      }
+      p{
+        margin: 0;
+      }
+    }
+  }
 }

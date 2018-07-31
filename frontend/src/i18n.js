@@ -61,6 +61,13 @@ export default i18next.init({
       financing: {
         financing: 'Financiamiento',
       },
+      accessories_section: {
+        accessories: 'Accesorios',
+        currency_sign: 'AR$',
+        gloves: 'Guantes',
+        helmet: 'Casco',
+        trunk: 'Baúl',
+      },
     },
     en: {
       dashboard: {

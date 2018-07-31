@@ -10,6 +10,7 @@ import FundingSection from './Sections/FinancingSection';
 import DeliverySection from './Sections/DeliverySection';
 import BikeModelSection from './Sections/BikeModelSection';
 import BikeColorSection from './Sections/BikeColorSection';
+import AccessoriesSection from './Sections/AccessoriesSection';
 import availableColors from './Sections/customization/availableColors';
 
 class DashboardPage extends Component {
@@ -39,6 +40,7 @@ class DashboardPage extends Component {
                 <BikeModelSection motorcycle={user.motorcycle} />
                 <FundingSection financing={funding} />
                 <BikeColorSection availableColors={availableColors[user.motorcycle.name]} />
+                <AccessoriesSection />
                 <DateYourBikeSection />
                 <DeliverySection />
               </Segment.Group>
