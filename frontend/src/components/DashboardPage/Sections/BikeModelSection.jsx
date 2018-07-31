@@ -42,9 +42,9 @@ class BikeModelSection extends Component {
             </Grid.Column>
             <Grid.Column width={5}>
               <div className="resume-button-container">
-                <Button fluid secondary> <Icon name="play circle"/> {t('live_tour')}</Button>
-                <Button className="btn-outline" fluid secondary> <Icon name="eye"/> {t('moto_specs')}</Button>
-                <Button className="btn-outline" fluid secondary> <Icon name="motorcycle"/> {t('change_model')}</Button>
+                <Button fluid secondary> <Icon name="play circle" /> {t('live_tour')}</Button>
+                <Button className="btn-outline" fluid secondary> <Icon name="eye" /> {t('moto_specs')}</Button>
+                <Button className="btn-outline" fluid secondary> <Icon name="motorcycle" /> {t('change_model')}</Button>
               </div>
             </Grid.Column>
           </Grid.Row>
@@ -54,4 +54,4 @@ class BikeModelSection extends Component {
   }
 }
 
-export default translate('bikeModelSection') (BikeModelSection);
+export default translate('bikeModelSection')(BikeModelSection);

@@ -54,7 +54,7 @@ export default i18next.init({
         currency_sign: 'AR$',
         change_model: 'Cambiar Modelo',
         live_tour: 'Tour en vivo',
-        moto_specs: 'Ficha técnica'
+        moto_specs: 'Ficha técnica',
       },
       financing: {
         financing: 'Financiamiento',
