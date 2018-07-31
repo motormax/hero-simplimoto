@@ -29,7 +29,7 @@ class FinancingSection extends Component {
               </p>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button fluid primary>Seleccionar Financiamiento</Button>
+              <Button fluid primary>Seleccionar financiamiento</Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>

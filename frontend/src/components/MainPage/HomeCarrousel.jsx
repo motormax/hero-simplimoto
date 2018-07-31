@@ -2,14 +2,8 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import propTypes from 'prop-types';
 
-
 import CarrouselItem from './CarrouselItem';
-
-import hankImgUrl from './../images/Hunk.png';
-import hankSportImgUrl from './../images/Hunk-sport.png';
-import dashImgUrl from './../images/dash.png';
-import ignitorImgUrl from './../images/ignitor.png';
-
+import availableMotorcycles from '../motorcycles/availableMotorcycles';
 
 class HomeCarrousel extends Component {
   static propTypes = {
@@ -34,21 +28,20 @@ class HomeCarrousel extends Component {
       ],
     };
 
+    const carrouselItems = Object.values(availableMotorcycles).map(bikeData => (
+      <div>
+        <CarrouselItem
+          bikeImageUrl={bikeData.imageUrl}
+          bikeName={bikeData.displayName}
+          onBuy={() => this.props.pickBike(bikeData.id)}
+        />
+      </div>
+    ));
+
     return (
       <div>
         <Slider {...settings}>
-          <div>
-            <CarrouselItem bikeImageUrl={hankImgUrl} bikeName="Hunk" onBuy={() => this.props.pickBike(1)} />
-          </div>
-          <div>
-            <CarrouselItem bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" onBuy={() => this.props.pickBike(1)} />
-          </div>
-          <div>
-            <CarrouselItem bikeImageUrl={hankSportImgUrl} bikeName="Hunk Sport" onBuy={() => this.props.pickBike(1)} />
-          </div>
-          <div>
-            <CarrouselItem bikeImageUrl={dashImgUrl} bikeName="Dash" onBuy={() => this.props.pickBike(1)} />
-          </div>
+          {carrouselItems}
         </Slider>
       </div>
     );

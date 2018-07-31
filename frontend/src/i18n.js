@@ -24,7 +24,7 @@ export default i18next.init({
       },
       footer: {
         company_name: 'Hero Motors Argentina S.A',
-        company_adress: 'Av. del Libertados 1150, Vicente Lopez. Buenos Aires, Argentina',
+        company_address: 'Av. del Libertador 1150, Vicente López. Buenos Aires, Argentina',
         showroom: 'Showroom',
         showroom_phone_number: '011 4796-5514 / 2729',
         email: 'Email',
@@ -42,11 +42,12 @@ export default i18next.init({
         i3s: 'Descubrí el sistema I3s',
         you_are_buying: 'Estás comprando una ...',
         follow_us: 'Seguinos',
-        privacy_policy: 'Politica de Privacidad',
+        privacy_policy: 'Política de Privacidad',
         disclaimer: 'Descargo de Responsabilidad',
         cancel_order: 'Cancelar compra',
       },
       dashboard: {
+        dashboard: 'Dashboard',
         good_choice: '¡Buena elección!',
         header_intro: 'estás a pocos pasos de tener tu moto en tu casa',
       },

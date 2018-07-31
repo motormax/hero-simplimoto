@@ -65,12 +65,12 @@ class DeliverySection extends Component {
             </Grid.Column>
             <Grid.Column width={8}>
               <h3 className="fw-bold fs-big">
-                Entrega a domicilio <span className="fw-bold uppercase txt-green fs-tinny" > ¡grátis! </span>
+                Entrega a domicilio <span className="fw-bold uppercase txt-green fs-tinny" > ¡gratis! </span>
               </h3>
             </Grid.Column>
             <Grid.Column width={7}>
               <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToDelivery()}>Ingresar
-                drección del envio
+                drección del envío
               </Button>
             </Grid.Column>
           </Grid.Row>

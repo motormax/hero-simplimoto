@@ -10,7 +10,7 @@ import FundingSection from './Sections/FinancingSection';
 import DeliverySection from './Sections/DeliverySection';
 import BikeModelSection from './Sections/BikeModelSection';
 import BikeColorSection from './Sections/BikeColorSection';
-import availableColors from './Sections/customization/availableColors';
+import availableColors from '../motorcycles/availableColors';
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -45,7 +45,7 @@ class DashboardPage extends Component {
             </Grid.Column>
             <Grid.Column width={6}>
               <div>
-                <CheckoutSummary />
+                <CheckoutSummary motorcycle={user.motorcycle} />
               </div>
             </Grid.Column>
           </Grid>
