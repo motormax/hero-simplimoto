@@ -309,12 +309,12 @@ class PlateRegistrationSection extends Component {
           {lastFieldsFormGroup}
           <Form.Field>
             <div className="required field">
-              <label name="frontDniImage">Imagen frontal DNI</label>
-              <input type="file" onChange={this.handleFrontDniImageChange} />
+              <label htmlFor="frontDni">Imagen frontal DNI</label>
+              <input type="file" id="frontDni" onChange={this.handleFrontDniImageChange} />
             </div>
             <div className="required field">
-              <label name="backDniImage">Imagen trasera DNI</label>
-              <input type="file" onChange={this.handleBackDniImageChange} />
+              <label htmlFor="backDni">Imagen trasera DNI</label>
+              <input type="file" id="backDni" onChange={this.handleBackDniImageChange} />
             </div>
           </Form.Field>
           <Message
