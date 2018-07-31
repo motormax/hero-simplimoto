@@ -107,7 +107,6 @@ class PlateRegistrationSection extends Component {
 
     body.plate_registration_data.personal_data = humps.decamelizeKeys(this.state.personalData);
     body.plate_registration_data.address = humps.decamelizeKeys(this.state.address);
-    body.plate_registration_data.lead_id = this.props.lead.id;
     body.plate_registration_data.front_dni_image.data = this.state.frontDniImage.data;
     body.plate_registration_data.front_dni_image.name = this.state.frontDniImage.name;
     body.plate_registration_data.front_dni_image.type = this.state.frontDniImage.type;
