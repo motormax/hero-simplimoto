@@ -31,14 +31,16 @@ class DateYourBikeSection extends Component {
 
   render() {
     const { t, appointment } = this.props;
-    const cardStyle = classNames('dashboard-card' ,{
+    const cardStyle = classNames('dashboard-card', {
       'date-your-bike': !appointment.id,
     });
-    const textStyle = classNames( 'fs-medium',
-      appointment.id ? 'txt-med-gray' : 'txt-white'
+    const textStyle = classNames(
+      'fs-medium',
+      appointment.id ? 'txt-med-gray' : 'txt-white',
     );
-    const headerStyle = classNames( 'fw-bold',
-      appointment.id ? 'fs-big' : 'txt-white'
+    const headerStyle = classNames(
+      'fw-bold',
+      appointment.id ? 'fs-big' : 'txt-white',
     );
 
     if (appointment.isLoading) {
@@ -50,19 +52,19 @@ class DateYourBikeSection extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {appointment.id ? <Icon size="large" color="green" name="check" /> : <img src={dateYourBikeIcon} />}
+              {appointment.id ? <Icon size="large" color="green" name="check" /> : <img src={dateYourBikeIcon} alt="Una cita a ciegas" />}
             </Grid.Column>
             <Grid.Column width={10}>
               <h3 className={headerStyle}>{t('title')}</h3>
               <p className={textStyle}>
-              { appointment.id ?
+                { appointment.id ?
                 `Te llevamos la moto ${moment(appointment.date).locale('es').fromNow()} a ${appointment.address.street}` :
                 "Te arreglamos una 'cita a ciegas' en tu casa"
               }
               </p>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button className={ appointment.id ? 'btn-outline' : 'btn-opacity'} fluid secondary onClick={() => this.props.changeToDateYourBike()}>
+              <Button className={appointment.id ? 'btn-outline' : 'btn-opacity'} fluid secondary onClick={() => this.props.changeToDateYourBike()}>
                 <Icon name="calendar alternate" /> { appointment.id ? 'Cambiar' : 'Arreglá una cita'}
               </Button>
             </Grid.Column>

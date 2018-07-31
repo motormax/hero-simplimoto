@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Segment, Icon, Grid, Checkbox } from 'semantic-ui-react';
+import { Segment, Icon, Grid, Checkbox } from 'semantic-ui-react';
 
 
 import glovesImgUrl from './../../images/Guantes.png';
@@ -35,7 +35,7 @@ class AccessoriesSection extends Component {
               <div className="dashboard-card_items-container">
                 <div className="dashboard-card_items">
                   <Checkbox defaultChecked />
-                  <img src={glovesImgUrl} />
+                  <img src={glovesImgUrl} alt={t('gloves')} />
                   <div className="accessorie_item_details">
                     <p className="fw-bold txt-med-gray">{t('gloves')}</p>
                     <p className="txt-med-gray">{t('currency_sign')}<span className="fw-bold">800</span></p>
@@ -43,7 +43,7 @@ class AccessoriesSection extends Component {
                 </div>
                 <div className="dashboard-card_items">
                   <Checkbox defaultChecked />
-                  <img src={helmetImgUrl} />
+                  <img src={helmetImgUrl} alt={t('helmet')} />
                   <div className="accessorie_item_details">
                     <p className="fw-bold txt-med-gray">{t('helmet')}</p>
                     <p className="txt-med-gray">{t('currency_sign')}<span className="fw-bold">800</span></p>
@@ -51,7 +51,7 @@ class AccessoriesSection extends Component {
                 </div>
                 <div className="dashboard-card_items">
                   <Checkbox defaultChecked />
-                  <img src={trunkImgUrl} />
+                  <img src={trunkImgUrl} alt={t('trunk')} />
                   <div className="accessorie_item_details">
                     <p className="fw-bold txt-med-gray">{t('trunk')}</p>
                     <p className="txt-med-gray">{t('currency_sign')}<span className="fw-bold">800</span></p>
