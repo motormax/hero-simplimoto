@@ -13,7 +13,7 @@ class CarrouselItem extends Component {
     bikeImageUrl: propTypes.string.isRequired,
     bikeName: propTypes.string.isRequired,
     onBuy: propTypes.func.isRequired,
-  }
+  };
 
   render() {
     const {
@@ -40,7 +40,7 @@ class CarrouselItem extends Component {
         </div>
         <Card.Content>
           <Divider />
-          <p className="price">{t('currency_sign')}<span className="price-number">10.000</span>/ {t('month')} </p>
+          <p className="price">{t('currency_sign')}<span className="price-number">1.200</span>/ {t('month')} </p>
           <Button size="big" primary onClick={() => { onBuy(bikeName); }}>{t('buy')}</Button>
         </Card.Content>
         <List className="bottom-links" horizontal link>

@@ -20,22 +20,12 @@ h1.home-title{
   button.slick-arrow{
     width: 36px;
     height: 36px;
-    background: $dark-gray;
-    border-radius: 50%;
-    padding-top: 3px;
-    opacity: .7;
     &::before{
       font-size: 36px;
-      opacity: 1;
-    }
-    &:hover{
-      opacity: 1;
-    }
-    &.slick-next{
-      right: -10px;
+      color: $dark-gray;
     }
     &.slick-prev{
-      left: -10px;
+      z-index: 99;
     }
   }
 
@@ -43,13 +33,14 @@ h1.home-title{
   .slick-track{
     display: flex;
     align-items: center;
-    
+
     .carrousel-item{
       transition: all .3s;
       &.card{
         width: 240px;
         text-align: center;
         margin: 1em auto 2.5em auto;
+        padding-top: 1em;
         &:first-child,
         &:last-child{
           margin: 1em auto 2.5em auto;

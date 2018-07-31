@@ -7,7 +7,6 @@ import actionTypes from '../actions/actionTypes';
 
 
 const defaultState = {
-  currentBikeModel: 'DASH',
   stages: undefined,
 };
 
