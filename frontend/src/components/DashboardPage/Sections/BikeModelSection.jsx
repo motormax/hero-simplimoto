@@ -10,7 +10,7 @@ class BikeModelSection extends Component {
       name: propTypes.string.isRequired,
       price: propTypes.string.isRequired,
     }).isRequired,
-  }
+  };
 
   render() {
     const { motorcycle } = this.props;

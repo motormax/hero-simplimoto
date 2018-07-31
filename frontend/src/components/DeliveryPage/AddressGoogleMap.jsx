@@ -132,15 +132,20 @@ class AddressGoogleMap extends React.Component {
       };
 
       render() {
-        const styles = {
-          height: '50%',
-          width: '80%',
+        const mapContainer = {
+          height: '500px',
+          position: 'relative',
+        };
+        const mapStyles = {
+          height: '100%',
+          width: '100%',
           position: 'absolute',
-          marginTop: '10px',
         };
 
         return (
-          <div id="map" style={styles} />
+          <div style={mapContainer}>
+            <div id="map" style={mapStyles} />
+          </div>
         );
       }
 }

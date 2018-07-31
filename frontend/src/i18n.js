@@ -9,6 +9,9 @@ export default i18next.init({
         buy_the_bike: 'Comprá tu próxima moto',
         online: '100% online',
       },
+      dateyourbike: {
+        title: 'Cita con tu moto',
+      },
       motorcycleCard: {
         gloves: 'Guantes',
         helmet: 'Casco',
@@ -43,10 +46,16 @@ export default i18next.init({
         disclaimer: 'Descargo de Responsabilidad',
         cancel_order: 'Cancelar compra',
       },
+      financing: {
+        financing: 'Financiamiento',
+      },
     },
     en: {
       dashboard: {
         dashboard: 'Dashboard',
+      },
+      dateyourbike: {
+        title: 'Date your bike',
       },
       checkout: {
         title: 'Checkout Summary',
