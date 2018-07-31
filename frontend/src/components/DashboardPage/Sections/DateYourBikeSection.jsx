@@ -12,7 +12,7 @@ import { dateAppointmentFetched, startedFetchingAppointment } from '../../../act
 class DateYourBikeSection extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string.isRequired,
     }).isRequired,
     fetchDateAppointment: propTypes.func.isRequired,
@@ -23,7 +23,7 @@ class DateYourBikeSection extends Component {
   };
 
   componentWillMount() {
-    this.props.fetchDateAppointment(this.props.user.id);
+    this.props.fetchDateAppointment(this.props.lead.id);
   }
 
   render() {
@@ -60,9 +60,9 @@ class DateYourBikeSection extends Component {
 
 
 const mapDispatchToProps = dispatch => ({
-  fetchDateAppointment: async (userId) => {
+  fetchDateAppointment: async (leadId) => {
     dispatch(startedFetchingAppointment());
-    const { data: { data: appointmentData } } = await axios.get(`/api/leads/${userId}/date_appointment`);
+    const { data: { data: appointmentData } } = await axios.get(`/api/leads/${leadId}/date_appointment`);
     dispatch(dateAppointmentFetched(appointmentData));
   },
   changeToDateYourBike: () => {
@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  user: state.main.user,
+  lead: state.main.lead,
   appointment: state.main.dateYourBike,
 });
 

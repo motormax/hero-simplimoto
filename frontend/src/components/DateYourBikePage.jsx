@@ -36,7 +36,7 @@ const shiftOptions = [
 
 class DateYourBikePage extends Component {
   static propTypes = {
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
     submitDateAppointment: propTypes.func.isRequired,
@@ -80,10 +80,10 @@ class DateYourBikePage extends Component {
     const dateAppointment = {};
     dateAppointment.shift = this.state.shift;
     dateAppointment.date = moment(this.state.date, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    dateAppointment.user_id = this.props.user.id;
+    dateAppointment.lead_id = this.props.lead.id;
     dateAppointment.address = humps.decamelizeKeys(this.state.address);
     try {
-      await this.props.submitDateAppointment(this.props.user.id, dateAppointment);
+      await this.props.submitDateAppointment(this.props.lead.id, dateAppointment);
       console.log('Datos cargados correctamente'); // eslint-disable-line no-console
     } catch (error) {
       // TODO: handle specific input validation errors
@@ -207,12 +207,12 @@ class DateYourBikePage extends Component {
 }
 
 const mapStateToProps = store => ({
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 const mapDispatchToProps = dispatch => ({
-  submitDateAppointment: async (userId, dateAppointment) => {
-    const { data: { data: newDateAppointment } } = await axios.post(`/api/leads/${userId}/date_appointment`, { date_appointment: dateAppointment });
+  submitDateAppointment: async (leadId, dateAppointment) => {
+    const { data: { data: newDateAppointment } } = await axios.post(`/api/leads/${leadId}/date_appointment`, { date_appointment: dateAppointment });
     dispatch(dateAppointmentFetched(newDateAppointment));
     dispatch(push('/dashboard'));
   },

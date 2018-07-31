@@ -15,14 +15,14 @@ import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { store, history } from './store';
 import i18n from './i18n';
-import { userFetched, startedFetchingUser } from './actions/beginning';
+import { leadFetched, startedFetchingLead } from './actions/beginning';
 
 
-const userId = window.localStorage.getItem('userId');
-if (userId) {
-  store.dispatch(startedFetchingUser());
-  axios.get(`/api/leads/${userId}`).then((response) => {
-    store.dispatch(userFetched(response.data.data));
+const leadId = window.localStorage.getItem('leadId');
+if (leadId) {
+  store.dispatch(startedFetchingLead());
+  axios.get(`/api/leads/${leadId}`).then((response) => {
+    store.dispatch(leadFetched(response.data.data));
   });
 }
 

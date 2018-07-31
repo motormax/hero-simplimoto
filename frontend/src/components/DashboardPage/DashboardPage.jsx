@@ -15,7 +15,7 @@ import availableColors from '../motorcycles/availableColors';
 class DashboardPage extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
     funding: propTypes.shape({
@@ -24,8 +24,8 @@ class DashboardPage extends Component {
   };
 
   render() {
-    const { funding, user, t } = this.props;
-    if (user.isLoading) {
+    const { funding, lead, t } = this.props;
+    if (lead.isLoading) {
       return <h1>CARGANDO</h1>;
     }
 
@@ -36,9 +36,9 @@ class DashboardPage extends Component {
             <Grid.Column width={10}>
               <Header size="huge">{t('good_choice')} <span className="fs-tinny fw-normal txt-med-gray">{t('header_intro')}</span></Header>
               <Segment.Group>
-                <BikeModelSection motorcycle={user.motorcycle} />
+                <BikeModelSection motorcycle={lead.motorcycle} />
                 <FundingSection financing={funding} />
-                <BikeColorSection availableColors={availableColors[user.motorcycle.name]} />
+                <BikeColorSection availableColors={availableColors[lead.motorcycle.name]} />
                 <DateYourBikeSection />
                 <DeliverySection />
               </Segment.Group>
@@ -57,7 +57,7 @@ class DashboardPage extends Component {
 
 const mapStateToProps = store => ({
   funding: store.main.funding,
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 export default translate('dashboard')(connect(mapStateToProps)(DashboardPage));
