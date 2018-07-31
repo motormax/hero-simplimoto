@@ -28,6 +28,11 @@
   background-size: 100%;
   margin-top: -1em;
   padding-top: 1em;
+  min-height: calc(100vh - 95px);
+}
+
+*:focus{
+  outline: none;
 }
 
 h1, h2, h3, h4, h5 {
