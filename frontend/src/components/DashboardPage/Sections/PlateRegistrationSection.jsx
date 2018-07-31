@@ -1,7 +1,7 @@
 /* global FileReader */
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Button, Form, Message } from 'semantic-ui-react';
+import { Button, Form, Message, Card, Segment, Grid } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
 import humps from 'humps';
@@ -291,29 +291,65 @@ class PlateRegistrationSection extends Component {
       </Form.Group>);
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} error={error}>
-          {personalDataFormGroup}
-          {addressFormGroup}
-          {lastFieldsFormGroup}
-          <Form.Field>
-            <div className="required field">
-              <label htmlFor="frontDni">Imagen frontal DNI</label>
-              <input type="file" id="frontDni" onChange={this.handleFrontDniImageChange} />
-            </div>
-            <div className="required field">
-              <label htmlFor="backDni">Imagen trasera DNI</label>
-              <input type="file" id="backDni" onChange={this.handleBackDniImageChange} />
-            </div>
-          </Form.Field>
-          <Message
-            error
-            header="Error"
-            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-          />
-          <Button type="submit">
-            Guardar
-          </Button>
-        </Form>
+        <h2 className="fs-massive txt-dark-gray fw-bold txt-center">Patentamiento online</h2>
+        <p className="fs-huge txt-med-gray txt-center">
+          Para realizar el patentamiento necesitamos pedirte <br />
+          la información necesaria para realizar el trámite.
+        </p>
+        <p className="fs-big txt-dark-gray txt-center">
+          El patentamiento tiene un costo de AR$ <span className="fw-bold">3,800</span> que se <br />
+          incorporan a la financiación. El tramite lo gestionará <br /> <span className="fw-bold">integramente</span> Hero, y solo se requerirá una
+          <span className="fw-bold"> firma</span> del <br /> propietario al momento de recibir la moto.
+        </p>
+
+        <Card className="page-column-card">
+
+          <Form onSubmit={this.handleSubmit} error={error}>
+            <Segment attached>
+              <p className="fs-big fw-bold txt-dark-gray txt-center">
+                Foto de tu Documento de Identidad de quién <br />
+                será propietario de la moto
+              </p>
+              <p className="fs-large txt-med-gray txt-center">
+                Te vamos a pedir que le saques una foto a tu documento y la cargues con el siguiente botón.
+              </p>
+
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column>
+                    <div className="required field">
+                      <label htmlFor="frontDni">Imagen frontal DNI</label>
+                      <input type="file" id="frontDni" onChange={this.handleFrontDniImageChange} />
+                    </div>
+                    <div className="required field">
+                      <label htmlFor="backDni">Imagen trasera DNI</label>
+                      <input type="file" id="backDni" onChange={this.handleBackDniImageChange} />
+                    </div>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Segment>
+            <Segment attached>
+              {personalDataFormGroup}
+              {addressFormGroup}
+              {lastFieldsFormGroup}
+              <Message
+                error
+                header="Error"
+                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+              />
+            </Segment>
+
+            <Segment attached="bottom" className="txt-center">
+              <Button type="submit" size="big" primary>
+                Continuar
+              </Button>
+            </Segment>
+
+          </Form>
+
+        </Card>
+
       </div>
     );
   }
