@@ -31,7 +31,7 @@ class BikeColorSection extends Component {
       <div className="dashboard-card_items">
         <Radio
           value={color.name}
-          name='setColor'
+          name="setColor"
           onChange={() => { this.changeSelected(color); }}
           checked={selectedColor.name === color.name}
         />
@@ -56,7 +56,7 @@ class BikeColorSection extends Component {
               <Icon size="large" name="arrow right" />
             </Grid.Column>
             <Grid.Column width={15}>
-              <h3 className="fw-bold fs-big">Personalización <span class="txt-green fs-small uppercase">¡gratis!</span></h3>
+              <h3 className="fw-bold fs-big">Personalización <span className="txt-green fs-small uppercase">¡gratis!</span></h3>
               <div className="dashboard-card_items-container">
                 {colorOptions}
               </div>
