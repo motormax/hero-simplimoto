@@ -21,7 +21,7 @@ class InsurancePage extends Component {
     selectInsurance: propTypes.func.isRequired,
     cancelQuote: propTypes.func.isRequired,
     selectMyOwnInsurance: propTypes.func.isRequired,
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
   };
@@ -46,7 +46,7 @@ class InsurancePage extends Component {
 
   getQuote = (event) => {
     event.preventDefault();
-    axios.get(`api/leads/${this.props.user.id}/insurance/quote`, {
+    axios.get(`api/leads/${this.props.lead.id}/insurance/quote`, {
       params: this.state.insurance,
     })
       .then((response) => {
@@ -131,7 +131,7 @@ class InsurancePage extends Component {
                                 this.state.insurance,
                                 broker.brokerName,
                                 broker.brokerLogo,
-                                this.props.user.id,
+                                this.props.lead.id,
                               );
 }}
                       >Elegir
@@ -202,7 +202,7 @@ class InsurancePage extends Component {
           <Button
           primary
           onClick={() => {
-            this.props.selectMyOwnInsurance(this.props.user.id);
+            this.props.selectMyOwnInsurance(this.props.lead.id);
           }}
           >Continuar
           </Button>
@@ -245,18 +245,18 @@ class InsurancePage extends Component {
 
 
 const mapStateToProps = store => ({
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 const mapDispatchToProps = dispatch => ({
   cancelQuote: () => {
     dispatch(push('/dashboard'));
   },
-  selectMyOwnInsurance: async (userId) => {
+  selectMyOwnInsurance: async (leadId) => {
     axios.post(
-      `/api/leads/${userId}/insurance/opt-out`,
+      `/api/leads/${leadId}/insurance/opt-out`,
       {
-        user: userId,
+        lead: leadId,
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
@@ -267,11 +267,11 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, insurance, brokerName, brokerLogo, userId) => {
+  selectInsurance: async (quote, insurance, brokerName, brokerLogo, leadId) => {
     axios.post(
-      `/api/leads/${userId}/insurance/quote`,
+      `/api/leads/${leadId}/insurance/quote`,
       {
-        user: userId,
+        lead: leadId,
         quote: {
           id: quote.id,
           price: quote.price,
