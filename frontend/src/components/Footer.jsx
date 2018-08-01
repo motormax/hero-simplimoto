@@ -1,19 +1,49 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { Container, Grid, List, Icon, Divider, Card, Button } from 'semantic-ui-react';
+import { Button, Card, Container, Divider, Grid, Icon, List } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
+import { connect } from 'react-redux';
 
 import logoUrl from './hero-logo.png';
+import availableMotorcycles from './motorcycles/availableMotorcycles';
 
 class Footer extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    bikeImageUrl: propTypes.string.isRequired,
-    bikeName: propTypes.string.isRequired,
+    currentBikeModel: propTypes.string.isRequired,
   };
 
   render() {
-    const { t, bikeImageUrl, bikeName } = this.props;
+    const { t, currentBikeModel } = this.props;
+
+    let youAreBuying;
+    if (currentBikeModel) {
+      const bikeImageUrl = availableMotorcycles[currentBikeModel].imageUrl;
+      const bikeDisplayName = availableMotorcycles[currentBikeModel].displayName;
+      youAreBuying = (
+        <List>
+          <List.Item>
+            <List.Header>{t('you_are_buying')}</List.Header>
+          </List.Item>
+          <List.Item>
+            <Card className="gray-card">
+              <Grid fluid>
+                <Grid.Row>
+                  <Grid.Column width={5}>
+                    <img className="bike-img" alt={bikeImageUrl} src={bikeImageUrl} />
+                  </Grid.Column>
+                  <Grid.Column width={11}>
+                    <div>
+                      <span className="bike-name fw-bold fs-large">{bikeDisplayName}</span>
+                      <Button className="btn-outline" secondary fluid>{t('cancel_order')}</Button>
+                    </div>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Card>
+          </List.Item>
+        </List>);
+    }
 
     return (
       <footer className="footer">
@@ -27,19 +57,21 @@ class Footer extends Component {
                     <Icon className="txt-med-gray" name="map marker alternate" />
                     <List.Content>
                       <List.Header className="uppercase">{t('company_name')}</List.Header>
-                      <List.Description className="txt-med-gray">{t('company_adress')}</List.Description>
+                      <List.Description className="txt-med-gray">{t('company_address')}
+                      </List.Description>
                     </List.Content>
                   </List.Item>
                   <List.Item>
                     <Icon className="txt-med-gray" name="phone" />
                     <List.Content>
-                      {t('showroom')} : <span className="fw-bold"> {t('showroom_phone_number')} </span>
+                      {t('showroom')}:
+                      <span className="fw-bold"> {t('showroom_phone_number')}</span>
                     </List.Content>
                   </List.Item>
                   <List.Item>
                     <Icon className="txt-med-gray" name="mail" />
                     <List.Content>
-                      {t('email')} : {t('email_adress')}
+                      {t('email')}: {t('email_adress')}
                     </List.Content>
                   </List.Item>
                 </List>
@@ -67,28 +99,7 @@ class Footer extends Component {
                 </List>
               </Grid.Column>
               <Grid.Column width={5}>
-                <List>
-                  <List.Item>
-                    <List.Header>{t('you_are_buying')}</List.Header>
-                  </List.Item>
-                  <List.Item>
-                    <Card className="gray-card">
-                      <Grid fluid>
-                        <Grid.Row>
-                          <Grid.Column width={5}>
-                            <img className="bike-img" alt={bikeImageUrl} src={bikeImageUrl} />
-                          </Grid.Column>
-                          <Grid.Column width={11}>
-                            <div>
-                              <span className="bike-name fw-bold fs-large">{bikeName}</span>
-                              <Button className="btn-outline" secondary fluid>{t('cancel_order')}</Button>
-                            </div>
-                          </Grid.Column>
-                        </Grid.Row>
-                      </Grid>
-                    </Card>
-                  </List.Item>
-                </List>
+                {youAreBuying}
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -112,4 +123,11 @@ class Footer extends Component {
   }
 }
 
-export default translate('footer')(Footer);
+
+const mapStateToProps = store => (
+  store.main.user && store.main.user.motorcycle ?
+    { currentBikeModel: store.main.user.motorcycle.name } :
+    { currentBikeModel: undefined }
+);
+
+export default translate('footer')(connect(mapStateToProps)(Footer));

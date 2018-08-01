@@ -1,4 +1,5 @@
-$gray-btn: #AFAFAF;
+$gray-btn: $black-50;
+$disabled-btn: $med-gray;
 
 .ui.button{
   border-radius: 50px;
@@ -27,30 +28,42 @@ $gray-btn: #AFAFAF;
         color: darken($primary-color, 15%);
       }
     }
+    &[disabled]{
+      opacity: 1 !important;
+      background-color: $disabled-btn;
+    }
   }
 
   &.secondary{
-    background-color: $gray-btn;
+    background-color: darken($med-gray, 15%);
     &:focus{
-      background-color: $gray-btn;
+      background-color: darken($med-gray, 15%);
     }
     &:hover,
     &:active{
-      background-color: darken($gray-btn, 15%);
+      background-color: darken($med-gray, 30%);
     }
     &.btn-outline{
       background: transparent;
       border: 2px solid $gray-btn;
-      color: $gray-btn;
+      color: $black-70;
       &:focus{
         background: transparent;
         border: 2px solid $gray-btn;
-        color: $gray-btn;
+        color: $black-70;
       }
       &:hover,
       &:active{
         border: 2px solid darken($gray-btn, 15%);
         color: darken($gray-btn, 15%);
+      }
+    }
+    &.btn-opacity{
+      background-color: rgba(255,255,255, .3);
+      color: rgba(255,255,255, .8);
+      &:hover,
+      &:active{
+        color: rgba(255,255,255, 1);
       }
     }
   }
