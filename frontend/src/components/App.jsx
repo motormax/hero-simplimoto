@@ -16,7 +16,6 @@ import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 
 import logoUrl from './hero-logo.png';
-import ignitorImgUrl from './images/ignitor.png';
 
 
 class App extends React.Component {

@@ -28,8 +28,10 @@ class BikeModelSection extends Component {
             <Grid.Column width={6}>
               <h3 className="fw-bold fs-big">
                 {availableMotorcycles[motorcycle.name].displayName}
-                <span className="fs-medium txt-dark-gray"><span className="fw-normal">{t('currency_sign')}
-                </span>{motorcycle.price}
+                <span className="fs-medium txt-dark-gray">
+                  <span className="fw-normal">{t('currency_sign')}
+                  </span>
+                  {motorcycle.price}
                 </span>
               </h3>
               <ul className="txt-med-gray fs-medium italic">
