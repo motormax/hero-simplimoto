@@ -95,41 +95,18 @@ class InsurancePage extends Component {
 
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
-      const sliderSettings = {
-        className: 'center',
-        centerMode: true,
-        infinite: true,
-        slidesToShow: 3,
-        speed: 500,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 1,
-              infinite: true,
-            },
-          },
-        ],
-      };
       const quoteItems =
             this.state.insuranceQuotes.map(broker =>
               broker.brokerQuotes.map(quote => (
-                <div>
-                  <Card className="carrousel-item">
-                    <Image className="bike-image" src={broker.brokerLogo} />
-                    <h2 className="bike-name">{broker.brokerName}</h2>
-                    <h3>{quote.policy}</h3>
+                  <Card>
+                    <Image src={broker.brokerLogo} />
+                    <Card.Header>{broker.brokerName}</Card.Header>
+                    <Card.Meta>{quote.policy}</Card.Meta>
                     <Divider />
-                    <div>
-                      <ul>
-                        {quote.moreInfo.map(moreInfo => (
-                          <li>
-                            {moreInfo}
-                          </li>))}
-                      </ul>
-                    </div>
+                    <Card.Description>
+                        {quote.moreInfo.map(moreInfo => ({moreInfo} + ' - '))}
+                    </Card.Description>
                     <Card.Content>
-                      <Divider />
                       <p className="price">$<span className="price-number">{quote.price}</span>/ mes </p>
                       <Button
                         size="big"
@@ -147,13 +124,11 @@ class InsurancePage extends Component {
                       </Button>
                     </Card.Content>
                   </Card>
-                </div>)));
+                )));
       quotesList = (
-        <div>
-          <Slider {...sliderSettings}>
-            {quoteItems}
-          </Slider>
-        </div>
+        <Card.Group>
+          {quoteItems}
+        </Card.Group>
       );
     }
     let heroInsuranceForm;
@@ -196,14 +171,15 @@ class InsurancePage extends Component {
               onChange={this.handleHeroInsuranceDataChange}
             />
           </Form.Group>
-          <Button primary fluid onClick={this.getQuote}>Cotizar</Button>
-          {quotesList}
-
+          <div className="txt-center">
+            <Button primary onClick={this.getQuote} >Cotizar</Button>
             <Button onClick={() => {
                       this.props.cancelQuote();
                     }}
             >Cancelar
             </Button>
+          </div>
+          {quotesList}
         </Segment>);
     } else {
       heroInsuranceForm = (
