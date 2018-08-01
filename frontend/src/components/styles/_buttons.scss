@@ -13,6 +13,21 @@ $disabled-btn: $med-gray;
     &:active{
       background-color: darken($primary-color, 15%);
     }
+    &.btn-outline{
+      background: transparent;
+      border: 2px solid $primary-color;
+      color: $primary-color;
+      &:focus{
+        background: transparent;
+        border: 2px solid $primary-color;
+        color: $primary-color;
+      }
+      &:hover,
+      &:active{
+        border: 2px solid darken($primary-color, 15%);
+        color: darken($primary-color, 15%);
+      }
+    }
     &[disabled]{
       opacity: 1 !important;
       background-color: $disabled-btn;
