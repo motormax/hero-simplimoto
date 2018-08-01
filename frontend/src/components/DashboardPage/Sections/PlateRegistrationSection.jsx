@@ -313,7 +313,8 @@ class PlateRegistrationSection extends Component {
                 será propietario de la moto
               </p>
               <p className="fs-large txt-med-gray txt-center">
-                Te vamos a pedir que le saques una foto a tu documento y la cargues con el siguiente botón.
+                Te vamos a pedir que le saques una foto a tu documento y
+                la cargues con el siguiente botón.
               </p>
 
               <Grid>
@@ -328,7 +329,10 @@ class PlateRegistrationSection extends Component {
                         Imagen frontal DNI
                       </label>
                       <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
-                      { this.state.frontDniImage.name ? <div>{this.state.frontDniImage.name}</div> : <div>Falta cargar imagen</div> }
+                      { this.state.frontDniImage.name ?
+                        <div>{this.state.frontDniImage.name}</div> :
+                        <div>Falta cargar imagen</div>
+                      }
                     </div>
                     <div className="required field">
                       <label className="ui button primary btn-outline" htmlFor="backDni">
@@ -336,7 +340,10 @@ class PlateRegistrationSection extends Component {
                         Imagen trasera DNI
                       </label>
                       <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
-                      { this.state.backDniImage.name ? <div>{this.state.backDniImage.name}</div> : <div>Falta cargar imagen</div> }
+                      { this.state.backDniImage.name ?
+                        <div>{this.state.backDniImage.name}</div> :
+                        <div>Falta cargar imagen</div>
+                      }
                     </div>
                   </Grid.Column>
                 </Grid.Row>
