@@ -1,6 +1,7 @@
 import hunkImgUrl from '../images/Hunk.png';
 import ignitorImgUrl from '../images/ignitor.png';
 import hunkSportImgUrl from '../images/Hunk-sport.png';
+import dashImgUrl from '../images/dash.png';
 
 const availableMotorcycles = {
   /*
@@ -10,22 +11,22 @@ const availableMotorcycles = {
   HUNK: {
     id: 1,
     displayName: 'Hunk',
-    imageUrl: hunkImgUrl,
+    defaultImageUrl: hunkImgUrl,
   },
   IGNITOR: {
     id: 2,
     displayName: 'Ignitor',
-    imageUrl: ignitorImgUrl,
+    defaultImageUrl: ignitorImgUrl,
   },
   HUNK_SPORT: {
     id: 3,
     displayName: 'Hunk Sport',
-    imageUrl: hunkSportImgUrl,
+    defaultImageUrl: hunkSportImgUrl,
   },
   DASH: {
     id: 4,
     displayName: 'Dash',
-    imageUrl: hunkImgUrl,
+    defaultImageUrl: dashImgUrl,
   },
 };
 

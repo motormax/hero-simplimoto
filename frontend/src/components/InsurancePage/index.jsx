@@ -6,8 +6,7 @@ import axios from 'axios';
 import { push } from 'react-router-redux';
 import { Object } from 'core-js';
 
-import { Button, Form, Card, Divider, Image, Segment } from 'semantic-ui-react';
-import Slider from 'react-slick';
+import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
 
 import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
 
@@ -91,46 +90,23 @@ class InsurancePage extends Component {
 
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
-      const sliderSettings = {
-        className: 'center',
-        centerMode: true,
-        infinite: true,
-        slidesToShow: 3,
-        speed: 500,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 1,
-              infinite: true,
-            },
-          },
-        ],
-      };
       const quoteItems =
             this.state.insuranceQuotes.map(broker =>
               broker.brokerQuotes.map(quote => (
-                <div>
-                  <Card className="carrousel-item">
-                    <Image className="bike-image" src={broker.brokerLogo} />
-                    <h2 className="bike-name">{broker.brokerName}</h2>
-                    <h3>{quote.policy}</h3>
-                    <Divider />
-                    <div>
-                      <ul>
-                        {quote.moreInfo.map(moreInfo => (
-                          <li>
-                            {moreInfo}
-                          </li>))}
-                      </ul>
-                    </div>
-                    <Card.Content>
-                      <Divider />
-                      <p className="price">$<span className="price-number">{quote.price}</span>/ mes </p>
-                      <Button
-                        size="big"
-                        primary
-                        onClick={() => {
+                <Card>
+                  <Card.Content>
+                    <Image src={broker.brokerLogo} />
+                    <Card.Header>{broker.brokerName}</Card.Header>
+                    <Card.Description>{quote.policy}</Card.Description>
+                    <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
+
+                  </Card.Content>
+                  <Card.Content className="btn-displaced-container">
+                    <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
+                    <Button
+                      primary
+                      className="btn-displaced"
+                      onClick={() => {
                               this.props.selectInsurance(
                                 quote,
                                 this.state.insuranceForm,
@@ -139,23 +115,24 @@ class InsurancePage extends Component {
                                 this.props.lead.id,
                               );
 }}
-                      >Elegir
-                      </Button>
-                    </Card.Content>
-                  </Card>
-                </div>)));
+                    >Elegir
+                    </Button>
+                  </Card.Content>
+                </Card>
+              )));
       quotesList = (
-        <div>
-          <Slider {...sliderSettings}>
+        <div className="margin-bottom">
+          <Divider />
+          <Card.Group centered>
             {quoteItems}
-          </Slider>
+          </Card.Group>
         </div>
       );
     }
     let heroInsuranceForm;
     if (this.state.insuranceForm.optInOrOut === HERO_INSURANCE) {
       heroInsuranceForm = (
-        <Segment attached>
+        <Segment attached padded>
           <Form.Group widths="equal">
             <Form.Select
               search
@@ -192,23 +169,27 @@ class InsurancePage extends Component {
               onChange={this.handleHeroInsuranceDataChange}
             />
           </Form.Group>
-          <Button primary fluid onClick={this.getQuote}>Cotizar</Button>
-          {quotesList}
-
-          <Button onClick={() => {
+          <div className="txt-center">
+            <Button size="large" primary onClick={this.getQuote} >Cotizar</Button>
+            <Button onClick={() => {
                       this.props.cancelQuote();
                     }}
-          >Cancelar
-          </Button>
+            >Cancelar
+            </Button>
+          </div>
+          {quotesList}
+          <Divider />
+          <p className="txt-med-gray italic fs-small">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
         </Segment>);
     } else {
       heroInsuranceForm = (
         <Segment attached="bottom" className="txt-center">
           <Button
+            size="large"
             primary
             onClick={() => {
-            this.props.selectMyOwnInsurance(this.props.lead.id, this.state.insuranceForm);
-          }}
+              this.props.selectMyOwnInsurance(this.props.lead.id, this.state.insuranceForm);
+            }}
           >Continuar
           </Button>
         </Segment>
