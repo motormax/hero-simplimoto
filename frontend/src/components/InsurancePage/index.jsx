@@ -132,7 +132,9 @@ class InsurancePage extends Component {
                                 broker.brokerName,
                                 broker.brokerLogo,
                                 this.props.user.id,
-                              )}}>Elegir
+                              );
+}}
+                      >Elegir
                       </Button>
                     </Card.Content>
                   </Card>
