@@ -42,6 +42,7 @@ defmodule HeroDigitalWeb.Router do
 
       get "/insurance/quote", InsuranceController, :quote
       post "/insurance/quote", InsuranceController, :update
+      post "/insurance/opt-out", InsuranceController, :opt_out
     end
 
 

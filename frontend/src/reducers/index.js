@@ -3,6 +3,7 @@
 import dateYourBikeReducer from './dateYourBikeReducer';
 import deliveryReducer from './deliveryReducer';
 import fundingReducer from './fundingReducer';
+import insuranceReducer from './insuranceReducer';
 import actionTypes from '../actions/actionTypes';
 
 
@@ -22,20 +23,12 @@ const reducer = (state = defaultState, action) => {
         funding: fundingReducer(undefined, action),
         dateYourBike: dateYourBikeReducer(undefined, action),
         delivery: deliveryReducer(undefined, action),
+        insurance: insuranceReducer(undefined, action),
       };
     case actionTypes.startedFetchingUser:
       return {
         ...state,
         user: { isLoading: true },
-      };
-    case actionTypes.insuranceSelected:
-      window.localStorage.setItem('insurancePrice', action.quote.price);
-      window.localStorage.setItem('insuranceBroker', action.broker);
-
-      return {
-        ...state,
-        insurancePrice: action.quote.price,
-        insuranceBroker: action.broker,
       };
     default:
       return ({
@@ -43,6 +36,7 @@ const reducer = (state = defaultState, action) => {
         funding: fundingReducer(state.funding, action),
         dateYourBike: dateYourBikeReducer(state.dateYourBike, action),
         delivery: deliveryReducer(state.delivery, action),
+        insurance: insuranceReducer(state.insurance, action),
       });
   }
 };
