@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import { Button, Form, Card, Divider, Image } from 'semantic-ui-react';
+import { Button, Form, Card, Divider, Image, Segment } from 'semantic-ui-react';
 import Slider from 'react-slick';
 
 import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
@@ -148,7 +148,7 @@ class InsurancePage extends Component {
     let heroInsuranceForm;
     if (this.state.insuranceSelection === HERO_INSURANCE) {
       heroInsuranceForm = (
-        <div>
+        <Segment attached>
           <Form.Group widths="equal">
             <Form.Select
               search
@@ -184,51 +184,58 @@ class InsurancePage extends Component {
               error={this.state.errors.age}
               onChange={this.handleHeroInsuranceDataChange}
             />
-            <Button primary onClick={this.getQuote}>Cotizar</Button>
           </Form.Group>
+          <Button primary fluid onClick={this.getQuote}>Cotizar</Button>
           {quotesList}
-          <Button onClick={() => {
-                    this.props.cancelQuote();
-                  }}
-          >Cancelar
-          </Button>
-        </div>);
+
+            <Button onClick={() => {
+                      this.props.cancelQuote();
+                    }}
+            >Cancelar
+            </Button>
+        </Segment>);
     } else {
       heroInsuranceForm = (
-        <Button
+        <Segment attached="bottom" className="txt-center">
+          <Button
           primary
           onClick={() => {
-                  this.props.selectMyOwnInsurance(this.props.user.id);
-                }}
-        >Continuar
-        </Button>
+            this.props.selectMyOwnInsurance(this.props.user.id);
+          }}
+          >Continuar
+          </Button>
+        </Segment>
       );
     }
 
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} error={error}>
-          <Form.Group widths="equal">
-            <Form.Field>
-                ¿Como queres asegurarte?
-            </Form.Field>
-            <Form.Radio
-              label="Quiero cotizar mi seguro con Hero"
-              name="insuranceSelection"
-              value={HERO_INSURANCE}
-              checked={this.state.insuranceSelection === HERO_INSURANCE}
-              onChange={this.handleInsuranceSelectionChange}
-            />
-            <Form.Radio
-              label="Voy a contratar mi propio seguro"
-              name="insuranceSelection"
-              value={PERSONAL_INSURANCE}
-              checked={this.state.insuranceSelection === PERSONAL_INSURANCE}
-              onChange={this.handleInsuranceSelectionChange}
-            />
-          </Form.Group>
-          {heroInsuranceForm}
-        </Form>
+
+      <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
+      <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br/> nosotros nos ocupamos del papeleo.</p>
+        <Card className="page-column-card">
+          <Form onSubmit={this.handleSubmit} error={error}>
+              <Form.Select
+                fluid
+                options={
+                  [{
+                      key: HERO_INSURANCE,
+                      text: 'Quiero cotizar mi seguro con Hero',
+                      value: HERO_INSURANCE,
+                    },
+                    {
+                      key: PERSONAL_INSURANCE,
+                      text: 'Voy a contratar mi propio seguro',
+                      value: PERSONAL_INSURANCE,
+                    }]
+                }
+                value={this.state.insuranceSelection}
+                onChange={this.handleInsuranceSelectionChange}
+                className="fs-big"
+               />
+            {heroInsuranceForm}
+          </Form>
+        </Card>
       </div>
     );
   }
@@ -282,4 +289,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default translate('insurance')(connect(mapStateToProps, mapDispatchToProps)(InsurancePage));
-
