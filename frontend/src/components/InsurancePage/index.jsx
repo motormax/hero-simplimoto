@@ -15,16 +15,18 @@ import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocat
 const PERSONAL_INSURANCE = 'personalInsurance';
 const HERO_INSURANCE = 'heroInsurance';
 
-const optInOrOutOptions = [{
-  key: HERO_INSURANCE,
-  text: 'Quiero cotizar mi seguro con Hero',
-  value: HERO_INSURANCE,
-},
-{
-  key: PERSONAL_INSURANCE,
-  text: 'Voy a contratar mi propio seguro',
-  value: PERSONAL_INSURANCE,
-}];
+const optInOrOutOptions = [
+  {
+    key: HERO_INSURANCE,
+    text: 'Quiero cotizar mi seguro con Hero',
+    value: HERO_INSURANCE,
+  },
+  {
+    key: PERSONAL_INSURANCE,
+    text: 'Voy a contratar mi propio seguro',
+    value: PERSONAL_INSURANCE,
+  },
+];
 
 class InsurancePage extends Component {
   static propTypes = {
@@ -73,11 +75,11 @@ class InsurancePage extends Component {
 
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
-    console.log(inputName);
-    console.log(value);
+    console.log(inputName); // eslint-disable-line no-console
+    console.log(value); // eslint-disable-line no-console
     const newData = this.state.insuranceForm;
     newData[inputName] = value;
-    console.log(newData);
+    console.log(newData); // eslint-disable-line no-console
     this.setState({ insuranceForm: newData });
   }
 
