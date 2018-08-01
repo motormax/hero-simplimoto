@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import { Button, Form, Card, Divider, Image, Segment } from 'semantic-ui-react';
+import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
 import Slider from 'react-slick';
 
 import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
@@ -99,18 +99,18 @@ class InsurancePage extends Component {
             this.state.insuranceQuotes.map(broker =>
               broker.brokerQuotes.map(quote => (
                   <Card>
-                    <Image src={broker.brokerLogo} />
-                    <Card.Header>{broker.brokerName}</Card.Header>
-                    <Card.Meta>{quote.policy}</Card.Meta>
-                    <Divider />
-                    <Card.Description>
-                        {quote.moreInfo.map(moreInfo => ({moreInfo} + ' - '))}
-                    </Card.Description>
                     <Card.Content>
-                      <p className="price">$<span className="price-number">{quote.price}</span>/ mes </p>
+                      <Image src={broker.brokerLogo} />
+                      <Card.Header>{broker.brokerName}</Card.Header>
+                      <Card.Description>{quote.policy}</Card.Description>
+                      <Card.Meta><a>Ver mas información <Icon name="info circle" /></a></Card.Meta>
+
+                    </Card.Content>
+                    <Card.Content className="btn-displaced-container">
+                      <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
                       <Button
-                        size="big"
                         primary
+                        className="btn-displaced"
                         onClick={() => {
                               this.props.selectInsurance(
                                 quote,
@@ -126,15 +126,18 @@ class InsurancePage extends Component {
                   </Card>
                 )));
       quotesList = (
-        <Card.Group>
+        <div className="margin-bottom">
+          <Divider />
+          <Card.Group centered>
           {quoteItems}
-        </Card.Group>
+          </Card.Group>
+        </div>
       );
     }
     let heroInsuranceForm;
     if (this.state.insuranceForm.optInOrOut === HERO_INSURANCE) {
       heroInsuranceForm = (
-        <Segment attached>
+        <Segment attached padded>
           <Form.Group widths="equal">
             <Form.Select
               search
@@ -172,7 +175,7 @@ class InsurancePage extends Component {
             />
           </Form.Group>
           <div className="txt-center">
-            <Button primary onClick={this.getQuote} >Cotizar</Button>
+            <Button size="large" primary onClick={this.getQuote} >Cotizar</Button>
             <Button onClick={() => {
                       this.props.cancelQuote();
                     }}
@@ -180,16 +183,19 @@ class InsurancePage extends Component {
             </Button>
           </div>
           {quotesList}
+          <Divider />
+          <p className="txt-med-gray italic fs-small">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
         </Segment>);
     } else {
       heroInsuranceForm = (
         <Segment attached="bottom" className="txt-center">
           <Button
-          primary
-          onClick={() => {
-            this.props.selectMyOwnInsurance(this.props.lead.id);
-          }}
-          >Continuar
+            size="large"
+            primary
+            onClick={() => {
+              this.props.selectMyOwnInsurance(this.props.lead.id);
+            }}
+            >Continuar
           </Button>
         </Segment>
       );
@@ -211,7 +217,7 @@ class InsurancePage extends Component {
                />
             {heroInsuranceForm}
           </Form>
-        </Card>        
+        </Card>
       </div>
     );
   }
