@@ -6,7 +6,6 @@ import axios from 'axios';
 import { push } from 'react-router-redux';
 
 import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
-import Slider from 'react-slick';
 
 import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
 
@@ -17,15 +16,15 @@ const PERSONAL_INSURANCE = 'personalInsurance';
 const HERO_INSURANCE = 'heroInsurance';
 
 const optInOrOutOptions = [{
-    key: HERO_INSURANCE,
-    text: 'Quiero cotizar mi seguro con Hero',
-    value: HERO_INSURANCE,
-  },
-  {
-    key: PERSONAL_INSURANCE,
-    text: 'Voy a contratar mi propio seguro',
-    value: PERSONAL_INSURANCE,
-  }];
+  key: HERO_INSURANCE,
+  text: 'Quiero cotizar mi seguro con Hero',
+  value: HERO_INSURANCE,
+},
+{
+  key: PERSONAL_INSURANCE,
+  text: 'Voy a contratar mi propio seguro',
+  value: PERSONAL_INSURANCE,
+}];
 
 class InsurancePage extends Component {
   static propTypes = {
@@ -98,20 +97,20 @@ class InsurancePage extends Component {
       const quoteItems =
             this.state.insuranceQuotes.map(broker =>
               broker.brokerQuotes.map(quote => (
-                  <Card>
-                    <Card.Content>
-                      <Image src={broker.brokerLogo} />
-                      <Card.Header>{broker.brokerName}</Card.Header>
-                      <Card.Description>{quote.policy}</Card.Description>
-                      <Card.Meta><a>Ver mas información <Icon name="info circle" /></a></Card.Meta>
+                <Card>
+                  <Card.Content>
+                    <Image src={broker.brokerLogo} />
+                    <Card.Header>{broker.brokerName}</Card.Header>
+                    <Card.Description>{quote.policy}</Card.Description>
+                    <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
 
-                    </Card.Content>
-                    <Card.Content className="btn-displaced-container">
-                      <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
-                      <Button
-                        primary
-                        className="btn-displaced"
-                        onClick={() => {
+                  </Card.Content>
+                  <Card.Content className="btn-displaced-container">
+                    <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
+                    <Button
+                      primary
+                      className="btn-displaced"
+                      onClick={() => {
                               this.props.selectInsurance(
                                 quote,
                                 this.state.insuranceForm,
@@ -120,16 +119,16 @@ class InsurancePage extends Component {
                                 this.props.lead.id,
                               );
 }}
-                      >Elegir
-                      </Button>
-                    </Card.Content>
-                  </Card>
-                )));
+                    >Elegir
+                    </Button>
+                  </Card.Content>
+                </Card>
+              )));
       quotesList = (
         <div className="margin-bottom">
           <Divider />
           <Card.Group centered>
-          {quoteItems}
+            {quoteItems}
           </Card.Group>
         </div>
       );
@@ -195,7 +194,7 @@ class InsurancePage extends Component {
             onClick={() => {
               this.props.selectMyOwnInsurance(this.props.lead.id);
             }}
-            >Continuar
+          >Continuar
           </Button>
         </Segment>
       );
@@ -204,17 +203,17 @@ class InsurancePage extends Component {
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
-        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br/> nosotros nos ocupamos del papeleo.</p>
+        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br /> nosotros nos ocupamos del papeleo.</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
-              <Form.Select
-                fluid
-                options={optInOrOutOptions}
-                name='optInOrOut'
-                value={this.state.insuranceForm.optInOrOut}
-                onChange={this.handleDropdownChange}
-                className="fs-big"
-               />
+            <Form.Select
+              fluid
+              options={optInOrOutOptions}
+              name="optInOrOut"
+              value={this.state.insuranceForm.optInOrOut}
+              onChange={this.handleDropdownChange}
+              className="fs-big"
+            />
             {heroInsuranceForm}
           </Form>
         </Card>
