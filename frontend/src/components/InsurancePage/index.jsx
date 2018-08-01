@@ -16,7 +16,8 @@ import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocat
 const PERSONAL_INSURANCE = 'personalInsurance';
 const HERO_INSURANCE = 'heroInsurance';
 
-const optInOrOutOptions = [{
+const optInOrOutOptions = [
+  {
     key: HERO_INSURANCE,
     text: 'Quiero cotizar mi seguro con Hero',
     value: HERO_INSURANCE,
@@ -25,7 +26,8 @@ const optInOrOutOptions = [{
     key: PERSONAL_INSURANCE,
     text: 'Voy a contratar mi propio seguro',
     value: PERSONAL_INSURANCE,
-  }];
+  },
+];
 
 class InsurancePage extends Component {
   static propTypes = {
@@ -74,11 +76,11 @@ class InsurancePage extends Component {
 
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
-    console.log(inputName);
-    console.log(value);
+    console.log(inputName); // eslint-disable-line no-console
+    console.log(value); // eslint-disable-line no-console
     const newData = this.state.insuranceForm;
     newData[inputName] = value;
-    console.log(newData);
+    console.log(newData); // eslint-disable-line no-console
     this.setState({ insuranceForm: newData });
   }
 
@@ -199,18 +201,18 @@ class InsurancePage extends Component {
           <Button primary fluid onClick={this.getQuote}>Cotizar</Button>
           {quotesList}
 
-            <Button onClick={() => {
+          <Button onClick={() => {
                       this.props.cancelQuote();
                     }}
-            >Cancelar
-            </Button>
+          >Cancelar
+          </Button>
         </Segment>);
     } else {
       heroInsuranceForm = (
         <Segment attached="bottom" className="txt-center">
           <Button
-          primary
-          onClick={() => {
+            primary
+            onClick={() => {
             this.props.selectMyOwnInsurance(this.props.lead.id);
           }}
           >Continuar
@@ -222,20 +224,20 @@ class InsurancePage extends Component {
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
-        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br/> nosotros nos ocupamos del papeleo.</p>
+        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br /> nosotros nos ocupamos del papeleo.</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
-              <Form.Select
-                fluid
-                options={optInOrOutOptions}
-                name='optInOrOut'
-                value={this.state.insuranceForm.optInOrOut}
-                onChange={this.handleDropdownChange}
-                className="fs-big"
-               />
+            <Form.Select
+              fluid
+              options={optInOrOutOptions}
+              name="optInOrOut"
+              value={this.state.insuranceForm.optInOrOut}
+              onChange={this.handleDropdownChange}
+              className="fs-big"
+            />
             {heroInsuranceForm}
           </Form>
-        </Card>        
+        </Card>
       </div>
     );
   }
