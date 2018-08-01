@@ -16,12 +16,23 @@ import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocat
 const PERSONAL_INSURANCE = 'personalInsurance';
 const HERO_INSURANCE = 'heroInsurance';
 
+const optInOrOutOptions = [{
+    key: HERO_INSURANCE,
+    text: 'Quiero cotizar mi seguro con Hero',
+    value: HERO_INSURANCE,
+  },
+  {
+    key: PERSONAL_INSURANCE,
+    text: 'Voy a contratar mi propio seguro',
+    value: PERSONAL_INSURANCE,
+  }];
+
 class InsurancePage extends Component {
   static propTypes = {
     selectInsurance: propTypes.func.isRequired,
     cancelQuote: propTypes.func.isRequired,
     selectMyOwnInsurance: propTypes.func.isRequired,
-    user: propTypes.shape({
+    lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
   };
@@ -30,9 +41,9 @@ class InsurancePage extends Component {
     super(props);
     this.paymentMethodForm = React.createRef();
     this.state = {
-      insuranceSelection: HERO_INSURANCE,
       insuranceQuotes: [],
-      insurance: {
+      insuranceForm: {
+        optInOrOut: HERO_INSURANCE,
         province: PROVINCE_CABA,
         postalCode: '',
         age: '',
@@ -46,8 +57,8 @@ class InsurancePage extends Component {
 
   getQuote = (event) => {
     event.preventDefault();
-    axios.get(`api/leads/${this.props.user.id}/insurance/quote`, {
-      params: this.state.insurance,
+    axios.get(`api/leads/${this.props.lead.id}/insurance/quote`, {
+      params: this.state.insuranceForm,
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
@@ -61,23 +72,21 @@ class InsurancePage extends Component {
       });
   };
 
-  handleInsuranceSelectionChange = (e, radio) => {
-    const { value } = radio;
-    this.setState({ insuranceSelection: value });
-  };
-
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
-    const newData = this.state.insurance;
+    console.log(inputName);
+    console.log(value);
+    const newData = this.state.insuranceForm;
     newData[inputName] = value;
-    this.setState({ insurance: newData });
+    console.log(newData);
+    this.setState({ insuranceForm: newData });
   }
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
-    const newData = this.state.insurance;
+    const newData = this.state.insuranceForm;
     newData[inputName] = value;
-    this.setState({ insurance: newData });
+    this.setState({ insuranceForm: newData });
   };
 
   render() {
@@ -128,11 +137,13 @@ class InsurancePage extends Component {
                         onClick={() => {
                               this.props.selectInsurance(
                                 quote,
-                                this.state.insurance,
+                                this.state.insuranceForm,
                                 broker.brokerName,
                                 broker.brokerLogo,
-                                this.props.user.id,
-                              )}}>Elegir
+                                this.props.lead.id,
+                              );
+}}
+                      >Elegir
                       </Button>
                     </Card.Content>
                   </Card>
@@ -146,7 +157,7 @@ class InsurancePage extends Component {
       );
     }
     let heroInsuranceForm;
-    if (this.state.insuranceSelection === HERO_INSURANCE) {
+    if (this.state.insuranceForm.optInOrOut === HERO_INSURANCE) {
       heroInsuranceForm = (
         <Segment attached>
           <Form.Group widths="equal">
@@ -157,7 +168,7 @@ class InsurancePage extends Component {
               name="province"
               options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
                 { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
-              value={this.state.insurance.province}
+              value={this.state.insuranceForm.province}
               error={this.state.errors.province}
               onChange={this.handleDropdownChange}
               placeholder="Provincia"
@@ -167,9 +178,9 @@ class InsurancePage extends Component {
               required
               label="Código postal"
               name="postalCode"
-              options={this.state.insurance.province === PROVINCE_CABA ?
+              options={this.state.insuranceForm.province === PROVINCE_CABA ?
                 cabaInsuranceLocations : bsasInsuranceLocations}
-              value={this.state.insurance.postalCode}
+              value={this.state.insuranceForm.postalCode}
               error={this.state.errors.postalCode}
               onChange={this.handleDropdownChange}
               placeholder="Código postal"
@@ -180,7 +191,7 @@ class InsurancePage extends Component {
               label="Edad"
               type="text"
               name="age"
-              value={this.state.insurance.age}
+              value={this.state.insuranceForm.age}
               error={this.state.errors.age}
               onChange={this.handleHeroInsuranceDataChange}
             />
@@ -200,7 +211,7 @@ class InsurancePage extends Component {
           <Button
           primary
           onClick={() => {
-            this.props.selectMyOwnInsurance(this.props.user.id);
+            this.props.selectMyOwnInsurance(this.props.lead.id);
           }}
           >Continuar
           </Button>
@@ -210,32 +221,21 @@ class InsurancePage extends Component {
 
     return (
       <div>
-
-      <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
-      <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br/> nosotros nos ocupamos del papeleo.</p>
+        <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
+        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br/> nosotros nos ocupamos del papeleo.</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
               <Form.Select
                 fluid
-                options={
-                  [{
-                      key: HERO_INSURANCE,
-                      text: 'Quiero cotizar mi seguro con Hero',
-                      value: HERO_INSURANCE,
-                    },
-                    {
-                      key: PERSONAL_INSURANCE,
-                      text: 'Voy a contratar mi propio seguro',
-                      value: PERSONAL_INSURANCE,
-                    }]
-                }
-                value={this.state.insuranceSelection}
-                onChange={this.handleInsuranceSelectionChange}
+                options={optInOrOutOptions}
+                name='optInOrOut'
+                value={this.state.insuranceForm.optInOrOut}
+                onChange={this.handleDropdownChange}
                 className="fs-big"
                />
             {heroInsuranceForm}
           </Form>
-        </Card>
+        </Card>        
       </div>
     );
   }
@@ -243,18 +243,18 @@ class InsurancePage extends Component {
 
 
 const mapStateToProps = store => ({
-  user: store.main.user,
+  lead: store.main.lead,
 });
 
 const mapDispatchToProps = dispatch => ({
   cancelQuote: () => {
     dispatch(push('/dashboard'));
   },
-  selectMyOwnInsurance: async (userId) => {
+  selectMyOwnInsurance: async (leadId) => {
     axios.post(
-      `/api/leads/${userId}/insurance/opt-out`,
+      `/api/leads/${leadId}/insurance/opt-out`,
       {
-        user: userId,
+        lead: leadId,
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
@@ -265,17 +265,17 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, insurance, brokerName, brokerLogo, userId) => {
+  selectInsurance: async (quote, insuranceForm, brokerName, brokerLogo, leadId) => {
     axios.post(
-      `/api/leads/${userId}/insurance/quote`,
+      `/api/leads/${leadId}/insurance/quote`,
       {
-        user: userId,
+        lead: leadId,
         quote: {
           id: quote.id,
           price: quote.price,
           broker: brokerName,
         },
-        insurance,
+        insuranceForm,
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
