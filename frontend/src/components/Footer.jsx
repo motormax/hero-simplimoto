@@ -18,7 +18,7 @@ class Footer extends Component {
 
     let youAreBuying;
     if (currentBikeModel) {
-      const bikeImageUrl = availableMotorcycles[currentBikeModel].imageUrl;
+      const bikeImageUrl = availableMotorcycles[currentBikeModel].defaultImageUrl;
       const bikeDisplayName = availableMotorcycles[currentBikeModel].displayName;
       youAreBuying = (
         <List>
@@ -125,8 +125,8 @@ class Footer extends Component {
 
 
 const mapStateToProps = store => (
-  store.main.user && store.main.user.motorcycle ?
-    { currentBikeModel: store.main.user.motorcycle.name } :
+  store.main.lead && store.main.lead.motorcycle ?
+    { currentBikeModel: store.main.lead.motorcycle.name } :
     { currentBikeModel: undefined }
 );
 

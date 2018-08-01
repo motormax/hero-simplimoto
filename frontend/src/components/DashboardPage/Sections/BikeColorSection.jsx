@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import connect from 'react-redux/es/connect/connect';
 import { Grid, Icon, Image, Segment, Radio } from 'semantic-ui-react';
+import { translate } from 'react-i18next';
+import { changeBikeColor } from '../../../actions/beginning';
 
 
 class BikeColorSection extends Component {
@@ -9,30 +12,20 @@ class BikeColorSection extends Component {
       name: propTypes.string,
       imageURL: propTypes.string,
     })).isRequired,
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedColor: props.availableColors[0],
-    };
-  }
-
-  changeSelected = (color) => {
-    this.setState({
-      selectedColor: color,
-    });
+    changeColor: propTypes.func.isRequired,
+    selectedColorIndex: propTypes.number.isRequired,
   };
 
   render() {
-    const { selectedColor } = this.state;
-    const { availableColors } = this.props;
+    const { availableColors, selectedColorIndex, changeColor } = this.props;
+    const selectedColor = availableColors[selectedColorIndex];
 
-    const colorOptions = availableColors.map(color => (
+    const colorOptions = availableColors.map((color, index) => (
       <div className="dashboard-card_items">
         <Radio
           value={color.name}
           name="setColor"
-          onChange={() => { this.changeSelected(color); }}
+          onChange={() => changeColor(index)}
           checked={selectedColor.name === color.name}
         />
 
@@ -68,4 +61,12 @@ class BikeColorSection extends Component {
   }
 }
 
-export default BikeColorSection;
+const mapStateToProps = store => ({
+  selectedColorIndex: store.main.customization.color,
+});
+
+const mapDispatchToProps = dispatch => ({
+  changeColor: color => dispatch(changeBikeColor(color)),
+});
+
+export default translate('customization')(connect(mapStateToProps, mapDispatchToProps)(BikeColorSection));

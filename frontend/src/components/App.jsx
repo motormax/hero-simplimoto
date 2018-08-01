@@ -36,7 +36,7 @@ class App extends React.Component {
             <Route path="/plate-registration" component={PlateRegistrationSection} />
           </Switch>
         </Container>
-        <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />
+        <Footer />
       </div>
     );
   }

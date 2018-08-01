@@ -1,5 +1,6 @@
 export default {
   changeBikeModel: 'CHANGE_BIKE_MODEL',
+  changeBikeColor: 'CHANGE_BIKE_COLOR',
   leadFetched: 'LEAD_FETCHED',
   startedFetchingLead: 'STARTED_FETCHING_LEAD',
   deliveryFetched: 'DELIVERY_FETCHED',
