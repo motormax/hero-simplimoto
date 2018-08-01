@@ -30,9 +30,10 @@ class BikeColorSection extends Component {
     const colorOptions = availableColors.map(color => (
       <div className="dashboard-card_items">
         <Radio
-          value={selectedColor.name}
+          value={color.name}
           name='setColor'
           onChange={() => { this.changeSelected(color); }}
+          checked={selectedColor.name === color.name}
         />
 
         <Image
