@@ -1721,6 +1721,10 @@ core-js@^2.5.3:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.6.tgz#0fe6d45bf3cac3ac364a9d72de7576f4eb221b9d"
 
+core-js@^2.5.7:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -6183,7 +6187,7 @@ react-slick@^0.23.1:
     json2mq "^0.2.0"
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
-    
+
 react-text-mask@^5.4.2:
   version "5.4.2"
   resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.4.2.tgz#6c9ecce97d354698557d14699963081f9621e997"
