@@ -4,7 +4,6 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { Object } from 'core-js';
 
 import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
 
