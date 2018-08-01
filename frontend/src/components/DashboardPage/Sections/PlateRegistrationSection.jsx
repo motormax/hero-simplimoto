@@ -7,6 +7,7 @@ import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import dniImage from '../../images/dni.svg';
 
 class PlateRegistrationSection extends Component {
   static propTypes = {
@@ -201,7 +202,7 @@ class PlateRegistrationSection extends Component {
     const error = Object.values(this.state.errors)
       .some(Boolean);
     const personalDataFormGroup = (
-      <Form.Group widths="equal">
+      <Form>
         <Form.Input
           fluid
           required
@@ -232,9 +233,9 @@ class PlateRegistrationSection extends Component {
           error={this.state.errors.dni}
           onChange={this.handlePersonalDataChange}
         />
-      </Form.Group>);
+      </Form>);
     const addressFormGroup = (
-      <Form.Group widths="equal">
+      <Form>
         <Form.Input
           fluid
           required
@@ -265,9 +266,9 @@ class PlateRegistrationSection extends Component {
           error={this.state.errors.postalCode}
           onChange={this.handleAddressDataChange}
         />
-      </Form.Group>);
+      </Form>);
     const lastFieldsFormGroup = (
-      <Form.Group widths="equal">
+      <Form>
         <Form.Input
           fluid
           required
@@ -288,7 +289,8 @@ class PlateRegistrationSection extends Component {
           error={this.state.errors.phone}
           onChange={this.handleChange}
         />
-      </Form.Group>);
+      </Form>);
+
     return (
       <div>
         <h2 className="fs-massive txt-dark-gray fw-bold txt-center">Patentamiento online</h2>
@@ -315,15 +317,26 @@ class PlateRegistrationSection extends Component {
               </p>
 
               <Grid>
-                <Grid.Row>
-                  <Grid.Column>
+                <Grid.Row centered>
+                  <Grid.Column width={7}>
+                    <img src={dniImage} alt="" />
+                  </Grid.Column>
+                  <Grid.Column width={7}>
                     <div className="required field">
-                      <label htmlFor="frontDni">Imagen frontal DNI</label>
-                      <input type="file" id="frontDni" onChange={this.handleFrontDniImageChange} />
+                      <label className="ui button primary btn-outline" htmlFor="frontDni">
+                        <i className="upload icon" />
+                        Imagen frontal DNI
+                      </label>
+                      <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
+                      { this.state.frontDniImage.name ? <div>{this.state.frontDniImage.name}</div> : <div>Falta cargar imagen</div> }
                     </div>
                     <div className="required field">
-                      <label htmlFor="backDni">Imagen trasera DNI</label>
-                      <input type="file" id="backDni" onChange={this.handleBackDniImageChange} />
+                      <label className="ui button primary btn-outline" htmlFor="backDni">
+                        <i className="upload icon" />
+                        Imagen trasera DNI
+                      </label>
+                      <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
+                      { this.state.backDniImage.name ? <div>{this.state.backDniImage.name}</div> : <div>Falta cargar imagen</div> }
                     </div>
                   </Grid.Column>
                 </Grid.Row>
