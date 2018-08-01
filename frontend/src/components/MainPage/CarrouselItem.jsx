@@ -13,7 +13,7 @@ class CarrouselItem extends Component {
     bikeImageUrl: propTypes.string.isRequired,
     bikeName: propTypes.string.isRequired,
     onBuy: propTypes.func.isRequired,
-  }
+  };
 
   render() {
     const {

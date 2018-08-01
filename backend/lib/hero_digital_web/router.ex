@@ -29,7 +29,6 @@ defmodule HeroDigitalWeb.Router do
     resources "/email", EmailController, only: [:create, :show]
     resources "/phone", PhoneController, only: [:create, :show]
 
-
     resources "/leads", LeadController, only: [:create, :show] do
       get "/delivery_choice", DeliveryChoiceController, :show
       post "/delivery_choice", DeliveryChoiceController, :create

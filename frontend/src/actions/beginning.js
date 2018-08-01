@@ -4,13 +4,13 @@ export const changeBikeModel = bikeModel => ({
   type: actionTypes.changeBikeModel, bikeModel,
 });
 
-export const userFetched = user => ({
-  type: actionTypes.userFetched,
-  user,
+export const leadFetched = lead => ({
+  type: actionTypes.leadFetched,
+  lead,
 });
 
-export const startedFetchingUser = () => ({
-  type: actionTypes.startedFetchingUser,
+export const startedFetchingLead = () => ({
+  type: actionTypes.startedFetchingLead,
 });
 
 export const noop = () => ({ type: 'NOOP' });

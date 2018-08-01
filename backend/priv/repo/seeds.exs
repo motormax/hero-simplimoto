@@ -11,5 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 
-HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "DASH", price: 11111})
 HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK", price: 22222})
+HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "IGNITOR", price: 22222})
+HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK_SPORT", price: 22222})
+HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "DASH", price: 11111})

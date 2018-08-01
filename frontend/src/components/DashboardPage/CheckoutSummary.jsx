@@ -6,6 +6,12 @@ import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image } from 'semantic-ui-react';
 
 import bankImage from './../images/banks-logos/icbc-logo.png';
+import availableMotorcycles from '../motorcycles/availableMotorcycles';
+
+const moneyFormatter = new Intl.NumberFormat('es-AR', {
+  minimumFractionDigits: 0,
+});
+
 
 class CheckoutSummary extends Component {
   static propTypes = {
@@ -16,6 +22,11 @@ class CheckoutSummary extends Component {
     brokerLogo: propTypes.string,
     insuranceSelected: propTypes.bool,
     insuranceOptOut: propTypes.bool,
+    motorcycle: propTypes.shape({
+      id: propTypes.number.isRequired,
+      name: propTypes.string.isRequired,
+      price: propTypes.string.isRequired,
+    }).isRequired,
   };
   static defaultProps = {
     broker: '',
@@ -24,10 +35,12 @@ class CheckoutSummary extends Component {
     brokerLogo: '',
     insuranceSelected: false,
     insuranceOptOut: false,
-  }
+  };
 
   render() {
-    const bikeName = 'Moto Piola';
+    const { motorcycle } = this.props;
+    const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
+    const bikePrice = motorcycle.price;
     const bankName = 'ICBC';
 
     let insuranceSection;
@@ -68,20 +81,20 @@ class CheckoutSummary extends Component {
     return (
       <div className="checkoutSummary">
         <Card fluid>
-          <h3 className="summary-title">Resúmen de tu Moto</h3>
+          <h3 className="summary-title">Resumen de tu moto</h3>
 
           <Card.Content>
             <List className="summary-list" verticalAlign="middle">
               <List.Item>
                 <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>30,000</span>
+                  <span>{moneyFormatter.format(bikePrice)}</span>
                 </List.Content>
-                <List.Content>{bikeName}</List.Content>
+                <List.Content>{bikeDisplayName}</List.Content>
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="txt-green fs-small uppercase">¡grátis!</span>
+                  <span className="txt-green fs-small uppercase">¡gratis!</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Personalización</List.Content>
@@ -89,7 +102,7 @@ class CheckoutSummary extends Component {
               <List.Item>
                 <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>1,200</span>
+                  <span>{moneyFormatter.format(1200)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Accesorios</List.Content>
@@ -97,14 +110,14 @@ class CheckoutSummary extends Component {
               <List.Item>
                 <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>1,200</span>
+                  <span>{moneyFormatter.format(1200)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Patentamiento online</List.Content>
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="txt-green fs-small uppercase">¡grátis!</span>
+                  <span className="txt-green fs-small uppercase">¡gratis!</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Entrega a domicilio</List.Content>
@@ -121,14 +134,14 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">AR$<span className="final-price-number">10,000</span>/ month </p>
+              <p className="final-price">AR$<span className="final-price-number">{moneyFormatter.format(10000)}</span>/ month </p>
             </div>
 
             <div className="finnancial-bank">
               <img src={bankImage} alt={bankName} />
               <div className="right-column txt-dark-gray">
                 <p className="fw-bold fs-small">Préstamo {bankName}</p>
-                <p className="fs-tinny">85 cuotas de AR$ 1,300-</p>
+                <p className="fs-tinny">85 cuotas de AR$ {moneyFormatter.format(1300)}-</p>
                 <p className="fs-large">CFT: 48.12%</p>
               </div>
             </div>
@@ -139,7 +152,7 @@ class CheckoutSummary extends Component {
         <Card fluid>
           <Card.Content className="btn-displaced-container">
             {insuranceSection}
-            <Button className="btn-displaced" size="huge" secondary>Preparar la Compra</Button>
+            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra</Button>
           </Card.Content>
         </Card>
 

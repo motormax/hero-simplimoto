@@ -127,14 +127,12 @@ class InsurancePage extends Component {
                         primary
                         onClick={() => {
                               this.props.selectInsurance(
-  quote,
+                                quote,
                                 this.state.insurance,
                                 broker.brokerName,
                                 broker.brokerLogo,
                                 this.props.user.id,
-  );
-  }}
-                      >Elegir
+                              )}}>Elegir
                       </Button>
                     </Card.Content>
                   </Card>
