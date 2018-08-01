@@ -4,9 +4,12 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import classNames from 'classnames';
 import { push } from 'react-router-redux';
 import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 import { dateAppointmentFetched, startedFetchingAppointment } from '../../../actions/dateAppointments';
+
+import dateYourBikeIcon from './../../images/dateyourbike-icon.svg';
 
 
 class DateYourBikeSection extends Component {
@@ -28,28 +31,42 @@ class DateYourBikeSection extends Component {
 
   render() {
     const { t, appointment } = this.props;
+    const cardStyle = classNames('dashboard-card', {
+      'date-your-bike': !appointment.id,
+    });
+    const textStyle = classNames(
+      'fs-medium',
+      appointment.id ? 'txt-med-gray' : 'txt-white',
+    );
+    const headerStyle = classNames(
+      'fw-bold',
+      appointment.id ? 'fs-big' : 'txt-white',
+    );
 
     if (appointment.isLoading) {
       return <p>Cargando</p>;
     }
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: appointment.id ? '#21ba45' : 'darkgrey' }}>
+      <Segment className={cardStyle} style={{ borderLeftColor: appointment.id ? '#21ba45' : 'transparent' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {appointment.id ? <Icon size="large" color="green" name="check" /> : <Icon size="large" color="darkgrey" name="arrow right" />}
+              {appointment.id ? <Icon size="large" color="green" name="check" /> : <img src={dateYourBikeIcon} alt="Una cita a ciegas" />}
             </Grid.Column>
             <Grid.Column width={10}>
-              <h3 className="fw-bold fs-big">{t('title')}</h3>
-              <p className="txt-med-gray fs-medium">{ appointment.id ?
+              <h3 className={headerStyle}>{t('title')}</h3>
+              <p className={textStyle}>
+                { appointment.id ?
                 `Te llevamos la moto ${moment(appointment.date).locale('es').fromNow()} a ${appointment.address.street}` :
-                'Podes pedir ver la moto en tu casa!'
+                "Te arreglamos una 'cita a ciegas' en tu casa"
               }
               </p>
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToDateYourBike()}>{t('change')}</Button>
+              <Button className={appointment.id ? 'btn-outline' : 'btn-opacity'} fluid secondary onClick={() => this.props.changeToDateYourBike()}>
+                <Icon name="calendar alternate" /> { appointment.id ? 'Cambiar' : 'Arreglá una cita'}
+              </Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>

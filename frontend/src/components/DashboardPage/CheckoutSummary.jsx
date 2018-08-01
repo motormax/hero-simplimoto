@@ -106,7 +106,7 @@ class CheckoutSummary extends Component {
                 <Button className="btn-outline" size="medium" secondary fluid>Elegir seguro</Button>
               </List.Item>
             </List>
-            <Button className="btn-displaced" size="huge" secondary>Preparar la compra</Button>
+            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra</Button>
           </Card.Content>
         </Card>
 

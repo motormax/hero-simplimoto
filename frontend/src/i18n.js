@@ -10,7 +10,9 @@ export default i18next.init({
         online: '100% online',
       },
       dateyourbike: {
-        title: 'Cita con tu moto',
+        title: 'Conocé tu futura moto',
+        schedule: 'Arreglá una cita',
+        change: 'Cambiar',
       },
       motorcycleCard: {
         gloves: 'Guantes',
@@ -59,6 +61,13 @@ export default i18next.init({
       },
       financing: {
         financing: 'Financiamiento',
+      },
+      accessories_section: {
+        accessories: 'Accesorios',
+        currency_sign: 'AR$',
+        gloves: 'Guantes',
+        helmet: 'Casco',
+        trunk: 'Baúl',
       },
     },
     en: {
