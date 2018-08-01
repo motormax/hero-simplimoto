@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import connect from 'react-redux/es/connect/connect';
+import { connect } from 'react-redux';
 import { Grid, Icon, Image, Segment, Radio } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { changeBikeColor } from '../../../actions/beginning';
