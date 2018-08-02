@@ -69,6 +69,10 @@ export default i18next.init({
         helmet: 'Casco',
         trunk: 'Baúl',
       },
+      plateRegistration: {
+        currency_sign: 'AR$',
+        plate_registration: 'Patentamiento online',
+      },
     },
     en: {
       dashboard: {
