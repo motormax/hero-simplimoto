@@ -60,10 +60,10 @@ export default i18next.init({
         moto_specs: 'Ficha técnica',
       },
       financing: {
-        financing: 'Financiamiento',
+        financing: '¿Cómo te la financiamos?',
       },
       accessories_section: {
-        accessories: 'Accesorios',
+        accessories: '¿Qué accesorios te interesan?',
         currency_sign: 'AR$',
         gloves: 'Guantes',
         helmet: 'Casco',
@@ -71,7 +71,7 @@ export default i18next.init({
       },
       plateRegistration: {
         currency_sign: 'AR$',
-        plate_registration: 'Patentamiento online',
+        plate_registration: '¿Cómo querés patentarla?',
       },
     },
     en: {

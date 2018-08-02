@@ -35,6 +35,8 @@ config :ex_admin,
     HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationData,
     HeroDigital.ExAdmin.UserData.Address,
     HeroDigital.ExAdmin.UserData.Image,
+    HeroDigital.ExAdmin.Insurance.Broker,
+    HeroDigital.ExAdmin.Insurance.Policy,
   ]
 
 config :hero_digital, basic_auth: [
