@@ -30,6 +30,9 @@ class InsurancePage extends Component {
     selectMyOwnInsurance: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string,
+      motorcycle: propTypes.shape({
+        id: propTypes.string,
+      }),
     }).isRequired,
     insuranceForm: propTypes.shape({
       optInOrOut: propTypes.string,
@@ -55,7 +58,7 @@ class InsurancePage extends Component {
   getQuote = (event) => {
     event.preventDefault();
     axios.get(`api/leads/${this.props.lead.id}/insurance/quote`, {
-      params: {motorcycle_id: this.props.lead.motorcycle.id, ...this.state.insuranceForm},
+      params: { motorcycle_id: this.props.lead.motorcycle.id, ...this.state.insuranceForm },
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
@@ -90,7 +93,7 @@ class InsurancePage extends Component {
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
       const quoteItems =
-            this.state.insuranceQuotes.map(quote =>
+            this.state.insuranceQuotes.map(quote => (
               <Card>
                 <Card.Content>
                   <Image src={quote.brokerLogo} />
@@ -112,12 +115,12 @@ class InsurancePage extends Component {
                               quote.brokerLogo,
                               this.props.lead,
                             );
-}}
-                  >Elegir
+                    }}
+                  >
+                  Elegir
                   </Button>
                 </Card.Content>
-              </Card>
-              );
+              </Card>));
       quotesList = (
         <div className="margin-bottom">
           <Divider />
