@@ -1,5 +1,6 @@
 export default {
   changeBikeModel: 'CHANGE_BIKE_MODEL',
+  changeBikeColor: 'CHANGE_BIKE_COLOR',
   leadFetched: 'LEAD_FETCHED',
   startedFetchingLead: 'STARTED_FETCHING_LEAD',
   deliveryFetched: 'DELIVERY_FETCHED',
@@ -8,4 +9,6 @@ export default {
   startedFetchingAppointment: 'STARTED_FETCHING_APPOINTMENT',
   plateRegistrationDataFetched: 'APPOINTMENT_FETCHED',
   startedFetchingPlateRegistrationData: 'STARTED_FETCHING_APPOINTMENT',
+  insuranceSelected: 'INSURANCE_SELECTED',
+  insuranceOptOut: 'INSURANCE_OPT_OUT',
 };

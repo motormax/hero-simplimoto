@@ -23,13 +23,17 @@ class DashboardPage extends Component {
     funding: propTypes.shape({
       isDefault: propTypes.bool,
     }).isRequired,
+    currentColor: propTypes.number.isRequired,
   };
 
   render() {
-    const { funding, lead, t } = this.props;
+    const {
+      funding, lead, currentColor, t,
+    } = this.props;
     if (lead.isLoading) {
       return <h1>CARGANDO</h1>;
     }
+    const imgUrl = availableColors[lead.motorcycle.name][currentColor].bikeImageURL;
 
     return (
       <React.Fragment>
@@ -38,7 +42,7 @@ class DashboardPage extends Component {
             <Grid.Column width={10}>
               <Header size="huge">{t('good_choice')} <span className="fs-tinny fw-normal txt-med-gray">{t('header_intro')}</span></Header>
               <Segment.Group>
-                <BikeModelSection motorcycle={lead.motorcycle} />
+                <BikeModelSection motorcycle={lead.motorcycle} imgUrl={imgUrl} />
                 <FundingSection financing={funding} />
                 <BikeColorSection availableColors={availableColors[lead.motorcycle.name]} />
                 <AccessoriesSection />
@@ -62,6 +66,7 @@ class DashboardPage extends Component {
 const mapStateToProps = store => ({
   funding: store.main.funding,
   lead: store.main.lead,
+  currentColor: store.main.customization.color,
 });
 
 export default translate('dashboard')(connect(mapStateToProps)(DashboardPage));

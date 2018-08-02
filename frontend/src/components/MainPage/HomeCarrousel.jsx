@@ -31,7 +31,7 @@ class HomeCarrousel extends Component {
     const carrouselItems = Object.values(availableMotorcycles).map(bikeData => (
       <div>
         <CarrouselItem
-          bikeImageUrl={bikeData.imageUrl}
+          bikeImageUrl={bikeData.defaultImageUrl}
           bikeName={bikeData.displayName}
           onBuy={() => this.props.pickBike(bikeData.id)}
         />

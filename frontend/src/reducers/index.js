@@ -4,7 +4,9 @@ import dateYourBikeReducer from './dateYourBikeReducer';
 import deliveryReducer from './deliveryReducer';
 import fundingReducer from './fundingReducer';
 import plateRegistrationDataReducer from './plateRegistrationDataReducer';
+import insuranceReducer from './insuranceReducer';
 import actionTypes from '../actions/actionTypes';
+import customizationsReducer from './customizationsReducer';
 
 
 const defaultState = {
@@ -19,10 +21,12 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         lead: action.lead,
+        customization: customizationsReducer(undefined, action),
         funding: fundingReducer(undefined, action),
         dateYourBike: dateYourBikeReducer(undefined, action),
         delivery: deliveryReducer(undefined, action),
         plateRegistrationData: plateRegistrationDataReducer(undefined, action),
+        insurance: insuranceReducer(undefined, action),
       };
     case actionTypes.startedFetchingLead:
       return {
@@ -32,10 +36,12 @@ const reducer = (state = defaultState, action) => {
     default:
       return ({
         ...state,
+        customization: customizationsReducer(state.customization, action),
         funding: fundingReducer(state.funding, action),
         dateYourBike: dateYourBikeReducer(state.dateYourBike, action),
         delivery: deliveryReducer(state.delivery, action),
         plateRegistrationData: plateRegistrationDataReducer(state.plateRegistrationData, action),
+        insurance: insuranceReducer(state.insurance, action),
       });
   }
 };

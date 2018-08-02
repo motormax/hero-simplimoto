@@ -13,9 +13,9 @@ import DeliveryPage from './DeliveryPage';
 import DateYourBikePage from './DateYourBikePage';
 import PlateRegistrationPage from './PlateRegistrationPage';
 import Footer from './Footer';
+import InsurancePage from './InsurancePage';
 
 import logoUrl from './hero-logo.png';
-import ignitorImgUrl from './images/ignitor.png';
 
 
 class App extends React.Component {
@@ -31,10 +31,11 @@ class App extends React.Component {
             <Route path="/dashboard" component={DashboardPage} />
             <Route path="/delivery" component={DeliveryPage} />
             <Route path="/date" component={DateYourBikePage} />
+            <Route path="/insurance" component={InsurancePage} />
             <Route path="/plate-registration" component={PlateRegistrationPage} />
           </Switch>
         </Container>
-        <Footer bikeImageUrl={ignitorImgUrl} bikeName="Ignitor" />
+        <Footer />
       </div>
     );
   }
