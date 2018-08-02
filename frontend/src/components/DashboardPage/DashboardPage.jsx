@@ -11,6 +11,7 @@ import DeliverySection from './Sections/DeliverySection';
 import BikeModelSection from './Sections/BikeModelSection';
 import BikeColorSection from './Sections/BikeColorSection';
 import AccessoriesSection from './Sections/AccessoriesSection';
+import PlateRegistrationSection from './Sections/PlateRegistrationSection';
 import availableColors from '../motorcycles/availableColors';
 
 class DashboardPage extends Component {
@@ -46,6 +47,7 @@ class DashboardPage extends Component {
                 <BikeColorSection availableColors={availableColors[lead.motorcycle.name]} />
                 <AccessoriesSection />
                 <DateYourBikeSection />
+                <PlateRegistrationSection />
                 <DeliverySection />
               </Segment.Group>
             </Grid.Column>
