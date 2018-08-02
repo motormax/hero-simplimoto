@@ -60,10 +60,10 @@ export default i18next.init({
         moto_specs: 'Ficha técnica',
       },
       financing: {
-        financing: 'Financiamiento',
+        financing: '¿Cómo te la financiamos?',
       },
       accessories_section: {
-        accessories: 'Accesorios',
+        accessories: '¿Qué accesorios te interesan?',
         currency_sign: 'AR$',
         gloves: 'Guantes',
         helmet: 'Casco',

@@ -49,7 +49,7 @@ class BikeColorSection extends Component {
               <Icon size="large" name="arrow right" />
             </Grid.Column>
             <Grid.Column width={15}>
-              <h3 className="fw-bold fs-big">Personalización <span className="txt-green fs-small uppercase">¡gratis!</span></h3>
+              <h3 className="fw-bold fs-big">¿En qué color? <span className="txt-green fs-tinny uppercase">¡gratis!</span></h3>
               <div className="dashboard-card_items-container">
                 {colorOptions}
               </div>
