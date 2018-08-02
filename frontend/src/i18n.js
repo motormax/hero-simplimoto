@@ -71,7 +71,7 @@ export default i18next.init({
       },
       plateRegistration: {
         currency_sign: 'AR$',
-        plate_registration: 'Patentamiento online',
+        plate_registration: '¿Cómo querés patentarla?',
       },
     },
     en: {
