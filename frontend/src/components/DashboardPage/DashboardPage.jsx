@@ -47,7 +47,7 @@ class DashboardPage extends Component {
                 <BikeColorSection availableColors={availableColors[lead.motorcycle.name]} />
                 <AccessoriesSection />
                 <DateYourBikeSection />
-                <PlateRegistrationSection financing={funding} />
+                <PlateRegistrationSection />
                 <DeliverySection />
               </Segment.Group>
             </Grid.Column>
