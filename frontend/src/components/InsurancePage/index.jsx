@@ -9,24 +9,19 @@ import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-r
 
 import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
 
-import { PROVINCE_CABA, PROVINCE_BSAS } from './constants';
+import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
 
-const PERSONAL_INSURANCE = 'personalInsurance';
-const HERO_INSURANCE = 'heroInsurance';
-
-const optInOrOutOptions = [
-  {
-    key: HERO_INSURANCE,
-    text: 'Quiero cotizar mi seguro con Hero',
-    value: HERO_INSURANCE,
-  },
-  {
-    key: PERSONAL_INSURANCE,
-    text: 'Voy a contratar mi propio seguro',
-    value: PERSONAL_INSURANCE,
-  },
-];
+const optInOrOutOptions = [{
+  key: HERO_INSURANCE,
+  text: 'Quiero cotizar mi seguro con Hero',
+  value: HERO_INSURANCE,
+},
+{
+  key: PERSONAL_INSURANCE,
+  text: 'Voy a contratar mi propio seguro',
+  value: PERSONAL_INSURANCE,
+}];
 
 class InsurancePage extends Component {
   static propTypes = {
@@ -36,6 +31,12 @@ class InsurancePage extends Component {
     lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
+    insuranceForm: propTypes.shape({
+      optInOrOut: propTypes.string,
+      province: propTypes.string,
+      postalCode: propTypes.string,
+      age: propTypes.number,
+    }).isRequired,
   };
 
   constructor(props) {
@@ -43,12 +44,7 @@ class InsurancePage extends Component {
     this.paymentMethodForm = React.createRef();
     this.state = {
       insuranceQuotes: [],
-      insuranceForm: {
-        optInOrOut: HERO_INSURANCE,
-        province: PROVINCE_CABA,
-        postalCode: '',
-        age: '',
-      },
+      insuranceForm: Object.assign({}, props.insuranceForm),
       errors: {
         postalCode: false,
         age: false,
@@ -75,11 +71,8 @@ class InsurancePage extends Component {
 
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
-    console.log(inputName); // eslint-disable-line no-console
-    console.log(value); // eslint-disable-line no-console
     const newData = this.state.insuranceForm;
     newData[inputName] = value;
-    console.log(newData); // eslint-disable-line no-console
     this.setState({ insuranceForm: newData });
   }
 
@@ -194,7 +187,7 @@ class InsurancePage extends Component {
             size="large"
             primary
             onClick={() => {
-              this.props.selectMyOwnInsurance(this.props.lead.id);
+              this.props.selectMyOwnInsurance(this.props.lead.id, this.state.insuranceForm);
             }}
           >Continuar
           </Button>
@@ -227,13 +220,14 @@ class InsurancePage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
+  insuranceForm: store.main.insurance.insuranceForm,
 });
 
 const mapDispatchToProps = dispatch => ({
   cancelQuote: () => {
     dispatch(push('/dashboard'));
   },
-  selectMyOwnInsurance: async (leadId) => {
+  selectMyOwnInsurance: async (leadId, insuranceForm) => {
     axios.post(
       `/api/leads/${leadId}/insurance/opt-out`,
       {
@@ -241,7 +235,7 @@ const mapDispatchToProps = dispatch => ({
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceOptOut());
+      dispatch(insuranceOptOut(insuranceForm));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {
@@ -262,7 +256,7 @@ const mapDispatchToProps = dispatch => ({
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceSelected(quote, brokerName, brokerLogo));
+      dispatch(insuranceSelected(quote, brokerName, brokerLogo, insuranceForm));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {

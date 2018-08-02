@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "core-js": "^2.5.7",
     "eslint-config-airbnb": "^16.1.0",
     "history": "^4.7.2",
     "humps": "^2.0.1",
