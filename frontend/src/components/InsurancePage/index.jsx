@@ -55,7 +55,7 @@ class InsurancePage extends Component {
   getQuote = (event) => {
     event.preventDefault();
     axios.get(`api/leads/${this.props.lead.id}/insurance/quote`, {
-      params: this.state.insuranceForm,
+      params: {motorcycle_id: this.props.lead.motorcycle.id, ...this.state.insuranceForm},
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
@@ -90,35 +90,34 @@ class InsurancePage extends Component {
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
       const quoteItems =
-            this.state.insuranceQuotes.map(broker =>
-              broker.brokerQuotes.map(quote => (
-                <Card>
-                  <Card.Content>
-                    <Image src={broker.brokerLogo} />
-                    <Card.Header>{broker.brokerName}</Card.Header>
-                    <Card.Description>{quote.policy}</Card.Description>
-                    <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
+            this.state.insuranceQuotes.map(quote =>
+              <Card>
+                <Card.Content>
+                  <Image src={quote.brokerLogo} />
+                  <Card.Header>{quote.broker}</Card.Header>
+                  <Card.Description>{quote.policy}</Card.Description>
+                  <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
 
-                  </Card.Content>
-                  <Card.Content className="btn-displaced-container">
-                    <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
-                    <Button
-                      primary
-                      className="btn-displaced"
-                      onClick={() => {
-                              this.props.selectInsurance(
-                                quote,
-                                this.state.insuranceForm,
-                                broker.brokerName,
-                                broker.brokerLogo,
-                                this.props.lead.id,
-                              );
+                </Card.Content>
+                <Card.Content className="btn-displaced-container">
+                  <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
+                  <Button
+                    primary
+                    className="btn-displaced"
+                    onClick={() => {
+                            this.props.selectInsurance(
+                              quote,
+                              this.state.insuranceForm,
+                              quote.broker,
+                              quote.brokerLogo,
+                              this.props.lead,
+                            );
 }}
-                    >Elegir
-                    </Button>
-                  </Card.Content>
-                </Card>
-              )));
+                  >Elegir
+                  </Button>
+                </Card.Content>
+              </Card>
+              );
       quotesList = (
         <div className="margin-bottom">
           <Divider />
@@ -242,11 +241,11 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, insuranceForm, brokerName, brokerLogo, leadId) => {
+  selectInsurance: async (quote, insuranceForm, brokerName, brokerLogo, lead) => {
     axios.post(
-      `/api/leads/${leadId}/insurance/quote`,
+      `/api/leads/${lead.id}/insurance/quote`,
       {
-        lead: leadId,
+        motorcycle: lead.motorcycle,
         quote: {
           id: quote.id,
           price: quote.price,
