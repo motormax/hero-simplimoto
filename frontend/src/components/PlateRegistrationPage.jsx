@@ -239,7 +239,7 @@ class PlateRegistrationPage extends Component {
         <Form.Input
           fluid
           required
-          label="Dirreccón"
+          label="Dirrección que aparece en el DNI"
           type="text"
           name="street"
           value={this.state.address.street}
@@ -282,7 +282,7 @@ class PlateRegistrationPage extends Component {
         <Form.Input
           fluid
           required
-          label="Teléfono"
+          label="Celular/Teléfono fijo"
           type="text"
           name="phone"
           value={this.state.phone}
