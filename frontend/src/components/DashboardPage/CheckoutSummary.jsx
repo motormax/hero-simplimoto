@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { translate } from 'react-i18next';
-import { Button, Card, Icon, List, Divider } from 'semantic-ui-react';
 import propTypes from 'prop-types';
+import { translate } from 'react-i18next';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { Button, Card, Icon, List, Divider, Image } from 'semantic-ui-react';
 
 import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
@@ -13,11 +15,26 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 
 class CheckoutSummary extends Component {
   static propTypes = {
+    changeToSelectInsurance: propTypes.func.isRequired,
+    broker: propTypes.string,
+    price: propTypes.string,
+    policy: propTypes.string,
+    brokerLogo: propTypes.string,
+    insuranceSelected: propTypes.bool,
+    insuranceOptOut: propTypes.bool,
     motorcycle: propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
       price: propTypes.string.isRequired,
     }).isRequired,
+  };
+  static defaultProps = {
+    broker: '',
+    price: '',
+    policy: '',
+    brokerLogo: '',
+    insuranceSelected: false,
+    insuranceOptOut: false,
   };
 
   render() {
@@ -26,6 +43,41 @@ class CheckoutSummary extends Component {
     const bikePrice = motorcycle.price;
     const bankName = 'ICBC';
 
+    let insuranceSection;
+    if (this.props.insuranceSelected) {
+      const insuranceItems = [];
+      if (this.props.insuranceOptOut) {
+        insuranceItems.push(<List.Content>Voy a contratar mi propio seguro</List.Content>);
+      } else {
+        insuranceItems.push(<List.Content><Image className="bike-image" src={this.props.brokerLogo} /> {this.props.broker}</List.Content>);
+        insuranceItems.push(<List.Content>{this.props.policy}</List.Content>);
+        insuranceItems.push(<List.Content>${this.props.price}/mes</List.Content>);
+      }
+      const insuranceSelection = insuranceItems.map(item => (
+        <List.Item className="summary-list-btn-container">
+          <Icon name="arrow right" />
+          {item}
+        </List.Item>));
+
+      insuranceSection = (
+        <List className="summary-list">
+          {insuranceSelection}
+          <List.Item className="summary-list-btn-container">
+            <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Cambiar</Button>
+          </List.Item>
+        </List>
+      );
+    } else {
+      insuranceSection = (
+        <List className="summary-list">
+          <List.Item className="summary-list-btn-container">
+            <Icon name="arrow right" />
+            <List.Content>Seguro</List.Content>
+            <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Elegir seguro</Button>
+          </List.Item>
+        </List>
+      );
+    }
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -99,13 +151,7 @@ class CheckoutSummary extends Component {
 
         <Card fluid>
           <Card.Content className="btn-displaced-container">
-            <List className="summary-list">
-              <List.Item className="summary-list-btn-container">
-                <Icon name="arrow right" />
-                <List.Content>Seguro</List.Content>
-                <Button className="btn-outline" size="medium" secondary fluid>Elegir seguro</Button>
-              </List.Item>
-            </List>
+            {insuranceSection}
             <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra</Button>
           </Card.Content>
         </Card>
@@ -115,4 +161,20 @@ class CheckoutSummary extends Component {
   }
 }
 
-export default translate('checkout')(CheckoutSummary);
+const mapDispatchToProps = dispatch => ({
+  changeToSelectInsurance: () => {
+    dispatch(push('/insurance'));
+  },
+});
+
+const mapStateToProps = state => ({
+  user: state.main.user,
+  broker: state.main.insurance.broker,
+  price: state.main.insurance.price,
+  policy: state.main.insurance.policy,
+  brokerLogo: state.main.insurance.brokerLogo,
+  insuranceSelected: state.main.insurance.selected,
+  insuranceOptOut: state.main.insurance.optOut,
+});
+
+export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));

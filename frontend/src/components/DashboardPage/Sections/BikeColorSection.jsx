@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { Grid, Icon, Image, Segment } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Grid, Icon, Image, Segment, Radio } from 'semantic-ui-react';
+import { translate } from 'react-i18next';
+import { changeBikeColor } from '../../../actions/beginning';
 
 
 class BikeColorSection extends Component {
@@ -9,49 +12,48 @@ class BikeColorSection extends Component {
       name: propTypes.string,
       imageURL: propTypes.string,
     })).isRequired,
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedColor: props.availableColors[0],
-    };
-  }
-
-  changeSelected = (color) => {
-    this.setState({
-      selectedColor: color,
-    });
+    changeColor: propTypes.func.isRequired,
+    selectedColorIndex: propTypes.number.isRequired,
   };
 
   render() {
-    const { selectedColor } = this.state;
-    const { availableColors } = this.props;
+    const { availableColors, selectedColorIndex, changeColor } = this.props;
+    const selectedColor = availableColors[selectedColorIndex];
 
-    const colorOptions = availableColors.map(color => (
-      <Grid.Column width={3}>
+    const colorOptions = availableColors.map((color, index) => (
+      <div className="dashboard-card_items">
+        <Radio
+          value={color.name}
+          name="setColor"
+          onChange={() => changeColor(index)}
+          checked={selectedColor.name === color.name}
+        />
+
         <Image
+          alt={color.name}
+          className="color-img"
           width="40px"
           height="40px"
           src={color.imageURL}
-          onClick={() => { this.changeSelected(color); }}
         />
-      </Grid.Column>
+
+        <p className="fw-bold txt-med-gray">{color.name}</p>
+      </div>
     ));
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: '#21ba45' }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: 'darkgray' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              <Icon size="large" color="green" name="check" />
+              <Icon size="large" name="arrow right" />
             </Grid.Column>
-            <Grid.Column width={10}>
-              <h3 className="fw-bold fs-big">Color de moto ({selectedColor.name})</h3>
+            <Grid.Column width={15}>
+              <h3 className="fw-bold fs-big">Personalización <span className="txt-green fs-small uppercase">¡gratis!</span></h3>
+              <div className="dashboard-card_items-container">
+                {colorOptions}
+              </div>
             </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={1} />
-            {colorOptions}
           </Grid.Row>
         </Grid>
       </Segment>
@@ -59,4 +61,12 @@ class BikeColorSection extends Component {
   }
 }
 
-export default BikeColorSection;
+const mapStateToProps = store => ({
+  selectedColorIndex: store.main.customization.color,
+});
+
+const mapDispatchToProps = dispatch => ({
+  changeColor: color => dispatch(changeBikeColor(color)),
+});
+
+export default translate('customization')(connect(mapStateToProps, mapDispatchToProps)(BikeColorSection));

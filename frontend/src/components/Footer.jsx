@@ -6,20 +6,22 @@ import { connect } from 'react-redux';
 
 import logoUrl from './hero-logo.png';
 import availableMotorcycles from './motorcycles/availableMotorcycles';
+import availableColors from './motorcycles/availableColors';
 
 class Footer extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
     currentBikeModel: propTypes.string.isRequired,
+    currentColor: propTypes.number.isRequired,
   };
 
   render() {
-    const { t, currentBikeModel } = this.props;
+    const { t, currentBikeModel, currentColor } = this.props;
 
     let youAreBuying;
     if (currentBikeModel) {
-      const bikeImageUrl = availableMotorcycles[currentBikeModel].imageUrl;
       const bikeDisplayName = availableMotorcycles[currentBikeModel].displayName;
+      const bikeImageUrl = availableColors[currentBikeModel][currentColor].bikeImageURL;
       youAreBuying = (
         <List>
           <List.Item>
@@ -125,9 +127,14 @@ class Footer extends Component {
 
 
 const mapStateToProps = store => (
-  store.main.user && store.main.user.motorcycle ?
-    { currentBikeModel: store.main.user.motorcycle.name } :
-    { currentBikeModel: undefined }
+  store.main.lead && store.main.lead.motorcycle ?
+    {
+      currentBikeModel: store.main.lead.motorcycle.name,
+      currentColor: store.main.customization.color,
+    } : {
+      currentBikeModel: undefined,
+      currentColor: undefined,
+    }
 );
 
 export default translate('footer')(connect(mapStateToProps)(Footer));

@@ -18,7 +18,7 @@ class AccessoriesSection extends Component {
     const { t } = this.props;
 
     const isOk = true;
-    const color = isOk ? 'gray' : 'red';
+    const color = isOk ? 'darkgray' : 'red';
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
@@ -29,8 +29,7 @@ class AccessoriesSection extends Component {
             </Grid.Column>
             <Grid.Column width={15}>
               <h3 className="fw-bold fs-big">
-                {t('accessories')}
-                <span className="fs-medium txt-dark-gray"><span className="fw-normal">{t('currency_sign')}</span>1.200</span>
+                {t('accessories')} <span className="fs-medium txt-dark-gray"><span className="fw-normal">{t('currency_sign')}</span>1.200</span>
               </h3>
               <div className="dashboard-card_items-container">
                 <div className="dashboard-card_items">
