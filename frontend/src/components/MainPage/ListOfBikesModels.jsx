@@ -18,7 +18,7 @@ class ListOfBikesModels extends Component {
     const bikesModels = Object.values(availableMotorcycles).map(bikeData => (
       <Card className="image-card">
         <Card.Content className="btn-displaced-container">
-          <img src={bikeData.defaultImageUrl} />
+          <img src={bikeData.defaultImageUrl} alt={bikeData.displayName} />
           <h2 className="txt-center">{bikeData.displayName}</h2>
           <Button size="large" primary className="btn-displaced" onClick={() => this.props.pickBike(bikeData.id)}>Comprar</Button>
         </Card.Content>
@@ -34,4 +34,4 @@ class ListOfBikesModels extends Component {
   }
 }
 
-export default translate('index') (ListOfBikesModels);
+export default translate('index')(ListOfBikesModels);
