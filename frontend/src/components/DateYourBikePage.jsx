@@ -132,7 +132,7 @@ class DateYourBikePage extends Component {
         <p className="txt-dark-gray fw-bold fs-huge">Fecha de la cita</p>
 
         <Form.Field>
-          <label>Fecha</label>
+          <label htmlFor="date">Fecha</label>
           <DateInput
             fluid
             required
@@ -152,7 +152,7 @@ class DateYourBikePage extends Component {
             options={shiftOptions}
             value={this.state.shift}
             onChange={this.handleChange}
-            />
+          />
         </Form.Field>
       </Segment>
     );
@@ -200,8 +200,8 @@ class DateYourBikePage extends Component {
             error={this.state.errors.telephoneNumber}
             onChange={this.handleAddressDataChange}
           />
-      </Form.Group>
-    </Segment>
+        </Form.Group>
+      </Segment>
     );
 
     return (
@@ -220,8 +220,8 @@ class DateYourBikePage extends Component {
               content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
             />
             <AddressGoogleMap
-            ref={this.addressMap}
-            onPickupLocationChange={this.handlePickupLocationChange}
+              ref={this.addressMap}
+              onPickupLocationChange={this.handlePickupLocationChange}
             />
             <Segment className="txt-center" attached="bottom">
               <Button size="big" type="submit" primary>Confirmar</Button>

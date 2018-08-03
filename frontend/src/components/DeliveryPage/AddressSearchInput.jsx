@@ -103,7 +103,7 @@ class AddressSearchInput extends React.Component {
                     className="clear-button"
                     onClick={this.handleCloseClick}
                   >
-                    <Icon name="delete"/>
+                    <Icon name="delete" />
                   </button>
                     )}
               </div>
