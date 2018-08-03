@@ -7,6 +7,7 @@ import { push } from 'react-router-redux';
 import { leadFetched } from '../../actions/beginning';
 
 import HomeCarrousel from './HomeCarrousel';
+import ListOfBikesModels from './ListOfBikesModels';
 
 
 class MainPage extends Component {
@@ -22,6 +23,7 @@ class MainPage extends Component {
       <div>
         <h1 className="home-title">{t('buy_the_bike')} <br /> <span className="emphasis">{t('online')}</span></h1>
         <HomeCarrousel pickBike={this.props.pickBike} />
+        <ListOfBikesModels pickBike={this.props.pickBike} />
       </div>
     );
   }
