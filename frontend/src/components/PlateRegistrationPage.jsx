@@ -239,7 +239,7 @@ class PlateRegistrationPage extends Component {
         <Form.Input
           fluid
           required
-          label="Dirrección que aparece en el DNI"
+          label="Dirección que aparece en el DNI"
           type="text"
           name="street"
           value={this.state.address.street}
