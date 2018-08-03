@@ -10,14 +10,14 @@
     .clear-button:active,
     .clear-button:focus {
         position: absolute;
-        right: 1px;
-        top: 70%;
-        transform: translateY(-50%);
+        right: 5px;
+        top: 3.8em;
+        font-size: .7em;
         background: transparent;
         border: none;
         outline: none;
+        color: $dark-gray;
         font-weight: 600;
-        color: #999;
     }
 
     .autocomplete-container {
@@ -28,7 +28,8 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         border-radius: 0 0 2px 2px;
 
-        .suggestion-item {
+        .suggestion-item,
+        .suggestion-item--active {
             padding: 8px;
             text-align: left;
             background-color: #fff;
