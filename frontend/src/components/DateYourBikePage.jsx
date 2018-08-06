@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { push } from 'react-router-redux';
-import { Button, Form, Message } from 'semantic-ui-react';
+import { Button, Form, Message, Card, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
 import moment from 'moment';
@@ -126,81 +126,109 @@ class DateYourBikePage extends Component {
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
+
     const dateFormGroup = (
-      <Form.Group widths="equal">
-        <DateInput
-          required
-          closable
-          // minDate={moment().add(1, 'days')}
-          label="Día"
-          name="date"
-          value={this.state.date}
-          onChange={this.handleChange}
-        />
-        <Form.Select
-          fluid
-          required
-          name="shift"
-          options={shiftOptions}
-          value={this.state.shift}
-          onChange={this.handleChange}
-        />
-      </Form.Group>
+      <Segment className="not-border-bottom" attached>
+        <p className="txt-dark-gray fw-bold fs-huge">Fecha de la cita</p>
+
+        <Form.Field>
+          <label htmlFor="date">Fecha</label>
+          <DateInput
+            fluid
+            required
+            // minDate={moment().add(1, 'days')}
+            name="date"
+            value={this.state.date}
+            onChange={this.handleChange}
+          />
+        </Form.Field>
+
+        <Form.Field>
+          <Form.Select
+            fluid
+            required
+            label="Momento del día"
+            name="shift"
+            options={shiftOptions}
+            value={this.state.shift}
+            onChange={this.handleChange}
+          />
+        </Form.Field>
+      </Segment>
     );
+
     const addressFormGroup = (
-      <Form.Group widths="equal">
-        <AddressSearchInput
-          value={this.state.address.street}
-          onAddressChange={this.handleStreetChange}
-          onGeocodeLocationChange={this.handleGeocodeLocationChange}
-        />
-        <Form.Input
-          fluid
-          required
-          label="Piso/Depto"
-          type="text"
-          name="complements"
-          value={this.state.address.complements}
-          error={this.state.errors.complements}
-          onChange={this.handleAddressDataChange}
-        />
-        <Form.Input
-          fluid
-          required
-          label="Código postal"
-          type="text"
-          name="postalCode"
-          value={this.state.address.postalCode}
-          error={this.state.errors.postalCode}
-          onChange={this.handleAddressDataChange}
-        />
-        <Form.Input
-          fluid
-          required
-          label="Teléfono"
-          type="text"
-          name="telephoneNumber"
-          value={this.state.address.telephoneNumber}
-          error={this.state.errors.telephoneNumber}
-          onChange={this.handleAddressDataChange}
-        />
-      </Form.Group>);
+      <Segment attached>
+        <p className="txt-dark-gray fw-bold fs-huge">Dónde se van a encontrar</p>
+
+        <Form.Group>
+          <AddressSearchInput
+            value={this.state.address.street}
+            onAddressChange={this.handleStreetChange}
+            onGeocodeLocationChange={this.handleGeocodeLocationChange}
+          />
+        </Form.Group>
+
+        <Form.Group widths="equal">
+          <Form.Input
+            fluid
+            required
+            label="Piso/Depto"
+            type="text"
+            name="complements"
+            value={this.state.address.complements}
+            error={this.state.errors.complements}
+            onChange={this.handleAddressDataChange}
+          />
+          <Form.Input
+            fluid
+            required
+            label="Código postal"
+            type="text"
+            name="postalCode"
+            value={this.state.address.postalCode}
+            error={this.state.errors.postalCode}
+            onChange={this.handleAddressDataChange}
+          />
+          <Form.Input
+            fluid
+            required
+            label="Teléfono"
+            type="text"
+            name="telephoneNumber"
+            value={this.state.address.telephoneNumber}
+            error={this.state.errors.telephoneNumber}
+            onChange={this.handleAddressDataChange}
+          />
+        </Form.Group>
+      </Segment>
+    );
+
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} error={error}>
-          {dateFormGroup}
-          {addressFormGroup}
-          <Message
-            error
-            header="Error"
-            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-          />
-          <Button type="submit">Continuar</Button>
-        </Form>
-        <AddressGoogleMap
-          ref={this.addressMap}
-          onPickupLocationChange={this.handlePickupLocationChange}
-        />
+        <h2 className="fs-massive fw-bold txt-center">Arreglá una cita</h2>
+        <p className="fs-huge txt-med-gray txt-center">¡Conocé la moto que querés en la puerta de tu casa!</p>
+
+        <Card className="page-column-card">
+
+          <Form onSubmit={this.handleSubmit} error={error}>
+            {dateFormGroup}
+            {addressFormGroup}
+            <Message
+              error
+              header="Error"
+              content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+            />
+            <AddressGoogleMap
+              ref={this.addressMap}
+              onPickupLocationChange={this.handlePickupLocationChange}
+            />
+            <Segment className="txt-center" attached="bottom">
+              <Button size="big" type="submit" primary>Confirmar</Button>
+            </Segment>
+          </Form>
+
+        </Card>
       </div>
     );
   }

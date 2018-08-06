@@ -223,7 +223,7 @@ class DeliveryPage extends Component {
             />
 
             <Segment attached="bottom" className="txt-center">
-              <Button type="submit" size="big" primary>Continuar</Button>
+              <Button type="submit" size="big" primary>Confirmar</Button>
             </Segment>
 
           </Form>

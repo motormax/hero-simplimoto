@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
-import { Form } from 'semantic-ui-react';
+import { Form, Icon } from 'semantic-ui-react';
 
 import loadMap from './mapsHelper';
 
@@ -103,7 +103,7 @@ class AddressSearchInput extends React.Component {
                     className="clear-button"
                     onClick={this.handleCloseClick}
                   >
-                        x
+                    <Icon name="delete" />
                   </button>
                     )}
               </div>
