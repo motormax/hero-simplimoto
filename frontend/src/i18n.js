@@ -8,6 +8,7 @@ export default i18next.init({
       index: {
         buy_the_bike: 'Comprá tu próxima moto',
         online: '100% online',
+        bikes_models_title: 'Conocé nuestras motos',
       },
       dateyourbike: {
         title: 'Conocé tu futura moto',
