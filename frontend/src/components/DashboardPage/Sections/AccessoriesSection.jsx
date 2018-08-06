@@ -1,24 +1,45 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Segment, Icon, Grid, Checkbox } from 'semantic-ui-react';
+import { Checkbox, Grid, Icon, Segment } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
+import { toggleAccessorySelection } from '../../../actions/beginning';
+import availableAccessories from '../../motorcycles/availableAccessories';
 
-import glovesImgUrl from './../../images/Guantes.png';
-import helmetImgUrl from './../../images/Casco.png';
-import trunkImgUrl from './../../images/Baul.png';
 
 class AccessoriesSection extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    // saveFinancing: propTypes.func.isRequired,
-  }
+    totalPrice: propTypes.number.isRequired,
+    selectedAccessories: propTypes.objectOf(propTypes.bool).isRequired,
+    toggleAccessoryStatus: propTypes.func.isRequired,
+  };
 
   render() {
-    const { t } = this.props;
+    const {
+      t, totalPrice, selectedAccessories, toggleAccessoryStatus,
+    } = this.props;
 
     const isOk = true;
     const color = isOk ? 'darkgray' : 'red';
+
+    const dashboardCardItems = Object.keys(availableAccessories)
+      .map((name) => {
+        const { price, imgUrl } = availableAccessories[name];
+        const isSelected = selectedAccessories[name];
+        return (
+          <div className="dashboard-card_items">
+            <Checkbox defaultChecked={isSelected} onChange={() => toggleAccessoryStatus(name)} />
+            <img src={imgUrl} alt={t(name)} />
+            <div className="accessory_item_details">
+              <p className="fw-bold txt-med-gray">{t(name)}</p>
+              <p className="txt-med-gray">{t('currency_sign')}
+                <span className="fw-bold">{price}</span>
+              </p>
+            </div>
+          </div>);
+      });
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
@@ -28,34 +49,13 @@ class AccessoriesSection extends Component {
               <Icon size="large" color={color} name="arrow right" />
             </Grid.Column>
             <Grid.Column width={15}>
-              <h3 className="fw-bold fs-big">
-                {t('accessories')} <span className="fs-medium txt-dark-gray"><span className="fw-normal">{t('currency_sign')}</span>1.200</span>
+              <h3 className="fw-bold fs-big">{t('accessories')}
+                <span className="fs-medium txt-dark-gray">
+                  <span className="fw-normal"> {t('currency_sign')}</span>{totalPrice}
+                </span>
               </h3>
               <div className="dashboard-card_items-container">
-                <div className="dashboard-card_items">
-                  <Checkbox defaultChecked />
-                  <img src={glovesImgUrl} alt={t('gloves')} />
-                  <div className="accessorie_item_details">
-                    <p className="fw-bold txt-med-gray">{t('gloves')}</p>
-                    <p className="txt-med-gray">{t('currency_sign')}<span className="fw-bold">800</span></p>
-                  </div>
-                </div>
-                <div className="dashboard-card_items">
-                  <Checkbox defaultChecked />
-                  <img src={helmetImgUrl} alt={t('helmet')} />
-                  <div className="accessorie_item_details">
-                    <p className="fw-bold txt-med-gray">{t('helmet')}</p>
-                    <p className="txt-med-gray">{t('currency_sign')}<span className="fw-bold">800</span></p>
-                  </div>
-                </div>
-                <div className="dashboard-card_items">
-                  <Checkbox defaultChecked />
-                  <img src={trunkImgUrl} alt={t('trunk')} />
-                  <div className="accessorie_item_details">
-                    <p className="fw-bold txt-med-gray">{t('trunk')}</p>
-                    <p className="txt-med-gray">{t('currency_sign')}<span className="fw-bold">800</span></p>
-                  </div>
-                </div>
+                {dashboardCardItems}
               </div>
             </Grid.Column>
           </Grid.Row>
@@ -65,4 +65,13 @@ class AccessoriesSection extends Component {
   }
 }
 
-export default translate('accessories_section')(AccessoriesSection);
+const mapStateToProps = store => ({
+  totalPrice: store.main.accessories.totalPrice,
+  selectedAccessories: store.main.accessories.selectedAccessories,
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleAccessoryStatus: accesoryName => dispatch(toggleAccessorySelection(accesoryName)),
+});
+
+export default translate('accessories_section')(connect(mapStateToProps, mapDispatchToProps)(AccessoriesSection));
