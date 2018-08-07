@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import dniImage from './images/dni.svg';
 
@@ -201,6 +202,17 @@ class PlateRegistrationPage extends Component {
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
+
+    const frontButtonStyles = classNames(
+      'ui button btn-outline',
+      this.state.frontDniImage.name ? 'btn-green' : 'primary' ,
+    );
+
+    const backButtonStyles = classNames(
+      'ui button btn-outline',
+      this.state.backDniImage.name ? 'btn-green' : 'primary' ,
+    );
+
     const personalDataFormGroup = (
       <Form>
         <Form.Input
@@ -316,33 +328,29 @@ class PlateRegistrationPage extends Component {
                 la cargues con el siguiente botón.
               </p>
 
-              <Grid>
+              <Grid verticalAlign='middle'>
                 <Grid.Row centered>
                   <Grid.Column width={7}>
                     <img src={dniImage} alt="" />
                   </Grid.Column>
                   <Grid.Column width={7}>
                     <div className="required field">
-                      <label className="ui button primary btn-outline" htmlFor="frontDni">
-                        <i className="upload icon" />
-                        Imagen frontal DNI
+                      <label className={frontButtonStyles} htmlFor="frontDni">
+                        { this.state.frontDniImage.name ?
+                          <span>{this.state.frontDniImage.name}</span> :
+                          <span> <i className="upload icon" /> Imagen frontal DNI</span>
+                        }
                       </label>
                       <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
-                      { this.state.frontDniImage.name ?
-                        <div>{this.state.frontDniImage.name}</div> :
-                        <div>Falta cargar imagen</div>
-                      }
                     </div>
                     <div className="required field">
-                      <label className="ui button primary btn-outline" htmlFor="backDni">
-                        <i className="upload icon" />
-                        Imagen trasera DNI
+                      <label className={backButtonStyles} htmlFor="backDni">
+                        { this.state.backDniImage.name ?
+                          <span>{this.state.backDniImage.name}</span> :
+                          <span> <i className="upload icon" /> Imagen frontal DNI</span>
+                        }
                       </label>
                       <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
-                      { this.state.backDniImage.name ?
-                        <div>{this.state.backDniImage.name}</div> :
-                        <div>Falta cargar imagen</div>
-                      }
                     </div>
                   </Grid.Column>
                 </Grid.Row>

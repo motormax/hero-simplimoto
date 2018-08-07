@@ -67,6 +67,24 @@ $disabled-btn: $med-gray;
       }
     }
   }
+
+  &.btn-green{
+    &.btn-outline{
+        background: transparent;
+        border: 2px solid $green;
+        color: $green;
+        &:focus{
+          background: transparent;
+          border: 2px solid $green;
+          color: $green;
+        }
+        &:hover,
+        &:active{
+          border: 2px solid darken($green, 15%);
+          color: darken($green, 15%);
+        }
+    }
+  }
 }
 
 .btn-displaced-container{
