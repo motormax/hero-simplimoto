@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Button, Card, Divider, Icon, Image, List } from 'semantic-ui-react';
 
-import bankImage from './../images/banks-logos/icbc-logo.png';
+// import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import { registrationPrice } from './Sections/PlateRegistrationSection';
 
@@ -47,7 +47,7 @@ class CheckoutSummary extends Component {
     } = this.props;
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
-    const bankName = 'ICBC';
+    // const bankName = 'ICBC';
 
     const totalPrice = bikePrice + registrationPrice + accessoriesPrice;
 
