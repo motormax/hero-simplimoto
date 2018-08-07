@@ -3,13 +3,18 @@ defmodule HeroDigital.Repo.Migrations.CreateInsuarnceQuotesChosen do
 
   def change do
     create table(:insuarnce_quotes_chosen) do
-      add :select_my_own_insurance, :boolean
-      add :quote_id, :integer
+      add :opt_in_or_out, :string
       add :quote_price, :decimal
       add :quote_broker_name, :string
-
-
-      add :motorcycle_id, references(:motorcycles, on_delete: :nothing)
+      add :quote_policy, :string
+      add :quote_more_info, :string
+      add :query_province, :string
+      add :query_age, :integer
+      add :query_postal_code, :string
+      add :lead_id, references(:leads, type: :uuid, on_delete: :delete_all)
+      add :motorcycle_id, references(:motorcycles, on_delete: :delete_all)
+      add :insurance_broker_id, references(:insurance_brokers, on_delete: :delete_all)
+      add :insurance_policy_id, references(:insurance_policies, on_delete: :nothing)
 
       timestamps()
     end
