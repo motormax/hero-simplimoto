@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import actionTypes from '../actions/actionTypes';
 import availableAccessories from '../components/motorcycles/availableAccessories';
 
@@ -6,10 +7,11 @@ const initialState = {
   selectedAccessories: {},
 };
 
-Object.keys(availableAccessories).forEach((name) => {
-  initialState.selectedAccessories[name] = true;
-  initialState.totalPrice += availableAccessories[name].price;
-});
+Object.keys(availableAccessories)
+  .forEach((name) => {
+    initialState.selectedAccessories[name] = true;
+    initialState.totalPrice += availableAccessories[name].price;
+  });
 
 export default function accessoriesReducer(state = initialState, action) {
   switch (action.type) {
@@ -17,18 +19,21 @@ export default function accessoriesReducer(state = initialState, action) {
       const { accesoryName } = action;
       const { selectedAccessories } = state;
 
-      // toggle accessory selection
-      selectedAccessories[accesoryName] = !selectedAccessories[accesoryName];
+      const newSelectedAccessories = Object.assign(
+        {},
+        selectedAccessories,
+        { [accesoryName]: !selectedAccessories[accesoryName] },
+      );
 
-      // compute new total price
-      let totalPrice = 0;
-      Object.keys(availableAccessories).forEach((name) => {
-        if (selectedAccessories[name]) {
-          totalPrice += availableAccessories[name].price;
-        }
-      });
+      const newTotalPrice = _.sum(_.filter(
+        availableAccessories,
+        (value, name) => newSelectedAccessories[name],
+      ).map(accesory => accesory.price));
 
-      return { totalPrice, selectedAccessories };
+      return {
+        totalPrice: newTotalPrice,
+        selectedAccessories: newSelectedAccessories,
+      };
     }
     default:
       return state;
