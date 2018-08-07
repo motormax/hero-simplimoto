@@ -64,6 +64,7 @@ class CheckoutSummary extends Component {
             {insuranceSelection}
           </List>
           <Button className="btn-outline" secondary onClick={() => this.props.changeToSelectInsurance()}>Cambiar</Button>
+          <div className="margin-top-tinny txt-med-gray txt-center">{this.props.policy ? 'Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto' : ''}</div>
         </div>
       );
     } else {

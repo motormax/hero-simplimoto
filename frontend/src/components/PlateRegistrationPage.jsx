@@ -205,12 +205,12 @@ class PlateRegistrationPage extends Component {
 
     const frontButtonStyles = classNames(
       'ui button btn-outline',
-      this.state.frontDniImage.name ? 'btn-green' : 'primary' ,
+      this.state.frontDniImage.name ? 'btn-green' : 'primary',
     );
 
     const backButtonStyles = classNames(
       'ui button btn-outline',
-      this.state.backDniImage.name ? 'btn-green' : 'primary' ,
+      this.state.backDniImage.name ? 'btn-green' : 'primary',
     );
 
     const personalDataFormGroup = (
@@ -328,7 +328,7 @@ class PlateRegistrationPage extends Component {
                 la cargues con el siguiente botón.
               </p>
 
-              <Grid verticalAlign='middle'>
+              <Grid verticalAlign="middle">
                 <Grid.Row centered>
                   <Grid.Column width={7}>
                     <img src={dniImage} alt="" />
