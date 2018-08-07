@@ -42,14 +42,14 @@ class BikeColorSection extends Component {
     ));
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: '#21ba45' }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: 'darkgray' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              <Icon className="txt-green" size="large" name="check" />
+              <Icon size="large" name="arrow right" />
             </Grid.Column>
             <Grid.Column width={15}>
-              <h3 className="fw-bold fs-big">¿De qué color? <span className="txt-green fs-tinny uppercase">¡gratis!</span></h3>
+              <h3 className="fw-bold fs-big">¿En qué color? <span className="txt-green fs-tinny uppercase">¡gratis!</span></h3>
               <div className="dashboard-card_items-container">
                 {colorOptions}
               </div>
