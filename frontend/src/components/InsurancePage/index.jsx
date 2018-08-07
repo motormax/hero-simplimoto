@@ -34,8 +34,8 @@ class InsurancePage extends Component {
         id: propTypes.string,
       }),
     }).isRequired,
-    insuranceForm: propTypes.shape({
-      optInOrOut: propTypes.string,
+    optInOrOut: propTypes.string.isRequired,
+    query: propTypes.shape({
       province: propTypes.string,
       postalCode: propTypes.string,
       age: propTypes.number,
@@ -47,7 +47,8 @@ class InsurancePage extends Component {
     this.paymentMethodForm = React.createRef();
     this.state = {
       insuranceQuotes: [],
-      insuranceForm: Object.assign({}, props.insuranceForm),
+      optInOrOut: HERO_INSURANCE,
+      query: Object.assign({}, props.query),
       errors: {
         postalCode: false,
         age: false,
@@ -58,7 +59,11 @@ class InsurancePage extends Component {
   getQuote = (event) => {
     event.preventDefault();
     axios.get(`api/leads/${this.props.lead.id}/insurance/quote`, {
-      params: { motorcycle_id: this.props.lead.motorcycle.id, ...this.state.insuranceForm },
+      params: {
+        motorcycle_id: this.props.lead.motorcycle.id,
+        opt_in_or_out: this.props.optInOrOut,
+        ...this.state.query,
+      },
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
@@ -74,16 +79,16 @@ class InsurancePage extends Component {
 
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
-    const newData = this.state.insuranceForm;
+    const newData = this.state.query;
     newData[inputName] = value;
-    this.setState({ insuranceForm: newData });
+    this.setState({ query: newData });
   }
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
-    const newData = this.state.insuranceForm;
+    const newData = this.state.query;
     newData[inputName] = value;
-    this.setState({ insuranceForm: newData });
+    this.setState({ query: newData });
   };
 
   render() {
@@ -110,7 +115,8 @@ class InsurancePage extends Component {
                     onClick={() => {
                             this.props.selectInsurance(
                               quote,
-                              this.state.insuranceForm,
+                              this.state.optInOrOut,
+                              this.state.query,
                               quote.broker,
                               quote.brokerLogo,
                               this.props.lead,
@@ -130,9 +136,9 @@ class InsurancePage extends Component {
         </div>
       );
     }
-    let heroInsuranceForm;
-    if (this.state.insuranceForm.optInOrOut === HERO_INSURANCE) {
-      heroInsuranceForm = (
+    let heroQuery;
+    if (this.state.optInOrOut === HERO_INSURANCE) {
+      heroQuery = (
         <Segment attached padded>
           <Form.Group widths="equal">
             <Form.Select
@@ -142,7 +148,7 @@ class InsurancePage extends Component {
               name="province"
               options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
                 { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
-              value={this.state.insuranceForm.province}
+              value={this.state.query.province}
               error={this.state.errors.province}
               onChange={this.handleDropdownChange}
               placeholder="Provincia"
@@ -152,9 +158,9 @@ class InsurancePage extends Component {
               required
               label="Código postal"
               name="postalCode"
-              options={this.state.insuranceForm.province === PROVINCE_CABA ?
+              options={this.state.query.province === PROVINCE_CABA ?
                 cabaInsuranceLocations : bsasInsuranceLocations}
-              value={this.state.insuranceForm.postalCode}
+              value={this.state.query.postalCode}
               error={this.state.errors.postalCode}
               onChange={this.handleDropdownChange}
               placeholder="Código postal"
@@ -165,7 +171,7 @@ class InsurancePage extends Component {
               label="Edad"
               type="text"
               name="age"
-              value={this.state.insuranceForm.age}
+              value={this.state.query.age}
               error={this.state.errors.age}
               onChange={this.handleHeroInsuranceDataChange}
             />
@@ -183,13 +189,13 @@ class InsurancePage extends Component {
           <p className="txt-med-gray italic fs-small">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
         </Segment>);
     } else {
-      heroInsuranceForm = (
+      heroQuery = (
         <Segment attached="bottom" className="txt-center">
           <Button
             size="large"
             primary
             onClick={() => {
-              this.props.selectMyOwnInsurance(this.props.lead.id, this.state.insuranceForm);
+              this.props.selectMyOwnInsurance(this.props.lead.id, this.state.query);
             }}
           >Continuar
           </Button>
@@ -207,11 +213,11 @@ class InsurancePage extends Component {
               fluid
               options={optInOrOutOptions}
               name="optInOrOut"
-              value={this.state.insuranceForm.optInOrOut}
+              value={this.state.optInOrOut}
               onChange={this.handleDropdownChange}
               className="fs-big"
             />
-            {heroInsuranceForm}
+            {heroQuery}
           </Form>
         </Card>
       </div>
@@ -222,14 +228,14 @@ class InsurancePage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
-  insuranceForm: store.main.insurance.insuranceForm,
+  query: store.main.insurance.query,
 });
 
 const mapDispatchToProps = dispatch => ({
   cancelQuote: () => {
     dispatch(push('/dashboard'));
   },
-  selectMyOwnInsurance: async (leadId, insuranceForm) => {
+  selectMyOwnInsurance: async (leadId, query) => {
     axios.post(
       `/api/leads/${leadId}/insurance/opt-out`,
       {
@@ -237,14 +243,14 @@ const mapDispatchToProps = dispatch => ({
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceOptOut(insuranceForm));
+      dispatch(insuranceOptOut(query));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, insuranceForm, brokerName, brokerLogo, lead) => {
+  selectInsurance: async (quote, optInOrOut, query, brokerName, brokerLogo, lead) => {
     axios.post(
       `/api/leads/${lead.id}/insurance/quote`,
       {
@@ -254,11 +260,12 @@ const mapDispatchToProps = dispatch => ({
           price: quote.price,
           broker: brokerName,
         },
-        insuranceForm,
+        opt_in_or_out: optInOrOut,
+        query,
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceSelected(quote, brokerName, brokerLogo, insuranceForm));
+      dispatch(insuranceSelected(quote, brokerName, brokerLogo, query));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {

@@ -1,12 +1,12 @@
 import actionTypes from '../actions/actionTypes';
-import { PROVINCE_CABA, HERO_INSURANCE } from '../components/InsurancePage/constants';
+import { PROVINCE_CABA, HERO_INSURANCE, PERSONAL_INSURANCE } from '../components/InsurancePage/constants';
 
 const initialState = {
-  insuranceForm: {
-    optInOrOut: HERO_INSURANCE,
+  optInOrOut: HERO_INSURANCE,
+  query: {
     province: PROVINCE_CABA,
     postalCode: '',
-    age: 0,
+    age: 1,
   },
 };
 
@@ -20,13 +20,15 @@ export default function deliveryReducer(state = initialState, action) {
         policy: action.quote.policy,
         broker: action.broker,
         brokerLogo: action.brokerLogo,
-        insuranceForm: action.insuranceForm,
+        optInOrOut: HERO_INSURANCE,
+        query: action.query,
       };
     case actionTypes.insuranceOptOut:
       return {
         selected: true,
         optOut: true,
-        insuranceForm: action.insuranceForm,
+        optInOrOut: PERSONAL_INSURANCE,
+        query: action.query,
       };
     default:
       return state;
