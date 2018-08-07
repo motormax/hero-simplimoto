@@ -25,7 +25,7 @@ class DeliverySection extends Component {
     if (delivery.address != null) { // llevenme la moto a mi casa
       return (
         <p className="txt-med-gray fs-medium">
-          Te la llevamos a {JSON.stringify(delivery.address, null, 2)}
+          Te la llevamos a {JSON.stringify(delivery.address.street, null, 2)}
         </p>
       );
     }

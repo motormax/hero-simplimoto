@@ -73,6 +73,13 @@ class DateYourBikePage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    if (this.state.address.telephoneNumber.length < 6) {
+      const newErrors = this.state.errors;
+      newErrors.telephoneNumber = true;
+      newErrors.description = 'Introducí un teléfono válido.';
+      this.setState({ errors: newErrors });
+      return;
+    }
     this.sendDateYourBikeData();
   };
 
@@ -193,7 +200,7 @@ class DateYourBikePage extends Component {
           <Form.Input
             fluid
             required
-            label="Teléfono"
+            label="Celular"
             type="text"
             name="telephoneNumber"
             value={this.state.address.telephoneNumber}
