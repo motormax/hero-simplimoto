@@ -3,10 +3,11 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Button, Card, Icon, List, Divider, Image } from 'semantic-ui-react';
+import { Button, Card, Divider, Icon, Image, List } from 'semantic-ui-react';
 
 import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
+import { registrationPrice } from './Sections/PlateRegistrationSection';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 0,
@@ -16,12 +17,13 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 class CheckoutSummary extends Component {
   static propTypes = {
     changeToSelectInsurance: propTypes.func.isRequired,
-    broker: propTypes.string,
-    price: propTypes.string,
-    policy: propTypes.string,
-    brokerLogo: propTypes.string,
+    insuranceBroker: propTypes.string,
+    insurancePrice: propTypes.string,
+    insurancePolicy: propTypes.string,
+    insuranceBrokerLogo: propTypes.string,
     insuranceSelected: propTypes.bool,
     insuranceOptOut: propTypes.bool,
+    accessoriesPrice: propTypes.number.isRequired,
     motorcycle: propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
@@ -29,29 +31,39 @@ class CheckoutSummary extends Component {
     }).isRequired,
   };
   static defaultProps = {
-    broker: '',
-    price: '',
-    policy: '',
-    brokerLogo: '',
+    insuranceBroker: '',
+    insurancePrice: '',
+    insurancePolicy: '',
+    insuranceBrokerLogo: '',
     insuranceSelected: false,
     insuranceOptOut: false,
   };
 
   render() {
-    const { motorcycle } = this.props;
+    const {
+      motorcycle, insurancePrice, insurancePolicy, insuranceBrokerLogo,
+      insuranceBroker, changeToSelectInsurance, insuranceSelected, insuranceOptOut,
+      accessoriesPrice,
+    } = this.props;
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
     const bankName = 'ICBC';
 
+    const totalPrice = bikePrice + registrationPrice + accessoriesPrice;
+
     let insuranceSection;
-    if (this.props.insuranceSelected) {
+    if (insuranceSelected) {
       const insuranceItems = [];
-      if (this.props.insuranceOptOut) {
+      if (insuranceOptOut) {
         insuranceItems.push(<List.Content>Voy a contratar mi propio seguro</List.Content>);
       } else {
-        insuranceItems.push(<List.Content><Image className="bike-image" src={this.props.brokerLogo} /> {this.props.broker}</List.Content>);
-        insuranceItems.push(<List.Content>{this.props.policy}</List.Content>);
-        insuranceItems.push(<List.Content>${this.props.price}/mes</List.Content>);
+        insuranceItems.push(<List.Content><Image
+          className="bike-image"
+          src={insuranceBrokerLogo}
+        />
+          {insuranceBroker} </List.Content>);
+        insuranceItems.push(<List.Content>{insurancePolicy}</List.Content>);
+        insuranceItems.push(<List.Content>${insurancePrice}/mes</List.Content>);
       }
       const insuranceSelection = insuranceItems.map(item => (
         <List.Item className="summary-list-btn-container">
@@ -63,7 +75,13 @@ class CheckoutSummary extends Component {
         <List className="summary-list">
           {insuranceSelection}
           <List.Item className="summary-list-btn-container">
-            <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Cambiar</Button>
+            <Button
+              className="btn-outline"
+              fluid
+              secondary
+              onClick={() => changeToSelectInsurance()}
+            >Cambiar
+            </Button>
           </List.Item>
         </List>
       );
@@ -73,7 +91,13 @@ class CheckoutSummary extends Component {
           <List.Item className="summary-list-btn-container">
             <Icon name="arrow right" />
             <List.Content>Seguro</List.Content>
-            <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Elegir seguro</Button>
+            <Button
+              className="btn-outline"
+              fluid
+              secondary
+              onClick={() => changeToSelectInsurance()}
+            >Elegir seguro
+            </Button>
           </List.Item>
         </List>
       );
@@ -102,7 +126,7 @@ class CheckoutSummary extends Component {
               <List.Item>
                 <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>{moneyFormatter.format(1200)}</span>
+                  <span>{moneyFormatter.format(accessoriesPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Accesorios</List.Content>
@@ -110,7 +134,7 @@ class CheckoutSummary extends Component {
               <List.Item>
                 <List.Content className="price-column" floated="right">
                   <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>{moneyFormatter.format(1200)}</span>
+                  <span>{moneyFormatter.format(registrationPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Patentamiento online</List.Content>
@@ -134,17 +158,21 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">AR$<span className="final-price-number">{moneyFormatter.format(10000)}</span>/ month </p>
+              <p className="final-price">AR$
+                <span className="final-price-number">{moneyFormatter.format(totalPrice)}</span>
+              </p>
             </div>
-
+            {/*
             <div className="finnancial-bank">
               <img src={bankImage} alt={bankName} />
               <div className="right-column txt-dark-gray">
                 <p className="fw-bold fs-small">Préstamo {bankName}</p>
-                <p className="fs-tinny">85 cuotas de AR$ {moneyFormatter.format(1300)}-</p>
+                <p className="fs-tinny">85 cuotas de AR$ {moneyFormatter.format(totalPrice / 85)}
+                </p>
                 <p className="fs-large">CFT: 48.12%</p>
               </div>
             </div>
+            */}
 
           </Card.Content>
         </Card>
@@ -152,7 +180,8 @@ class CheckoutSummary extends Component {
         <Card fluid>
           <Card.Content className="btn-displaced-container">
             {insuranceSection}
-            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra</Button>
+            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra
+            </Button>
           </Card.Content>
         </Card>
 
@@ -169,12 +198,14 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   user: state.main.user,
-  broker: state.main.insurance.broker,
-  price: state.main.insurance.price,
-  policy: state.main.insurance.policy,
-  brokerLogo: state.main.insurance.brokerLogo,
+  accessoriesPrice: state.main.accessories.totalPrice,
+  insuranceBroker: state.main.insurance.broker,
+  insurancePrice: state.main.insurance.price,
+  insurancePolicy: state.main.insurance.policy,
+  insuranceBrokerLogo: state.main.insurance.brokerLogo,
   insuranceSelected: state.main.insurance.selected,
   insuranceOptOut: state.main.insurance.optOut,
 });
 
 export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));
+export { moneyFormatter };

@@ -8,6 +8,8 @@ import humps from 'humps';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import dniImage from './images/dni.svg';
+import { registrationPrice } from './DashboardPage/Sections/PlateRegistrationSection';
+import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
 class PlateRegistrationPage extends Component {
   static propTypes = {
@@ -299,7 +301,7 @@ class PlateRegistrationPage extends Component {
           necesaria para realizar el trámite.
         </p>
         <p className="fs-big txt-dark-gray txt-center">
-          El patentamiento tiene un costo de AR$ <span className="fw-bold">3,800</span> que se
+          El patentamiento tiene un costo de AR$ <span className="fw-bold">{moneyFormatter.format(registrationPrice)}</span> que se
           incorporan a la financiación. El tramite lo gestionará <span className="fw-bold">integramente</span> Hero, y solo se requerirá una
           <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto.
         </p>
