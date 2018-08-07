@@ -151,7 +151,7 @@ class CheckoutSummary extends Component {
             {insuranceSection}
           </Segment>
 
-          <Card.Content className="btn-displaced-container">
+          <Card.Content className="btn-displaced-container txt-center">
             <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra</Button>
           </Card.Content>
         </Card>
