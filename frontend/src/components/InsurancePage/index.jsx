@@ -248,10 +248,11 @@ const mapDispatchToProps = dispatch => ({
     axios.post(
       `/api/leads/${lead.id}/insurance/quote`,
       {
-        motorcycle: lead.motorcycle,
+        motorcycle: lead.motorcycle.id,
         quote: {
           id: quote.id,
           price: quote.price,
+          policy: quote.policy,
           broker: brokerName,
         },
         insuranceForm,
