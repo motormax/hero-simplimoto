@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Button, Card, Divider, Icon, Image, List } from 'semantic-ui-react';
+import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
 
 // import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
@@ -57,33 +57,28 @@ class CheckoutSummary extends Component {
       if (insuranceOptOut) {
         insuranceItems.push(<List.Content>Voy a contratar mi propio seguro</List.Content>);
       } else {
-        insuranceItems.push(<List.Content><Image
-          className="bike-image"
-          src={insuranceBrokerLogo}
-        />
-          {insuranceBroker} </List.Content>);
-        insuranceItems.push(<List.Content>{insurancePolicy}</List.Content>);
-        insuranceItems.push(<List.Content>${insurancePrice}/mes</List.Content>);
+        insuranceItems.push(<Image className="bike-image" src={insuranceBrokerLogo} />);
+        insuranceItems.push(<List.Content>{insuranceBroker}<div className="fw-normal">{insurancePolicy}</div></List.Content>);
+        insuranceItems.push(<List.Content><span className="fs-big">${insurancePrice}</span>/mes</List.Content>);
       }
       const insuranceSelection = insuranceItems.map(item => (
-        <List.Item className="summary-list-btn-container">
-          <Icon name="arrow right" />
+        <List.Item>
           {item}
         </List.Item>));
 
       insuranceSection = (
-        <List className="summary-list">
-          {insuranceSelection}
-          <List.Item className="summary-list-btn-container">
-            <Button
-              className="btn-outline"
-              fluid
-              secondary
-              onClick={() => changeToSelectInsurance()}
-            >Cambiar
-            </Button>
-          </List.Item>
-        </List>
+        <div className="txt-center">
+          <List className="summary-list" horizontal fluid>
+            {insuranceSelection}
+          </List>
+          <Button
+            className="btn-outline"
+
+            secondary
+            onClick={() => changeToSelectInsurance()}
+          >Cambiar
+          </Button>
+        </div>
       );
     } else {
       insuranceSection = (
@@ -175,11 +170,12 @@ class CheckoutSummary extends Component {
             */}
 
           </Card.Content>
-        </Card>
 
-        <Card fluid>
-          <Card.Content className="btn-displaced-container">
+          <Segment className="bg-backgroung_gray" attached>
             {insuranceSection}
+          </Segment>
+
+          <Card.Content className="btn-displaced-container">
             <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra
             </Button>
           </Card.Content>
