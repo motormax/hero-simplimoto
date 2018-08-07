@@ -42,7 +42,7 @@ class BikeColorSection extends Component {
     ));
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: '#21ba45' }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: '#67CC4F' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
