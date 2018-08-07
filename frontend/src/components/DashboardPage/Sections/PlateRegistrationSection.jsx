@@ -19,7 +19,7 @@ class PlateRegistrationSection extends Component {
     plateRegistrationData: propTypes.shape({
       id: propTypes.number.isRequired,
     }).isRequired,
-  }
+  };
 
   componentDidMount() {
     if (!this.props.plateRegistrationData.id) {
@@ -46,7 +46,7 @@ class PlateRegistrationSection extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {plateRegistrationData.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" />}}
+              {plateRegistrationData.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" />}
             </Grid.Column>
             <Grid.Column width={10}>
               <h3 className="fw-bold fs-big">
