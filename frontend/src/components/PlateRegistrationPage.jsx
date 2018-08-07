@@ -369,7 +369,7 @@ class PlateRegistrationPage extends Component {
 
             <Segment attached="bottom" className="txt-center">
               <Button type="submit" size="big" primary>
-                Continuar
+                Confirmar
               </Button>
             </Segment>
 
