@@ -21,7 +21,7 @@ class FinancingSection extends Component {
     const { t } = this.props;
 
     // const isOk = true;
-    const color = this.props.financingSelected ? 'green' : 'red';
+    const color = this.props.financingSelected ? '#67CC4F' : 'red';
 
     const message = this.props.financingSelected ? this.props.financingForm.message : 'Elegí el financiamiento más conveniente';
 
