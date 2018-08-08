@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Image, Segment, Grid, Header, Icon, Button } from 'semantic-ui-react';
+import { Card, Segment, Grid, Icon, Button } from 'semantic-ui-react';
 
 import motoImgUrl from './images/bikes/hunk-3-4-black.png';
 
@@ -8,18 +8,18 @@ import helmetImgUrl from './images/Casco.png';
 import trunkImgUrl from './images/Baul.png';
 
 class PurchaseSummary extends Component {
-  render(){
-    return(
+  render() {
+    return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">Estás comprando una ...</h2>
 
         <Card className="page-column-card page-column-card_slim">
           <Segment className="bike-container" attached>
-            <img src={motoImgUrl} alt="Hunk negra"/>
+            <img src={motoImgUrl} alt="Hunk negra" />
           </Segment>
           <Segment attached>
-            <Grid verticalAlign='middle'>
-              <Grid.Column  width={2}>
+            <Grid verticalAlign="middle">
+              <Grid.Column width={2}>
                 <Icon className="txt-dark-gray" size="large" name="arrow right" />
               </Grid.Column>
               <Grid.Column width={9}>
@@ -32,7 +32,7 @@ class PurchaseSummary extends Component {
           </Segment>
 
           <Segment attached>
-            <Grid verticalAlign='middle'>
+            <Grid verticalAlign="middle">
               <Grid.Column width={2}>
                 <Icon className="txt-dark-gray" size="large" name="arrow right" />
               </Grid.Column>
@@ -44,19 +44,18 @@ class PurchaseSummary extends Component {
               </Grid.Column>
             </Grid>
             <Grid>
-              <Grid.Column width={2}>
-              </Grid.Column>
+              <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
-                <img src={glovesImgUrl} alt="Guantes"/>
-                <img src={helmetImgUrl} alt="Casco"/>
-                <img src={trunkImgUrl} alt="Baúl"/>
+                <img src={glovesImgUrl} alt="Guantes" />
+                <img src={helmetImgUrl} alt="Casco" />
+                <img src={trunkImgUrl} alt="Baúl" />
               </Grid.Column>
             </Grid>
           </Segment>
 
           <Segment attached>
-            <Grid verticalAlign='middle'>
-              <Grid.Column  width={2}>
+            <Grid verticalAlign="middle">
+              <Grid.Column width={2}>
                 <Icon className="txt-dark-gray" size="large" name="arrow right" />
               </Grid.Column>
               <Grid.Column width={9}>
@@ -69,8 +68,8 @@ class PurchaseSummary extends Component {
           </Segment>
 
           <Segment attached>
-            <Grid verticalAlign='middle'>
-              <Grid.Column  width={2}>
+            <Grid verticalAlign="middle">
+              <Grid.Column width={2}>
                 <Icon className="txt-dark-gray" size="large" name="arrow right" />
               </Grid.Column>
               <Grid.Column width={9}>
@@ -81,8 +80,7 @@ class PurchaseSummary extends Component {
               </Grid.Column>
             </Grid>
             <Grid>
-              <Grid.Column width={2}>
-              </Grid.Column>
+              <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
                 <p className="txt-dark-gray">
                   <Icon name="home" />
@@ -94,8 +92,8 @@ class PurchaseSummary extends Component {
 
           <Segment className="white-segment" attached>
             <Grid verticalAlign="middle">
-              <Grid.Column  width={2}>
-                <img width="100%" src="https://elenabeser.com/wp-content/uploads/2015/06/lock@2x.png" alt="un seguro"/>
+              <Grid.Column width={2}>
+                <img width="100%" src="https://elenabeser.com/wp-content/uploads/2015/06/lock@2x.png" alt="un seguro" />
               </Grid.Column>
               <Grid.Column width={9}>
                 <h3 className="fw-bold fs-big">Seguro Pepito - Un plan</h3>
@@ -115,7 +113,7 @@ class PurchaseSummary extends Component {
                 Elegiste pagar con MercadoPago
                 </div>
               </Grid.Column>
-              <Grid.Column className="details-container"  width={5}>
+              <Grid.Column className="details-container" width={5}>
                 <Button size="small" className="btn-outline" secondary>Cambiar</Button>
               </Grid.Column>
             </Grid>
@@ -127,7 +125,7 @@ class PurchaseSummary extends Component {
         </Card>
       </div>
     );
-  };
+  }
 }
 
 export default PurchaseSummary;
