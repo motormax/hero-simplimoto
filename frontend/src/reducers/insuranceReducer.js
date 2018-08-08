@@ -18,8 +18,7 @@ export default function deliveryReducer(state = initialState, action) {
         optOut: false,
         price: action.quote.price,
         policy: action.quote.policy,
-        broker: action.broker,
-        brokerLogo: action.brokerLogo,
+        brokerName: action.brokerName,
         optInOrOut: HERO_INSURANCE,
         query: action.query,
       };

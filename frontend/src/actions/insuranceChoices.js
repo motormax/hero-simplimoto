@@ -1,10 +1,9 @@
 import actionTypes from './actionTypes';
 
-export const insuranceSelected = (quote, brokerName, brokerLogo, query) => ({
+export const insuranceSelected = (quote, brokerName, query) => ({
   type: actionTypes.insuranceSelected,
   quote,
-  broker: brokerName,
-  brokerLogo,
+  brokerName: brokerName,
   query,
 });
 

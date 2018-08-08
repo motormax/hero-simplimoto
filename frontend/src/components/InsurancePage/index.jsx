@@ -117,8 +117,6 @@ class InsurancePage extends Component {
                               quote,
                               this.state.optInOrOut,
                               this.state.query,
-                              quote.broker,
-                              quote.brokerLogo,
                               this.props.lead,
                             );
                     }}
@@ -239,7 +237,8 @@ const mapDispatchToProps = dispatch => ({
     axios.post(
       `/api/leads/${leadId}/insurance/opt-out`,
       {
-        lead: leadId,
+        opt_in_or_out: PERSONAL_INSURANCE,
+        motorcycle_id: this.props.motorcycle_id,
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
@@ -250,22 +249,29 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, optInOrOut, query, brokerName, brokerLogo, lead) => {
+  selectInsurance: async (quote, optInOrOut, query, lead) => {
+    const body = {
+      insurance_quote_chosen: {
+        opt_in_or_out: optInOrOut,
+        motorcycle_id: lead.motorcycle.id,
+        insurance_broker_id: quote.brokerId,
+        insurance_policy_id: quote.policyId,
+        quote_price: quote.price,
+        quote_broker_name: quote.brokerName,
+        quote_policy: quote.policy,
+        quote_more_info: quote.moreInfo,
+        query_postal_code: query.postalCode,
+        query_age: query.age,
+        query_province: query.province,
+      },
+    };
+
     axios.post(
       `/api/leads/${lead.id}/insurance/quote`,
-      {
-        motorcycle: lead.motorcycle,
-        quote: {
-          id: quote.id,
-          price: quote.price,
-          broker: brokerName,
-        },
-        opt_in_or_out: optInOrOut,
-        query,
-      },
+      body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceSelected(quote, brokerName, brokerLogo, query));
+      dispatch(insuranceSelected(quote, query));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {
