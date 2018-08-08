@@ -323,7 +323,7 @@ class PlateRegistrationPage extends Component {
           <Form onSubmit={this.handleSubmit} error={error}>
             <Segment attached>
               <p className="fs-big fw-bold txt-dark-gray txt-center">
-                Foto de tu Documento de Identidad de quién será propietario de la moto
+                Foto del Documento de Identidad de quien será propietario de la moto
               </p>
               <p className="fs-large txt-med-gray txt-center">
                 Te vamos a pedir que le saques una foto a tu documento y

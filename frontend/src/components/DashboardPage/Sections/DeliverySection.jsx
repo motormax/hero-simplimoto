@@ -25,15 +25,15 @@ class DeliverySection extends Component {
     if (delivery.address != null) { // llevenme la moto a mi casa
       return (
         <p className="txt-med-gray fs-medium">
-          Te la llevamos a {JSON.stringify(delivery.address, null, 2)}
+          Te la llevamos a {delivery.address.street}.
         </p>
       );
     }
 
-    if (delivery.pickup_location != null) { // voy al consecionario
+    if (delivery.pickup_location != null) { // voy al concesionario
       return (
         <p className="txt-med-gray fs-medium">
-          Venís a buscar la moto al consecionario {delivery.pickup_location}
+          Venís a buscar la moto al concesionario {delivery.pickup_location}.
         </p>
       );
     }
@@ -43,7 +43,6 @@ class DeliverySection extends Component {
        Decinos dónde querés recibir la moto <span className="fw-bold">¡y te la llevamos sin cargo!</span>
       </p>
     );
-    // return <h1>Datos inconsistentes: <pre>{JSON.stringify(delivery, null, 2)}</pre></h1>;
   }
 
   render() {
