@@ -75,13 +75,6 @@ defmodule HeroDigitalWeb.InsuranceQuoteChosenControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  # describe "index" do
-  #   test "lists all insuarnce_quotes_chosen", %{conn: conn} do
-  #     conn = get conn, insurance_quote_chosen_path(conn, :index)
-  #     assert json_response(conn, 200)["data"] == []
-  #   end
-  # end
-
   describe "create or update insurance_quote_chosen" do
     test "renders personal insurance_quote_chosen when data is valid", %{motorcycle: motorcycle, lead: lead, conn: conn} do
       attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
