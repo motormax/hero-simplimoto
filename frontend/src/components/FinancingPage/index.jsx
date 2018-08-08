@@ -10,7 +10,19 @@ import { financingSelected } from '../../actions/financingChoices';
 
 class FinancingPage extends Component {
   static propTypes = {
+    motorcycle: propTypes.shape({
+      price: propTypes.string.isRequired,
+    }).isRequired,
     selectFinancing: propTypes.func.isRequired,
+    financingSelected: propTypes.bool.isRequired,
+    financingForm: propTypes.shape({
+      paymentMethodId: propTypes.string.isRequired,
+      issuerId: propTypes.string.isRequired,
+      message: propTypes.string.isRequired,
+      costs: propTypes.string.isRequired,
+      installments: propTypes.number.isRequired,
+      monthlyAmount: propTypes.number.isRequired,
+    }).isRequired,
   };
 
   constructor(props) {
@@ -20,16 +32,7 @@ class FinancingPage extends Component {
       paymentMethodOptions: [],
       issuerOptions: [],
       installmentOptions: [],
-      financingForm: {
-        paymentMethodId: '',
-        issuerId: '',
-        installments: 1,
-        paymentMethodLogo: '',
-        issuerLogo: '',
-        message: '',
-        costs: '',
-        monthlyAmount: 0,
-      },
+      financingForm: Object.assign({}, props.financingForm),      
       errors: {
         paymentMethodId: false,
       },
@@ -54,6 +57,9 @@ class FinancingPage extends Component {
         image: { avatar: false, src: method.secure_thumbnail },
       }));
       this.setState({ paymentMethodOptions: paymentMethods });
+      if (this.props.financingSelected) {
+        window.Mercadopago.getIssuers(this.state.financingForm.paymentMethodId, this.fetchIssuerCallback);
+      }
     }
   };
 
@@ -66,15 +72,22 @@ class FinancingPage extends Component {
         image: { avatar: false, src: issuer.secure_thumbnail },
       }));
       this.setState({ issuerOptions: issuers });
+      if (this.props.financingSelected) {
+        window.Mercadopago.getInstallments(
+          {
+            issuer_id: this.state.financingForm.issuerId,
+            amount: this.props.motorcycle.price,
+            payment_method_id: this.state.financingForm.paymentMethodId,
+          },
+          this.fetchInstallmentsCallback,
+        );
+      }
     }
   };
 
   fetchInstallmentsCallback = (status, response) => {
     if (status === 200) {
-      console.log("here!!");
-      console.log(response);
       const installments = [];
-      console.log(installments);
       response.forEach((installment) => {
         installment.payer_costs.forEach((costs) => {
           const label = costs.labels.filter(l => l.startsWith('CFT')).join(' ');
@@ -86,8 +99,15 @@ class FinancingPage extends Component {
           });
         });
       });
-      console.log("boom");
-      console.log(installments);
+      if (installments.length > 0) {
+        const newData = this.state.financingForm;
+        const firstInstallment = installments[0];
+        newData.message = firstInstallment.message;
+        newData.costs = firstInstallment.label;
+        newData.monthlyAmount = firstInstallment.monthlyAmount;
+        this.setState({ financingForm: newData });
+      }
+  
       this.setState({ installmentOptions: installments });
     }
   };
@@ -95,6 +115,9 @@ class FinancingPage extends Component {
   handlePaymentMethodChange = (e, { value }) => {
     const newData = this.state.financingForm;
     newData.paymentMethodId = value;
+    const paymentMethodOption = this.state.paymentMethodOptions.find(o => o.value === value);
+    newData.paymentMethodName = paymentMethodOption.text;
+    newData.paymentMethodLogo = paymentMethodOption.image.src;
     this.setState({ financingForm: newData });
     window.Mercadopago.getIssuers(value, this.fetchIssuerCallback);
   };
@@ -102,11 +125,14 @@ class FinancingPage extends Component {
   handleIssuerChange = (e, { value }) => {
     const newData = this.state.financingForm;
     newData.issuerId = value;
+    const issuerdOption = this.state.issuerOptions.find(o => o.value === value);
+    newData.issuerName = issuerdOption.text;
+    newData.issuerLogo = issuerdOption.image.src;
     this.setState({ financingForm: newData });
     window.Mercadopago.getInstallments(
       {
         issuer_id: value,
-        amount: 20000,
+        amount: this.props.motorcycle.price,
         payment_method_id: this.state.financingForm.paymentMethodId,
       },
       this.fetchInstallmentsCallback,
@@ -212,8 +238,10 @@ class FinancingPage extends Component {
 }
 
 
-const mapStateToProps = store => ({
-  financingForm: store.main.financing.financingForm,
+const mapStateToProps = state => ({
+  financingSelected: state.main.financing.financingSelected,
+  financingForm: state.main.financing.financingForm,
+  motorcycle: state.main.lead.motorcycle,
 });
 
 const mapDispatchToProps = dispatch => ({

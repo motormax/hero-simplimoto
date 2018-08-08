@@ -35,6 +35,10 @@ class CheckoutSummary extends Component {
       message: propTypes.string.isRequired,
       costs: propTypes.string.isRequired,
       monthlyAmount: propTypes.number.isRequired,
+      issuerLogo: propTypes.string.isRequired,
+      issuerName: propTypes.string.isRequired,
+      paymentMethodName: propTypes.string.isRequired,
+      paymentMethodLogo: propTypes.string.isRequired,
     }).isRequired,
   };
   static defaultProps = {
@@ -174,7 +178,10 @@ class CheckoutSummary extends Component {
             <div className="finnancial-bank">
               {/*<img src={bankImage} alt={bankName} />*/}
               <div className="right-column txt-dark-gray">
-                <p className="fw-bold fs-small">Préstamo</p>
+                <p className="fw-bold fs-small">
+                  <img src={this.props.financingForm.paymentMethodLogo} alt={this.props.financingForm.paymentMethodName} /> - 
+                  <img src={this.props.financingForm.issuerLogo} alt={this.props.financingForm.issuerName} />
+                </p>
                 <p className="fs-tinny">{this.props.financingForm.message}-</p>
                 <p className="fs-large">{this.props.financingForm.costs}</p>
               </div>
