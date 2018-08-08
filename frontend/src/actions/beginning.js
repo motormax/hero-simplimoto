@@ -1,13 +1,5 @@
 import actionTypes from './actionTypes';
 
-export const changeBikeModel = bikeModel => ({
-  type: actionTypes.changeBikeModel, bikeModel,
-});
-
-export const changeBikeColor = bikeColorIndex => ({
-  type: actionTypes.changeBikeColor, bikeColorIndex,
-});
-
 export const leadFetched = lead => ({
   type: actionTypes.leadFetched,
   lead,
@@ -19,3 +11,10 @@ export const startedFetchingLead = () => ({
 
 export const noop = () => ({ type: 'NOOP' });
 
+export const changeBikeColor = bikeColorIndex => ({
+  type: actionTypes.changeBikeColor, bikeColorIndex,
+});
+
+export const toggleAccessorySelection = accesoryName => ({
+  type: actionTypes.toggleAccessorySelection, accesoryName,
+});
