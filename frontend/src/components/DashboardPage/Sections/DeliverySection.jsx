@@ -56,12 +56,11 @@ class DeliverySection extends Component {
     }
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: delivery.id ? '#21ba45' : color }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: delivery.id ? '#67CC4F' : color }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {delivery.id ? <Icon size="large" color="green" name="check" /> : <Icon size="large" color={color} name="arrow right" />}
-
+              {delivery.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" /> }
             </Grid.Column>
             <Grid.Column width={9}>
               <h3 className="fw-bold fs-big">

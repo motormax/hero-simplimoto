@@ -42,14 +42,14 @@ class PlateRegistrationSection extends Component {
     const { t, plateRegistrationData, changeToPlateRegistration } = this.props;
 
     const isOk = plateRegistrationData.id;
-    const color = isOk ? '#21ba45' : 'red';
+    const color = isOk ? '#67CC4F' : 'red';
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              <Icon size="large" color={color} name="arrow right" />
+              {plateRegistrationData.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" />}
             </Grid.Column>
             <Grid.Column width={10}>
               <h3 className="fw-bold fs-big">

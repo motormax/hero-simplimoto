@@ -22,9 +22,6 @@ class AccessoriesSection extends Component {
       t, totalPrice, selectedAccessories, toggleAccessoryStatus,
     } = this.props;
 
-    const isOk = true;
-    const color = isOk ? 'darkgray' : 'red';
-
     const dashboardCardItems = Object.keys(availableAccessories)
       .map((name) => {
         const { price, imgUrl } = availableAccessories[name];
@@ -43,11 +40,11 @@ class AccessoriesSection extends Component {
       });
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: '#67CC4F' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              <Icon size="large" color={color} name="arrow right" />
+              <Icon size="large" className="txt-green" name="check" />
             </Grid.Column>
             <Grid.Column width={15}>
               <h3 className="fw-bold fs-big">{t('accessories')}
