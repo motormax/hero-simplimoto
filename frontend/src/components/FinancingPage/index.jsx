@@ -14,6 +14,7 @@ class FinancingPage extends Component {
       price: propTypes.string.isRequired,
     }).isRequired,
     selectFinancing: propTypes.func.isRequired,
+    cancelFinancing: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
     financingForm: propTypes.shape({
       paymentMethodId: propTypes.string.isRequired,
@@ -139,6 +140,11 @@ class FinancingPage extends Component {
     );
   };
 
+  disableContinueButton = () => {
+    return (this.state.financingForm.issuerId.length == 0 &&
+      this.state.installmentOptions.length == 0);
+  }
+
   handleInstallmentSelected = (e, { value }) => {
     const newData = this.state.financingForm;
     newData.installments = value.installments;
@@ -195,6 +201,8 @@ class FinancingPage extends Component {
       );
     }
 
+    let continueButtonAttributes = this.disableContinueButton() ? {disabled: true} : {};
+
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres financiarte?</h2>
@@ -224,10 +232,19 @@ class FinancingPage extends Component {
               <Button
                 size="large"
                 primary
+                {...continueButtonAttributes}
                 onClick={() => {
                   this.props.selectFinancing(this.state.financingForm);
                 }}
               >Continuar
+              </Button>
+              <Button
+                size="large"
+                secondary
+                onClick={() => {
+                  this.props.cancelFinancing();
+                }}
+              >Volver
               </Button>
             </Segment>
           </Form>
@@ -247,6 +264,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   selectFinancing: async (financingForm) => {
     dispatch(financingSelected(financingForm));
+    dispatch(push('/dashboard'));
+  },
+  cancelFinancing: async () => {
     dispatch(push('/dashboard'));
   },
 });
