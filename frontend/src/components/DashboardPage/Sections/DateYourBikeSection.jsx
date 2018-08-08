@@ -48,7 +48,7 @@ class DateYourBikeSection extends Component {
     }
 
     return (
-      <Segment className={cardStyle} style={{ borderLeftColor: appointment.id ? '#21ba45' : 'transparent' }}>
+      <Segment className={cardStyle} style={{ borderLeftColor: appointment.id ? '#67CC4F' : 'transparent' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
