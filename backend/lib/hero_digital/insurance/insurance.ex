@@ -41,8 +41,13 @@ defmodule HeroDigital.Insurance do
   Gets a single insurance_quote_chosen by lead_id in attrs
   """
   def get_insurance_quote_chosen_by_lead_in_attrs(attrs) do
-    if Map.has_key?(attrs, :lead_id) do
-      Repo.one(from iqc in InsuranceQuoteChosen, where: iqc.lead_id == ^attrs.lead_id, order_by: [desc: iqc.id], limit: 1)
+    cond do
+      Map.has_key?(attrs, :lead_id) ->
+        Repo.one(from iqc in InsuranceQuoteChosen, where: iqc.lead_id == ^attrs.lead_id, order_by: [desc: iqc.id], limit: 1)
+      Map.has_key?(attrs, "lead_id") ->
+        Repo.one(from iqc in InsuranceQuoteChosen, where: iqc.lead_id == ^attrs["lead_id"], order_by: [desc: iqc.id], limit: 1)
+      true ->
+        nil
     end
   end
 

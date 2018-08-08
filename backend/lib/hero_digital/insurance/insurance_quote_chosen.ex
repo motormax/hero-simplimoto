@@ -24,8 +24,9 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
 
   @doc false
   def changeset(insurance_quote_chosen, attrs) do
+    changeset = cast(insurance_quote_chosen, attrs, ["opt_in_or_out"])
     cond do
-      Map.has_key?(attrs, :opt_in_or_out) and attrs.opt_in_or_out == @personal_insurance ->
+      Map.has_key?(changeset.changes, :opt_in_or_out) and changeset.changes.opt_in_or_out == @personal_insurance ->
         create_personal_insurance_quote_changeset(insurance_quote_chosen, attrs)
       true ->
         create_hero_insurance_quote_changeset(insurance_quote_chosen, attrs)
