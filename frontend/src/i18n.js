@@ -52,11 +52,11 @@ export default i18next.init({
       dashboard: {
         dashboard: 'Dashboard',
         good_choice: '¡Buena elección!',
-        header_intro: 'estás a pocos pasos de tener tu moto en tu casa',
+        header_intro: 'Estás a pocos pasos de tener la moto en tu casa',
       },
       bikeModelSection: {
         currency_sign: 'AR$',
-        change_model: 'Cambiar Modelo',
+        change_model: 'Cambiar modelo',
         live_tour: 'Tour en vivo',
         moto_specs: 'Ficha técnica',
       },

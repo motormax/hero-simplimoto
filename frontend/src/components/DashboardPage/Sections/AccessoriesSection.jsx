@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { toggleAccessorySelection } from '../../../actions/beginning';
 import availableAccessories from '../../motorcycles/availableAccessories';
+import { moneyFormatter } from '../CheckoutSummary';
 
 
 class AccessoriesSection extends Component {
@@ -48,7 +49,7 @@ class AccessoriesSection extends Component {
             <Grid.Column width={15}>
               <h3 className="fw-bold fs-big">{t('accessories')}
                 <span className="fs-medium txt-dark-gray">
-                  <span className="fw-normal"> {t('currency_sign')}</span>{totalPrice}
+                  <span className="fw-normal"> {t('currency_sign')}</span>{moneyFormatter.format(totalPrice)}
                 </span>
               </h3>
               <div className="dashboard-card_items-container">
