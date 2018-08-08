@@ -2,10 +2,12 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @personal_insurance "personalInsurance"
+  @hero_insurance "heroInsurance"
 
   schema "insuarnce_quotes_chosen" do
     field :opt_in_or_out, :string
-    field :quote_price, :float
+    field :quote_price, :decimal
     field :quote_broker_name, :string
     field :quote_policy, :string
     field :quote_more_info, :string
@@ -22,6 +24,26 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
 
   @doc false
   def changeset(insurance_quote_chosen, attrs) do
+    cond do
+      Map.has_key?(attrs, :opt_in_or_out) and attrs.opt_in_or_out == @personal_insurance ->
+        create_personal_insurance_quote_changeset(insurance_quote_chosen, attrs)
+      true ->
+        create_hero_insurance_quote_changeset(insurance_quote_chosen, attrs)
+    end
+  end
+
+  @doc false
+  defp create_personal_insurance_quote_changeset(insurance_quote_chosen, attrs) do
+    attr_names = [
+      :opt_in_or_out,
+      :lead_id,
+      :motorcycle_id,
+    ]
+    create(insurance_quote_chosen, attrs, attr_names)
+  end
+
+  @doc false
+  defp create_hero_insurance_quote_changeset(insurance_quote_chosen, attrs) do
     attr_names = [
       :opt_in_or_out,
       :quote_price,
@@ -36,6 +58,10 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
       :insurance_broker_id,
       :insurance_policy_id
     ]
+    create(insurance_quote_chosen, attrs, attr_names)
+  end
+
+  defp create(insurance_quote_chosen, attrs, attr_names) do
     insurance_quote_chosen
     |> cast(attrs, attr_names)
     |> validate_required(attr_names)

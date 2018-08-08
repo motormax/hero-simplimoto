@@ -38,6 +38,15 @@ defmodule HeroDigital.Insurance do
   def get_insurance_quote_chosen!(id), do: Repo.get!(InsuranceQuoteChosen, id)
 
   @doc """
+  Gets a single insurance_quote_chosen by lead_id in attrs
+  """
+  def get_insurance_quote_chosen_by_lead_in_attrs(attrs) do
+    if Map.has_key?(attrs, :lead_id) do
+      Repo.one(from iqc in InsuranceQuoteChosen, where: iqc.lead_id == ^attrs.lead_id, order_by: [desc: iqc.id], limit: 1)
+    end
+  end
+
+  @doc """
   Creates a insurance_quote_chosen.
 
   ## Examples
@@ -53,6 +62,19 @@ defmodule HeroDigital.Insurance do
     %InsuranceQuoteChosen{}
     |> InsuranceQuoteChosen.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Creates or updates (if exists another) an insurance_quote_chosen
+  """
+  def create_or_update_insurance_quote_chosen(attrs \\ %{}) do
+    insurance_quote_chosen = get_insurance_quote_chosen_by_lead_in_attrs(attrs)
+    cond do
+      !is_nil(insurance_quote_chosen) ->
+        update_insurance_quote_chosen(insurance_quote_chosen, attrs)
+      true ->
+        create_insurance_quote_chosen(attrs)
+    end
   end
 
   @doc """
