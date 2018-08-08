@@ -10,7 +10,8 @@ import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import { registrationPrice } from './Sections/PlateRegistrationSection';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
-  minimumFractionDigits: 0,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 
@@ -28,6 +29,12 @@ class CheckoutSummary extends Component {
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
       price: propTypes.string.isRequired,
+    }).isRequired,
+    financingSelected: propTypes.bool.isRequired,
+    financingForm: propTypes.shape({
+      message: propTypes.string.isRequired,
+      costs: propTypes.string.isRequired,
+      monthlyAmount: propTypes.number.isRequired,
     }).isRequired,
   };
   static defaultProps = {
@@ -97,6 +104,14 @@ class CheckoutSummary extends Component {
         </List>
       );
     }
+
+    const financingAmount = this.props.financingSelected ?
+      this.props.financingForm.monthlyAmount :
+      this.props.motorcycle.price;
+
+    const financingPeriod = this.props.financingSelected ? '/ mes' : '';
+
+
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -153,21 +168,17 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">AR$
-                <span className="final-price-number">{moneyFormatter.format(totalPrice)}</span>
-              </p>
+              <p className="final-price">AR$<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>{financingPeriod}</p>
             </div>
-            {/*
+
             <div className="finnancial-bank">
-              <img src={bankImage} alt={bankName} />
+              {/*<img src={bankImage} alt={bankName} />*/}
               <div className="right-column txt-dark-gray">
-                <p className="fw-bold fs-small">Préstamo {bankName}</p>
-                <p className="fs-tinny">85 cuotas de AR$ {moneyFormatter.format(totalPrice / 85)}
-                </p>
-                <p className="fs-large">CFT: 48.12%</p>
+                <p className="fw-bold fs-small">Préstamo</p>
+                <p className="fs-tinny">{this.props.financingForm.message}-</p>
+                <p className="fs-large">{this.props.financingForm.costs}</p>
               </div>
             </div>
-            */}
 
           </Card.Content>
 
@@ -201,6 +212,8 @@ const mapStateToProps = state => ({
   insuranceBrokerLogo: state.main.insurance.brokerLogo,
   insuranceSelected: state.main.insurance.selected,
   insuranceOptOut: state.main.insurance.optOut,
+  financingSelected: state.main.financing.financingSelected,
+  financingForm: state.main.financing.financingForm,
 });
 
 export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));
