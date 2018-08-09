@@ -58,7 +58,7 @@ class InsurancePage extends Component {
 
   getQuote = (event) => {
     event.preventDefault();
-    axios.get(`api/leads/${this.props.lead.id}/insurance/quote`, {
+    axios.get(`api/leads/${this.props.lead.id}/insurance`, {
       params: {
         motorcycle_id: this.props.lead.motorcycle.id,
         opt_in_or_out: this.props.optInOrOut,
@@ -82,6 +82,10 @@ class InsurancePage extends Component {
     const newData = this.state.query;
     newData[inputName] = value;
     this.setState({ query: newData });
+  }
+
+  handleDropdownOptInOrOutChange = (e, selectObj) => {
+    this.setState({ optInOrOut: selectObj.value });
   }
 
   handleHeroInsuranceDataChange = (event) => {
@@ -193,7 +197,7 @@ class InsurancePage extends Component {
             size="large"
             primary
             onClick={() => {
-              this.props.selectMyOwnInsurance(this.props.lead.id, this.state.query);
+              this.props.selectMyOwnInsurance(this.props.lead);
             }}
           >Continuar
           </Button>
@@ -212,7 +216,7 @@ class InsurancePage extends Component {
               options={optInOrOutOptions}
               name="optInOrOut"
               value={this.state.optInOrOut}
-              onChange={this.handleDropdownChange}
+              onChange={this.handleDropdownOptInOrOutChange}
               className="fs-big"
             />
             {heroQuery}
@@ -223,7 +227,6 @@ class InsurancePage extends Component {
   }
 }
 
-
 const mapStateToProps = store => ({
   lead: store.main.lead,
   query: store.main.insurance.query,
@@ -233,16 +236,19 @@ const mapDispatchToProps = dispatch => ({
   cancelQuote: () => {
     dispatch(push('/dashboard'));
   },
-  selectMyOwnInsurance: async (leadId, query) => {
-    axios.post(
-      `/api/leads/${leadId}/insurance/opt-out`,
-      {
+  selectMyOwnInsurance: async (lead) => {
+    const body = {
+      insurance_quote_chosen: {
         opt_in_or_out: PERSONAL_INSURANCE,
-        motorcycle_id: this.props.motorcycle_id,
+        motorcycle_id: lead.motorcycle.id,
       },
+    };
+    axios.post(
+      `/api/leads/${lead.id}/insurance`,
+      body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceOptOut(query));
+      dispatch(insuranceOptOut());
       dispatch(push('/dashboard'));
     })
       .catch((error) => {
@@ -267,7 +273,7 @@ const mapDispatchToProps = dispatch => ({
     };
 
     axios.post(
-      `/api/leads/${lead.id}/insurance/quote`,
+      `/api/leads/${lead.id}/insurance`,
       body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console

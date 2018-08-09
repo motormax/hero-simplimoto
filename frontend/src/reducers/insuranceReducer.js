@@ -16,9 +16,9 @@ export default function deliveryReducer(state = initialState, action) {
       return {
         selected: true,
         optOut: false,
+        broker: action.quote.brokerName,
         price: action.quote.price,
         policy: action.quote.policy,
-        brokerName: action.brokerName,
         optInOrOut: HERO_INSURANCE,
         query: action.query,
       };
@@ -27,7 +27,6 @@ export default function deliveryReducer(state = initialState, action) {
         selected: true,
         optOut: true,
         optInOrOut: PERSONAL_INSURANCE,
-        query: action.query,
       };
     default:
       return state;
