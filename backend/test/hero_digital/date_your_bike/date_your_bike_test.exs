@@ -11,6 +11,8 @@ defmodule HeroDigital.DateYourBikeTest do
     @valid_attrs %{
       "date" => ~D[2010-04-17],
       "shift" => "some shift",
+      "name" => "some name",
+      "email" => "some@email.com",
       "address" => %{
         "complements" => "some complements",
         "number" => "some number",
@@ -55,6 +57,8 @@ defmodule HeroDigital.DateYourBikeTest do
       assert {:ok, %DateAppointment{} = date_appointment} = DateYourBike.create_date_appointment(valid_attrs)
       assert date_appointment.date == ~D[2010-04-17]
       assert date_appointment.shift == "some shift"
+      assert date_appointment.name == "some name"
+      assert date_appointment.email == "some@email.com"
     end
 
     test "create_date_appointment/1 with invalid data returns error changeset" do
