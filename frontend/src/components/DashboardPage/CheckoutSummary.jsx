@@ -106,7 +106,7 @@ class CheckoutSummary extends Component {
             <List className="summary-list" verticalAlign="middle">
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(bikePrice)}</span>
                 </List.Content>
                 <List.Content>{bikeDisplayName}</List.Content>
@@ -120,7 +120,7 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(accessoriesPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
@@ -128,7 +128,7 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(registrationPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
@@ -153,7 +153,7 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">AR$
+              <p className="final-price">$
                 <span className="final-price-number">{moneyFormatter.format(totalPrice)}</span>
               </p>
             </div>
@@ -162,7 +162,7 @@ class CheckoutSummary extends Component {
               <img src={bankImage} alt={bankName} />
               <div className="right-column txt-dark-gray">
                 <p className="fw-bold fs-small">Préstamo {bankName}</p>
-                <p className="fs-tinny">85 cuotas de AR$ {moneyFormatter.format(totalPrice / 85)}
+                <p className="fs-tinny">85 cuotas de $ {moneyFormatter.format(totalPrice / 85)}
                 </p>
                 <p className="fs-large">CFT: 48.12%</p>
               </div>

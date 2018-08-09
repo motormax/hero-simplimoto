@@ -22,7 +22,7 @@ class DeliverySection extends Component {
 
   displayLegend() {
     const { delivery } = this.props;
-    if (delivery.address != null) { // llevenme la moto a mi casa
+    if (delivery.address != null) { // llevenme la moto
       return (
         <p className="txt-med-gray fs-medium">
           Te la llevamos a {delivery.address.street}.

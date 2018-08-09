@@ -214,7 +214,7 @@ class DateYourBikePage extends Component {
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">Arreglá una cita</h2>
-        <p className="fs-huge txt-med-gray txt-center">¡Conocé la moto que querés en la puerta de tu casa!</p>
+        <p className="fs-huge txt-med-gray txt-center">¡Conocé la moto que querés en donde quieras!</p>
 
         <Card className="page-column-card">
 
