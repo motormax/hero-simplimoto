@@ -1,7 +1,7 @@
 export default {
-  changeBikeModel: 'CHANGE_BIKE_MODEL',
-  changeBikeColor: 'CHANGE_BIKE_COLOR',
   leadFetched: 'LEAD_FETCHED',
+  changeBikeColor: 'CHANGE_BIKE_COLOR',
+  toggleAccessorySelection: 'TOGGLE_ACCESSORY_SELECTION',
   startedFetchingLead: 'STARTED_FETCHING_LEAD',
   deliveryFetched: 'DELIVERY_FETCHED',
   startedFetchingDelivery: 'STARTED_FETCHING_DELIVERY',

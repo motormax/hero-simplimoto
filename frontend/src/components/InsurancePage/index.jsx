@@ -111,7 +111,7 @@ class InsurancePage extends Component {
                   <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
 
                 </Card.Content>
-                <Card.Content className="btn-displaced-container">
+                <Card.Content className="btn-displaced-container txt-center">
                   <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
                   <Button
                     primary
@@ -188,7 +188,7 @@ class InsurancePage extends Component {
           </div>
           {quotesList}
           <Divider />
-          <p className="txt-med-gray italic fs-small">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
+          <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
         </Segment>);
     } else {
       heroQuery = (

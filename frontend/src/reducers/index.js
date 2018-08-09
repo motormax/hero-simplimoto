@@ -5,13 +5,12 @@ import deliveryReducer from './deliveryReducer';
 import fundingReducer from './fundingReducer';
 import plateRegistrationDataReducer from './plateRegistrationDataReducer';
 import insuranceReducer from './insuranceReducer';
+import accessoriesReducer from './accessoriesReducer';
 import actionTypes from '../actions/actionTypes';
 import customizationsReducer from './customizationsReducer';
 
 
-const defaultState = {
-  stages: undefined,
-};
+const defaultState = {};
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -27,6 +26,7 @@ const reducer = (state = defaultState, action) => {
         delivery: deliveryReducer(undefined, action),
         plateRegistrationData: plateRegistrationDataReducer(undefined, action),
         insurance: insuranceReducer(undefined, action),
+        accessories: accessoriesReducer(undefined, action),
       };
     case actionTypes.startedFetchingLead:
       return {
@@ -42,6 +42,7 @@ const reducer = (state = defaultState, action) => {
         delivery: deliveryReducer(state.delivery, action),
         plateRegistrationData: plateRegistrationDataReducer(state.plateRegistrationData, action),
         insurance: insuranceReducer(state.insurance, action),
+        accessories: accessoriesReducer(state.accessories, action),
       });
   }
 };

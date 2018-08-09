@@ -86,6 +86,14 @@ class DeliveryPage extends Component {
       };
     }
 
+    if (this.state.address.telephoneNumber.length < 6) {
+      const newErrors = this.state.errors;
+      newErrors.telephoneNumber = true;
+      newErrors.description = 'Introducí un teléfono válido.';
+      this.setState({ errors: newErrors });
+      return;
+    }
+
     try {
       await this.props.submitDeliveryData(this.props.lead.id, deliveryChoice);
     } catch (error) {
@@ -171,7 +179,7 @@ class DeliveryPage extends Component {
             <Form.Input
               fluid
               required
-              label="Teléfono"
+              label="Celular"
               type="text"
               name="telephoneNumber"
               value={this.state.address.telephoneNumber}
@@ -223,7 +231,7 @@ class DeliveryPage extends Component {
             />
 
             <Segment attached="bottom" className="txt-center">
-              <Button type="submit" size="big" primary>Continuar</Button>
+              <Button type="submit" size="big" primary>Confirmar</Button>
             </Segment>
 
           </Form>
