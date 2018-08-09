@@ -15,6 +15,8 @@ defmodule HeroDigitalWeb.DateAppointmentView do
     %{id: date_appointment.id,
       date: date_appointment.date,
       shift: date_appointment.shift,
+      name: date_appointment.name,
+      email: date_appointment.email,
       address: render_one(date_appointment.address, AddressView, "address_without_id.json")}
   end
 end

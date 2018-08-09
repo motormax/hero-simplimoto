@@ -48,6 +48,8 @@ class DateYourBikePage extends Component {
     this.state = {
       shift: MORNING,
       date: '',
+      name: '',
+      email: '',
       address: {
         street: '',
         number: '',
@@ -60,6 +62,8 @@ class DateYourBikePage extends Component {
         general: false,
         date: false,
         shift: false,
+        name: false,
+        email: false,
         street: false,
         number: false,
         town: false,
@@ -88,6 +92,8 @@ class DateYourBikePage extends Component {
     dateAppointment.shift = this.state.shift;
     dateAppointment.date = moment(this.state.date, 'DD-MM-YYYY').format('YYYY-MM-DD');
     dateAppointment.lead_id = this.props.lead.id;
+    dateAppointment.name = this.state.name;
+    dateAppointment.email = this.state.email;
     dateAppointment.address = humps.decamelizeKeys(this.state.address);
     try {
       await this.props.submitDateAppointment(this.props.lead.id, dateAppointment);
@@ -211,15 +217,43 @@ class DateYourBikePage extends Component {
       </Segment>
     );
 
+    const leadDataFormGroup = (
+      <Segment attached>
+        <p className="txt-dark-gray fw-bold fs-huge">Quién la va a recibir</p>
+
+        <Form.Group widths="equal">
+          <Form.Input
+            fluid
+            required
+            label="Nombre"
+            type="text"
+            name="name"
+            value={this.state.name}
+            error={this.state.errors.name}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            fluid
+            required
+            label="Mail"
+            type="email"
+            name="email"
+            value={this.state.email}
+            error={this.state.errors.email}
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+      </Segment>
+    );
+
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">Arreglá una cita</h2>
         <p className="fs-huge txt-med-gray txt-center">¡Conocé la moto que querés en donde quieras!</p>
-
         <Card className="page-column-card">
-
           <Form onSubmit={this.handleSubmit} error={error}>
             {dateFormGroup}
+            {leadDataFormGroup}
             {addressFormGroup}
             <Message
               error
@@ -234,7 +268,6 @@ class DateYourBikePage extends Component {
               <Button size="big" type="submit" primary>Confirmar</Button>
             </Segment>
           </Form>
-
         </Card>
       </div>
     );
