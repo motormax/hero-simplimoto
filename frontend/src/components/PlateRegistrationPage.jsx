@@ -9,17 +9,35 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import dniImage from './images/dni.svg';
 
+import { PERSONAL_PLATE_REGISTRATION, HERO_PLATE_REGISTRATION } from './PlateRegistrationPage/constants';
+
+const plateRegistrationMethods = [
+  {
+    key: HERO_PLATE_REGISTRATION,
+    text: 'Quiero que Hero patente mi moto',
+    value: HERO_PLATE_REGISTRATION,
+  },
+  {
+    key: PERSONAL_PLATE_REGISTRATION,
+    text: 'Voy a realizar el patentamiento',
+    value: PERSONAL_PLATE_REGISTRATION,
+  },
+];
+
 class PlateRegistrationPage extends Component {
   static propTypes = {
-    submitPlateRegistrationData: propTypes.func.isRequired,
+    selectHeroPlateRegistration: propTypes.func.isRequired,
+    selectMyOwnPlateRegistration: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
+    optInOrOut: propTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      optInOrOut: props.optInOrOut,
       email: '',
       phone: '',
       personalData: {
@@ -67,67 +85,14 @@ class PlateRegistrationPage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.sendPlateRegistrationData();
-  };
-
-  sendPlateRegistrationData = async () => {
-    const body = {
-      plate_registration_data: {
-        email: '',
-        phone: '',
-        personal_data: {
-          dni: '',
-          name: '',
-          last_name: '',
-        },
-        address: {
-          street: '',
-          number: '',
-          town: '',
-          complements: '',
-          postalCode: '',
-          telephoneNumber: '',
-        },
-        front_dni_image: {
-          data: '',
-          name: '',
-          type: '',
-        },
-        back_dni_image: {
-          data: '',
-          name: '',
-          type: '',
-        },
-      },
-    };
-    body.plate_registration_data.email = this.state.email;
-    body.plate_registration_data.phone = this.state.phone;
-
-    // The Address model has a telephone number but also PlateRegistrationData
-    this.state.address.telephoneNumber = this.state.phone;
-
-    body.plate_registration_data.personal_data = humps.decamelizeKeys(this.state.personalData);
-    body.plate_registration_data.address = humps.decamelizeKeys(this.state.address);
-    body.plate_registration_data.front_dni_image.data = this.state.frontDniImage.data;
-    body.plate_registration_data.front_dni_image.name = this.state.frontDniImage.name;
-    body.plate_registration_data.front_dni_image.type = this.state.frontDniImage.type;
-    body.plate_registration_data.back_dni_image.data = this.state.backDniImage.data;
-    body.plate_registration_data.back_dni_image.name = this.state.backDniImage.name;
-    body.plate_registration_data.back_dni_image.type = this.state.backDniImage.type;
-
-    try {
-      await this.props.submitPlateRegistrationData(this.props.lead.id, body);
-    } catch (error) {
-      // TODO: handle specific input validation errors
-      const newErrors = this.state.errors;
-      newErrors.general = true;
-      newErrors.description = error.response.data;
-      this.setState({ errors: newErrors });
-    }
   };
 
   handleChange = (event, { name, value }) => {
     this.setState({ [name]: value });
+  };
+
+  handlePlateRegistrationMethodChange = (e, { value }) => {
+    this.setState({ optInOrOut: value });
   };
 
   handleAddressDataChange = (event) => {
@@ -291,6 +256,97 @@ class PlateRegistrationPage extends Component {
         />
       </Form>);
 
+    let heroPlateRegistrationForm;
+    if (this.state.optInOrOut === HERO_PLATE_REGISTRATION) {
+      heroPlateRegistrationForm = (
+        <React.Fragment>
+          <Segment attached>
+            <p className="fs-big fw-bold txt-dark-gray txt-center">
+              Foto de tu Documento de Identidad de quién será propietario de la moto
+            </p>
+            <p className="fs-large txt-med-gray txt-center">
+              Te vamos a pedir que le saques una foto a tu documento y
+              la cargues con el siguiente botón.
+            </p>
+
+            <Grid>
+              <Grid.Row centered>
+                <Grid.Column width={7}>
+                  <img src={dniImage} alt="" />
+                </Grid.Column>
+                <Grid.Column width={7}>
+                  <div className="required field">
+                    <label className="ui button primary btn-outline" htmlFor="frontDni">
+                      <i className="upload icon" />
+                      Imagen frontal DNI
+                    </label>
+                    <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
+                    { this.state.frontDniImage.name ?
+                      <div>{this.state.frontDniImage.name}</div> :
+                      <div>Falta cargar imagen</div>
+                    }
+                  </div>
+                  <div className="required field">
+                    <label className="ui button primary btn-outline" htmlFor="backDni">
+                      <i className="upload icon" />
+                      Imagen trasera DNI
+                    </label>
+                    <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
+                    { this.state.backDniImage.name ?
+                      <div>{this.state.backDniImage.name}</div> :
+                      <div>Falta cargar imagen</div>
+                    }
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+
+          <Segment attached>
+            {personalDataFormGroup}
+            {addressFormGroup}
+            {lastFieldsFormGroup}
+            <Message
+              error
+              header="Error"
+              content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+            />
+          </Segment>
+
+          <Segment attached="bottom" className="txt-center">
+            <Button
+              size="big"
+              primary
+              onClick={() => {
+                this.props.selectHeroPlateRegistration(
+                  this.props.lead.id,
+                  this.state.email,
+                  this.state.phone,
+                  this.state.personalData,
+                  this.state.address,
+                  this.state.frontDniImage,
+                  this.state.backDniImage,
+                );
+              }}
+            >Continuar
+            </Button>
+          </Segment>
+        </React.Fragment>);
+    } else {
+      heroPlateRegistrationForm = (
+        <Segment attached="bottom" className="txt-center">
+          <Button
+            size="big"
+            primary
+            onClick={() => {
+              this.props.selectMyOwnPlateRegistration(this.props.lead.id, this.state.optInOrOut);
+            }}
+          >Continuar
+          </Button>
+        </Segment>
+      );
+    }
+
     return (
       <div>
         <h2 className="fs-massive txt-dark-gray fw-bold txt-center">Patentamiento online</h2>
@@ -305,67 +361,19 @@ class PlateRegistrationPage extends Component {
         </p>
 
         <Card className="page-column-card">
-
-          <Form onSubmit={this.handleSubmit} error={error}>
-            <Segment attached>
-              <p className="fs-big fw-bold txt-dark-gray txt-center">
-                Foto de tu Documento de Identidad de quién será propietario de la moto
-              </p>
-              <p className="fs-large txt-med-gray txt-center">
-                Te vamos a pedir que le saques una foto a tu documento y
-                la cargues con el siguiente botón.
-              </p>
-
-              <Grid>
-                <Grid.Row centered>
-                  <Grid.Column width={7}>
-                    <img src={dniImage} alt="" />
-                  </Grid.Column>
-                  <Grid.Column width={7}>
-                    <div className="required field">
-                      <label className="ui button primary btn-outline" htmlFor="frontDni">
-                        <i className="upload icon" />
-                        Imagen frontal DNI
-                      </label>
-                      <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
-                      { this.state.frontDniImage.name ?
-                        <div>{this.state.frontDniImage.name}</div> :
-                        <div>Falta cargar imagen</div>
-                      }
-                    </div>
-                    <div className="required field">
-                      <label className="ui button primary btn-outline" htmlFor="backDni">
-                        <i className="upload icon" />
-                        Imagen trasera DNI
-                      </label>
-                      <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
-                      { this.state.backDniImage.name ?
-                        <div>{this.state.backDniImage.name}</div> :
-                        <div>Falta cargar imagen</div>
-                      }
-                    </div>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Segment>
-            <Segment attached>
-              {personalDataFormGroup}
-              {addressFormGroup}
-              {lastFieldsFormGroup}
-              <Message
-                error
-                header="Error"
-                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+          <Card.Content>
+            <Form onSubmit={this.handleSubmit} error={error}>
+              <Form.Select
+                fluid
+                options={plateRegistrationMethods}
+                name="optInOrOut"
+                value={this.state.optInOrOut}
+                onChange={this.handlePlateRegistrationMethodChange}
+                className="fs-big"
               />
-            </Segment>
-
-            <Segment attached="bottom" className="txt-center">
-              <Button type="submit" size="big" primary>
-                Continuar
-              </Button>
-            </Segment>
-
-          </Form>
+              {heroPlateRegistrationForm}
+            </Form>
+          </Card.Content>
 
         </Card>
 
@@ -376,12 +384,87 @@ class PlateRegistrationPage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
+  optInOrOut: store.main.plateRegistrationData.optInOrOut,
 });
 
 const mapDispatchToProps = dispatch => ({
-  submitPlateRegistrationData: async (leadId, plateRegistrationData) => {
-    await axios.post(`/api/leads/${leadId}/plate_registration/`, plateRegistrationData);
-    dispatch(push('/dashboard'));
+  selectMyOwnPlateRegistration: async (leadId, optInOrOut) => {
+    await axios.post(
+      `/api/leads/${leadId}/plate_registration/`,
+      {
+        opt_in_or_out: optInOrOut,
+      },
+    ).then((response) => {
+      console.log(response); // eslint-disable-line no-console
+      dispatch(push('/dashboard'));
+    })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line no-console
+      });
+  },
+  selectHeroPlateRegistration: async (
+    leadId,
+    email,
+    phone,
+    personalData,
+    address,
+    frontDniImage,
+    backDniImage) => {
+    const body = {
+      plate_registration_data: {
+        opt_in_or_out: HERO_PLATE_REGISTRATION,
+        email: '',
+        phone: '',
+        personal_data: {
+          dni: '',
+          name: '',
+          last_name: '',
+        },
+        address: {
+          street: '',
+          number: '',
+          town: '',
+          complements: '',
+          postalCode: '',
+          telephoneNumber: '',
+        },
+        front_dni_image: {
+          data: '',
+          name: '',
+          type: '',
+        },
+        back_dni_image: {
+          data: '',
+          name: '',
+          type: '',
+        },
+      },
+    };
+    body.plate_registration_data.email = email;
+    body.plate_registration_data.phone = phone;
+
+    // The Address model has a telephone number but also PlateRegistrationData
+    // this.state.address.telephoneNumber = phone;
+
+    body.plate_registration_data.personal_data = humps.decamelizeKeys(personalData);
+    body.plate_registration_data.address = humps.decamelizeKeys(address);
+    body.plate_registration_data.front_dni_image.data = frontDniImage.data;
+    body.plate_registration_data.front_dni_image.name = frontDniImage.name;
+    body.plate_registration_data.front_dni_image.type = frontDniImage.type;
+    body.plate_registration_data.back_dni_image.data = backDniImage.data;
+    body.plate_registration_data.back_dni_image.name = backDniImage.name;
+    body.plate_registration_data.back_dni_image.type = backDniImage.type;
+    console.log('body', body);
+    // await axios.post(
+    //   `/api/leads/${leadId}/plate_registration/`,
+    //   body,
+    // ).then((response) => {
+    //   console.log(response); // eslint-disable-line no-console
+    //   dispatch(push('/dashboard'));
+    // })
+    //   .catch((error) => {
+    //     console.log(error); // eslint-disable-line no-console
+    //   });
   },
 });
 
