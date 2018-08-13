@@ -53,12 +53,14 @@ defmodule HeroDigital.PlateRegistrationTest do
 
     test "list_plate_registration_data/0 returns all plate_registration_data", %{lead: lead} do
       attrs = Map.put(@valid_attrs, "lead_id", lead.id)
+      attrs = Map.put(attrs, "opt_in_or_out", @hero_plate_registration)
       plate_registration_data = plate_registration_data_fixture(attrs)
       assert PlateRegistration.list_plate_registration_data() == [plate_registration_data]
     end
 
     test "get_plate_registration_data!/1 returns the plate_registration_data with given id", %{lead: lead} do
       attrs = Map.put(@valid_attrs, "lead_id", lead.id)
+      attrs = Map.put(attrs, "opt_in_or_out", @hero_plate_registration)
       plate_registration_data = plate_registration_data_fixture(attrs)
       assert PlateRegistration.get_plate_registration_data!(plate_registration_data.id) == plate_registration_data
     end
@@ -88,7 +90,6 @@ defmodule HeroDigital.PlateRegistrationTest do
       attrs = Map.put(@valid_attrs, "lead_id", lead.id)
       attrs = Map.put(attrs, "opt_in_or_out", @personal_plate_registration)
       assert {:ok, %PlateRegistrationData{} = plate_registration_data} = PlateRegistration.create_plate_registration_data(attrs)
-      IO.inspect(plate_registration_data)
       assert plate_registration_data.opt_in_or_out == @personal_plate_registration
       assert plate_registration_data.lead_id == lead.id
       assert plate_registration_data.email == nil
@@ -105,16 +106,7 @@ defmodule HeroDigital.PlateRegistrationTest do
     end
 
     test "create_plate_registration_data/1 with invalid data returns error changeset" do
-      invalid_attrs = %{
-        "lead_id" => nil,
-        "personal_data" => nil,
-        "email" => nil,
-        "phone" => nil,
-        "front_dni_image" => nil,
-        "back_dni_image" => nil,
-        "address" => nil
-      }
-      assert {:error, %Ecto.Changeset{}} = PlateRegistration.create_plate_registration_data(invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = PlateRegistration.create_plate_registration_data()
     end
   end
 end
