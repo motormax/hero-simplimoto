@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
 
-// import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import { registrationPrice } from './Sections/PlateRegistrationSection';
+import PurchaseCalculator from '../calculator';
+import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
+import { financingChanged } from '../../actions/financingChoices';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
@@ -18,6 +20,7 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 class CheckoutSummary extends Component {
   static propTypes = {
     changeToSelectInsurance: propTypes.func.isRequired,
+    changeFinancing: propTypes.func.isRequired,
     insuranceBroker: propTypes.string,
     insurancePrice: propTypes.string,
     insurancePolicy: propTypes.string,
@@ -39,8 +42,12 @@ class CheckoutSummary extends Component {
       issuerName: propTypes.string.isRequired,
       paymentMethodName: propTypes.string.isRequired,
       paymentMethodLogo: propTypes.string.isRequired,
+      paymentMethodId: propTypes.string.isRequired,
+      issuerId: propTypes.string.isRequired,
+      installments: propTypes.number.isRequired,
     }).isRequired,
   };
+
   static defaultProps = {
     insuranceBroker: '',
     insurancePrice: '',
@@ -48,6 +55,33 @@ class CheckoutSummary extends Component {
     insuranceBrokerLogo: '',
     insuranceSelected: false,
     insuranceOptOut: false,
+  };
+
+  calculator = () => new PurchaseCalculator(this.props.motorcycle.price, this.props.accessoriesPrice);
+
+  componentDidUpdate(prevProps) {
+    if (this.props.accessoriesPrice !== prevProps.accessoriesPrice && this.props.financingSelected) {
+      getInstallments(this.props.financingForm.paymentMethodId, 
+        this.props.financingForm.issuerId, 
+        this.calculator().totalAmount(), 
+        this.fetchInstallmentsCallback);
+    }
+  }
+  
+  fetchInstallmentsCallback = (status, response) => {
+    if (status === 200) {
+      response.forEach((installment) => {
+        installment.payer_costs.forEach((costs) => {
+          if (this.props.financingForm.installments == costs.installments) {
+            this.props.changeFinancing({
+              message: costs.recommended_message,
+              costs: filterInstallmentLabels(costs.labels),
+              monthlyAmount: costs.installment_amount,
+            });
+          }
+        });
+      });
+    }
   };
 
   render() {
@@ -58,9 +92,6 @@ class CheckoutSummary extends Component {
     } = this.props;
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
-    // const bankName = 'ICBC';
-
-    const totalPrice = bikePrice + registrationPrice + accessoriesPrice;
 
     let insuranceSection;
     if (insuranceSelected) {
@@ -111,7 +142,7 @@ class CheckoutSummary extends Component {
 
     const financingAmount = this.props.financingSelected ?
       this.props.financingForm.monthlyAmount :
-      this.props.motorcycle.price;
+      this.calculator().totalAmount();
 
     const financingPeriod = this.props.financingSelected ? '/ mes' : '';
 
@@ -208,10 +239,14 @@ const mapDispatchToProps = dispatch => ({
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
   },
+  changeFinancing: async (financingForm) => {
+    dispatch(financingChanged(financingForm));
+  },
 });
 
 const mapStateToProps = state => ({
-  user: state.main.user,
+  lead: state.main.lead,
+  motorcycle: state.main.lead.motorcycle,
   accessoriesPrice: state.main.accessories.totalPrice,
   insuranceBroker: state.main.insurance.broker,
   insurancePrice: state.main.insurance.price,

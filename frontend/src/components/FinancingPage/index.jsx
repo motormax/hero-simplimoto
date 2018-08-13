@@ -5,14 +5,14 @@ import { Button, Form, Card, Radio, Label, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import loadSDK from './mercadoPagoHelper';
+import { loadSDK, getInstallments, filterInstallmentLabels } from './mercadoPagoHelper';
 import { financingSelected } from '../../actions/financingChoices';
+import PurchaseCalculator from '../calculator';
 
 class FinancingPage extends Component {
   static propTypes = {
-    motorcycle: propTypes.shape({
-      price: propTypes.string.isRequired,
-    }).isRequired,
+    motorcyclePrice: propTypes.string.isRequired,    
+    accessoriesPrice: propTypes.number.isRequired,
     selectFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
@@ -28,7 +28,7 @@ class FinancingPage extends Component {
 
   constructor(props) {
     super(props);
-    this.paymentMethodForm = React.createRef();
+    this.paymentMethodForm = React.createRef();    
     this.state = {
       paymentMethodOptions: [],
       issuerOptions: [],
@@ -39,13 +39,16 @@ class FinancingPage extends Component {
       },
     };
   }
-
+  
+  
   componentDidMount() {
     loadSDK(this.handleSDKLoaded);
   }
+  
+  calculator = () => new PurchaseCalculator(this.props.motorcyclePrice, this.props.accessoriesPrice);
 
   handleSDKLoaded = () => {
-    window.Mercadopago.setPublishableKey('TEST-5cf66383-f185-4848-a5d1-367710c38f62');
+    window.Mercadopago.setPublishableKey(process.env.REACT_APP_MERCADO_LIBRE_KEY);
     window.Mercadopago.getAllPaymentMethods(this.fetchPaymentMethodsCallback);
   };
 
@@ -74,14 +77,10 @@ class FinancingPage extends Component {
       }));
       this.setState({ issuerOptions: issuers });
       if (this.props.financingSelected) {
-        window.Mercadopago.getInstallments(
-          {
-            issuer_id: this.state.financingForm.issuerId,
-            amount: this.props.motorcycle.price,
-            payment_method_id: this.state.financingForm.paymentMethodId,
-          },
-          this.fetchInstallmentsCallback,
-        );
+        getInstallments(this.state.financingForm.paymentMethodId, 
+          this.state.financingForm.issuerId, 
+          this.calculator().totalAmount(), 
+          this.fetchInstallmentsCallback);        
       }
     }
   };
@@ -91,11 +90,10 @@ class FinancingPage extends Component {
       const installments = [];
       response.forEach((installment) => {
         installment.payer_costs.forEach((costs) => {
-          const label = costs.labels.filter(l => l.startsWith('CFT')).join(' ');
           installments.push({
             message: costs.recommended_message,
             installments: costs.installments,
-            label,
+            label: filterInstallmentLabels(costs.labels),
             monthlyAmount: costs.installment_amount,
           });
         });
@@ -133,7 +131,7 @@ class FinancingPage extends Component {
     window.Mercadopago.getInstallments(
       {
         issuer_id: value,
-        amount: this.props.motorcycle.price,
+        amount: this.calculator().totalAmount(),
         payment_method_id: this.state.financingForm.paymentMethodId,
       },
       this.fetchInstallmentsCallback,
@@ -198,7 +196,7 @@ class FinancingPage extends Component {
             className="fs-big"
           />
         </Form.Field>
-      );
+      );      
     }
 
     let continueButtonAttributes = this.disableContinueButton() ? {disabled: true} : {};
@@ -224,7 +222,7 @@ class FinancingPage extends Component {
 
             <Segment vertical>
               {issuerDropdown}
-            </Segment>
+            </Segment>            
 
             {installmentList}
 
@@ -258,7 +256,8 @@ class FinancingPage extends Component {
 const mapStateToProps = state => ({
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
-  motorcycle: state.main.lead.motorcycle,
+  motorcyclePrice: state.main.lead.motorcycle.price,
+  accessoriesPrice: state.main.accessories.totalPrice,
 });
 
 const mapDispatchToProps = dispatch => ({
