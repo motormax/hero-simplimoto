@@ -9,6 +9,9 @@ defmodule HeroDigital.PlateRegistration do
 
   alias HeroDigital.PlateRegistration.PlateRegistrationData
 
+  @personal_plate_registration "personalPlateRegistration"
+  @hero_plate_registration "heroPlateRegistration"
+
   @doc """
   Returns the list of plate_registration_data.
 
@@ -59,6 +62,20 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def create_plate_registration_data(attrs \\ %{}) do
+    cond do
+      (!is_nil(attrs["opt_in_or_out"])) and attrs["opt_in_or_out"] == @hero_plate_registration ->
+        attrs
+        |> get_hero_plate_registration_data()
+        |> create_plate_registration_data_by_attrs()
+      (!is_nil(attrs["opt_in_or_out"])) and attrs["opt_in_or_out"] == @personal_plate_registration ->
+        create_plate_registration_data_by_attrs(attrs)
+      true ->
+        create_plate_registration_data_by_attrs(attrs)
+    end
+
+  end
+
+  defp get_hero_plate_registration_data(attrs) do
     with {:ok, email} <- UserData.create_email(%{"email" => attrs["email"], "lead_id" => attrs["lead_id"]}),
          {:ok, phone} <- UserData.create_phone(%{"phone" => attrs["phone"], "lead_id" => attrs["lead_id"]}),
          {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
@@ -74,12 +91,21 @@ defmodule HeroDigital.PlateRegistration do
            front_dni_image_id: front_dni_image.id,
            back_dni_image_id: back_dni_image.id,
            address_id: address.id
-         },
-         {:ok, plate_registration_data} <- %PlateRegistrationData{}
-                                           |> PlateRegistrationData.changeset(plate_registration_data_attrs)
-                                           |> Repo.insert()
+         }
     do
-      {:ok, Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])}
+      plate_registration_data_attrs
+    end
+  end
+
+  defp create_plate_registration_data_by_attrs(attrs) do
+    plate_registration_data_changeset = %PlateRegistrationData{}
+                                        |> PlateRegistrationData.changeset(attrs)
+
+    case Repo.insert(plate_registration_data_changeset) do
+      {:ok, valid_plate_registration_data} ->
+        {:ok, Repo.preload(valid_plate_registration_data, [:email, :personal_data, :phone, :address])}
+      error ->
+        error
     end
   end
 
