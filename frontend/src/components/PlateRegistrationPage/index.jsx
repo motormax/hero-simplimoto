@@ -4,12 +4,11 @@ import { translate } from 'react-i18next';
 import { Button, Form, Message, Grid, Card, Segment } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
-import humps from 'humps';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import dniImage from './images/dni.svg';
+import dniImage from '../images/dni.svg';
 
-import { PERSONAL_PLATE_REGISTRATION, HERO_PLATE_REGISTRATION } from './PlateRegistrationPage/constants';
+import { PERSONAL_PLATE_REGISTRATION, HERO_PLATE_REGISTRATION } from './constants';
 
 const plateRegistrationMethods = [
   {
@@ -339,7 +338,7 @@ class PlateRegistrationPage extends Component {
             size="big"
             primary
             onClick={() => {
-              this.props.selectMyOwnPlateRegistration(this.props.lead.id, this.state.optInOrOut);
+              this.props.selectMyOwnPlateRegistration(this.props.lead.id);
             }}
           >Continuar
           </Button>
@@ -388,11 +387,11 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectMyOwnPlateRegistration: async (leadId, optInOrOut) => {
+  selectMyOwnPlateRegistration: async (leadId) => {
     await axios.post(
       `/api/leads/${leadId}/plate_registration/`,
       {
-        opt_in_or_out: optInOrOut,
+        opt_in_or_out: PERSONAL_PLATE_REGISTRATION,
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
@@ -413,58 +412,44 @@ const mapDispatchToProps = dispatch => ({
     const body = {
       plate_registration_data: {
         opt_in_or_out: HERO_PLATE_REGISTRATION,
-        email: '',
-        phone: '',
+        email,
+        phone,
         personal_data: {
-          dni: '',
-          name: '',
-          last_name: '',
+          dni: personalData.dni,
+          name: personalData.name,
+          last_name: personalData.lastName,
         },
         address: {
-          street: '',
-          number: '',
-          town: '',
-          complements: '',
-          postalCode: '',
-          telephoneNumber: '',
+          street: address.street,
+          number: address.number,
+          town: address.town,
+          complements: address.complements,
+          postal_code: address.postalCode,
+          // The Address model has a telephone number but also PlateRegistrationData
+          telephone_number: phone,
         },
         front_dni_image: {
-          data: '',
-          name: '',
-          type: '',
+          data: frontDniImage.data,
+          name: frontDniImage.name,
+          type: frontDniImage.type,
         },
         back_dni_image: {
-          data: '',
-          name: '',
-          type: '',
+          data: backDniImage.data,
+          name: backDniImage.name,
+          type: backDniImage.type,
         },
       },
     };
-    body.plate_registration_data.email = email;
-    body.plate_registration_data.phone = phone;
-
-    // The Address model has a telephone number but also PlateRegistrationData
-    // this.state.address.telephoneNumber = phone;
-
-    body.plate_registration_data.personal_data = humps.decamelizeKeys(personalData);
-    body.plate_registration_data.address = humps.decamelizeKeys(address);
-    body.plate_registration_data.front_dni_image.data = frontDniImage.data;
-    body.plate_registration_data.front_dni_image.name = frontDniImage.name;
-    body.plate_registration_data.front_dni_image.type = frontDniImage.type;
-    body.plate_registration_data.back_dni_image.data = backDniImage.data;
-    body.plate_registration_data.back_dni_image.name = backDniImage.name;
-    body.plate_registration_data.back_dni_image.type = backDniImage.type;
-    console.log('body', body);
-    // await axios.post(
-    //   `/api/leads/${leadId}/plate_registration/`,
-    //   body,
-    // ).then((response) => {
-    //   console.log(response); // eslint-disable-line no-console
-    //   dispatch(push('/dashboard'));
-    // })
-    //   .catch((error) => {
-    //     console.log(error); // eslint-disable-line no-console
-    //   });
+    await axios.post(
+      `/api/leads/${leadId}/plate_registration/`,
+      body,
+    ).then((response) => {
+      console.log(response); // eslint-disable-line no-console
+      dispatch(push('/dashboard'));
+    })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line no-console
+      });
   },
 });
 
