@@ -62,17 +62,44 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def create_plate_registration_data(attrs \\ %{}) do
+    plate_registration_data = get_plate_registration_data_for_update(attrs)
+
     cond do
-      (!is_nil(attrs["opt_in_or_out"])) and attrs["opt_in_or_out"] == @hero_plate_registration ->
+      is_updating_to_hero_plate_registration(plate_registration_data, attrs) ->
+        update_plate_registration_data(plate_registration_data, get_hero_plate_registration_data(attrs))
+
+      is_updating_to_personal_plate_registration(plate_registration_data, attrs) ->
+        update_plate_registration_data(plate_registration_data, attrs)
+
+      is_creating_hero_plate_registration(attrs) ->
         attrs
         |> get_hero_plate_registration_data()
         |> create_plate_registration_data_by_attrs()
-      (!is_nil(attrs["opt_in_or_out"])) and attrs["opt_in_or_out"] == @personal_plate_registration ->
-        create_plate_registration_data_by_attrs(attrs)
+
       true ->
         create_plate_registration_data_by_attrs(attrs)
     end
+  end
 
+  defp get_plate_registration_data_for_update(attrs) do
+    cond do
+      Map.has_key?(attrs, "lead_id") ->
+        get_plate_registration_data_for_lead!(attrs["lead_id"])
+      true ->
+        nil
+    end
+  end
+
+  defp is_updating_to_hero_plate_registration(plate_registration_data, attrs) do
+    !is_nil(plate_registration_data) and !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @hero_plate_registration
+  end
+
+  defp is_updating_to_personal_plate_registration(plate_registration_data, attrs) do
+    !is_nil(plate_registration_data) and !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @personal_plate_registration
+  end
+
+  defp is_creating_hero_plate_registration(attrs) do
+    !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @hero_plate_registration
   end
 
   defp get_hero_plate_registration_data(attrs) do
