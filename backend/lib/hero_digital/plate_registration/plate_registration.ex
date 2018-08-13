@@ -66,6 +66,7 @@ defmodule HeroDigital.PlateRegistration do
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
          {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
          plate_registration_data_attrs <- %{
+           opt_in_or_out: attrs["opt_in_or_out"],
            lead_id: attrs["lead_id"],
            email_id: email.id,
            phone_id: phone.id,
