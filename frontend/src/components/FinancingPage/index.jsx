@@ -4,6 +4,8 @@ import { translate } from 'react-i18next';
 import { Button, Form, Card, Radio, Label, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import classNames from 'classnames';
+
 
 import loadSDK from './mercadoPagoHelper';
 import { financingSelected } from '../../actions/financingChoices';
@@ -33,7 +35,7 @@ class FinancingPage extends Component {
       paymentMethodOptions: [],
       issuerOptions: [],
       installmentOptions: [],
-      financingForm: Object.assign({}, props.financingForm),      
+      financingForm: Object.assign({}, props.financingForm),
       errors: {
         paymentMethodId: false,
       },
@@ -108,7 +110,7 @@ class FinancingPage extends Component {
         newData.monthlyAmount = firstInstallment.monthlyAmount;
         this.setState({ financingForm: newData });
       }
-  
+
       this.setState({ installmentOptions: installments });
     }
   };
@@ -174,7 +176,7 @@ class FinancingPage extends Component {
         ));
 
       installmentList = (
-        <Segment vertical>
+        <Segment attached>
           <Form.Field>
             <label>Elegi las cuotas</label>
           </Form.Field>
@@ -186,20 +188,52 @@ class FinancingPage extends Component {
     let issuerDropdown;
     if (this.state.issuerOptions.length > 0) {
       issuerDropdown = (
-        <Form.Field>
-          <Form.Select
-            fluid
-            search
-            placeholder="Elegí el banco emisor"
-            options={this.state.issuerOptions}
-            name="issuer_id"
-            value={this.state.financingForm.issuerId}
-            onChange={this.handleIssuerChange}
-            className="fs-big"
-          />
-        </Form.Field>
+        <Segment attached>
+          <Form.Field>
+            <Form.Select
+              fluid
+              search
+              placeholder="Elegí el banco emisor"
+              options={this.state.issuerOptions}
+              name="issuer_id"
+              value={this.state.financingForm.issuerId}
+              onChange={this.handleIssuerChange}
+            />
+          </Form.Field>
+        </Segment>
       );
     }
+
+      let creditCardList =
+        this.state.paymentMethodOptions.map(creditCardItem => {
+          const activeBtn = classNames(
+            "square-btn",
+            this.state.financingForm.paymentMethodId === creditCardItem.value ? "active" : " ",
+          );
+          const activeTxt = classNames(
+            "txt-center fs-small",
+            this.state.financingForm.paymentMethodId === creditCardItem.value ? "txt-green" : " ",
+          );
+          return <label className="square-item">
+            <Radio
+              style={{ display: 'none' }}
+              name='creditCardList'
+              value={creditCardItem.value}
+              checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
+              onChange={this.handlePaymentMethodChange}
+            />
+            <div className={activeBtn}><img src={creditCardItem.image.src} /></div>
+            <p className={activeTxt}>{creditCardItem.text}</p>
+          </label>
+        });
+    const creditCardOptions = (
+      <Segment attached>
+      <Form.Field className="square-btn-container">
+        {creditCardList}
+        </Form.Field>
+      </Segment>
+    );
+
 
     let continueButtonAttributes = this.disableContinueButton() ? {disabled: true} : {};
 
@@ -207,7 +241,7 @@ class FinancingPage extends Component {
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres financiarte?</h2>
         <p className="fs-huge txt-med-gray txt-center">Elegí el metodo de financiación más conveniente.</p>
-        <Card className="page-column-card">
+        <Card className="page-column-card financing-page">
           <Form onSubmit={this.handleSubmit} error={error}>
             <Form.Field>
               <Form.Select
@@ -222,10 +256,8 @@ class FinancingPage extends Component {
               />
             </Form.Field>
 
-            <Segment vertical>
-              {issuerDropdown}
-            </Segment>
-
+            {creditCardOptions}
+            {issuerDropdown}
             {installmentList}
 
             <Segment attached="bottom" className="txt-center">
@@ -272,4 +304,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default translate('financing')(connect(mapStateToProps, mapDispatchToProps)(FinancingPage));
-
