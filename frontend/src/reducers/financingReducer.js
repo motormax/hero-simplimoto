@@ -23,6 +23,16 @@ export default function financingReducer(state = initialState, action) {
         financingSelected: true,
         financingForm: action.financingForm,
       };
+      case actionTypes.financingChanged:
+      return {
+        financingSelected: true,
+        financingForm: {
+          ...state.financingForm,
+          message: action.financingForm.message,
+          costs: action.financingForm.costs,
+          monthlyAmount: action.financingForm.monthlyAmount,
+        }
+      };
     default:
       return state;
   }

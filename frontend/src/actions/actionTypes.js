@@ -12,4 +12,5 @@ export default {
   insuranceSelected: 'INSURANCE_SELECTED',
   insuranceOptOut: 'INSURANCE_OPT_OUT',
   financingSelected: 'FINANCING_SELECTED',
+  financingChanged: 'FINANCING_CHANGED',
 };

@@ -5,5 +5,10 @@ export const financingSelected = financingForm => ({
   financingForm,
 });
 
+export const financingChanged = financingForm => ({
+  type: actionTypes.financingChanged,
+  financingForm,
+});
+
 export const noop = () => ({ type: 'NOOP' });
 
