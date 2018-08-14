@@ -8,6 +8,7 @@ import { push } from 'react-router-redux';
 import { loadSDK, getInstallments, filterInstallmentLabels } from './mercadoPagoHelper';
 import { financingSelected } from '../../actions/financingChoices';
 import PurchaseCalculator from '../calculator';
+import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSection';
 
 class FinancingPage extends Component {
   static propTypes = {
@@ -45,7 +46,7 @@ class FinancingPage extends Component {
     loadSDK(this.handleSDKLoaded);
   }
   
-  calculator = () => new PurchaseCalculator(this.props.motorcyclePrice, this.props.accessoriesPrice);
+  calculator = () => new PurchaseCalculator(this.props.motorcyclePrice, this.props.accessoriesPrice, registrationPrice);
 
   handleSDKLoaded = () => {
     window.Mercadopago.setPublishableKey(process.env.REACT_APP_MERCADO_LIBRE_KEY);

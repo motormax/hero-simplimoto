@@ -57,7 +57,7 @@ class CheckoutSummary extends Component {
     insuranceOptOut: false,
   };
 
-  calculator = () => new PurchaseCalculator(this.props.motorcycle.price, this.props.accessoriesPrice);
+  calculator = () => new PurchaseCalculator(this.props.motorcycle.price, this.props.accessoriesPrice, registrationPrice);
 
   componentDidUpdate(prevProps) {
     if (this.props.accessoriesPrice !== prevProps.accessoriesPrice && this.props.financingSelected) {

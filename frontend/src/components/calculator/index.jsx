@@ -1,14 +1,13 @@
-const registrationPrice = 3800;
-
 class PurchaseCalculator {
 
-    constructor(motorcyclePrice, accessoriesPrice) {
+    constructor(motorcyclePrice, accessoriesPrice, registrationPrice) {
         this.motorcyclePrice = motorcyclePrice;
         this.accessoriesPrice = accessoriesPrice;
+        this.registrationPrice = registrationPrice;
     }
 
     totalAmount = () => {
-        return this.motorcyclePrice + this.accessoriesPrice + registrationPrice;
+        return this.motorcyclePrice + this.accessoriesPrice + this.registrationPrice;
     }
 }
 
