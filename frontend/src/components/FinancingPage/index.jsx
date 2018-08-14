@@ -171,16 +171,18 @@ class FinancingPage extends Component {
               value={installment}
               checked={this.state.financingForm.installments === installment.installments}
               onChange={this.handleInstallmentSelected}
-            /><Label size="tiny">{installment.label}</Label>
+            /><Label size="small">{installment.label}</Label>
           </Form.Field>
         ));
 
       installmentList = (
         <Segment attached>
-          <Form.Field>
-            <label>Elegi las cuotas</label>
-          </Form.Field>
-          {installmentItems}
+          <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
+          <div className="txt-center">
+            <span className="dp-inline-block txt-left">
+              {installmentItems}
+            </span>
+          </div>
         </Segment>
       );
     }
@@ -188,11 +190,13 @@ class FinancingPage extends Component {
     let issuerDropdown;
     if (this.state.issuerOptions.length > 0) {
       issuerDropdown = (
-        <Segment attached>
+        <Segment className="not-border-bottom" attached>
+          <p className="txt-dark-gray fw-bold fs-huge">¿De que banco es tu tarjeta?</p>
           <Form.Field>
             <Form.Select
               fluid
               search
+              className="text-and-images-select"
               placeholder="Elegí el banco emisor"
               options={this.state.issuerOptions}
               name="issuer_id"
@@ -227,9 +231,10 @@ class FinancingPage extends Component {
           </label>
         });
     const creditCardOptions = (
-      <Segment attached>
-      <Form.Field className="square-btn-container">
-        {creditCardList}
+      <Segment className="not-border-bottom" attached>
+        <p className="txt-dark-gray fw-bold fs-huge">Elegí tu tarjeta de credito</p>
+        <Form.Field className="square-btn-container">
+          {creditCardList}
         </Form.Field>
       </Segment>
     );

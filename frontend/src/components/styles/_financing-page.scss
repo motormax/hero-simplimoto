@@ -1,4 +1,4 @@
-  .ui.selection.active.dropdown .menu{
+.field.text-and-images-select .ui.selection.active.dropdown .menu{
       border-color: $med-gray;
       &>.item{
         position: relative;
@@ -39,4 +39,8 @@
       }
     }
   }
+}
+
+.dp-inline-block{
+  display: inline-block;
 }
