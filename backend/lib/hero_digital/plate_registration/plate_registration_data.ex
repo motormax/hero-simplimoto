@@ -32,17 +32,17 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
   @doc false
   defp create_hero_registration_data_changeset(plate_registration_data, attrs) do
     attrs_names = [:opt_in_or_out, :lead_id, :personal_data_id, :email_id, :phone_id, :front_dni_image_id, :back_dni_image_id, :address_id]
-    create(plate_registration_data, attrs, attrs_names)
+    create_changeset_by_attrs(plate_registration_data, attrs, attrs_names)
   end
 
   @doc false
   defp create_personal_registration_data_changeset(plate_registration_data, attrs) do
     attrs_names = [:opt_in_or_out, :lead_id]
-    create(plate_registration_data, attrs, attrs_names)
+    create_changeset_by_attrs(plate_registration_data, attrs, attrs_names)
   end
 
   @doc false
-  defp create(plate_registration_data, attrs, attrs_names) do
+  defp create_changeset_by_attrs(plate_registration_data, attrs, attrs_names) do
     plate_registration_data
     |> cast(attrs, attrs_names)
     |> validate_required(attrs_names)

@@ -9,7 +9,6 @@ defmodule HeroDigital.PlateRegistration do
 
   alias HeroDigital.PlateRegistration.PlateRegistrationData
 
-  @personal_plate_registration "personalPlateRegistration"
   @hero_plate_registration "heroPlateRegistration"
 
   @doc """
@@ -62,23 +61,15 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def create_plate_registration_data(attrs \\ %{}) do
-    plate_registration_data = get_plate_registration_data_for_update(attrs)
+    old_plate_registration_data = get_plate_registration_data_for_update(attrs)
+    new_plate_registration_data_attrs = get_plate_registration_attrs_by_opt_in_or_out(attrs)
 
-    cond do
-      is_updating_to_hero_plate_registration(plate_registration_data, attrs) ->
-        update_plate_registration_data(plate_registration_data, get_hero_plate_registration_data(attrs))
+    changeset =
+    %PlateRegistrationData{}
+    |> PlateRegistrationData.changeset(new_plate_registration_data_attrs)
 
-      is_updating_to_personal_plate_registration(plate_registration_data, attrs) ->
-        update_plate_registration_data(plate_registration_data, attrs)
-
-      is_creating_hero_plate_registration(attrs) ->
-        attrs
-        |> get_hero_plate_registration_data()
-        |> create_plate_registration_data_by_attrs()
-
-      true ->
-        create_plate_registration_data_by_attrs(attrs)
-    end
+    delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, changeset)
+    create_plate_registration_data_by_changeset(changeset)
   end
 
   defp get_plate_registration_data_for_update(attrs) do
@@ -90,12 +81,13 @@ defmodule HeroDigital.PlateRegistration do
     end
   end
 
-  defp is_updating_to_hero_plate_registration(plate_registration_data, attrs) do
-    !is_nil(plate_registration_data) and !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @hero_plate_registration
-  end
-
-  defp is_updating_to_personal_plate_registration(plate_registration_data, attrs) do
-    !is_nil(plate_registration_data) and !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @personal_plate_registration
+  defp get_plate_registration_attrs_by_opt_in_or_out(attrs) do
+    cond do
+      is_creating_hero_plate_registration(attrs) ->
+        get_hero_plate_registration_data(attrs)
+      true ->
+        attrs
+    end
   end
 
   defp is_creating_hero_plate_registration(attrs) do
@@ -108,31 +100,30 @@ defmodule HeroDigital.PlateRegistration do
          {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
-         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
-         plate_registration_data_attrs <- %{
-           opt_in_or_out: attrs["opt_in_or_out"],
-           lead_id: attrs["lead_id"],
-           email_id: email.id,
-           phone_id: phone.id,
-           personal_data_id: personal_data.id,
-           front_dni_image_id: front_dni_image.id,
-           back_dni_image_id: back_dni_image.id,
-           address_id: address.id
-         }
+         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"]))
     do
-      plate_registration_data_attrs
+      %{
+        opt_in_or_out: attrs["opt_in_or_out"],
+        lead_id: attrs["lead_id"],
+        email_id: email.id,
+        phone_id: phone.id,
+        personal_data_id: personal_data.id,
+        front_dni_image_id: front_dni_image.id,
+        back_dni_image_id: back_dni_image.id,
+        address_id: address.id
+      }
     end
   end
 
-  defp create_plate_registration_data_by_attrs(attrs) do
-    plate_registration_data_changeset = %PlateRegistrationData{}
-                                        |> PlateRegistrationData.changeset(attrs)
+  defp delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, changeset) do
+    if !is_nil(old_plate_registration_data) and changeset.valid? do
+      delete_plate_registration_data(old_plate_registration_data)
+    end
+  end
 
-    case Repo.insert(plate_registration_data_changeset) do
-      {:ok, valid_plate_registration_data} ->
-        {:ok, Repo.preload(valid_plate_registration_data, [:email, :personal_data, :phone, :address])}
-      error ->
-        error
+  defp create_plate_registration_data_by_changeset(changeset) do
+    with {:ok, new_plate_registration_data} <- Repo.insert(changeset) do
+      {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address])}
     end
   end
 

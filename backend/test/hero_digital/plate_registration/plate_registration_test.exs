@@ -105,9 +105,9 @@ defmodule HeroDigital.PlateRegistrationTest do
       personal_plate_registration_attrs = Map.put(@valid_personal_plate_registration_attrs, "lead_id", lead.id)
       assert {:ok, %PlateRegistrationData{} = personal_plate_registration_data} = PlateRegistration.create_plate_registration_data(personal_plate_registration_attrs)
 
-      assert personal_plate_registration_data.id == hero_plate_registration_data.id
+      refute personal_plate_registration_data.id == hero_plate_registration_data.id
       assert PlateRegistration.get_plate_registration_data!(personal_plate_registration_data.id) == personal_plate_registration_data
-      refute PlateRegistration.get_plate_registration_data!(personal_plate_registration_data.id) == hero_plate_registration_data
+      assert_raise(Ecto.NoResultsError, fn -> PlateRegistration.get_plate_registration_data!(hero_plate_registration_data.id) end)
       assert PlateRegistration.list_plate_registration_data() == [personal_plate_registration_data]
     end
 
