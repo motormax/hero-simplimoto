@@ -34,6 +34,7 @@ class InsurancePage extends Component {
         id: propTypes.string,
       }),
     }).isRequired,
+    optInOrOut: propTypes.string.isRequired,
     query: propTypes.shape({
       province: propTypes.string,
       postalCode: propTypes.string,
