@@ -10,7 +10,7 @@ const initialState = {
   },
 };
 
-export default function deliveryReducer(state = initialState, action) {
+export default function insuranceReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.insuranceSelected:
       return {

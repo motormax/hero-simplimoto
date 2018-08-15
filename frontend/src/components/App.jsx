@@ -14,6 +14,7 @@ import DateYourBikePage from './DateYourBikePage';
 import PlateRegistrationPage from './PlateRegistrationPage';
 import Footer from './Footer';
 import InsurancePage from './InsurancePage';
+import FinancingPage from './FinancingPage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
 
 
@@ -35,6 +36,7 @@ class App extends React.Component {
             <Route path="/date" component={DateYourBikePage} />
             <Route path="/insurance" component={InsurancePage} />
             <Route path="/plate-registration" component={PlateRegistrationPage} />
+            <Route path="/financing" component={FinancingPage} />
             <Route path="/summary" component={PurchaseSummaryPage} />
           </Switch>
         </Container>
