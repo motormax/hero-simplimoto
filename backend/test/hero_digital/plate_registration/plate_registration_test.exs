@@ -97,7 +97,7 @@ defmodule HeroDigital.PlateRegistrationTest do
       assert plate_registration_data.address_id == nil
     end
 
-    test "when a lead choose an plate registration option and then chooses another,
+    test "when a lead choose a hero plate registration option and then chooses a personal plate registratrion option,
     the first one gets erased and the last one is in the db", %{lead: lead} do
       hero_plate_registration_attrs = Map.put(@valid_hero_plate_registration_attrs, "lead_id", lead.id)
       assert {:ok, %PlateRegistrationData{} = hero_plate_registration_data} = PlateRegistration.create_plate_registration_data(hero_plate_registration_attrs)
@@ -109,6 +109,20 @@ defmodule HeroDigital.PlateRegistrationTest do
       assert PlateRegistration.get_plate_registration_data!(personal_plate_registration_data.id) == personal_plate_registration_data
       assert_raise(Ecto.NoResultsError, fn -> PlateRegistration.get_plate_registration_data!(hero_plate_registration_data.id) end)
       assert PlateRegistration.list_plate_registration_data() == [personal_plate_registration_data]
+    end
+
+    test "when a lead choose a personal plate registration option and then chooses a hero plate registratrion option,
+    the first one gets erased and the last one is in the db", %{lead: lead} do
+      personal_plate_registration_attrs = Map.put(@valid_personal_plate_registration_attrs, "lead_id", lead.id)
+      assert {:ok, %PlateRegistrationData{} = personal_plate_registration_data} = PlateRegistration.create_plate_registration_data(personal_plate_registration_attrs)
+
+      hero_plate_registration_attrs = Map.put(@valid_hero_plate_registration_attrs, "lead_id", lead.id)
+      assert {:ok, %PlateRegistrationData{} = hero_plate_registration_data} = PlateRegistration.create_plate_registration_data(hero_plate_registration_attrs)
+
+      refute personal_plate_registration_data.id == hero_plate_registration_data.id
+      assert PlateRegistration.get_plate_registration_data!(hero_plate_registration_data.id) == hero_plate_registration_data
+      assert_raise(Ecto.NoResultsError, fn -> PlateRegistration.get_plate_registration_data!(personal_plate_registration_data.id) end)
+      assert PlateRegistration.list_plate_registration_data() == [hero_plate_registration_data]
     end
 
     test "create_plate_registration_data/1 with invalid data returns error changeset" do
