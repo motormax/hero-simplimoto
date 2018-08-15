@@ -38,9 +38,16 @@ defmodule HeroDigital.Insurance do
   def get_insurance_quote_chosen!(id), do: Repo.get!(InsuranceQuoteChosen, id)
 
   @doc """
-  Gets a single insurance_quote_chosen by lead_id in attrs
+  Creates or updates (if exists another) an insurance_quote_chosen
   """
-  def get_insurance_quote_chosen_by_lead_in_attrs(attrs) do
+  def create_insurance_quote_chosen(attrs \\ %{}) do
+    old_insurance_quote_chosen = get_insurance_quote_chosen_by_lead_in_attrs(attrs)
+    insurance_quote_chosen_changeset = get_creation_changeset(attrs)
+    delete_old_insurance_quote_chosen_when_exists_and_changeset_is_valid(old_insurance_quote_chosen, insurance_quote_chosen_changeset)
+    create_insurance_quote_chosen_by_changeset(insurance_quote_chosen_changeset)
+  end
+
+  defp get_insurance_quote_chosen_by_lead_in_attrs(attrs) do
     cond do
       Map.has_key?(attrs, :lead_id) ->
         Repo.one(from iqc in InsuranceQuoteChosen, where: iqc.lead_id == ^attrs.lead_id, order_by: [desc: iqc.id], limit: 1)
@@ -51,35 +58,19 @@ defmodule HeroDigital.Insurance do
     end
   end
 
-  @doc """
-  Creates a insurance_quote_chosen.
-
-  ## Examples
-
-      iex> create_insurance_quote_chosen(%{field: value})
-      {:ok, %InsuranceQuoteChosen{}}
-
-      iex> create_insurance_quote_chosen(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_insurance_quote_chosen(attrs \\ %{}) do
+  defp get_creation_changeset(attrs) do
     %InsuranceQuoteChosen{}
     |> InsuranceQuoteChosen.changeset(attrs)
-    |> Repo.insert()
   end
 
-  @doc """
-  Creates or updates (if exists another) an insurance_quote_chosen
-  """
-  def create_or_update_insurance_quote_chosen(attrs \\ %{}) do
-    insurance_quote_chosen = get_insurance_quote_chosen_by_lead_in_attrs(attrs)
-    cond do
-      !is_nil(insurance_quote_chosen) ->
-        update_insurance_quote_chosen(insurance_quote_chosen, attrs)
-      true ->
-        create_insurance_quote_chosen(attrs)
+  defp delete_old_insurance_quote_chosen_when_exists_and_changeset_is_valid(old_insurance_quote_chosen, insurance_quote_chosen_changeset) do
+    if !is_nil(old_insurance_quote_chosen) and insurance_quote_chosen_changeset.valid? do
+      delete_insurance_quote_chosen(old_insurance_quote_chosen)
     end
+  end
+
+  defp create_insurance_quote_chosen_by_changeset(insurance_quote_chosen_changeset) do
+    Repo.insert(insurance_quote_chosen_changeset)
   end
 
   @doc """

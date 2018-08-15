@@ -40,7 +40,7 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
       :lead_id,
       :motorcycle_id,
     ]
-    create(insurance_quote_chosen, attrs, attr_names)
+    create_changeset(insurance_quote_chosen, attrs, attr_names)
   end
 
   @doc false
@@ -59,10 +59,10 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
       :insurance_broker_id,
       :insurance_policy_id
     ]
-    create(insurance_quote_chosen, attrs, attr_names)
+    create_changeset(insurance_quote_chosen, attrs, attr_names)
   end
 
-  defp create(insurance_quote_chosen, attrs, attr_names) do
+  defp create_changeset(insurance_quote_chosen, attrs, attr_names) do
     insurance_quote_chosen
     |> cast(attrs, attr_names)
     |> validate_required(attr_names)

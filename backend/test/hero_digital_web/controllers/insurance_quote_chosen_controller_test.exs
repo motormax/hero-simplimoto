@@ -121,7 +121,7 @@ defmodule HeroDigitalWeb.InsuranceQuoteChosenControllerTest do
       assert json_response(conn, 422)["errors"] != %{}
     end
 
-    test "renders the updated insurance_quote_chosen when a new one is chosen and the data is valid", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
+    test "renders the updated personal_insurance_quote_chosen when a new one is chosen and the data is valid", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
       personal_insurance_quote_chosen_attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
       conn = post conn, lead_insurance_quote_chosen_path(conn, :create_or_update, lead.id), insurance_quote_chosen: personal_insurance_quote_chosen_attrs
       personal_insurance_quote_chosen_response = json_response(conn, 201)["data"]
@@ -130,9 +130,9 @@ defmodule HeroDigitalWeb.InsuranceQuoteChosenControllerTest do
       conn = post conn, lead_insurance_quote_chosen_path(conn, :create_or_update, lead.id), insurance_quote_chosen: hero_insurance_quote_chosen_attrs
       hero_insurance_quote_chosen_response = json_response(conn, 201)["data"]
 
-      assert personal_insurance_quote_chosen_response["id"] == hero_insurance_quote_chosen_response["id"]
-      refute personal_insurance_quote_chosen_response == hero_insurance_quote_chosen_response
-      assert !is_nil(hero_insurance_quote_chosen_response["id"])
+      refute hero_insurance_quote_chosen_response["id"] == personal_insurance_quote_chosen_response["id"]
+      refute hero_insurance_quote_chosen_response == personal_insurance_quote_chosen_response
+      assert !is_nil(personal_insurance_quote_chosen_response["id"])
       assert hero_insurance_quote_chosen_response["motorcycle_id"] == hero_insurance_quote_chosen_attrs.motorcycle_id
       assert hero_insurance_quote_chosen_response["lead_id"] == hero_insurance_quote_chosen_attrs.lead_id
       assert hero_insurance_quote_chosen_response["opt_in_or_out"] == hero_insurance_quote_chosen_attrs.opt_in_or_out
@@ -145,6 +145,32 @@ defmodule HeroDigitalWeb.InsuranceQuoteChosenControllerTest do
       assert hero_insurance_quote_chosen_response["quote_policy"] == hero_insurance_quote_chosen_attrs.quote_policy
       assert hero_insurance_quote_chosen_response["query_age"] == hero_insurance_quote_chosen_attrs.query_age
       assert hero_insurance_quote_chosen_response["quote_more_info"] == hero_insurance_quote_chosen_attrs.quote_more_info
+    end
+
+    test "renders the updated hero_insurance_quote_chosen when a new one is chosen and the data is valid", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
+      hero_insurance_quote_chosen_attrs = hero_insurance_quote_chosen_attrs(motorcycle, lead, broker)
+      conn = post conn, lead_insurance_quote_chosen_path(conn, :create_or_update, lead.id), insurance_quote_chosen: hero_insurance_quote_chosen_attrs
+      hero_insurance_quote_chosen_response = json_response(conn, 201)["data"]
+
+      personal_insurance_quote_chosen_attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
+      conn = post conn, lead_insurance_quote_chosen_path(conn, :create_or_update, lead.id), insurance_quote_chosen: personal_insurance_quote_chosen_attrs
+      personal_insurance_quote_chosen_response = json_response(conn, 201)["data"]
+
+      refute personal_insurance_quote_chosen_response["id"] == hero_insurance_quote_chosen_response["id"]
+      refute personal_insurance_quote_chosen_response == hero_insurance_quote_chosen_response
+      assert !is_nil(hero_insurance_quote_chosen_response["id"])
+      assert personal_insurance_quote_chosen_response["motorcycle_id"] == motorcycle.id
+      assert personal_insurance_quote_chosen_response["lead_id"] == lead.id
+      assert personal_insurance_quote_chosen_response["opt_in_or_out"] == personal_insurance_quote_chosen_attrs.opt_in_or_out
+      assert is_nil(personal_insurance_quote_chosen_response["insurance_policy_id"])
+      assert is_nil(personal_insurance_quote_chosen_response["insurance_broker_id"])
+      assert is_nil(personal_insurance_quote_chosen_response["query_postal_code"])
+      assert is_nil(personal_insurance_quote_chosen_response["query_province"])
+      assert is_nil(personal_insurance_quote_chosen_response["quote_price"])
+      assert is_nil(personal_insurance_quote_chosen_response["quote_broker_name"])
+      assert is_nil(personal_insurance_quote_chosen_response["quote_policy"])
+      assert is_nil(personal_insurance_quote_chosen_response["query_age"])
+      assert is_nil(personal_insurance_quote_chosen_response["quote_more_info"])
     end
   end
 end

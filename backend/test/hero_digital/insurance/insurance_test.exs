@@ -15,14 +15,6 @@ defmodule HeroDigital.InsuranceTest do
     @query_age 30
     @query_province "Capital Federal"
 
-    def insurance_quote_chosen_fixture(attrs \\ %{}) do
-      {:ok, insurance_quote_chosen} =
-        attrs
-        |> Insurance.create_or_update_insurance_quote_chosen()
-
-      insurance_quote_chosen
-    end
-
     def policy_chosen(motorcycle_id, broker_id) do
       policy = HeroDigital.Repo.insert!(
           %HeroDigital.Insurance.Policy {
@@ -84,15 +76,15 @@ defmodule HeroDigital.InsuranceTest do
       assert insurance_quote_chosen.lead_id == lead.id
       assert insurance_quote_chosen.motorcycle_id == motorcycle.id
       assert insurance_quote_chosen.opt_in_or_out == @personal_insurance
-      assert insurance_quote_chosen.quote_price == nil
-      assert insurance_quote_chosen.quote_broker_name == nil
-      assert insurance_quote_chosen.quote_policy == nil
-      assert insurance_quote_chosen.quote_more_info == nil
-      assert insurance_quote_chosen.query_province == nil
-      assert insurance_quote_chosen.query_age == nil
-      assert insurance_quote_chosen.query_postal_code == nil
-      assert insurance_quote_chosen.insurance_broker_id == nil
-      assert insurance_quote_chosen.insurance_policy_id == nil
+      assert is_nil(insurance_quote_chosen.quote_price)
+      assert is_nil(insurance_quote_chosen.quote_broker_name)
+      assert is_nil(insurance_quote_chosen.quote_policy)
+      assert is_nil(insurance_quote_chosen.quote_more_info)
+      assert is_nil(insurance_quote_chosen.query_province)
+      assert is_nil(insurance_quote_chosen.query_age)
+      assert is_nil(insurance_quote_chosen.query_postal_code)
+      assert is_nil(insurance_quote_chosen.insurance_broker_id)
+      assert is_nil(insurance_quote_chosen.insurance_policy_id)
     end
 
     test "create_insurance_quote_chosen/1 with valid data and opt_in_or_out as hero_insurance
@@ -114,36 +106,52 @@ defmodule HeroDigital.InsuranceTest do
     end
 
     test "create_insurance_quote_chosen/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Insurance.create_or_update_insurance_quote_chosen()
+      assert {:error, %Ecto.Changeset{}} = Insurance.create_insurance_quote_chosen()
     end
 
     test "list_insuarnce_quotes_chosen/0 returns all insuarnce_quotes_chosen", %{motorcycle: motorcycle, lead: lead, broker: broker} do
       {:ok, another_lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})
       personal_insurance_quotes_chosen_attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
       hero_insurance_quotes_chosen_attrs = hero_insurance_quote_chosen_attrs(motorcycle, another_lead, broker)
-      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_or_update_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
-      assert {:ok, %InsuranceQuoteChosen{} = hero_insurance_quote_chosen} = Insurance.create_or_update_insurance_quote_chosen(hero_insurance_quotes_chosen_attrs)
+      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
+      assert {:ok, %InsuranceQuoteChosen{} = hero_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(hero_insurance_quotes_chosen_attrs)
       assert Insurance.list_insuarnce_quotes_chosen() == [personal_insurance_quote_chosen, hero_insurance_quote_chosen]
     end
 
     test "get_insurance_quote_chosen!/1 returns the insurance_quote_chosen with given id", %{motorcycle: motorcycle, lead: lead} do
       personal_insurance_quotes_chosen_attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
-      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_or_update_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
+      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
       assert Insurance.get_insurance_quote_chosen!(personal_insurance_quote_chosen.id) == personal_insurance_quote_chosen
     end
 
-    test "when a lead choose an insurance quote and then chooses another,
+    test "when a lead choose a personal insurance quote and then chooses a hero insurance quote,
     the first one gets erased and the last one is in the db", %{motorcycle: motorcycle, lead: lead, broker: broker} do
       personal_insurance_quotes_chosen_attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
-      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_or_update_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
+      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
 
       hero_insurance_quotes_chosen_attrs = hero_insurance_quote_chosen_attrs(motorcycle, lead, broker)
-      assert {:ok, %InsuranceQuoteChosen{} = hero_insurance_quote_chosen} = Insurance.create_or_update_insurance_quote_chosen(hero_insurance_quotes_chosen_attrs)
+      assert {:ok, %InsuranceQuoteChosen{} = hero_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(hero_insurance_quotes_chosen_attrs)
 
-      assert hero_insurance_quote_chosen.id == personal_insurance_quote_chosen.id
-      assert Insurance.get_insurance_quote_chosen!(hero_insurance_quote_chosen.id) == hero_insurance_quote_chosen
+      refute hero_insurance_quote_chosen.id == personal_insurance_quote_chosen.id
       refute Insurance.get_insurance_quote_chosen!(hero_insurance_quote_chosen.id) == personal_insurance_quote_chosen
+      assert_raise(Ecto.NoResultsError, fn -> Insurance.get_insurance_quote_chosen!(personal_insurance_quote_chosen.id) end)
+      assert Insurance.get_insurance_quote_chosen!(hero_insurance_quote_chosen.id) == hero_insurance_quote_chosen
       assert Insurance.list_insuarnce_quotes_chosen() == [hero_insurance_quote_chosen]
+    end
+
+    test "when a lead choose a hero insurance quote and then chooses a personal insurance quote,
+    the first one gets erased and the last one is in the db", %{motorcycle: motorcycle, lead: lead, broker: broker} do
+      hero_insurance_quotes_chosen_attrs = hero_insurance_quote_chosen_attrs(motorcycle, lead, broker)
+      assert {:ok, %InsuranceQuoteChosen{} = hero_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(hero_insurance_quotes_chosen_attrs)
+
+      personal_insurance_quotes_chosen_attrs = personal_insurance_quote_chosen_attrs(motorcycle.id, lead.id)
+      assert {:ok, %InsuranceQuoteChosen{} = personal_insurance_quote_chosen} = Insurance.create_insurance_quote_chosen(personal_insurance_quotes_chosen_attrs)
+
+      refute hero_insurance_quote_chosen.id == personal_insurance_quote_chosen.id
+      refute Insurance.get_insurance_quote_chosen!(personal_insurance_quote_chosen.id) == hero_insurance_quote_chosen
+      assert_raise(Ecto.NoResultsError, fn -> Insurance.get_insurance_quote_chosen!(hero_insurance_quote_chosen.id) end)
+      assert Insurance.get_insurance_quote_chosen!(personal_insurance_quote_chosen.id) == personal_insurance_quote_chosen
+      assert Insurance.list_insuarnce_quotes_chosen() == [personal_insurance_quote_chosen]
     end
   end
 end
