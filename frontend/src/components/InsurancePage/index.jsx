@@ -238,7 +238,7 @@ const mapDispatchToProps = dispatch => ({
   },
   selectMyOwnInsurance: async (lead) => {
     const body = {
-      insurance_quote_chosen: {
+      insurance_choice: {
         opt_in_or_out: PERSONAL_INSURANCE,
         motorcycle_id: lead.motorcycle.id,
       },
@@ -257,7 +257,7 @@ const mapDispatchToProps = dispatch => ({
   },
   selectInsurance: async (quote, optInOrOut, query, lead) => {
     const body = {
-      insurance_quote_chosen: {
+      insurance_choice: {
         opt_in_or_out: optInOrOut,
         motorcycle_id: lead.motorcycle.id,
         insurance_broker_id: quote.brokerId,

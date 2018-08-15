@@ -1,8 +1,8 @@
-defmodule HeroDigital.Repo.Migrations.CreateInsuarnceQuotesChosen do
+defmodule HeroDigital.Repo.Migrations.CreateInsuranceChoices do
   use Ecto.Migration
 
   def change do
-    create table(:insuarnce_quotes_chosen) do
+    create table(:insurance_choices) do
       add :opt_in_or_out, :string
       add :quote_price, :decimal
       add :quote_broker_name, :string

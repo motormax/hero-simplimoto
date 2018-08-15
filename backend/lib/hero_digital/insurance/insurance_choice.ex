@@ -1,11 +1,11 @@
-defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
+defmodule HeroDigital.Insurance.InsuranceChoice do
   use Ecto.Schema
   import Ecto.Changeset
 
   @personal_insurance "personalInsurance"
   @hero_insurance "heroInsurance"
 
-  schema "insuarnce_quotes_chosen" do
+  schema "insurance_choices" do
     field :opt_in_or_out, :string
     field :quote_price, :decimal
     field :quote_broker_name, :string
@@ -23,28 +23,28 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
   end
 
   @doc false
-  def changeset(insurance_quote_chosen, attrs) do
-    changeset = cast(insurance_quote_chosen, attrs, ["opt_in_or_out"])
+  def changeset(insurance_choice, attrs) do
+    changeset = cast(insurance_choice, attrs, ["opt_in_or_out"])
     cond do
       Map.has_key?(changeset.changes, :opt_in_or_out) and changeset.changes.opt_in_or_out == @personal_insurance ->
-        create_personal_insurance_quote_changeset(insurance_quote_chosen, attrs)
+        create_personal_insurance_choice_changeset(insurance_choice, attrs)
       true ->
-        create_hero_insurance_quote_changeset(insurance_quote_chosen, attrs)
+        create_hero_insurance_choice_changeset(insurance_choice, attrs)
     end
   end
 
   @doc false
-  defp create_personal_insurance_quote_changeset(insurance_quote_chosen, attrs) do
+  defp create_personal_insurance_choice_changeset(insurance_choice, attrs) do
     attr_names = [
       :opt_in_or_out,
       :lead_id,
       :motorcycle_id,
     ]
-    create_changeset(insurance_quote_chosen, attrs, attr_names)
+    create_changeset(insurance_choice, attrs, attr_names)
   end
 
   @doc false
-  defp create_hero_insurance_quote_changeset(insurance_quote_chosen, attrs) do
+  defp create_hero_insurance_choice_changeset(insurance_choice, attrs) do
     attr_names = [
       :opt_in_or_out,
       :quote_price,
@@ -59,11 +59,11 @@ defmodule HeroDigital.Insurance.InsuranceQuoteChosen do
       :insurance_broker_id,
       :insurance_policy_id
     ]
-    create_changeset(insurance_quote_chosen, attrs, attr_names)
+    create_changeset(insurance_choice, attrs, attr_names)
   end
 
-  defp create_changeset(insurance_quote_chosen, attrs, attr_names) do
-    insurance_quote_chosen
+  defp create_changeset(insurance_choice, attrs, attr_names) do
+    insurance_choice
     |> cast(attrs, attr_names)
     |> validate_required(attr_names)
   end

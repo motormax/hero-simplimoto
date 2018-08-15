@@ -1,13 +1,13 @@
-defmodule HeroDigital.ExAdmin.Insurance.InsuranceQuoteChosen do
+defmodule HeroDigital.ExAdmin.Insurance.InsuranceChoice do
   use ExAdmin.Register
 
-  register_resource HeroDigital.Insurance.InsuranceQuoteChosen do
+  register_resource HeroDigital.Insurance.InsuranceChoice do
     index do
       selectable_column()
 
       column :id
-      column :lead, fn (insurance_quote_chosen) ->
-        insurance_quote_chosen.lead_id
+      column :lead, fn (insurance_choice) ->
+        insurance_choice.lead_id
       end
       column :motorcycle
       column :opt_in_or_out

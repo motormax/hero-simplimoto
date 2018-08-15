@@ -37,7 +37,7 @@ config :ex_admin,
     HeroDigital.ExAdmin.UserData.Image,
     HeroDigital.ExAdmin.Insurance.Broker,
     HeroDigital.ExAdmin.Insurance.Policy,
-    HeroDigital.ExAdmin.Insurance.InsuranceQuoteChosen,
+    HeroDigital.ExAdmin.Insurance.InsuranceChoice,
   ]
 
 config :hero_digital, basic_auth: [
