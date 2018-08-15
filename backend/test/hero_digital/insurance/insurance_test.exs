@@ -153,5 +153,16 @@ defmodule HeroDigital.InsuranceTest do
       assert Insurance.get_insurance_choice!(personal_insurance_choice.id) == personal_insurance_choice
       assert Insurance.list_insurance_choices() == [personal_insurance_choice]
     end
+
+    test "when a lead has not chosen any insurance, get by its id returns nil", %{lead: lead} do
+      assert is_nil(Insurance.get_insurance_choice_by_lead_id(lead.id))
+    end
+
+    test "when a lead has chosen an insurance, get by its id returns the one", %{motorcycle: motorcycle, lead: lead, broker: broker} do
+      hero_insurance_choices_attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
+      assert {:ok, %InsuranceChoice{} = hero_insurance_choice} = Insurance.create_insurance_choice(hero_insurance_choices_attrs)
+
+      assert Insurance.get_insurance_choice_by_lead_id(lead.id) == hero_insurance_choice
+    end
   end
 end

@@ -38,6 +38,13 @@ defmodule HeroDigital.Insurance do
   def get_insurance_choice!(id), do: Repo.get!(InsuranceChoice, id)
 
   @doc """
+  Gets a single insurance_choice by lead id
+  """
+  def get_insurance_choice_by_lead_id(lead_id) do
+    Repo.one(from iqc in InsuranceChoice, where: iqc.lead_id == ^lead_id, order_by: [desc: iqc.id], limit: 1)
+  end
+
+  @doc """
   Creates or updates (if exists another) an insurance_choice
   """
   def create_insurance_choice(attrs \\ %{}) do
@@ -50,9 +57,9 @@ defmodule HeroDigital.Insurance do
   defp get_insurance_choice_by_lead_in_attrs(attrs) do
     cond do
       Map.has_key?(attrs, :lead_id) ->
-        Repo.one(from iqc in InsuranceChoice, where: iqc.lead_id == ^attrs.lead_id, order_by: [desc: iqc.id], limit: 1)
+        get_insurance_choice_by_lead_id(attrs.lead_id)
       Map.has_key?(attrs, "lead_id") ->
-        Repo.one(from iqc in InsuranceChoice, where: iqc.lead_id == ^attrs["lead_id"], order_by: [desc: iqc.id], limit: 1)
+        get_insurance_choice_by_lead_id(attrs["lead_id"])
       true ->
         nil
     end
