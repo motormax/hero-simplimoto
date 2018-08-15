@@ -12,3 +12,11 @@ export const insuranceOptOut = () => ({
 
 export const noop = () => ({ type: 'NOOP' });
 
+export const insuranceChoiceFetched = insuranceChoice => ({
+  type: actionTypes.insuranceChoiceFetched,
+  insuranceChoice,
+});
+
+export const startedFetchingInsuranceChoice = () => ({
+  type: actionTypes.startedFetchingInsuranceChoice,
+});

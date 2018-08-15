@@ -4,10 +4,12 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
+import axios from 'axios';
 
 // import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import { registrationPrice } from './Sections/PlateRegistrationSection';
+import { startedFetchingInsuranceChoice, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 0,
@@ -16,6 +18,7 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 
 class CheckoutSummary extends Component {
   static propTypes = {
+    fetchInsuranceChoice: propTypes.func.isRequired,
     changeToSelectInsurance: propTypes.func.isRequired,
     insuranceBroker: propTypes.string,
     insurancePrice: propTypes.string,
@@ -24,6 +27,17 @@ class CheckoutSummary extends Component {
     insuranceSelected: propTypes.bool,
     insuranceOptOut: propTypes.bool,
     accessoriesPrice: propTypes.number.isRequired,
+    insuranceChoice: propTypes.shape({
+      quote_price: propTypes.number,
+      quote_policy: propTypes.string,
+      quote_more_info: propTypes.string,
+      quote_broker_name: propTypes.string,
+      quote_broker_logo_url: propTypes.string,
+      opt_in_or_out: propTypes.string,
+    }).isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
     motorcycle: propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
@@ -39,12 +53,34 @@ class CheckoutSummary extends Component {
     insuranceOptOut: false,
   };
 
+  componentDidMount() {
+    if (!this.props.insuranceChoice) {
+      this.props.fetchInsuranceChoice(this.props.lead.id);
+    }
+  }
+
   render() {
-    const {
-      motorcycle, insurancePrice, insurancePolicy, insuranceBrokerLogo,
-      insuranceBroker, changeToSelectInsurance, insuranceSelected, insuranceOptOut,
-      accessoriesPrice,
+    let {
+      insurancePrice, insurancePolicy, insuranceBrokerLogo,
+      insuranceBroker, insuranceSelected, insuranceOptOut,
     } = this.props;
+
+    const {
+      motorcycle, changeToSelectInsurance, accessoriesPrice,
+    } = this.props;
+
+    if (this.props.insuranceChoice && this.props.insuranceChoice.opt_in_or_out === 'heroInsurance') {
+      insuranceBroker = this.props.insuranceChoice.quote_broker_name;
+      insurancePrice = this.props.insuranceChoice.quote_price;
+      insurancePolicy = this.props.insuranceChoice.quote_policy;
+      insuranceBrokerLogo = this.props.insuranceChoice.quote_broker_logo_url;
+      insuranceSelected = true;
+      insuranceOptOut = false;
+    } else if (this.props.insuranceChoice && this.props.insuranceChoice.opt_in_or_out === 'personalInsurance') {
+      insuranceSelected = true;
+      insuranceOptOut = true;
+    }
+
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
     // const bankName = 'ICBC';
@@ -187,6 +223,11 @@ class CheckoutSummary extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
+  fetchInsuranceChoice: async (leadId) => {
+    dispatch(startedFetchingInsuranceChoice());
+    const { data: { data: insuranceChoice } } = await axios.get(`/api/leads/${leadId}/insurance`);
+    dispatch(insuranceChoiceFetched(insuranceChoice));
+  },
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
   },

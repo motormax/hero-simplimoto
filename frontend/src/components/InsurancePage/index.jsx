@@ -4,11 +4,8 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
-
 import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
-
 import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
-
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
 
@@ -59,7 +56,7 @@ class InsurancePage extends Component {
 
   getQuote = (event) => {
     event.preventDefault();
-    axios.get(`api/leads/${this.props.lead.id}/insurance_choices`, {
+    axios.get(`api/leads/${this.props.lead.id}/insurance_quotes`, {
       params: {
         motorcycle_id: this.props.lead.motorcycle.id,
         opt_in_or_out: this.props.optInOrOut,
@@ -265,6 +262,7 @@ const mapDispatchToProps = dispatch => ({
         insurance_policy_id: quote.policyId,
         quote_price: quote.price,
         quote_broker_name: quote.brokerName,
+        quote_broker_logo_url: quote.brokerLogo,
         quote_policy: quote.policy,
         quote_more_info: quote.moreInfo,
         query_postal_code: query.postalCode,
