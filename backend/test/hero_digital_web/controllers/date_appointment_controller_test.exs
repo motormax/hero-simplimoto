@@ -7,6 +7,8 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
   @create_attrs %{
     date: ~D[2010-04-17],
     shift: "some shift",
+    name: "some name",
+    email: "some@email.com",
     address: %{
       complements: "some complements",
       number: "some number",
@@ -43,6 +45,8 @@ defmodule HeroDigitalWeb.DateAppointmentControllerTest do
                "id" => id,
                "date" => "2010-04-17",
                "shift" => "some shift",
+               "name" => "some name",
+               "email" => "some@email.com",
                "address" => %{
                  "complements" => "some complements",
                  "number" => "some number",

@@ -33,7 +33,7 @@ class AccessoriesSection extends Component {
             <div className="accessory_item_details">
               <p className="fw-bold txt-med-gray">{t(name)}</p>
               <p className="txt-med-gray">{t('currency_sign')}
-                <span className="fw-bold">{price}</span>
+                <span className="fw-bold">{moneyFormatter.format(price)}</span>
               </p>
             </div>
           </div>);

@@ -110,7 +110,7 @@ class InsurancePage extends Component {
 
                 </Card.Content>
                 <Card.Content className="btn-displaced-container txt-center">
-                  <div className="fs-big txt-dark-gray txt-center">AR$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
+                  <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
                   <Button
                     primary
                     className="btn-displaced"
