@@ -39,7 +39,7 @@ defmodule HeroDigitalWeb.Router do
       get "/date_appointment", DateAppointmentController, :show
       post "/date_appointment", DateAppointmentController, :create
 
-      get "/insurance_choices", InsuranceController, :quote
+      get "/insurance_quotes", InsuranceController, :quote
       get "/insurance", InsuranceChoiceController, :show
       post "/insurance", InsuranceChoiceController, :create
     end
