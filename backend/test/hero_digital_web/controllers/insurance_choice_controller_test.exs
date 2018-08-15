@@ -56,6 +56,38 @@ defmodule HeroDigitalWeb.InsuranceChoiceControllerTest do
     insurance_choice
   end
 
+  def assert_personal_insurance_response(response, attrs) do
+    assert !is_nil(response["id"])
+    assert response["motorcycle_id"] == attrs.motorcycle_id
+    assert response["lead_id"] == attrs.lead_id
+    assert response["opt_in_or_out"] == attrs.opt_in_or_out
+    assert is_nil(response["insurance_policy_id"])
+    assert is_nil(response["insurance_broker_id"])
+    assert is_nil(response["query_postal_code"])
+    assert is_nil(response["query_province"])
+    assert is_nil(response["quote_price"])
+    assert is_nil(response["quote_broker_name"])
+    assert is_nil(response["quote_policy"])
+    assert is_nil(response["query_age"])
+    assert is_nil(response["quote_more_info"])
+  end
+
+  def assert_hero_insurance_response(response, attrs) do
+    assert !is_nil(response["id"])
+    assert response["motorcycle_id"] == attrs.motorcycle_id
+    assert response["lead_id"] == attrs.lead_id
+    assert response["opt_in_or_out"] == attrs.opt_in_or_out
+    assert response["insurance_policy_id"] == attrs.insurance_policy_id
+    assert response["insurance_broker_id"] == attrs.insurance_broker_id
+    assert response["query_postal_code"] == attrs.query_postal_code
+    assert response["query_province"] == attrs.query_province
+    assert Decimal.new(response["quote_price"]) == attrs.quote_price
+    assert response["quote_broker_name"] == attrs.quote_broker_name
+    assert response["quote_policy"] == attrs.quote_policy
+    assert response["query_age"] == attrs.query_age
+    assert response["quote_more_info"] == attrs.quote_more_info
+  end
+
   setup do
     motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "DASH", price: 200})
     %{motorcycle: motorcycle}
@@ -75,102 +107,69 @@ defmodule HeroDigitalWeb.InsuranceChoiceControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  describe "create or update insurance_choice" do
+  describe "create insurance_choice" do
     test "renders personal insurance_choice when data is valid", %{motorcycle: motorcycle, lead: lead, conn: conn} do
       attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: attrs
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: attrs
       response = json_response(conn, 201)["data"]
 
-      assert !is_nil(response["id"])
-      assert response["motorcycle_id"] == motorcycle.id
-      assert response["lead_id"] == lead.id
-      assert response["opt_in_or_out"] == attrs.opt_in_or_out
-      assert is_nil(response["insurance_policy_id"])
-      assert is_nil(response["insurance_broker_id"])
-      assert is_nil(response["query_postal_code"])
-      assert is_nil(response["query_province"])
-      assert is_nil(response["quote_price"])
-      assert is_nil(response["quote_broker_name"])
-      assert is_nil(response["quote_policy"])
-      assert is_nil(response["query_age"])
-      assert is_nil(response["quote_more_info"])
+      assert_personal_insurance_response(response, attrs)
     end
 
     test "renders hero insurance_choice when data is valid", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
       attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: attrs
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: attrs
       response = json_response(conn, 201)["data"]
 
-      assert !is_nil(response["id"])
-      assert response["motorcycle_id"] == attrs.motorcycle_id
-      assert response["lead_id"] == attrs.lead_id
-      assert response["opt_in_or_out"] == attrs.opt_in_or_out
-      assert response["insurance_policy_id"] == attrs.insurance_policy_id
-      assert response["insurance_broker_id"] == attrs.insurance_broker_id
-      assert response["query_postal_code"] == attrs.query_postal_code
-      assert response["query_province"] == attrs.query_province
-      assert Decimal.new(response["quote_price"]) == attrs.quote_price
-      assert response["quote_broker_name"] == attrs.quote_broker_name
-      assert response["quote_policy"] == attrs.quote_policy
-      assert response["query_age"] == attrs.query_age
-      assert response["quote_more_info"] == attrs.quote_more_info
+      assert_hero_insurance_response(response, attrs)
     end
 
     test "renders errors when data is invalid", %{lead: lead, conn: conn} do
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: %{}
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: %{}
       assert json_response(conn, 422)["errors"] != %{}
     end
 
     test "renders the updated personal_insurance_choice when a new one is chosen and the data is valid", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
       personal_insurance_choice_attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: personal_insurance_choice_attrs
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: personal_insurance_choice_attrs
       personal_insurance_choice_response = json_response(conn, 201)["data"]
 
       hero_insurance_choice_attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: hero_insurance_choice_attrs
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: hero_insurance_choice_attrs
       hero_insurance_choice_response = json_response(conn, 201)["data"]
 
-      refute hero_insurance_choice_response["id"] == personal_insurance_choice_response["id"]
       refute hero_insurance_choice_response == personal_insurance_choice_response
-      assert !is_nil(personal_insurance_choice_response["id"])
-      assert hero_insurance_choice_response["motorcycle_id"] == hero_insurance_choice_attrs.motorcycle_id
-      assert hero_insurance_choice_response["lead_id"] == hero_insurance_choice_attrs.lead_id
-      assert hero_insurance_choice_response["opt_in_or_out"] == hero_insurance_choice_attrs.opt_in_or_out
-      assert hero_insurance_choice_response["insurance_policy_id"] == hero_insurance_choice_attrs.insurance_policy_id
-      assert hero_insurance_choice_response["insurance_broker_id"] == hero_insurance_choice_attrs.insurance_broker_id
-      assert hero_insurance_choice_response["query_postal_code"] == hero_insurance_choice_attrs.query_postal_code
-      assert hero_insurance_choice_response["query_province"] == hero_insurance_choice_attrs.query_province
-      assert Decimal.new(hero_insurance_choice_response["quote_price"]) == hero_insurance_choice_attrs.quote_price
-      assert hero_insurance_choice_response["quote_broker_name"] == hero_insurance_choice_attrs.quote_broker_name
-      assert hero_insurance_choice_response["quote_policy"] == hero_insurance_choice_attrs.quote_policy
-      assert hero_insurance_choice_response["query_age"] == hero_insurance_choice_attrs.query_age
-      assert hero_insurance_choice_response["quote_more_info"] == hero_insurance_choice_attrs.quote_more_info
+      assert_hero_insurance_response(hero_insurance_choice_response, hero_insurance_choice_attrs)
     end
 
     test "renders the updated hero_insurance_choice when a new one is chosen and the data is valid", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
       hero_insurance_choice_attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: hero_insurance_choice_attrs
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: hero_insurance_choice_attrs
       hero_insurance_choice_response = json_response(conn, 201)["data"]
 
       personal_insurance_choice_attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
-      conn = post conn, lead_insurance_choice_path(conn, :create_or_update, lead.id), insurance_choice: personal_insurance_choice_attrs
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: personal_insurance_choice_attrs
       personal_insurance_choice_response = json_response(conn, 201)["data"]
 
-      refute personal_insurance_choice_response["id"] == hero_insurance_choice_response["id"]
       refute personal_insurance_choice_response == hero_insurance_choice_response
-      assert !is_nil(hero_insurance_choice_response["id"])
-      assert personal_insurance_choice_response["motorcycle_id"] == motorcycle.id
-      assert personal_insurance_choice_response["lead_id"] == lead.id
-      assert personal_insurance_choice_response["opt_in_or_out"] == personal_insurance_choice_attrs.opt_in_or_out
-      assert is_nil(personal_insurance_choice_response["insurance_policy_id"])
-      assert is_nil(personal_insurance_choice_response["insurance_broker_id"])
-      assert is_nil(personal_insurance_choice_response["query_postal_code"])
-      assert is_nil(personal_insurance_choice_response["query_province"])
-      assert is_nil(personal_insurance_choice_response["quote_price"])
-      assert is_nil(personal_insurance_choice_response["quote_broker_name"])
-      assert is_nil(personal_insurance_choice_response["quote_policy"])
-      assert is_nil(personal_insurance_choice_response["query_age"])
-      assert is_nil(personal_insurance_choice_response["quote_more_info"])
+      assert_personal_insurance_response(personal_insurance_choice_response, personal_insurance_choice_attrs)
+    end
+  end
+
+  describe "show insurance choice" do
+    test "when lead has not chosen an insurance, get it by its id returns null", %{lead: lead, conn: conn} do
+      conn = get conn, lead_insurance_choice_path(conn, :show, lead.id)
+      response = json_response(conn, 200)["data"]
+
+      assert is_nil(response)
+    end
+
+    test "when lead has chosen an insurance, get it by its id returns it", %{motorcycle: motorcycle, lead: lead, broker: broker, conn: conn} do
+      hero_insurance_choice_attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
+      conn = post conn, lead_insurance_choice_path(conn, :create, lead.id), insurance_choice: hero_insurance_choice_attrs
+      hero_insurance_choice_response = json_response(conn, 201)["data"]
+
+      assert_hero_insurance_response(hero_insurance_choice_response, hero_insurance_choice_attrs)
     end
   end
 end
