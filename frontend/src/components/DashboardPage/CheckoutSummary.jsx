@@ -6,16 +6,16 @@ import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
 
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
+import ConfirmationButton from './ConfirmationButton';
 import { registrationPrice } from './Sections/PlateRegistrationSection';
 import PurchaseCalculator from '../calculator';
 import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
 import { financingChanged } from '../../actions/financingChoices';
 
-const export moneyFormatter = new Intl.NumberFormat('es-AR', {
+export const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
-
 
 class CheckoutSummary extends Component {
   static propTypes = {
@@ -246,8 +246,7 @@ class CheckoutSummary extends Component {
           </Segment>
 
           <Card.Content className="btn-displaced-container txt-center">
-            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra
-            </Button>
+            <ConfirmationButton />
           </Card.Content>
         </Card>
 
