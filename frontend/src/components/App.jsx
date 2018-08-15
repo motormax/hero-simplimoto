@@ -14,6 +14,8 @@ import DateYourBikePage from './DateYourBikePage';
 import PlateRegistrationPage from './PlateRegistrationPage/index';
 import Footer from './Footer';
 import InsurancePage from './InsurancePage';
+import PurchaseSummaryPage from './PurchaseSummaryPage';
+
 
 import logoUrl from './hero-logo.png';
 
@@ -33,6 +35,7 @@ class App extends React.Component {
             <Route path="/date" component={DateYourBikePage} />
             <Route path="/insurance" component={InsurancePage} />
             <Route path="/plate-registration" component={PlateRegistrationPage} />
+            <Route path="/summary" component={PurchaseSummaryPage} />
           </Switch>
         </Container>
         <Footer />

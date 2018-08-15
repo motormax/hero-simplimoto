@@ -22,18 +22,18 @@ class DeliverySection extends Component {
 
   displayLegend() {
     const { delivery } = this.props;
-    if (delivery.address != null) { // llevenme la moto a mi casa
+    if (delivery.address != null) { // llevenme la moto
       return (
         <p className="txt-med-gray fs-medium">
-          Te la llevamos a {JSON.stringify(delivery.address, null, 2)}
+          Te la llevamos a {delivery.address.street}.
         </p>
       );
     }
 
-    if (delivery.pickup_location != null) { // voy al consecionario
+    if (delivery.pickup_location != null) { // voy al concesionario
       return (
         <p className="txt-med-gray fs-medium">
-          Venís a buscar la moto al consecionario {delivery.pickup_location}
+          Venís a buscar la moto al concesionario {delivery.pickup_location}.
         </p>
       );
     }
@@ -43,7 +43,6 @@ class DeliverySection extends Component {
        Decinos dónde querés recibir la moto <span className="fw-bold">¡y te la llevamos sin cargo!</span>
       </p>
     );
-    // return <h1>Datos inconsistentes: <pre>{JSON.stringify(delivery, null, 2)}</pre></h1>;
   }
 
   render() {
@@ -56,12 +55,11 @@ class DeliverySection extends Component {
     }
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: delivery.id ? '#21ba45' : color }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: delivery.id ? '#67CC4F' : color }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {delivery.id ? <Icon size="large" color="green" name="check" /> : <Icon size="large" color={color} name="arrow right" />}
-
+              {delivery.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" /> }
             </Grid.Column>
             <Grid.Column width={9}>
               <h3 className="fw-bold fs-big">
