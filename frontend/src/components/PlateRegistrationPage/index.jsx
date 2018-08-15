@@ -7,7 +7,6 @@ import axios from 'axios';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import dniImage from '../images/dni.svg';
-
 import { PERSONAL_PLATE_REGISTRATION, HERO_PLATE_REGISTRATION } from './constants';
 
 const plateRegistrationMethods = [
@@ -30,27 +29,48 @@ class PlateRegistrationPage extends Component {
     lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
-    optInOrOut: propTypes.string.isRequired,
+    plateRegistrationData: propTypes.shape({
+      opt_in_or_out: propTypes.string,
+      phone: propTypes.shape({
+        phone: propTypes.string,
+      }),
+      personal_data: propTypes.shape({
+        name: propTypes.string,
+        last_name: propTypes.string,
+        dni: propTypes.string,
+      }),
+      email: propTypes.shape({
+        email: propTypes.string,
+      }),
+      address: propTypes.shape({
+        town: propTypes.string,
+        telephone_number: propTypes.string,
+        street: propTypes.string,
+        postal_code: propTypes.string,
+        number: propTypes.string,
+        complements: propTypes.string,
+      }),
+    }).isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      optInOrOut: props.optInOrOut,
-      email: '',
-      phone: '',
+      optInOrOut: props.plateRegistrationData.opt_in_or_out,
+      email: this.isValueNullOrUndefined(props.plateRegistrationData.email) ? '' : props.plateRegistrationData.email.email,
+      phone: this.isValueNullOrUndefined(props.plateRegistrationData.phone) ? '' : props.plateRegistrationData.phone.phone,
       personalData: {
-        dni: '',
-        name: '',
-        lastName: '',
+        dni: this.isValueNullOrUndefined(props.plateRegistrationData.personal_data) ? '' : props.plateRegistrationData.personal_data.dni,
+        name: this.isValueNullOrUndefined(props.plateRegistrationData.personal_data) ? '' : props.plateRegistrationData.personal_data.name,
+        lastName: this.isValueNullOrUndefined(props.plateRegistrationData.personal_data) ? '' : props.plateRegistrationData.personal_data.last_name,
       },
       address: {
-        street: '',
-        number: '',
-        town: '',
-        complements: '',
-        postalCode: '',
-        telephoneNumber: '',
+        street: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.street,
+        number: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.number,
+        town: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.town,
+        complements: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.complements,
+        postalCode: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.postal_code,
+        telephoneNumber: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.telephone_number,
       },
       frontDniImage: {
         data: '',
@@ -81,6 +101,8 @@ class PlateRegistrationPage extends Component {
       },
     };
   }
+
+  isValueNullOrUndefined = value => value === undefined || value === null;
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -383,7 +405,7 @@ class PlateRegistrationPage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
-  optInOrOut: store.main.plateRegistrationData.optInOrOut,
+  plateRegistrationData: store.main.plateRegistrationData,
 });
 
 const mapDispatchToProps = dispatch => ({
