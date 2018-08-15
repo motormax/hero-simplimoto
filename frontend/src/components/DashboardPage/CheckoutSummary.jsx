@@ -13,7 +13,7 @@ import PurchaseCalculator from '../calculator';
 import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
 import { financingChanged } from '../../actions/financingChoices';
 
-const moneyFormatter = new Intl.NumberFormat('es-AR', {
+const export moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
@@ -331,4 +331,3 @@ const mapStateToProps = state => ({
 });
 
 export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));
-export { moneyFormatter };
