@@ -60,21 +60,14 @@
     }
   }
   .finnancial-bank{
-    width: 80%;
+    width: 90%;
     margin: auto;
-    max-width: 240px;
+    max-width: 300px;
     display: flex;
     align-items: flex-start;
-    img{
-      width: 100px;
-    }
-    .right-column{
-      width: calc(100% - 100px);
-      padding: .5em 0 0 .5em;
-      line-height: .8em;
-      .fs-large{
-        line-height: 2em;
-      }
+    justify-content: center;
+    &>*:not(:last-child){
+      margin-right: .5em;
     }
   }
 }
