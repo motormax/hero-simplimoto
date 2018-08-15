@@ -1,21 +1,59 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Card, Segment, Grid, Icon, Button } from 'semantic-ui-react';
 
-import motoImgUrl from './images/bikes/hunk-3-4-black.png';
-
-import glovesImgUrl from './images/Guantes.png';
-import helmetImgUrl from './images/Casco.png';
-import trunkImgUrl from './images/Baul.png';
+import availableAccessories from './motorcycles/availableAccessories';
+import availableColors from './motorcycles/availableColors';
 
 class PurchaseSummary extends Component {
+  static defaultProps = {
+    delivery: {},
+    insurance: {},
+    lead: {},
+  };
+
+  static propTypes = {
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }),
+    delivery: propTypes.shape({
+      id: propTypes.number.isRequired,
+    }),
+    insurance: propTypes.shape({
+      selected: propTypes.bool.isRequired,
+    }),
+    customization: propTypes.shape({
+      id: propTypes.number.isRequired,
+    }).isRequired,
+    accessories: propTypes.shape({
+      selectedAccessories: propTypes.any.isRequired,
+      totalPrice: propTypes.number.isRequired,
+    }).isRequired,
+  };
+
+  motorcycleImage = () => {
+    const { lead, customization } = this.props;
+
+    return availableColors[lead.motorcycle.name][customization.color].bikeImageURL;
+  };
+
   render() {
+    const {
+      lead, accessories, delivery, insurance,
+    } = this.props;
+
+    if (!this.props.lead.id) {
+      return <div>Cargando</div>;
+    }
+
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">Estás comprando una ...</h2>
 
         <Card className="page-column-card page-column-card_slim">
           <Segment className="bike-container" attached>
-            <img src={motoImgUrl} alt="Hunk negra" />
+            <img src={this.motorcycleImage()} alt="Hunk negra" />
           </Segment>
           <Segment attached>
             <Grid verticalAlign="middle">
@@ -23,10 +61,10 @@ class PurchaseSummary extends Component {
                 <Icon className="txt-dark-gray" size="large" name="arrow right" />
               </Grid.Column>
               <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">Hunk </h3>
+                <h3 className="fw-bold fs-big">{lead.motorcycle.name} </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>22.000</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{lead.motorcycle.price}</span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -40,15 +78,15 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Con accesorios: </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>1.200</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{accessories.totalPrice}</span>
               </Grid.Column>
             </Grid>
             <Grid>
               <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
-                <img src={glovesImgUrl} alt="Guantes" />
-                <img src={helmetImgUrl} alt="Casco" />
-                <img src={trunkImgUrl} alt="Baúl" />
+                { Object.keys(accessories.selectedAccessories).map(accesoryName =>
+                  accessories.selectedAccessories[accesoryName] &&
+                    <img src={availableAccessories[accesoryName].imgUrl} alt={accesoryName} />)}
               </Grid.Column>
             </Grid>
           </Segment>
@@ -59,7 +97,7 @@ class PurchaseSummary extends Component {
                 <Icon className="txt-dark-gray" size="large" name="arrow right" />
               </Grid.Column>
               <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">Patentamiento Online</h3>
+                <h3 className="fw-bold fs-big">Patentamiento</h3>
               </Grid.Column>
               <Grid.Column width={5}>
                 <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>3.800</span>
@@ -84,7 +122,7 @@ class PurchaseSummary extends Component {
               <Grid.Column className="details-container" width={9}>
                 <p className="txt-dark-gray">
                   <Icon name="home" />
-                  Mi dirección 1234 - Mi barrio
+                  {delivery.address.street}
                 </p>
               </Grid.Column>
             </Grid>
@@ -93,12 +131,11 @@ class PurchaseSummary extends Component {
           <Segment className="white-segment" attached>
             <Grid verticalAlign="middle">
               <Grid.Column width={2}>
-                <img width="100%" src="https://elenabeser.com/wp-content/uploads/2015/06/lock@2x.png" alt="un seguro" />
+                <img width="100%" src={insurance.brokerLogo} alt="un seguro" />
               </Grid.Column>
               <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">Seguro Pepito - Un plan</h3>
-                <div className="fs-large fs-medium txt-dark-gray">AR$ <span className="fw-bold"> 900 </span> por mes</div>
-                <div className="fs-small">Te protegemos contra todo lo que te imagines</div>
+                <h3 className="fw-bold fs-big">{insurance.broker} - {insurance.policy}</h3>
+                <div className="fs-large fs-medium txt-dark-gray">AR$ <span className="fw-bold"> {insurance.price} </span> por mes</div>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -127,5 +164,16 @@ class PurchaseSummary extends Component {
     );
   }
 }
+const mapDispatchToProps = undefined;
 
-export default PurchaseSummary;
+const mapStateToProps = store => ({
+  lead: store.main.lead,
+  financing: store.main.financing,
+  delivery: store.main.delivery,
+  insurance: store.main.insurance,
+  plateRegistration: store.main.plateRegistrationData,
+  customization: store.main.customization,
+  accessories: store.main.accessories,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PurchaseSummary);
