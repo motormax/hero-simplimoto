@@ -59,7 +59,7 @@ class InsurancePage extends Component {
 
   getQuote = (event) => {
     event.preventDefault();
-    axios.get(`api/leads/${this.props.lead.id}/insurance`, {
+    axios.get(`api/leads/${this.props.lead.id}/insurance_choices`, {
       params: {
         motorcycle_id: this.props.lead.motorcycle.id,
         opt_in_or_out: this.props.optInOrOut,
