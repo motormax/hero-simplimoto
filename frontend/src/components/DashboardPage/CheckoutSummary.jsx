@@ -147,6 +147,21 @@ class CheckoutSummary extends Component {
     const financingPeriod = this.props.financingSelected ? '/ mes' : '';
 
 
+    let financingInfo;
+    if (this.props.financingSelected) {
+      financingInfo = (
+        <div className="finnancial-bank">
+          <img src={this.props.financingForm.paymentMethodLogo} alt={this.props.financingForm.paymentMethodName} />
+          <img src={this.props.financingForm.issuerLogo} alt={this.props.financingForm.issuerName} />
+          <div>
+            <p className="fs-small">{this.props.financingForm.message}</p>
+            <p className="fs-tinny">{this.props.financingForm.costs}</p>
+          </div>
+        </div>
+      );
+    }
+
+
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -206,17 +221,7 @@ class CheckoutSummary extends Component {
               <p className="final-price">AR$<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>{financingPeriod}</p>
             </div>
 
-            <div className="finnancial-bank">
-              {/*<img src={bankImage} alt={bankName} />*/}
-              <div className="right-column txt-dark-gray">
-                <p className="fw-bold fs-small">
-                  <img src={this.props.financingForm.paymentMethodLogo} alt={this.props.financingForm.paymentMethodName} /> - 
-                  <img src={this.props.financingForm.issuerLogo} alt={this.props.financingForm.issuerName} />
-                </p>
-                <p className="fs-tinny">{this.props.financingForm.message}-</p>
-                <p className="fs-large">{this.props.financingForm.costs}</p>
-              </div>
-            </div>
+            {financingInfo}
 
           </Card.Content>
 
