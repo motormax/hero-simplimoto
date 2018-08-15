@@ -5,8 +5,11 @@ import { Button, Form, Message, Grid, Card, Segment } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
 import propTypes from 'prop-types';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import dniImage from '../images/dni.svg';
+import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSection';
+import { moneyFormatter } from '../DashboardPage/CheckoutSummary';
 import { PERSONAL_PLATE_REGISTRATION, HERO_PLATE_REGISTRATION } from './constants';
 
 const plateRegistrationMethods = [
@@ -187,6 +190,17 @@ class PlateRegistrationPage extends Component {
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
+
+    const frontButtonStyles = classNames(
+      'ui button btn-outline',
+      this.state.frontDniImage.name ? 'btn-green' : 'primary',
+    );
+
+    const backButtonStyles = classNames(
+      'ui button btn-outline',
+      this.state.backDniImage.name ? 'btn-green' : 'primary',
+    );
+
     const personalDataFormGroup = (
       <Form>
         <Form.Input
@@ -297,26 +311,22 @@ class PlateRegistrationPage extends Component {
                 </Grid.Column>
                 <Grid.Column width={7}>
                   <div className="required field">
-                    <label className="ui button primary btn-outline" htmlFor="frontDni">
-                      <i className="upload icon" />
-                      Imagen frontal DNI
+                    <label className={frontButtonStyles} htmlFor="frontDni">
+                      { this.state.frontDniImage.name ?
+                        <span>{this.state.frontDniImage.name}</span> :
+                        <span> <i className="upload icon" /> Imagen frontal DNI</span>
+                      }
                     </label>
                     <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
-                    { this.state.frontDniImage.name ?
-                      <div>{this.state.frontDniImage.name}</div> :
-                      <div>Falta cargar imagen</div>
-                    }
                   </div>
                   <div className="required field">
-                    <label className="ui button primary btn-outline" htmlFor="backDni">
-                      <i className="upload icon" />
-                      Imagen trasera DNI
+                    <label className={backButtonStyles} htmlFor="backDni">
+                      { this.state.backDniImage.name ?
+                        <span>{this.state.backDniImage.name}</span> :
+                        <span> <i className="upload icon" /> Imagen dorso DNI</span>
+                      }
                     </label>
                     <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
-                    { this.state.backDniImage.name ?
-                      <div>{this.state.backDniImage.name}</div> :
-                      <div>Falta cargar imagen</div>
-                    }
                   </div>
                 </Grid.Column>
               </Grid.Row>
@@ -376,7 +386,7 @@ class PlateRegistrationPage extends Component {
           necesaria para realizar el trámite.
         </p>
         <p className="fs-big txt-dark-gray txt-center">
-          El patentamiento tiene un costo de AR$ <span className="fw-bold">3,800</span> que se
+          El patentamiento tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(registrationPrice)}</span> que se
           incorporan a la financiación. El tramite lo gestionará <span className="fw-bold">integramente</span> Hero, y solo se requerirá una
           <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto.
         </p>
