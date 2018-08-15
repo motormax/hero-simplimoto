@@ -391,7 +391,9 @@ const mapDispatchToProps = dispatch => ({
     await axios.post(
       `/api/leads/${leadId}/plate_registration/`,
       {
-        opt_in_or_out: PERSONAL_PLATE_REGISTRATION,
+        plate_registration_data: {
+          opt_in_or_out: PERSONAL_PLATE_REGISTRATION,
+        },
       },
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
