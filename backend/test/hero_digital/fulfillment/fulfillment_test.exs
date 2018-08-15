@@ -50,10 +50,6 @@ defmodule HeroDigital.FulfillmentTest do
       assert HeroDigital.Identity.get_lead(lead.id) != nil
     end
 
-    test "is_ready_to_purchase/0 always returns true for a given id", %{lead: lead} do
-      assert Fulfillment.is_ready_to_purchase(lead)
-    end
-
   #   test "create_purchase_order/1 with invalid data returns error changeset" do
   #     assert {:error, %Ecto.Changeset{}} = Fulfillment.create_purchase_order(@invalid_attrs)
   #   end
