@@ -63,13 +63,9 @@ defmodule HeroDigital.PlateRegistration do
   def create_plate_registration_data(attrs \\ %{}) do
     old_plate_registration_data = get_plate_registration_data_for_update(attrs)
     new_plate_registration_data_attrs = get_plate_registration_attrs_by_opt_in_or_out(attrs)
-
-    changeset =
-    %PlateRegistrationData{}
-    |> PlateRegistrationData.changeset(new_plate_registration_data_attrs)
-
-    delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, changeset)
-    create_plate_registration_data_by_changeset(changeset)
+    plate_registration_data_changeset = get_plate_registration_data_changeset(new_plate_registration_data_attrs)
+    delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, plate_registration_data_changeset)
+    create_plate_registration_data_by_changeset(plate_registration_data_changeset)
   end
 
   defp get_plate_registration_data_for_update(attrs) do
@@ -88,6 +84,11 @@ defmodule HeroDigital.PlateRegistration do
       true ->
         attrs
     end
+  end
+
+  defp get_plate_registration_data_changeset(attrs) do
+    %PlateRegistrationData{}
+    |> PlateRegistrationData.changeset(attrs)
   end
 
   defp is_creating_hero_plate_registration(attrs) do
@@ -115,14 +116,14 @@ defmodule HeroDigital.PlateRegistration do
     end
   end
 
-  defp delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, changeset) do
-    if !is_nil(old_plate_registration_data) and changeset.valid? do
+  defp delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, plate_registration_data_changeset) do
+    if !is_nil(old_plate_registration_data) and plate_registration_data_changeset.valid? do
       delete_plate_registration_data(old_plate_registration_data)
     end
   end
 
-  defp create_plate_registration_data_by_changeset(changeset) do
-    with {:ok, new_plate_registration_data} <- Repo.insert(changeset) do
+  defp create_plate_registration_data_by_changeset(plate_registration_data_changeset) do
+    with {:ok, new_plate_registration_data} <- Repo.insert(plate_registration_data_changeset) do
       {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address])}
     end
   end
