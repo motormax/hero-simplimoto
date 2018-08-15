@@ -6,7 +6,6 @@ import { Button } from 'semantic-ui-react';
 
 class ConfirmationButton extends Component {
   static defaultProps = {
-
     financing: {},
     delivery: {},
     plateRegistration: {},
