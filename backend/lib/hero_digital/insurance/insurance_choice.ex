@@ -9,6 +9,7 @@ defmodule HeroDigital.Insurance.InsuranceChoice do
     field :opt_in_or_out, :string
     field :quote_price, :decimal
     field :quote_broker_name, :string
+    field :quote_broker_logo_url, :string
     field :quote_policy, :string
     field :quote_more_info, :string
     field :query_province, :string
@@ -49,6 +50,7 @@ defmodule HeroDigital.Insurance.InsuranceChoice do
       :opt_in_or_out,
       :quote_price,
       :quote_broker_name,
+      :quote_broker_logo_url,
       :quote_policy,
       :quote_more_info,
       :query_province,

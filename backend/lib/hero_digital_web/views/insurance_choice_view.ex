@@ -16,6 +16,7 @@ defmodule HeroDigitalWeb.InsuranceChoiceView do
       opt_in_or_out: insurance_choice.opt_in_or_out,
       quote_price: insurance_choice.quote_price,
       quote_broker_name: insurance_choice.quote_broker_name,
+      quote_broker_logo_url: insurance_choice.quote_broker_logo_url,
       quote_policy: insurance_choice.quote_policy,
       quote_more_info: insurance_choice.quote_more_info,
       query_province: insurance_choice.query_province,

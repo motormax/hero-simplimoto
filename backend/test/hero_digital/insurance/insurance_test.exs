@@ -49,6 +49,7 @@ defmodule HeroDigital.InsuranceTest do
         query_province: @query_province,
         quote_price: policy.price,
         quote_broker_name: broker.name,
+        quote_broker_logo_url: broker.logo_url,
         quote_policy: policy.name,
         quote_more_info: policy.details
       }
@@ -78,6 +79,7 @@ defmodule HeroDigital.InsuranceTest do
       assert insurance_choice.opt_in_or_out == @personal_insurance
       assert is_nil(insurance_choice.quote_price)
       assert is_nil(insurance_choice.quote_broker_name)
+      assert is_nil(insurance_choice.quote_broker_logo_url)
       assert is_nil(insurance_choice.quote_policy)
       assert is_nil(insurance_choice.quote_more_info)
       assert is_nil(insurance_choice.query_province)
@@ -96,6 +98,7 @@ defmodule HeroDigital.InsuranceTest do
       assert insurance_choice.opt_in_or_out == @hero_insurance
       assert insurance_choice.quote_price == attrs.quote_price
       assert insurance_choice.quote_broker_name == broker.name
+      assert insurance_choice.quote_broker_logo_url == broker.logo_url
       assert insurance_choice.quote_policy == attrs.quote_policy
       assert insurance_choice.quote_more_info == attrs.quote_more_info
       assert insurance_choice.query_province == @query_province

@@ -46,6 +46,7 @@ defmodule HeroDigitalWeb.InsuranceChoiceControllerTest do
       query_province: @query_province,
       quote_price: policy.price,
       quote_broker_name: broker.name,
+      quote_broker_logo_url: broker.logo_url,
       quote_policy: policy.name,
       quote_more_info: policy.details
     }
@@ -67,6 +68,7 @@ defmodule HeroDigitalWeb.InsuranceChoiceControllerTest do
     assert is_nil(response["query_province"])
     assert is_nil(response["quote_price"])
     assert is_nil(response["quote_broker_name"])
+    assert is_nil(response["quote_broker_logo_url"])
     assert is_nil(response["quote_policy"])
     assert is_nil(response["query_age"])
     assert is_nil(response["quote_more_info"])
@@ -83,6 +85,7 @@ defmodule HeroDigitalWeb.InsuranceChoiceControllerTest do
     assert response["query_province"] == attrs.query_province
     assert Decimal.new(response["quote_price"]) == attrs.quote_price
     assert response["quote_broker_name"] == attrs.quote_broker_name
+    assert response["quote_broker_logo_url"] == attrs.quote_broker_logo_url
     assert response["quote_policy"] == attrs.quote_policy
     assert response["query_age"] == attrs.query_age
     assert response["quote_more_info"] == attrs.quote_more_info
