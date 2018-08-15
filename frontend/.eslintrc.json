@@ -3,6 +3,8 @@
   "parser": "babel-eslint",
   "rules": {
     // class modules are there to add propTypes as static class properties
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    // this rule was deprecated by eslint
+    "jsx-a11y/label-has-for": "off"
   }
 }

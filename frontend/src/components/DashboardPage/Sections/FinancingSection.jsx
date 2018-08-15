@@ -30,9 +30,7 @@ class FinancingSection extends Component {
 
     const buttonActionLabel = this.props.financingSelected ? 'Cambiar' : 'Seleccionar';
 
-    const buttonActionStyle = classNames(
-      this.props.financingSelected ? 'secondary btn-outline' : 'primary',
-    );
+    const buttonActionStyle = classNames(this.props.financingSelected ? 'secondary btn-outline' : 'primary');
 
 
     return (
@@ -40,7 +38,7 @@ class FinancingSection extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {this.props.financingSelected ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color='red' name="arrow right" />}
+              {this.props.financingSelected ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color="red" name="arrow right" />}
             </Grid.Column>
             <Grid.Column width={10}>
               <h3 className="fw-bold fs-big">{t('financing')}</h3>
