@@ -59,7 +59,7 @@ class DateYourBikeSection extends Component {
               <p className={textStyle}>
                 { appointment.id ?
                 `Te llevamos la moto ${moment(appointment.date).locale('es').fromNow()} a ${appointment.address.street}` :
-                "Te arreglamos una 'cita a ciegas' en tu casa"
+                "Te arreglamos una 'cita a ciegas' donde quieras"
               }
               </p>
             </Grid.Column>

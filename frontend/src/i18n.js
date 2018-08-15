@@ -22,7 +22,7 @@ export default i18next.init({
         buy: 'Comprar',
         live_tour: 'Tour en vivo',
         appointment: 'Arreglá una cita',
-        currency_sign: 'AR$',
+        currency_sign: '$',
         month: 'mes',
       },
       footer: {
@@ -52,10 +52,10 @@ export default i18next.init({
       dashboard: {
         dashboard: 'Dashboard',
         good_choice: '¡Buena elección!',
-        header_intro: 'Estás a pocos pasos de tener la moto en tu casa',
+        header_intro: 'Estás a pocos pasos de tener la moto en tus manos',
       },
       bikeModelSection: {
-        currency_sign: 'AR$',
+        currency_sign: '$',
         change_model: 'Cambiar modelo',
         live_tour: 'Tour en vivo',
         moto_specs: 'Ficha técnica',
@@ -65,13 +65,13 @@ export default i18next.init({
       },
       accessories_section: {
         accessories: '¿Qué accesorios te interesan?',
-        currency_sign: 'AR$',
+        currency_sign: '$',
         gloves: 'Guantes',
         helmet: 'Casco',
         trunk: 'Baúl',
       },
       plateRegistration: {
-        currency_sign: 'AR$',
+        currency_sign: '$',
         plate_registration: '¿Cómo querés patentarla?',
       },
     },

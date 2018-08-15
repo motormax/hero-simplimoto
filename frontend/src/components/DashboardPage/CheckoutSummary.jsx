@@ -171,7 +171,7 @@ class CheckoutSummary extends Component {
             <List className="summary-list" verticalAlign="middle">
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(bikePrice)}</span>
                 </List.Content>
                 <List.Content>{bikeDisplayName}</List.Content>
@@ -185,7 +185,7 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(accessoriesPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
@@ -193,7 +193,7 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(registrationPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
@@ -218,7 +218,7 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">AR$<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>{financingPeriod}</p>
+              <p className="final-price">$<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>{financingPeriod}</p>
             </div>
 
             {financingInfo}

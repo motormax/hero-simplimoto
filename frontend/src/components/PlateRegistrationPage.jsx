@@ -263,16 +263,6 @@ class PlateRegistrationPage extends Component {
         <Form.Input
           fluid
           required
-          label="Piso/Depto"
-          type="text"
-          name="complements"
-          value={this.state.address.complements}
-          error={this.state.errors.complements}
-          onChange={this.handleAddressDataChange}
-        />
-        <Form.Input
-          fluid
-          required
           label="Código postal"
           type="text"
           name="postalCode"
@@ -313,7 +303,7 @@ class PlateRegistrationPage extends Component {
           necesaria para realizar el trámite.
         </p>
         <p className="fs-big txt-dark-gray txt-center">
-          El patentamiento tiene un costo de AR$ <span className="fw-bold">{moneyFormatter.format(registrationPrice)}</span> que se
+          El patentamiento tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(registrationPrice)}</span> que se
           incorporan a la financiación. El tramite lo gestionará <span className="fw-bold">integramente</span> Hero, y solo se requerirá una
           <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto.
         </p>
@@ -349,7 +339,7 @@ class PlateRegistrationPage extends Component {
                       <label className={backButtonStyles} htmlFor="backDni">
                         { this.state.backDniImage.name ?
                           <span>{this.state.backDniImage.name}</span> :
-                          <span> <i className="upload icon" /> Imagen frontal DNI</span>
+                          <span> <i className="upload icon" /> Imagen dorso DNI</span>
                         }
                       </label>
                       <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
