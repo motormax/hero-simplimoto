@@ -39,6 +39,10 @@ defmodule HeroDigital.Identity do
     Repo.get!(Lead, id)
     |> Repo.preload(:motorcycle)
   end
+  def get_lead(id) do
+    Repo.get(Lead, id)
+    |> Repo.preload(:motorcycle)
+  end
 
   @doc """
   Creates a lead.
