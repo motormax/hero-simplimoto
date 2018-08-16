@@ -21,7 +21,6 @@ export const moneyFormatter = new Intl.NumberFormat('es-AR', {
 class CheckoutSummary extends Component {
   static propTypes = {
     changeToSelectInsurance: propTypes.func.isRequired,
-    changeToSelectPayment: propTypes.func.isRequired,
     changeFinancing: propTypes.func.isRequired,
     insuranceBroker: propTypes.string,
     insurancePrice: propTypes.string,
@@ -94,8 +93,8 @@ class CheckoutSummary extends Component {
   render() {
     const {
       motorcycle, insurancePrice, insurancePolicy, insuranceBrokerLogo,
-      insuranceBroker, changeToSelectInsurance, changeToSelectPayment, insuranceSelected, insuranceOptOut,
-      accessoriesPrice,
+      insuranceBroker, changeToSelectInsurance, insuranceSelected,
+      insuranceOptOut, accessoriesPrice,
     } = this.props;
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
@@ -152,10 +151,6 @@ class CheckoutSummary extends Component {
       );
     }
 
-    const financingAmount = this.props.financingSelected ?
-      this.props.financingForm.monthlyAmount :
-      this.calculator().totalAmount();
-
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -211,11 +206,12 @@ class CheckoutSummary extends Component {
               </List.Item>
             </List>
 
-            <FinancingInfo 
-              financingSelected={this.props.financingSelected} 
-              financingForm={this.props.financingForm} 
+            <FinancingInfo
+              financingSelected={this.props.financingSelected}
+              financingForm={this.props.financingForm}
               accessoriesPrice={this.props.accessoriesPrice}
-              motorcycle={this.props.motorcycle} />
+              motorcycle={this.props.motorcycle}
+            />
 
           </Card.Content>
 
@@ -236,9 +232,6 @@ class CheckoutSummary extends Component {
 const mapDispatchToProps = dispatch => ({
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
-  },
-  changeToSelectPayment: () => {
-    dispatch(push('/payment'));
   },
   changeFinancing: async (financingForm) => {
     dispatch(financingChanged(financingForm));

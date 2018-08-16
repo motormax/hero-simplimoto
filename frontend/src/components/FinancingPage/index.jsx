@@ -15,7 +15,7 @@ import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSe
 
 class FinancingPage extends Component {
   static propTypes = {
-    motorcyclePrice: propTypes.number.isRequired,    
+    motorcyclePrice: propTypes.number.isRequired,
     accessoriesPrice: propTypes.number.isRequired,
     selectFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
@@ -255,7 +255,7 @@ class FinancingPage extends Component {
         <p className="fs-huge txt-med-gray txt-center">Elegí el metodo de financiación más conveniente.</p>
         <Card className="page-column-card financing-page">
           <Form onSubmit={this.handleSubmit} error={error}>
-            {/* 
+            {/*
             Reemplazar con pagar por transferencia
               <Form.Field>
               <Form.Select
