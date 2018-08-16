@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
 import availableAccessories from './motorcycles/availableAccessories';
 import availableColors from './motorcycles/availableColors';
@@ -64,7 +65,10 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">{lead.motorcycle.name} </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{lead.motorcycle.price}</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray">
+                  <span className="fw-normal">AR$ </span>
+                  {moneyFormatter.format(lead.motorcycle.price)}
+                </span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -78,7 +82,10 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Con accesorios: </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{accessories.totalPrice}</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray">
+                  <span className="fw-normal">AR$ </span>
+                  {moneyFormatter.format(accessories.totalPrice)}
+                </span>
               </Grid.Column>
             </Grid>
             <Grid>
@@ -100,7 +107,10 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Patentamiento</h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>3.800</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray">
+                  <span className="fw-normal">AR$ </span>
+                  {moneyFormatter.format(3800)}
+                </span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -135,7 +145,9 @@ class PurchaseSummary extends Component {
               </Grid.Column>
               <Grid.Column width={9}>
                 <h3 className="fw-bold fs-big">{insurance.broker} - {insurance.policy}</h3>
-                <div className="fs-large fs-medium txt-dark-gray">AR$ <span className="fw-bold"> {insurance.price} </span> por mes</div>
+                <div className="fs-large fs-medium txt-dark-gray">
+                  {'AR$ '}
+                  <span className="fw-bold">{moneyFormatter.format(insurance.price)}</span> por mes</div>
               </Grid.Column>
             </Grid>
           </Segment>
