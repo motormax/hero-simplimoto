@@ -14,7 +14,7 @@ import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSe
 
 class FinancingPage extends Component {
   static propTypes = {
-    motorcyclePrice: propTypes.string.isRequired,    
+    motorcyclePrice: propTypes.number.isRequired,    
     accessoriesPrice: propTypes.number.isRequired,
     selectFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
@@ -51,7 +51,6 @@ class FinancingPage extends Component {
   calculator = () => new PurchaseCalculator(this.props.motorcyclePrice, this.props.accessoriesPrice, registrationPrice);
 
   handleSDKLoaded = () => {
-    window.Mercadopago.setPublishableKey(process.env.REACT_APP_MERCADO_LIBRE_KEY);
     window.Mercadopago.getAllPaymentMethods(this.fetchPaymentMethodsCallback);
   };
 
@@ -142,8 +141,8 @@ class FinancingPage extends Component {
   };
 
   disableContinueButton = () => {
-    return (this.state.financingForm.issuerId.length == 0 &&
-      this.state.installmentOptions.length == 0);
+    return (this.state.financingForm.issuerId.length === 0 &&
+      this.state.installmentOptions.length === 0);
   }
 
   handleInstallmentSelected = (e, { value }) => {
@@ -247,7 +246,9 @@ class FinancingPage extends Component {
         <p className="fs-huge txt-med-gray txt-center">Elegí el metodo de financiación más conveniente.</p>
         <Card className="page-column-card financing-page">
           <Form onSubmit={this.handleSubmit} error={error}>
-            <Form.Field>
+            {/* 
+            Reemplazar con pagar por transferencia
+              <Form.Field>
               <Form.Select
                 fluid
                 search
@@ -258,7 +259,7 @@ class FinancingPage extends Component {
                 onChange={this.handlePaymentMethodChange}
                 className="fs-big"
               />
-            </Form.Field>
+            </Form.Field> */}
 
             {creditCardOptions}
             {issuerDropdown}

@@ -10,6 +10,7 @@ import { registrationPrice } from './Sections/PlateRegistrationSection';
 import PurchaseCalculator from '../calculator';
 import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
 import { financingChanged } from '../../actions/financingChoices';
+import FinancingInfo from './Sections/FinancingInfo';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
@@ -20,6 +21,7 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 class CheckoutSummary extends Component {
   static propTypes = {
     changeToSelectInsurance: propTypes.func.isRequired,
+    changeToSelectPayment: propTypes.func.isRequired,
     changeFinancing: propTypes.func.isRequired,
     insuranceBroker: propTypes.string,
     insurancePrice: propTypes.string,
@@ -60,6 +62,7 @@ class CheckoutSummary extends Component {
   calculator = () => new PurchaseCalculator(this.props.motorcycle.price, this.props.accessoriesPrice, registrationPrice);
 
   componentDidUpdate(prevProps) {
+    // TODO: Missing registration price prop!!
     if (this.props.accessoriesPrice !== prevProps.accessoriesPrice && this.props.financingSelected) {
       getInstallments(this.props.financingForm.paymentMethodId, 
         this.props.financingForm.issuerId, 
@@ -87,7 +90,7 @@ class CheckoutSummary extends Component {
   render() {
     const {
       motorcycle, insurancePrice, insurancePolicy, insuranceBrokerLogo,
-      insuranceBroker, changeToSelectInsurance, insuranceSelected, insuranceOptOut,
+      insuranceBroker, changeToSelectInsurance, changeToSelectPayment, insuranceSelected, insuranceOptOut,
       accessoriesPrice,
     } = this.props;
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
@@ -146,22 +149,6 @@ class CheckoutSummary extends Component {
 
     const financingPeriod = this.props.financingSelected ? '/ mes' : '';
 
-
-    let financingInfo;
-    if (this.props.financingSelected) {
-      financingInfo = (
-        <div className="finnancial-bank">
-          <img src={this.props.financingForm.paymentMethodLogo} alt={this.props.financingForm.paymentMethodName} />
-          <img src={this.props.financingForm.issuerLogo} alt={this.props.financingForm.issuerName} />
-          <div>
-            <p className="fs-small">{this.props.financingForm.message}</p>
-            <p className="fs-tinny">{this.props.financingForm.costs}</p>
-          </div>
-        </div>
-      );
-    }
-
-
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -217,11 +204,11 @@ class CheckoutSummary extends Component {
               </List.Item>
             </List>
 
-            <div>
-              <p className="final-price">$<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>{financingPeriod}</p>
-            </div>
-
-            {financingInfo}
+            <FinancingInfo 
+              financingSelected={this.props.financingSelected} 
+              financingForm={this.props.financingForm} 
+              accessoriesPrice={this.props.accessoriesPrice}
+              motorcycle={this.props.motorcycle} />
 
           </Card.Content>
 
@@ -230,7 +217,7 @@ class CheckoutSummary extends Component {
           </Segment>
 
           <Card.Content className="btn-displaced-container txt-center">
-            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra
+            <Button className="btn-displaced" size="huge" primary onClick={() => changeToSelectPayment()}>Preparar la compra
             </Button>
           </Card.Content>
         </Card>
@@ -243,6 +230,9 @@ class CheckoutSummary extends Component {
 const mapDispatchToProps = dispatch => ({
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
+  },
+  changeToSelectPayment: () => {
+    dispatch(push('/payment'));
   },
   changeFinancing: async (financingForm) => {
     dispatch(financingChanged(financingForm));

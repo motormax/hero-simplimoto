@@ -17,6 +17,7 @@ import InsurancePage from './InsurancePage';
 import FinancingPage from './FinancingPage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
 
+import CreditCardPayment from './CreditCardPayment';
 
 import logoUrl from './hero-logo.png';
 
@@ -38,6 +39,7 @@ class App extends React.Component {
             <Route path="/plate-registration" component={PlateRegistrationPage} />
             <Route path="/financing" component={FinancingPage} />
             <Route path="/summary" component={PurchaseSummaryPage} />
+            <Route path="/payment" component={CreditCardPayment} />
           </Switch>
         </Container>
         <Footer />

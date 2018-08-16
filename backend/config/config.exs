@@ -56,3 +56,5 @@ import_config "#{Mix.env}.exs"
 
 config :xain, :after_callback, {Phoenix.HTML, :raw}
 
+config :hero_digital, HeroDigital.Payment.PaymentGateway,
+    access_token: "TEST-2967169128065610-071611-0ac69385bc9ecb6880ec6ab4d51a4d39-337070952"

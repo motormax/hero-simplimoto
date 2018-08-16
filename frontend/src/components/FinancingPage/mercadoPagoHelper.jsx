@@ -3,11 +3,27 @@ import scriptjs from 'scriptjs';
 const mercadopagoScriptUrl = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js';
 
 export async function loadSDK(callback) {
-  scriptjs(mercadopagoScriptUrl, callback);
+  scriptjs(mercadopagoScriptUrl, () => { 
+    loadSDKCallback(callback)
+  });
+}
+
+function loadSDKCallback(callback) {
+  window.Mercadopago.setPublishableKey(process.env.REACT_APP_MERCADO_LIBRE_KEY);
+  callback();
 }
 
 export function filterInstallmentLabels(labels) {
   return labels.filter(l => l.startsWith('CFT')).join(' ');
+}
+
+export async function getPaymentMethod(creditCardNumber, callback) {
+  const bin = creditCardNumber.replace(/[ _.-]/g, '').slice(0, 6);
+  if (bin.length >= 6) {
+    window.Mercadopago.getPaymentMethod({
+      "bin": bin
+    }, callback);
+  }
 }
 
 export async function getInstallments(paymentMethodId, issuerId, amount, callback) {
