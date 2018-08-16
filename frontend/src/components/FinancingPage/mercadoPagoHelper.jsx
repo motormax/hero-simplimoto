@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import scriptjs from 'scriptjs';
 
 const mercadopagoScriptUrl = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js';
@@ -30,7 +31,7 @@ export async function getInstallments(paymentMethodId, issuerId, amount, callbac
   window.Mercadopago.getInstallments(
     {
       issuer_id: issuerId,
-      amount: amount,
+      amount,
       payment_method_id: paymentMethodId,
     },
     callback,

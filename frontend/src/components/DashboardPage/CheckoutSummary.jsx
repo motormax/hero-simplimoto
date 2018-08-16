@@ -59,23 +59,27 @@ class CheckoutSummary extends Component {
     insuranceOptOut: false,
   };
 
-  calculator = () => new PurchaseCalculator(this.props.motorcycle.price, this.props.accessoriesPrice, registrationPrice);
-
-  componentDidUpdate(prevProps) {
-    // TODO: Missing registration price prop!!
-    if (this.props.accessoriesPrice !== prevProps.accessoriesPrice && this.props.financingSelected) {
-      getInstallments(this.props.financingForm.paymentMethodId, 
-        this.props.financingForm.issuerId, 
-        this.calculator().totalAmount(), 
-        this.fetchInstallmentsCallback);
+  componentDidUpdate({ accessoriesPrice }) {
+    if (this.props.accessoriesPrice !== accessoriesPrice && this.props.financingSelected) {
+      getInstallments(
+        this.props.financingForm.paymentMethodId,
+        this.props.financingForm.issuerId,
+        this.calculator().totalAmount(),
+        this.fetchInstallmentsCallback,
+      );
     }
   }
-  
+
+  calculator = () => {
+    const { motorcycle, accessoriesPrice } = this.props;
+    return new PurchaseCalculator(motorcycle.price, accessoriesPrice, registrationPrice);
+  };
+
   fetchInstallmentsCallback = (status, response) => {
     if (status === 200) {
       response.forEach((installment) => {
         installment.payer_costs.forEach((costs) => {
-          if (this.props.financingForm.installments == costs.installments) {
+          if (this.props.financingForm.installments === costs.installments) {
             this.props.changeFinancing({
               message: costs.recommended_message,
               costs: filterInstallmentLabels(costs.labels),
@@ -122,7 +126,12 @@ class CheckoutSummary extends Component {
             onClick={() => changeToSelectInsurance()}
           >Cambiar
           </Button>
-          <div className="margin-top-tinny txt-med-gray txt-center">{insurancePolicy ? 'Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto' : ''}</div>
+          <div className="margin-top-tinny txt-med-gray txt-center">
+            {insurancePolicy ?
+              'Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto'
+              : ''
+            }
+          </div>
         </div>
       );
     } else {
@@ -146,8 +155,6 @@ class CheckoutSummary extends Component {
     const financingAmount = this.props.financingSelected ?
       this.props.financingForm.monthlyAmount :
       this.calculator().totalAmount();
-
-    const financingPeriod = this.props.financingSelected ? '/ mes' : '';
 
     return (
       <div className="checkoutSummary">

@@ -42,8 +42,14 @@ class FinancingInfo extends Component {
         if (this.props.financingSelected) {
             financingInfo = (
                 <div className="finnancial-bank">
-                    <img src={this.props.financingForm.paymentMethodLogo} alt={this.props.financingForm.paymentMethodName} />
-                    <img src={this.props.financingForm.issuerLogo} alt={this.props.financingForm.issuerName} />
+                    <img 
+                        src={this.props.financingForm.paymentMethodLogo} 
+                        alt={this.props.financingForm.paymentMethodName} 
+                    />
+                    <img 
+                        src={this.props.financingForm.issuerLogo} 
+                        alt={this.props.financingForm.issuerName} 
+                    />
                     <div>
                         <p className="fs-small">{this.props.financingForm.message}</p>
                         <p className="fs-tinny">{this.props.financingForm.costs}</p>

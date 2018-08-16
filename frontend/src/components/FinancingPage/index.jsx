@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -31,7 +32,6 @@ class FinancingPage extends Component {
 
   constructor(props) {
     super(props);
-    this.paymentMethodForm = React.createRef();    
     this.state = {
       paymentMethodOptions: [],
       issuerOptions: [],
@@ -42,13 +42,15 @@ class FinancingPage extends Component {
       },
     };
   }
-  
-  
+
   componentDidMount() {
     loadSDK(this.handleSDKLoaded);
   }
-  
-  calculator = () => new PurchaseCalculator(this.props.motorcyclePrice, this.props.accessoriesPrice, registrationPrice);
+
+  calculator = () => {
+    const { motorcyclePrice, accessoriesPrice } = this.props;
+    return new PurchaseCalculator(motorcyclePrice, accessoriesPrice, registrationPrice);
+  };
 
   handleSDKLoaded = () => {
     window.Mercadopago.getAllPaymentMethods(this.fetchPaymentMethodsCallback);
@@ -64,7 +66,10 @@ class FinancingPage extends Component {
       }));
       this.setState({ paymentMethodOptions: paymentMethods });
       if (this.props.financingSelected) {
-        window.Mercadopago.getIssuers(this.state.financingForm.paymentMethodId, this.fetchIssuerCallback);
+        window.Mercadopago.getIssuers(
+          this.state.financingForm.paymentMethodId,
+          this.fetchIssuerCallback,
+        );
       }
     }
   };
@@ -79,10 +84,12 @@ class FinancingPage extends Component {
       }));
       this.setState({ issuerOptions: issuers });
       if (this.props.financingSelected) {
-        getInstallments(this.state.financingForm.paymentMethodId, 
-          this.state.financingForm.issuerId, 
-          this.calculator().totalAmount(), 
-          this.fetchInstallmentsCallback);        
+        getInstallments(
+          this.state.financingForm.paymentMethodId,
+          this.state.financingForm.issuerId,
+          this.calculator().totalAmount(),
+          this.fetchInstallmentsCallback,
+        );
       }
     }
   };
@@ -140,10 +147,8 @@ class FinancingPage extends Component {
     );
   };
 
-  disableContinueButton = () => {
-    return (this.state.financingForm.issuerId.length === 0 &&
-      this.state.installmentOptions.length === 0);
-  }
+  disableContinueButton = () => (
+    this.state.financingForm.issuerId.length === 0 && this.state.installmentOptions.length === 0);
 
   handleInstallmentSelected = (e, { value }) => {
     const newData = this.state.financingForm;
@@ -206,27 +211,31 @@ class FinancingPage extends Component {
       );
     }
 
-      let creditCardList =
-        this.state.paymentMethodOptions.map(creditCardItem => {
+    const creditCardList =
+        this.state.paymentMethodOptions.map((creditCardItem) => {
           const activeBtn = classNames(
-            "square-btn",
-            this.state.financingForm.paymentMethodId === creditCardItem.value ? "active" : " ",
+            'square-btn',
+            this.state.financingForm.paymentMethodId === creditCardItem.value ? 'active' : ' ',
           );
           const activeTxt = classNames(
-            "txt-center fs-small",
-            this.state.financingForm.paymentMethodId === creditCardItem.value ? "txt-green" : " ",
+            'txt-center fs-small',
+            this.state.financingForm.paymentMethodId === creditCardItem.value ? 'txt-green' : ' ',
           );
-          return <label className="square-item">
-            <Radio
-              style={{ display: 'none' }}
-              name='creditCardList'
-              value={creditCardItem.value}
-              checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
-              onChange={this.handlePaymentMethodChange}
-            />
-            <div className={activeBtn}><img src={creditCardItem.image.src} /></div>
-            <p className={activeTxt}>{creditCardItem.text}</p>
-          </label>
+          return (
+            <label className="square-item">
+              <Radio
+                style={{ display: 'none' }}
+                name="creditCardList"
+                value={creditCardItem.value}
+                checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
+                onChange={this.handlePaymentMethodChange}
+              />
+              <div className={activeBtn}>
+                <img src={creditCardItem.image.src} alt="" />
+              </div>
+              <p className={activeTxt}>{creditCardItem.text}</p>
+            </label>
+          );
         });
     const creditCardOptions = (
       <Segment className="not-border-bottom" attached>
@@ -238,7 +247,7 @@ class FinancingPage extends Component {
     );
 
 
-    let continueButtonAttributes = this.disableContinueButton() ? {disabled: true} : {};
+    const continueButtonAttributes = this.disableContinueButton() ? { disabled: true } : {};
 
     return (
       <div>
