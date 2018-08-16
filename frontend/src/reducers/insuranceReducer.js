@@ -27,6 +27,7 @@ export function insuranceViewReducer(state = initialViewState, action) {
         selected: true,
         optOut: true,
         optInOrOut: PERSONAL_INSURANCE,
+        query: state.query,
       };
     default:
       return state;

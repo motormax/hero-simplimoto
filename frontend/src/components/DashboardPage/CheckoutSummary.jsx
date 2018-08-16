@@ -31,14 +31,11 @@ class CheckoutSummary extends Component {
     insuranceSelected: propTypes.bool,
     insuranceOptOut: propTypes.bool,
     accessoriesPrice: propTypes.number.isRequired,
-    insuranceChoice: propTypes.shape({
-      quote_price: propTypes.number,
-      quote_policy: propTypes.string,
-      quote_more_info: propTypes.string,
-      quote_broker_name: propTypes.string,
-      quote_broker_logo_url: propTypes.string,
-      opt_in_or_out: propTypes.string,
-    }).isRequired,
+    quote_chosen_policy: propTypes.string,
+    quote_chosen_broker_name: propTypes.string,
+    quote_chosen_broker_logo_url: propTypes.string,
+    quote_chosen_price: propTypes.number,
+    chosen_opt_in_or_out: propTypes.string,
     lead: propTypes.shape({
       id: propTypes.string.isRequired,
     }).isRequired,
@@ -69,10 +66,15 @@ class CheckoutSummary extends Component {
     insuranceBrokerLogo: '',
     insuranceSelected: false,
     insuranceOptOut: false,
+    quote_chosen_policy: '',
+    quote_chosen_broker_name: '',
+    quote_chosen_broker_logo_url: '',
+    quote_chosen_price: '',
+    chosen_opt_in_or_out: '',
   };
 
   componentDidMount() {
-    if (!this.props.insuranceChoice) {
+    if (!this.props.chosen_opt_in_or_out) {
       this.props.fetchInsuranceChoice(this.props.lead.id);
     }
   }
@@ -119,14 +121,14 @@ class CheckoutSummary extends Component {
       motorcycle, changeToSelectInsurance, accessoriesPrice,
     } = this.props;
 
-    if (this.props.insuranceChoice && this.props.insuranceChoice.opt_in_or_out === 'heroInsurance') {
-      insuranceBroker = this.props.insuranceChoice.quote_broker_name;
-      insurancePrice = this.props.insuranceChoice.quote_price;
-      insurancePolicy = this.props.insuranceChoice.quote_policy;
-      insuranceBrokerLogo = this.props.insuranceChoice.quote_broker_logo_url;
+    if (this.props.chosen_opt_in_or_out === 'heroInsurance') {
+      insuranceBroker = this.props.quote_chosen_broker_name;
+      insurancePrice = this.props.quote_chosen_price;
+      insurancePolicy = this.props.quote_chosen_policy;
+      insuranceBrokerLogo = this.props.quote_chosen_broker_logo_url;
       insuranceSelected = true;
       insuranceOptOut = false;
-    } else if (this.props.insuranceChoice && this.props.insuranceChoice.opt_in_or_out === 'personalInsurance') {
+    } else if (this.props.chosen_opt_in_or_out === 'personalInsurance') {
       insuranceSelected = true;
       insuranceOptOut = true;
     }
@@ -316,6 +318,14 @@ const mapStateToProps = state => ({
   insuranceBrokerLogo: state.main.insurance.brokerLogo,
   insuranceSelected: state.main.insurance.selected,
   insuranceOptOut: state.main.insurance.optOut,
+
+  quote_chosen_policy: state.main.insuranceChoice.quote_policy,
+  quote_chosen_more_info: state.main.insuranceChoice.quote_more_info,
+  quote_chosen_broker_name: state.main.insuranceChoice.quote_broker_name,
+  quote_chosen_broker_logo_url: state.main.insuranceChoice.quote_broker_logo_url,
+  quote_chosen_price: state.main.insuranceChoice.quote_price,
+  chosen_opt_in_or_out: state.main.insuranceChoice.opt_in_or_out,
+
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
 });

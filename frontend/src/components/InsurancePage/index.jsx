@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
 import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
-import { insuranceSelected, insuranceOptOut } from '../../actions/insuranceChoices';
+import { insuranceSelected, insuranceOptOut, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
 
@@ -248,6 +248,7 @@ const mapDispatchToProps = dispatch => ({
       console.log(response); // eslint-disable-line no-console
       dispatch(insuranceOptOut());
       dispatch(push('/dashboard'));
+      dispatch(insuranceChoiceFetched(body.insurance_choice));
     })
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
@@ -278,6 +279,7 @@ const mapDispatchToProps = dispatch => ({
       console.log(response); // eslint-disable-line no-console
       dispatch(insuranceSelected(quote, query));
       dispatch(push('/dashboard'));
+      dispatch(insuranceChoiceFetched(body.insurance_choice));
     })
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
