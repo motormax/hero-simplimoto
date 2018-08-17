@@ -32,10 +32,11 @@ class InsurancePage extends Component {
       }),
     }).isRequired,
     optInOrOut: propTypes.string.isRequired,
-    query: propTypes.shape({
-      province: propTypes.string,
-      postalCode: propTypes.string,
-      age: propTypes.number,
+    insuranceChoice: propTypes.shape({
+      opt_in_or_out: propTypes.string,
+      query_province: propTypes.string,
+      query_postal_code: propTypes.string,
+      query_age: propTypes.number,
     }).isRequired,
   };
 
@@ -44,8 +45,12 @@ class InsurancePage extends Component {
     this.paymentMethodForm = React.createRef();
     this.state = {
       insuranceQuotes: [],
-      optInOrOut: HERO_INSURANCE,
-      query: Object.assign({}, props.query),
+      optInOrOut: props.insuranceChoice.opt_in_or_out,
+      query: {
+        province: props.insuranceChoice.query_province,
+        postalCode: props.insuranceChoice.query_postal_code,
+        age: props.insuranceChoice.query_age,
+      },
       errors: {
         province: false,
         postalCode: false,
@@ -136,6 +141,7 @@ class InsurancePage extends Component {
         </div>
       );
     }
+
     let heroQuery;
     if (this.state.optInOrOut === HERO_INSURANCE) {
       heroQuery = (
@@ -227,7 +233,8 @@ class InsurancePage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
-  query: store.main.insurance.query,
+  optInOrOut: store.main.insurance.optInOrOut,
+  insuranceChoice: store.main.insuranceChoice,
 });
 
 const mapDispatchToProps = dispatch => ({
