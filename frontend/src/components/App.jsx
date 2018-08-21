@@ -15,6 +15,7 @@ import PlateRegistrationPage from './PlateRegistrationPage';
 import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
+import HankSpecs from './Specs/HankSpecs';
 
 
 import logoUrl from './hero-logo.png';
@@ -36,6 +37,7 @@ class App extends React.Component {
             <Route path="/insurance" component={InsurancePage} />
             <Route path="/plate-registration" component={PlateRegistrationPage} />
             <Route path="/summary" component={PurchaseSummaryPage} />
+            <Route path="/hank-specs" component={HankSpecs} />
           </Switch>
         </Container>
         <Footer />
