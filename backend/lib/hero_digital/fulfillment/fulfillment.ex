@@ -8,6 +8,9 @@ defmodule HeroDigital.Fulfillment do
 
   alias HeroDigital.Identity.Lead
   alias HeroDigital.Fulfillment.PurchaseOrder
+  alias HeroDigital.Payment.PaymentGateway
+
+  require Logger
 
   @doc """
   Gets a single purchase_order.
@@ -39,13 +42,24 @@ defmodule HeroDigital.Fulfillment do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_purchase_order_from_lead(%Lead{} = lead, attrs \\ %{}) do
+  def create_purchase_order_from_lead(%Lead{} = lead, credit_card_token) do
+    Logger.info "Creating Purchase Order"
+
     changeset = %PurchaseOrder{}
-      |> PurchaseOrder.changeset(lead, attrs)
+      |> PurchaseOrder.changeset(lead, %{})
+
+    Logger.debug "Purchase Order changeset #{inspect(changeset)}"
 
     if changeset.valid? do
+      Logger.info "Delete Lead"
       Repo.delete!(lead)
-      changeset |> Repo.insert()
+
+      Logger.info "Insert Purchase Order"
+      case Repo.insert(changeset) do
+        {:ok, purchase_order} ->
+          PaymentGateway.process_payment(credit_card_token)
+          {:ok, purchase_order}
+      end
     else
       {:error, changeset}
     end

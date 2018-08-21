@@ -47,7 +47,7 @@ class ConfirmationButton extends Component {
         className="btn-displaced"
         size="huge"
         primary
-        disabled={!this.canConfirm()}
+        // disabled={!this.canConfirm()}
         onClick={() => this.props.goToCheckout()}
       >
         Preparar la compra

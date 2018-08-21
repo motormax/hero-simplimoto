@@ -6,14 +6,15 @@ defmodule HeroDigital.Payment.PaymentGateway do
 
   require Logger
 
-  def process_payment() do
+  def process_payment(purchase_order) do
     url = @base_uri <> "/v1/payments?access_token=" <> @access_token
 
-    Logger.info "Processing payment with MercadoPago"
-    Logger.debug "Payment data: #{inspect(payment_data())}"
+    payment_data = build_payment_data(purchase_order)
 
-    HTTPoison.start
-    HTTPoison.post(url, payment_data(), headers())
+    Logger.info "Processing payment with MercadoPago"
+    Logger.debug "Payment data: #{inspect(payment_data)}"
+
+    HTTPoison.post(url, payment_data, headers())
       |> handle_response()
     end
 
@@ -38,10 +39,10 @@ defmodule HeroDigital.Payment.PaymentGateway do
     ]
   end
 
-  defp payment_data do
+  defp build_payment_data(credit_card_token) do
     %{
       "transaction_amount" => 100,
-      "token" => "179416f3eb522c2e58191cf9623af976",
+      "token" => credit_card_token,
       "description" => "Title of what you are paying for",
       "payer" => %{
         "email" => "example@email.com"
@@ -56,6 +57,7 @@ defmodule HeroDigital.Payment.PaymentGateway do
   defp handle_success_response(body) do
     success_response = Poison.decode! body
     Logger.info "Payment approved with ID: #{success_response["id"]}"
+    Logger.debug "Payment response: #{inspect(success_response)}"
     {:ok, success_response}
   end
 

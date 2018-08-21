@@ -5,6 +5,7 @@ import { Card, Segment, Grid, Icon, Button } from 'semantic-ui-react';
 
 import availableAccessories from './motorcycles/availableAccessories';
 import availableColors from './motorcycles/availableColors';
+import CreditCardPayment from './CreditCardPayment';
 
 class PurchaseSummary extends Component {
   static defaultProps = {
@@ -100,7 +101,7 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Patentamiento</h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>3.800</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>3.800</span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -140,11 +141,11 @@ class PurchaseSummary extends Component {
             </Grid>
           </Segment>
 
+                  
           <Segment className="btn-displaced-container" attached>
+            <CreditCardPayment />            
 
-            <p className="fs-huge txt-center">AR$ <span className="fs-big fw-bold">20.450</span>/ mes </p>
-
-            <Grid verticalAlign="middle">
+            {/* <Grid verticalAlign="middle">
               <Grid.Column className="details-container" width={11}>
                 <div className="txt-dark-gray">
                 Elegiste pagar con MercadoPago
@@ -156,7 +157,7 @@ class PurchaseSummary extends Component {
             </Grid>
             <div className="txt-center">
               <Button className="btn-displaced" size="massive" primary>Comprar</Button>
-            </div>
+            </div> */}
           </Segment>
 
         </Card>

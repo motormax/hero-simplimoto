@@ -5,6 +5,9 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import axios from 'axios';
+
 import MaskedInput from 'react-text-mask';
 
 import { loadSDK, getPaymentMethod } from '../FinancingPage/mercadoPagoHelper';
@@ -19,6 +22,7 @@ class CreditCardPayment extends Component {
       name: propTypes.string.isRequired,
       price: propTypes.string.isRequired,
     }).isRequired,
+    changeFinancing: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
     financingForm: propTypes.shape({
       message: propTypes.string.isRequired,
@@ -125,6 +129,7 @@ class CreditCardPayment extends Component {
       this.handleGatewayError(status, response);
     } else {
       this.setState({ creditCardToken: response.id });
+      this.props.createPurchaseOrder(this.props.lead.id, response.id);
       console.log(`Token! ${response.id}`);
       console.log(response);
     }
@@ -275,13 +280,45 @@ class CreditCardPayment extends Component {
             header="Error"
             content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
           />
-          <Button type="submit" size="big" primary>Confirmar</Button>
+          
+          <Button 
+            size="small" 
+            className="btn-outline" 
+            secondary
+            onClick={() => {
+              this.props.changeFinancing();
+            }}>
+              Cambiar
+            </Button>
+
+          <div className="txt-center">
+            <Button type="submit" size="big" primary>Comprar</Button>
+          </div>
         </Form>
       </div>
     );
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  changeFinancing: () => {
+    dispatch(push('/financing'));
+  },
+  createPurchaseOrder: async (leadId, creditCardToken) => {
+    axios.post(
+      `/api/leads/${leadId}/purcharse_order`,
+      {
+        credit_card_token: creditCardToken,
+      },
+    ).then((response) => {
+      console.log(response); // eslint-disable-line no-console
+      dispatch(push('/dashboard'));
+    })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line no-console
+      });
+  },
+});
 
 const mapStateToProps = state => ({
   lead: state.main.lead,
@@ -292,5 +329,5 @@ const mapStateToProps = state => ({
   financingForm: state.main.financing.financingForm,
 });
 
-export default translate('financing')(connect(mapStateToProps)(CreditCardPayment));
+export default translate('financing')(connect(mapStateToProps, mapDispatchToProps)(CreditCardPayment));
 

@@ -16,7 +16,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   def changeset(purchase_order, lead, attrs) do
     purchase_order
     |> cast(attrs, [:price, :phone, :email])
-    |> validate_required([:price, :phone, :email])
+    # |> validate_required([:price, :phone, :email])
     |> put_change(:lead_id, lead.id)
   end
 end
