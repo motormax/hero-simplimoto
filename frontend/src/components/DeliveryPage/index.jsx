@@ -76,22 +76,23 @@ class DeliveryPage extends Component {
       lead_id: this.props.lead.id,
     };
     if (this.state.chosenDeliveryMethod === HOME_DELIVERY) {
+      if (this.state.address.telephoneNumber.length < 6) {
+        const newErrors = this.state.errors;
+        newErrors.telephoneNumber = true;
+        newErrors.description = 'Introducí un teléfono válido.';
+        this.setState({ errors: newErrors });
+        return;
+      }
+
       deliveryChoice = {
         address: humps.decamelizeKeys(this.state.address),
       };
     }
+
     if (this.state.chosenDeliveryMethod === PICKUP) {
       deliveryChoice = {
         pickup_location: this.state.chosenPickupLocation,
       };
-    }
-
-    if (this.state.address.telephoneNumber.length < 6) {
-      const newErrors = this.state.errors;
-      newErrors.telephoneNumber = true;
-      newErrors.description = 'Introducí un teléfono válido.';
-      this.setState({ errors: newErrors });
-      return;
     }
 
     try {
