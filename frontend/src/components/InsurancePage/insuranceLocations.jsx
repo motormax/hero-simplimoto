@@ -3261,7 +3261,7 @@ cabaInsuranceLocations.forEach((text, index) => {
   cabaInsuranceLocations[index] = {
     key: index,
     text,
-    value: text,
+    title: text,
   };
 });
 
@@ -3269,7 +3269,7 @@ bsasInsuranceLocations.forEach((text, index) => {
   bsasInsuranceLocations[index] = {
     key: index,
     text,
-    value: text,
+    title: text,
   };
 });
 

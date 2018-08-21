@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { Button, Form, Card, Divider, Image, Segment, Icon } from 'semantic-ui-react';
+import { Button, Form, Card, Divider, Image, Segment, Icon, Search } from 'semantic-ui-react';
 import { insuranceSelected, insuranceOptOut, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
@@ -51,6 +52,9 @@ class InsurancePage extends Component {
         query_postal_code: props.insuranceChoice.query_postal_code,
         query_age: props.insuranceChoice.query_age,
       },
+      isLoading: false,
+      value: '',
+      results: [],
       errors: {
         province: false,
         postalCode: false,
@@ -80,6 +84,8 @@ class InsurancePage extends Component {
       });
   };
 
+  resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
+
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
     const newData = this.state.insuranceChoice;
@@ -98,9 +104,42 @@ class InsurancePage extends Component {
     this.setState({ insuranceChoice: newData });
   };
 
+  handleResultSelect = (e, { result }) => {
+    this.setState({
+      insuranceChoice: {
+        query_postal_code: result.text,
+        query_age: this.state.insuranceChoice.query_age,
+        query_province: this.state.insuranceChoice.query_province,
+      },
+    });
+  }
+
+  handleSearchChange = (e, { value }) => {
+    this.setState({ isLoading: true, value });
+
+    setTimeout(() => {
+      if (this.state.value.length < 3) return this.resetComponent();
+
+      const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
+      const isMatch = result => re.test(result.text);
+
+      const source = this.state.insuranceChoice.query_province === PROVINCE_CABA ?
+        cabaInsuranceLocations : bsasInsuranceLocations;
+
+      this.setState({
+        isLoading: false,
+        results: _.filter(source, isMatch),
+      });
+
+      return {}; // arrow function needs a return value
+    }, 300);
+  };
+
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
+
+    const { isLoading, value, results } = this.state;
 
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
@@ -146,42 +185,43 @@ class InsurancePage extends Component {
     if (this.state.optInOrOut === HERO_INSURANCE) {
       heroQuery = (
         <Segment attached padded>
-          <Form.Group widths="equal">
-            <Form.Select
-              search
-              required
-              label="Provincia"
-              name="query_province"
-              options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
-                { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
-              value={this.state.insuranceChoice.query_province}
-              error={this.state.errors.province}
-              onChange={this.handleDropdownChange}
-              placeholder="Provincia"
-            />
-            <Form.Select
-              search
-              required
-              label="Código postal"
-              name="query_postal_code"
-              key={this.state.insuranceChoice.query_province}
-              options={this.state.insuranceChoice.query_province === PROVINCE_CABA ?
-                cabaInsuranceLocations : bsasInsuranceLocations}
-              value={this.state.insuranceChoice.query_postal_code}
-              onChange={this.handleDropdownChange}
-              placeholder="Código postal"
-            />
-            <Form.Input
-              fluid
-              required
-              label="Edad"
-              type="text"
-              name="query_age"
-              value={this.state.insuranceChoice.query_age}
-              error={this.state.errors.age}
-              onChange={this.handleHeroInsuranceDataChange}
-            />
-          </Form.Group>
+          <Form>
+            <Form.Group widths="equal">
+              <Form.Select
+                search
+                required
+                label="Provincia"
+                name="query_province"
+                options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
+                  { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
+                value={this.state.insuranceChoice.query_province}
+                error={this.state.errors.province}
+                onChange={this.handleDropdownChange}
+                placeholder="Provincia"
+              />
+              <Form.Field>
+                <label>Código Postal</label>
+                <Search
+                  loading={isLoading}
+                  onResultSelect={this.handleResultSelect}
+                  onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
+                  results={results}
+                  value={value.title}
+                />
+              </Form.Field>
+              <Form.Input
+                fluid
+                required
+                label="Edad"
+                type="text"
+                name="query_age"
+                value={this.state.insuranceChoice.query_age}
+                error={this.state.errors.age}
+                onChange={this.handleHeroInsuranceDataChange}
+              />
+            </Form.Group>
+
+          </Form>
           <div className="txt-center">
             <Button size="large" primary onClick={this.getQuote} >Cotizar</Button>
             <Button onClick={() => {
