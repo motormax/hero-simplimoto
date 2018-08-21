@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tab, Card, Table, Segment, Button } from 'semantic-ui-react'
+import { Tab, Card, Table, Segment, Button, Icon } from 'semantic-ui-react'
 import Slider from 'react-slick';
 
 
@@ -104,6 +104,7 @@ const sliderImages = bikeImages.map(url => {
     </div>
 })
 
+let fromHome = true;
 
 class HankSpecs extends Component {
   render(){
@@ -118,6 +119,7 @@ class HankSpecs extends Component {
 
     return(
       <div className="page-column-card no-border">
+          {fromHome ?  <Button className="btn-sticky" size="massive" primary> Comprar una Hunk </Button> : '' }
           <h2 className="txt-center fs-massive">Nueva HUNK con sistema i3S</h2>
 
           <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
@@ -132,7 +134,10 @@ class HankSpecs extends Component {
             </Slider>
           </Segment>
           <div className="txt-center" attached="bottom">
-            <Button size="big" primary>Volver al dashboard</Button>
+
+          {fromHome ?
+              <Button size="large" secondary> Volver </Button> : <Button size="large" primary> Volver </Button>
+            }
           </div>
 
       </div>
