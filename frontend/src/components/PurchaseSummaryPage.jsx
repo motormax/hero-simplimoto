@@ -33,6 +33,31 @@ class PurchaseSummary extends Component {
     }).isRequired,
   };
 
+
+  addressText = () => {
+    const { delivery } = this.props;
+
+    if (delivery.address) {
+      return (
+        <p className="txt-dark-gray">
+          <Icon name="home" />
+          {delivery.address.street}
+        </p>
+      );
+    }
+    if (delivery.pickup_location !== null) {
+      return (
+        <p className="txt-dark-gray">
+          <Icon name="home" />
+          Venís a buscar la moto al concesionario {delivery.pickup_location}.
+        </p>
+      );
+    }
+
+    // This should never happen since at this point the lead must have picked a delivery method
+    return undefined;
+  };
+
   motorcycleImage = () => {
     const { lead, customization } = this.props;
 
@@ -41,7 +66,7 @@ class PurchaseSummary extends Component {
 
   render() {
     const {
-      lead, accessories, delivery, insurance,
+      lead, accessories, insurance,
     } = this.props;
 
     if (!this.props.lead.id) {
@@ -91,9 +116,9 @@ class PurchaseSummary extends Component {
             <Grid>
               <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
-                { Object.keys(accessories.selectedAccessories).map(accesoryName =>
+                {Object.keys(accessories.selectedAccessories).map(accesoryName =>
                   accessories.selectedAccessories[accesoryName] &&
-                    <img src={availableAccessories[accesoryName].imgUrl} alt={accesoryName} />)}
+                  <img src={availableAccessories[accesoryName].imgUrl} alt={accesoryName} />)}
               </Grid.Column>
             </Grid>
           </Segment>
@@ -130,10 +155,7 @@ class PurchaseSummary extends Component {
             <Grid>
               <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
-                <p className="txt-dark-gray">
-                  <Icon name="home" />
-                  {delivery.address.street}
-                </p>
+                {this.addressText()}
               </Grid.Column>
             </Grid>
           </Segment>
@@ -147,7 +169,8 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">{insurance.broker} - {insurance.policy}</h3>
                 <div className="fs-large fs-medium txt-dark-gray">
                   {'AR$ '}
-                  <span className="fw-bold">{moneyFormatter.format(insurance.price)}</span> por mes</div>
+                  <span className="fw-bold">{moneyFormatter.format(insurance.price)}</span> por mes
+                </div>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -159,7 +182,7 @@ class PurchaseSummary extends Component {
             <Grid verticalAlign="middle">
               <Grid.Column className="details-container" width={11}>
                 <div className="txt-dark-gray">
-                Elegiste pagar con MercadoPago
+                  Elegiste pagar con MercadoPago
                 </div>
               </Grid.Column>
               <Grid.Column className="details-container" width={5}>
@@ -176,6 +199,7 @@ class PurchaseSummary extends Component {
     );
   }
 }
+
 const mapDispatchToProps = undefined;
 
 const mapStateToProps = store => ({
