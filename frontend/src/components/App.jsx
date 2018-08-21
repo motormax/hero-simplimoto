@@ -11,7 +11,7 @@ import DashboardPage from './DashboardPage/DashboardPage';
 import MainPage from './MainPage/MainPage';
 import DeliveryPage from './DeliveryPage';
 import DateYourBikePage from './DateYourBikePage';
-import PlateRegistrationPage from './PlateRegistrationPage';
+import PlateRegistrationPage from './PlateRegistrationPage/index';
 import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 import FinancingPage from './FinancingPage';
