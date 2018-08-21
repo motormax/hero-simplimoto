@@ -29,10 +29,9 @@ class InsurancePage extends Component {
     lead: propTypes.shape({
       id: propTypes.string,
       motorcycle: propTypes.shape({
-        id: propTypes.string,
+        id: propTypes.number,
       }),
     }).isRequired,
-    optInOrOut: propTypes.string.isRequired,
     insuranceChoice: propTypes.shape({
       opt_in_or_out: propTypes.string,
       query_province: propTypes.string,
@@ -68,7 +67,6 @@ class InsurancePage extends Component {
     axios.get(`api/leads/${this.props.lead.id}/insurance_quotes`, {
       params: {
         motorcycle_id: this.props.lead.motorcycle.id,
-        opt_in_or_out: this.props.optInOrOut,
         ...this.state.insuranceChoice,
       },
     })
