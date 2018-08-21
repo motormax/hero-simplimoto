@@ -1,9 +1,9 @@
 import actionTypes from './actionTypes';
 
-export const insuranceSelected = (quote, query) => ({
+export const insuranceSelected = (quote, insuranceChoice) => ({
   type: actionTypes.insuranceSelected,
   quote,
-  query,
+  insuranceChoice,
 });
 
 export const insuranceOptOut = () => ({

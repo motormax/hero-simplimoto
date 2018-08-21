@@ -3,6 +3,9 @@ import { PROVINCE_CABA, HERO_INSURANCE, PERSONAL_INSURANCE } from '../components
 
 const initialViewState = {
   optInOrOut: HERO_INSURANCE,
+  query_province: PROVINCE_CABA,
+  query_postal_code: '',
+  query_age: 1,
 };
 
 export function insuranceViewReducer(state = initialViewState, action) {
@@ -15,15 +18,13 @@ export function insuranceViewReducer(state = initialViewState, action) {
         price: action.quote.price,
         policy: action.quote.policy,
         optInOrOut: HERO_INSURANCE,
-        query: action.query,
-        insuranceChoice: state.insuranceChoice,
+        insuranceChoice: action.insuranceChoice,
       };
     case actionTypes.insuranceOptOut:
       return {
         selected: true,
         optOut: true,
         optInOrOut: PERSONAL_INSURANCE,
-        query: state.query,
         insuranceChoice: state.insuranceChoice,
       };
     default:

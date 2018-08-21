@@ -37,16 +37,7 @@ class InsurancePage extends Component {
       query_province: propTypes.string,
       query_postal_code: propTypes.string,
       query_age: propTypes.number,
-    }),
-  };
-
-  static defaultProps = {
-    insuranceChoice: {
-      opt_in_or_out: HERO_INSURANCE,
-      query_province: PROVINCE_CABA,
-      query_postal_code: '',
-      query_age: 1,
-    },
+    }).isRequired,
   };
 
   constructor(props) {
@@ -55,10 +46,10 @@ class InsurancePage extends Component {
     this.state = {
       insuranceQuotes: [],
       optInOrOut: props.insuranceChoice.opt_in_or_out,
-      query: {
-        province: props.insuranceChoice.query_province,
-        postalCode: props.insuranceChoice.query_postal_code,
-        age: props.insuranceChoice.query_age,
+      insuranceChoice: {
+        query_province: props.insuranceChoice.query_province,
+        query_postal_code: props.insuranceChoice.query_postal_code,
+        query_age: props.insuranceChoice.query_age,
       },
       errors: {
         province: false,
@@ -74,7 +65,7 @@ class InsurancePage extends Component {
       params: {
         motorcycle_id: this.props.lead.motorcycle.id,
         opt_in_or_out: this.props.optInOrOut,
-        ...this.state.query,
+        ...this.state.insuranceChoice,
       },
     })
       .then((response) => {
@@ -91,9 +82,9 @@ class InsurancePage extends Component {
 
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
-    const newData = this.state.query;
+    const newData = this.state.insuranceChoice;
     newData[inputName] = value;
-    this.setState({ query: newData });
+    this.setState({ insuranceChoice: newData });
   }
 
   handleDropdownOptInOrOutChange = (e, selectObj) => {
@@ -102,9 +93,9 @@ class InsurancePage extends Component {
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
-    const newData = this.state.query;
+    const newData = this.state.insuranceChoice;
     newData[inputName] = value;
-    this.setState({ query: newData });
+    this.setState({ insuranceChoice: newData });
   };
 
   render() {
@@ -132,7 +123,7 @@ class InsurancePage extends Component {
                             this.props.selectInsurance(
                               quote,
                               this.state.optInOrOut,
-                              this.state.query,
+                              this.state.insuranceChoice,
                               this.props.lead,
                             );
                     }}
@@ -160,10 +151,10 @@ class InsurancePage extends Component {
               search
               required
               label="Provincia"
-              name="province"
+              name="query_province"
               options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
                 { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
-              value={this.state.query.province}
+              value={this.state.insuranceChoice.query_province}
               error={this.state.errors.province}
               onChange={this.handleDropdownChange}
               placeholder="Provincia"
@@ -172,11 +163,11 @@ class InsurancePage extends Component {
               search
               required
               label="Código postal"
-              name="postalCode"
-              options={this.state.query.province === PROVINCE_CABA ?
+              name="query_postal_code"
+              key={this.state.insuranceChoice.query_province}
+              options={this.state.insuranceChoice.query_province === PROVINCE_CABA ?
                 cabaInsuranceLocations : bsasInsuranceLocations}
-              value={this.state.query.postalCode}
-              error={this.state.errors.postalCode}
+              value={this.state.insuranceChoice.query_postal_code}
               onChange={this.handleDropdownChange}
               placeholder="Código postal"
             />
@@ -185,8 +176,8 @@ class InsurancePage extends Component {
               required
               label="Edad"
               type="text"
-              name="age"
-              value={this.state.query.age}
+              name="query_age"
+              value={this.state.insuranceChoice.query_age}
               error={this.state.errors.age}
               onChange={this.handleHeroInsuranceDataChange}
             />
@@ -242,7 +233,6 @@ class InsurancePage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
-  optInOrOut: store.main.insurance.optInOrOut,
   insuranceChoice: store.main.insuranceChoice,
 });
 
@@ -273,7 +263,7 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, optInOrOut, query, lead) => {
+  selectInsurance: async (quote, optInOrOut, insuranceChoice, lead) => {
     const body = {
       insurance_choice: {
         opt_in_or_out: optInOrOut,
@@ -285,9 +275,9 @@ const mapDispatchToProps = dispatch => ({
         quote_broker_logo_url: quote.brokerLogo,
         quote_policy: quote.policy,
         quote_more_info: quote.moreInfo,
-        query_postal_code: query.postalCode,
-        query_age: query.age,
-        query_province: query.province,
+        query_postal_code: insuranceChoice.query_postal_code,
+        query_age: insuranceChoice.query_age,
+        query_province: insuranceChoice.query_province,
       },
     };
 
@@ -296,7 +286,7 @@ const mapDispatchToProps = dispatch => ({
       body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceSelected(quote, query));
+      dispatch(insuranceSelected(quote, insuranceChoice));
       dispatch(push('/dashboard'));
       dispatch(insuranceChoiceFetched(body.insurance_choice));
     })

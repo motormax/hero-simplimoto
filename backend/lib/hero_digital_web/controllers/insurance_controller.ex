@@ -7,8 +7,8 @@ defmodule HeroDigitalWeb.InsuranceController do
 
   require Logger
 
-  def quote(conn, %{"motorcycle_id" => motorcycle_id, "postalCode" => postalCode, "age" => age}) do
-    quotes = QuoteEngine.fetch_quotes_by(motorcycle_id, postalCode , age)
+  def quote(conn, %{"motorcycle_id" => motorcycle_id, "query_postal_code" => query_postal_code, "query_age" => query_age}) do
+    quotes = QuoteEngine.fetch_quotes_by(motorcycle_id, query_postal_code , query_age)
     render(conn, "quotes.json", quotes: quotes)
   end
 end
