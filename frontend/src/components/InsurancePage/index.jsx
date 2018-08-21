@@ -37,7 +37,16 @@ class InsurancePage extends Component {
       query_province: propTypes.string,
       query_postal_code: propTypes.string,
       query_age: propTypes.number,
-    }).isRequired,
+    }),
+  };
+
+  static defaultProps = {
+    insuranceChoice: {
+      opt_in_or_out: HERO_INSURANCE,
+      query_province: PROVINCE_CABA,
+      query_postal_code: '',
+      query_age: 1,
+    },
   };
 
   constructor(props) {
@@ -246,6 +255,9 @@ const mapDispatchToProps = dispatch => ({
       insurance_choice: {
         opt_in_or_out: PERSONAL_INSURANCE,
         motorcycle_id: lead.motorcycle.id,
+        query_province: PROVINCE_CABA,
+        query_postal_code: '',
+        query_age: 1,
       },
     };
     axios.post(

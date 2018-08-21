@@ -121,16 +121,14 @@ class CheckoutSummary extends Component {
       motorcycle, changeToSelectInsurance, accessoriesPrice,
     } = this.props;
 
-debugger;
-
-    if (this.props.quote_chosen_broker_name !== undefined && this.props.chosen_opt_in_or_out === 'heroInsurance') {
+    if (this.props.quote_chosen_broker_name !== '' && this.props.chosen_opt_in_or_out === 'heroInsurance') {
       insuranceBroker = this.props.quote_chosen_broker_name;
       insurancePrice = this.props.quote_chosen_price;
       insurancePolicy = this.props.quote_chosen_policy;
       insuranceBrokerLogo = this.props.quote_chosen_broker_logo_url;
       insuranceSelected = true;
       insuranceOptOut = false;
-    } else if (this.props.quote_chosen_broker_name !== undefined && this.props.chosen_opt_in_or_out === 'personalInsurance') {
+    } else if (this.props.quote_chosen_broker_name !== '' && this.props.chosen_opt_in_or_out === 'personalInsurance') {
       insuranceSelected = true;
       insuranceOptOut = true;
     }
@@ -322,7 +320,6 @@ const mapStateToProps = state => ({
   insuranceOptOut: state.main.insurance.optOut,
 
   quote_chosen_policy: state.main.insuranceChoice.quote_policy,
-  quote_chosen_more_info: state.main.insuranceChoice.quote_more_info,
   quote_chosen_broker_name: state.main.insuranceChoice.quote_broker_name,
   quote_chosen_broker_logo_url: state.main.insuranceChoice.quote_broker_logo_url,
   quote_chosen_price: state.main.insuranceChoice.quote_price,
