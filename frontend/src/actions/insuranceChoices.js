@@ -1,17 +1,22 @@
 import actionTypes from './actionTypes';
 
-export const insuranceSelected = (quote, brokerName, brokerLogo, insuranceForm) => ({
+export const insuranceSelected = (quote, query) => ({
   type: actionTypes.insuranceSelected,
   quote,
-  broker: brokerName,
-  brokerLogo,
-  insuranceForm,
+  query,
 });
 
-export const insuranceOptOut = insuranceForm => ({
+export const insuranceOptOut = () => ({
   type: actionTypes.insuranceOptOut,
-  insuranceForm,
 });
 
 export const noop = () => ({ type: 'NOOP' });
 
+export const insuranceChoiceFetched = insuranceChoice => ({
+  type: actionTypes.insuranceChoiceFetched,
+  insuranceChoice,
+});
+
+export const startedFetchingInsuranceChoice = () => ({
+  type: actionTypes.startedFetchingInsuranceChoice,
+});

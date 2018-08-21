@@ -11,6 +11,8 @@ export default {
   startedFetchingPlateRegistrationData: 'STARTED_FETCHING_PLATE_REGISTRATION',
   insuranceSelected: 'INSURANCE_SELECTED',
   insuranceOptOut: 'INSURANCE_OPT_OUT',
+  insuranceChoiceFetched: 'INSURANCE_CHOICE_FETCHED',
+  startedFetchingInsuranceChoice: 'STARTED_FETCHING_INSURANCE_CHOICE',
   financingSelected: 'FINANCING_SELECTED',
   financingChanged: 'FINANCING_CHANGED',
 };
