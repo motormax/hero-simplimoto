@@ -9,6 +9,8 @@ defmodule HeroDigital.PlateRegistration do
 
   alias HeroDigital.PlateRegistration.PlateRegistrationData
 
+  @hero_plate_registration "heroPlateRegistration"
+
   @doc """
   Returns the list of plate_registration_data.
 
@@ -59,26 +61,70 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def create_plate_registration_data(attrs \\ %{}) do
+    old_plate_registration_data = get_plate_registration_data_for_update(attrs)
+    new_plate_registration_data_attrs = get_plate_registration_attrs_by_opt_in_or_out(attrs)
+    plate_registration_data_changeset = get_plate_registration_data_changeset(new_plate_registration_data_attrs)
+    delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, plate_registration_data_changeset)
+    create_plate_registration_data_by_changeset(plate_registration_data_changeset)
+  end
+
+  defp get_plate_registration_data_for_update(attrs) do
+    cond do
+      Map.has_key?(attrs, "lead_id") ->
+        get_plate_registration_data_for_lead!(attrs["lead_id"])
+      true ->
+        nil
+    end
+  end
+
+  defp get_plate_registration_attrs_by_opt_in_or_out(attrs) do
+    cond do
+      is_creating_hero_plate_registration(attrs) ->
+        get_hero_plate_registration_data(attrs)
+      true ->
+        attrs
+    end
+  end
+
+  defp get_plate_registration_data_changeset(attrs) do
+    %PlateRegistrationData{}
+    |> PlateRegistrationData.changeset(attrs)
+  end
+
+  defp is_creating_hero_plate_registration(attrs) do
+    !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @hero_plate_registration
+  end
+
+  defp get_hero_plate_registration_data(attrs) do
     with {:ok, email} <- UserData.create_email(%{"email" => attrs["email"], "lead_id" => attrs["lead_id"]}),
          {:ok, phone} <- UserData.create_phone(%{"phone" => attrs["phone"], "lead_id" => attrs["lead_id"]}),
          {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
-         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
-         plate_registration_data_attrs <- %{
-           lead_id: attrs["lead_id"],
-           email_id: email.id,
-           phone_id: phone.id,
-           personal_data_id: personal_data.id,
-           front_dni_image_id: front_dni_image.id,
-           back_dni_image_id: back_dni_image.id,
-           address_id: address.id
-         },
-         {:ok, plate_registration_data} <- %PlateRegistrationData{}
-                                           |> PlateRegistrationData.changeset(plate_registration_data_attrs)
-                                           |> Repo.insert()
+         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"]))
     do
-      {:ok, Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])}
+      %{
+        opt_in_or_out: attrs["opt_in_or_out"],
+        lead_id: attrs["lead_id"],
+        email_id: email.id,
+        phone_id: phone.id,
+        personal_data_id: personal_data.id,
+        front_dni_image_id: front_dni_image.id,
+        back_dni_image_id: back_dni_image.id,
+        address_id: address.id
+      }
+    end
+  end
+
+  defp delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, plate_registration_data_changeset) do
+    if !is_nil(old_plate_registration_data) and plate_registration_data_changeset.valid? do
+      delete_plate_registration_data(old_plate_registration_data)
+    end
+  end
+
+  defp create_plate_registration_data_by_changeset(plate_registration_data_changeset) do
+    with {:ok, new_plate_registration_data} <- Repo.insert(plate_registration_data_changeset) do
+      {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address])}
     end
   end
 

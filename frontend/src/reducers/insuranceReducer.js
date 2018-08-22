@@ -1,33 +1,47 @@
 import actionTypes from '../actions/actionTypes';
-import { PROVINCE_CABA, HERO_INSURANCE } from '../components/InsurancePage/constants';
+import { PROVINCE_CABA, HERO_INSURANCE, PERSONAL_INSURANCE } from '../components/InsurancePage/constants';
 
-const initialState = {
-  insuranceForm: {
-    optInOrOut: HERO_INSURANCE,
+const initialViewState = {
+  optInOrOut: HERO_INSURANCE,
+  query: {
     province: PROVINCE_CABA,
     postalCode: '',
-    age: 0,
+    age: 1,
   },
 };
 
-export default function deliveryReducer(state = initialState, action) {
+export function insuranceViewReducer(state = initialViewState, action) {
   switch (action.type) {
     case actionTypes.insuranceSelected:
       return {
         selected: true,
         optOut: false,
+        broker: action.quote.brokerName,
         price: action.quote.price,
         policy: action.quote.policy,
-        broker: action.broker,
-        brokerLogo: action.brokerLogo,
-        insuranceForm: action.insuranceForm,
+        optInOrOut: HERO_INSURANCE,
+        query: action.query,
       };
     case actionTypes.insuranceOptOut:
       return {
         selected: true,
         optOut: true,
-        insuranceForm: action.insuranceForm,
+        optInOrOut: PERSONAL_INSURANCE,
+        query: state.query,
       };
+    default:
+      return state;
+  }
+}
+
+const initialInsuranceChoiceState = {};
+
+export function insuranceChoiceReducer(state = initialInsuranceChoiceState, action) {
+  switch (action.type) {
+    case actionTypes.startedFetchingInsuranceChoice:
+      return { isLoading: true };
+    case actionTypes.insuranceChoiceFetched:
+      return action.insuranceChoice || initialInsuranceChoiceState;
     default:
       return state;
   }
