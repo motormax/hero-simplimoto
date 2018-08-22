@@ -16,7 +16,7 @@ import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 import FinancingPage from './FinancingPage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
-
+import BikeSpecs from './Specs/BikeSpecs';
 
 import logoUrl from './hero-logo.png';
 
@@ -38,6 +38,7 @@ class App extends React.Component {
             <Route path="/plate-registration" component={PlateRegistrationPage} />
             <Route path="/financing" component={FinancingPage} />
             <Route path="/summary" component={PurchaseSummaryPage} />
+            <Route path="/specs/:bikeName" component={BikeSpecs} />
           </Switch>
         </Container>
         <Footer />

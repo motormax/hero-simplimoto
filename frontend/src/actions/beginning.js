@@ -1,5 +1,9 @@
 import actionTypes from './actionTypes';
 
+export const cancelPurchase = () => ({
+  type: actionTypes.cancelPurchase,
+});
+
 export const leadFetched = lead => ({
   type: actionTypes.leadFetched,
   lead,

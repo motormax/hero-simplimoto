@@ -39,7 +39,7 @@ class HomeCarrousel extends Component {
     ));
 
     return (
-      <div>
+      <div className="home-carrousel">
         <Slider {...settings}>
           {carrouselItems}
         </Slider>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import { push } from 'react-router-redux';
 import { Button, Card, Container, Divider, Grid, Icon, List } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
+import { cancelPurchase } from '../actions/beginning';
 
 import logoUrl from './hero-logo.png';
 import availableMotorcycles from './motorcycles/availableMotorcycles';
@@ -13,6 +15,7 @@ class Footer extends Component {
     t: propTypes.func.isRequired,
     currentBikeModel: propTypes.string.isRequired,
     currentColor: propTypes.number.isRequired,
+    cancelPurchase: propTypes.func.isRequired,
   };
 
   render() {
@@ -37,7 +40,16 @@ class Footer extends Component {
                   <Grid.Column width={11}>
                     <div>
                       <span className="bike-name fw-bold fs-large">{bikeDisplayName}</span>
-                      <Button className="btn-outline" secondary fluid>{t('cancel_order')}</Button>
+                      <Button
+                        className="btn-outline"
+                        secondary
+                        fluid
+                        onClick={() => {
+                          this.props.cancelPurchase();
+                        }}
+                      >
+                        {t('cancel_order')}
+                      </Button>
                     </div>
                   </Grid.Column>
                 </Grid.Row>
@@ -125,6 +137,12 @@ class Footer extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  cancelPurchase: () => {
+    dispatch(cancelPurchase());
+    dispatch(push('/'));
+  },
+});
 
 const mapStateToProps = store => (
   store.main.lead && store.main.lead.motorcycle ?
@@ -137,4 +155,4 @@ const mapStateToProps = store => (
     }
 );
 
-export default translate('footer')(connect(mapStateToProps)(Footer));
+export default translate('footer')(connect(mapStateToProps, mapDispatchToProps)(Footer));
