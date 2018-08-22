@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { Button, Form, Card, Divider, Image, Segment, Icon, Search, Popup } from 'semantic-ui-react';
+import { Button, Form, Card, Divider, Image, Segment, Icon, Search, Popup, Message } from 'semantic-ui-react';
 import { insuranceSelected, insuranceOptOut, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
@@ -24,7 +24,7 @@ const optInOrOutOptions = [{
 class InsurancePage extends Component {
   static propTypes = {
     selectInsurance: propTypes.func.isRequired,
-    cancelQuote: propTypes.func.isRequired,
+    backToDashboard: propTypes.func.isRequired,
     selectMyOwnInsurance: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string,
@@ -54,6 +54,7 @@ class InsurancePage extends Component {
       isLoading: false,
       value: '',
       results: [],
+      hasSearchedHeroInsurance: false,
       errors: {
         province: false,
         postalCode: false,
@@ -72,7 +73,10 @@ class InsurancePage extends Component {
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
-        this.setState({ insuranceQuotes: response.data.data });
+        this.setState({
+          insuranceQuotes: response.data.data,
+          hasSearchedHeroInsurance: true,
+        });
       })
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
@@ -92,7 +96,10 @@ class InsurancePage extends Component {
   }
 
   handleDropdownOptInOrOutChange = (e, selectObj) => {
-    this.setState({ optInOrOut: selectObj.value });
+    this.setState({
+      optInOrOut: selectObj.value,
+      hasSearchedHeroInsurance: false,
+    });
   }
 
   handleHeroInsuranceDataChange = (event) => {
@@ -190,7 +197,7 @@ class InsurancePage extends Component {
     const { isLoading, value, results } = this.state;
 
     let quotesList;
-    if (this.state.insuranceQuotes.length > 0) {
+    if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length > 0) {
       const quoteItems =
             this.state.insuranceQuotes.map(quote => (this.cardInsuranceQuote(quote)));
       quotesList = (
@@ -199,6 +206,17 @@ class InsurancePage extends Component {
           <Card.Group centered>
             {quoteItems}
           </Card.Group>
+        </div>
+      );
+    } else if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length === 0) {
+      quotesList = (
+        <div className="margin-bottom txt-center">
+          <Divider />
+          <Message negative>
+            <Message.Header>
+              <span>No se encontraron resultados</span>
+            </Message.Header>
+          </Message>
         </div>
       );
     }
@@ -247,9 +265,9 @@ class InsurancePage extends Component {
           <div className="txt-center">
             <Button size="large" primary onClick={this.getQuote} >Cotizar</Button>
             <Button onClick={() => {
-                      this.props.cancelQuote();
+                      this.props.backToDashboard();
                     }}
-            >Cancelar
+            >Volver
             </Button>
           </div>
           {quotesList}
@@ -299,7 +317,7 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  cancelQuote: () => {
+  backToDashboard: () => {
     dispatch(push('/dashboard'));
   },
   selectMyOwnInsurance: async (lead) => {
