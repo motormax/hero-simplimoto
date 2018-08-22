@@ -17,3 +17,6 @@ config :hero_digital, HeroDigital.Repo,
   database: "hero_digital_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :hero_digital, HeroDigital.Payment.PaymentGateway,
+  http_adapter: Http.Mock
