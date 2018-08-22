@@ -7,8 +7,10 @@ defmodule HeroDigital.Fulfillment do
   alias HeroDigital.Repo
 
   alias HeroDigital.Identity.Lead
+  alias HeroDigital.Identity
   alias HeroDigital.Fulfillment.PurchaseOrder
   alias HeroDigital.Payment.PaymentGateway
+  alias HeroDigital.Payment.Payment
 
   require Logger
 
@@ -52,17 +54,29 @@ defmodule HeroDigital.Fulfillment do
 
     if changeset.valid? do
       Logger.info "Delete Lead"
-      Repo.delete!(lead)
+      {:ok, lead} = Identity.deactivate_lead(lead)
 
       Logger.info "Insert Purchase Order"
-      case Repo.insert(changeset) do
-        {:ok, purchase_order} ->
-          PaymentGateway.process_payment(credit_card_token)
+      with {:ok, purchase_order} <- Repo.insert(changeset),
+           {:ok, mp_response} <- PaymentGateway.process_payment(credit_card_token),
+           {:ok, payment} <- create_payment_for(purchase_order, mp_response) do
           {:ok, purchase_order}
       end
     else
       {:error, changeset}
     end
+  end
+
+  def create_payment_for(%PurchaseOrder{} = purchase_order, mp_response) do
+    %Payment{}
+    |> Payment.changeset(%{
+      status: mp_response["status"],
+      status_detail: mp_response["status_detail"],
+      purchase_order_id: purchase_order.id,
+      transaction_id: mp_response["id"],
+      raw_body: Poison.encode!(mp_response)
+    })
+    |> Repo.insert()
   end
 
   @doc """
