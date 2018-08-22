@@ -17,7 +17,7 @@ h1.home-title{
   width: auto;
 }
 
-.slick-list{
+.home-carrousel .slick-list{
   height: 600px;
 }
 
@@ -153,4 +153,12 @@ h1.home-title{
       }
     }
   }
+}
+
+.carrousel-default-images{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 500px;
+    margin: auto;
 }

@@ -1,5 +1,6 @@
 export default {
   leadFetched: 'LEAD_FETCHED',
+  cancelPurchase: 'CANCEL_PURCHASE',
   changeBikeColor: 'CHANGE_BIKE_COLOR',
   toggleAccessorySelection: 'TOGGLE_ACCESSORY_SELECTION',
   startedFetchingLead: 'STARTED_FETCHING_LEAD',
