@@ -5,7 +5,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { Button, Form, Card, Divider, Image, Segment, Icon, Search } from 'semantic-ui-react';
+import { Button, Form, Card, Divider, Image, Segment, Icon, Search, Popup } from 'semantic-ui-react';
 import { insuranceSelected, insuranceOptOut, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
@@ -133,6 +133,56 @@ class InsurancePage extends Component {
     }, 300);
   };
 
+  popUpMoreInfoCardTrigger = () => (
+    <span>Ver más información<Icon name="info circle" /></span>
+  );
+
+  dangerousHTMLQuoteDetails = (moreInfo) => {
+    return (
+      <div dangerouslySetInnerHTML={{ __html: moreInfo }} /> // eslint-disable-line
+    );
+  };
+
+  popUpMoreInfo(quote) {
+    return (
+      <Popup trigger={this.popUpMoreInfoCardTrigger()}>
+        <Popup.Header>{quote.policy}</Popup.Header>
+        <Popup.Content>
+          {this.dangerousHTMLQuoteDetails(quote.moreInfo)}
+        </Popup.Content>
+      </Popup>
+    );
+  }
+
+  cardInsuranceQuote(quote) {
+    return (
+      <Card>
+        <Card.Content textAlign="center">
+          <Image src={quote.brokerLogo} />
+          <Card.Description>{quote.policy}</Card.Description>
+          <Card.Meta>{this.popUpMoreInfo(quote)}</Card.Meta>
+        </Card.Content>
+        <Card.Content className="btn-displaced-container txt-center">
+          <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
+          <Button
+            primary
+            className="btn-displaced"
+            onClick={() => {
+                    this.props.selectInsurance(
+                      quote,
+                      this.state.optInOrOut,
+                      this.state.insuranceChoice,
+                      this.props.lead,
+                    );
+            }}
+          >
+          Elegir
+          </Button>
+        </Card.Content>
+      </Card>
+    );
+  }
+
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
@@ -142,33 +192,7 @@ class InsurancePage extends Component {
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
       const quoteItems =
-            this.state.insuranceQuotes.map(quote => (
-              <Card>
-                <Card.Content>
-                  <Image src={quote.brokerLogo} />
-                  <Card.Header>{quote.broker}</Card.Header>
-                  <Card.Description>{quote.policy}</Card.Description>
-                  <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
-
-                </Card.Content>
-                <Card.Content className="btn-displaced-container txt-center">
-                  <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
-                  <Button
-                    primary
-                    className="btn-displaced"
-                    onClick={() => {
-                            this.props.selectInsurance(
-                              quote,
-                              this.state.optInOrOut,
-                              this.state.insuranceChoice,
-                              this.props.lead,
-                            );
-                    }}
-                  >
-                  Elegir
-                  </Button>
-                </Card.Content>
-              </Card>));
+            this.state.insuranceQuotes.map(quote => (this.cardInsuranceQuote(quote)));
       quotesList = (
         <div className="margin-bottom">
           <Divider />
