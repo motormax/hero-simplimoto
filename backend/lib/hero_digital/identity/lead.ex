@@ -6,9 +6,16 @@ defmodule HeroDigital.Identity.Lead do
 
   schema "leads" do
     field :last_login, :utc_datetime
+    field :is_active, :boolean
     belongs_to(:motorcycle, HeroDigital.Product.Motorcycle)
 
     timestamps()
+  end
+
+  def deactivation_changeset(lead) do
+    lead
+    |> changeset(%{})
+    |> put_change(:is_active, false)
   end
 
   @doc false
@@ -18,5 +25,6 @@ defmodule HeroDigital.Identity.Lead do
     |> assoc_constraint(:motorcycle)
     |> validate_required([:motorcycle_id])
     |> put_change(:last_login, DateTime.utc_now)
+    |> put_change(:is_active, true)
   end
 end

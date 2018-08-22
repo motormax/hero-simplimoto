@@ -80,6 +80,12 @@ defmodule HeroDigital.Identity do
     |> Repo.update()
   end
 
+  def deactivate_lead(%Lead{} = lead) do
+    lead
+    |> Lead.deactivation_changeset()
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a Lead.
 

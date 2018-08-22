@@ -145,10 +145,7 @@ class PurchaseSummary extends Component {
             <Grid>
               <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
-                <p className="txt-dark-gray">
-                  <Icon name="home" />
-                  {delivery.address.street}
-                </p>
+                {this.addressText()}
               </Grid.Column>
             </Grid>
           </Segment>
@@ -169,21 +166,7 @@ class PurchaseSummary extends Component {
           </Segment>
 
           <Segment className="btn-displaced-container" attached>
-            <CreditCardPayment />            
-
-            {/* <Grid verticalAlign="middle">
-              <Grid.Column className="details-container" width={11}>
-                <div className="txt-dark-gray">
-                Elegiste pagar con MercadoPago
-                </div>
-              </Grid.Column>
-              <Grid.Column className="details-container" width={5}>
-                <Button size="small" className="btn-outline" secondary>Cambiar</Button>
-              </Grid.Column>
-            </Grid>
-            <div className="txt-center">
-              <Button className="btn-displaced" size="massive" primary>Comprar</Button>
-            </div> */}
+            <CreditCardPayment />
           </Segment>
 
         </Card>
