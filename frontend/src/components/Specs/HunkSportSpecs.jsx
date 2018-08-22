@@ -4,35 +4,31 @@ import Slider from 'react-slick';
 
 
 const bikeImages = [
-  "http://www.heromotos.com.ar/medios/files/images/hunk/hunk frente.jpg",
-  "http://www.heromotos.com.ar/medios/files/images/hunk/hunk 3 cuartos atras.jpg",
-  "http://www.heromotos.com.ar/medios/files/images/hunk/Hunk Derecha.jpg",
-  "http://www.heromotos.com.ar/medios/files/images/hunk/Hunk IB CB Red Rev Side.jpg",
-  "http://www.heromotos.com.ar/medios/files/images/hunk/Hunk IB CB Red Console.jpg",
-  "http://www.heromotos.com.ar/medios/files/images/hunk/Hunk IB CB Red Back.jpg"
+  "http://www.heromotos.com.ar/medios/files/images/hunk%20sports/hunksp-red-34t.jpeg",
+  "http://www.heromotos.com.ar/medios/files/images/hunk%20sports/Hunk Sports Argentina 3-4th Front Red.jpg",
+  "http://www.heromotos.com.ar/medios/files/images/hunk%20sports/Hunk Sports Argentina 3-4th Front Rev Side Red.jpg",
+  "http://www.heromotos.com.ar/medios/files/images/hunk%20sports/hunksp-red-front.jpeg"
 ]
 
 
 const bikeInfo = [
   {paneItems: [
       {itemTitle:'Motor Tipo', description:'Refrigeracion por aire, 4 tiempos 1 cilindro' },
-      {itemTitle:'Desplazamiento', description:'124.7 cc' },
-      {itemTitle:'Potencia Max.	', description:'6.72 KW (9.1 Ps) @ 7000 rpm' },
+      {itemTitle:'Desplazamiento', description:'149.2 cc' },
+      {itemTitle:'Potencia Max.	', description:'11.33 kW (15.2 BHP) @ 8500 rpm' },
       {itemTitle:'Torque Max.	', description:'13.50 Nm @ 7000 rpm' },
       {itemTitle:'Diámetro x Carrera', description:'57.3 x 57.8 mm' },
-      {itemTitle:'Carburador', description:'Carburador con control variable de ignicion' },
-      {itemTitle:'Relación de Compresión', description:'10 : 1' },
-      {itemTitle:'Arranque', description:'Automatico' },
-      {itemTitle:'Encendido', description:'AMI - Advanced Microprocessor Ignition System' },
+      {itemTitle:'Carburador', description:'CV Type with Carburettor Controlled Variable Ignition' },
+      {itemTitle:'Relación de Compresión', description:'10:01' },
     ],
     paneTitle: 'Motor'
   },
   {paneItems: [
-      {itemTitle:'Embrague', description:'Multidisco' },
+      {itemTitle:'Clutch', description:'Multidisco' },
       {itemTitle:'Caja de Cambios', description:'5 velocidades' },
-      {itemTitle:'Chasis', description:'Tubular Diamond Type' },
+      {itemTitle:'Tipo de Bastidor', description:'Tubular Tipo diamante' },
     ],
-    paneTitle: 'Transmisión'
+    paneTitle: 'Transmisión y Chasis'
   },
   {paneItems: [
       {itemTitle:'Delantera', description:'Telescopica Hidraulica' },
@@ -41,35 +37,31 @@ const bikeInfo = [
     paneTitle: 'Suspensión'
   },
   {paneItems: [
-      {itemTitle:'Freno Delantero', description:'Disco - Diametro 240 mm' },
-      {itemTitle:'Freno Trasero', description:'Campana - 130 mm' },
-    ],
-    paneTitle: 'Frenos'
-  },
-  {paneItems: [
       {itemTitle:'Tamaño Rin Delantero', description:'18 x 1.85, de aleacion' },
       {itemTitle:'Tamaño Rin Trasero', description:'18 x 2.15, de aleacion' },
       {itemTitle:'Tamaño llanta Delantera', description:'80/100 x 18 - 47 P, Tubeless Tyres' },
       {itemTitle:'Tamaño llanta Trasera', description:'110/90 x 18 - 61 P, Tubeless' },
     ],
-    paneTitle: 'Ruedas'
+    paneTitle: 'Ruedas y Llantas'
   },
   {paneItems: [
       {itemTitle:'Batería', description:'12 V - 4 Ah, MF Bateria' },
-      {itemTitle:'Lámpara/Luz delantera', description:'12 V - 35W/35W - Halogen Bulb Trapeziodal MFR' },
-      {itemTitle:'Lámpara/Luz Trasera o de Freno', description:'12 V - 0.5 W / 4.1 W (LED Lamps)' },
-      {itemTitle:'Luz de Cruce', description:'12V - 10 W (Amber Bulb) x 4 nos. (Multi - Reflector- Clear Lens)' },
+      {itemTitle:'Lámpara/Luz delantera', description:'12 V - 35 W / 35 W - Halogen HS1 Bulb, Trapezoidal (Multi - Reflector Type)' },
+      {itemTitle:'Lámpara/Luz Trasera o de Freno', description:'12 V - 10 W (Ambar) x 4 nos (MFR - Clear Lens)' },
+      {itemTitle:'Luz de Cruce', description:'12 V - Twin Lamp - LED' },
+      {itemTitle:'Lámpara luz trasera', description:'12 V - 1.3 W / 1.96 W (LED)' },
+      {itemTitle:'Lámpara luz delantera', description:'12 V - 1.3 W / 1.96 W (LED)' },
     ],
     paneTitle: 'Eléctrico'
   },
   {paneItems: [
-      {itemTitle:'Largo', description:'2080 mm' },
-      {itemTitle:'Ancho', description:'765 mm' },
-      {itemTitle:'Alto', description:'1095 mm' },
+      {itemTitle:'Largo', description:'2100 mm' },
+      {itemTitle:'Ancho', description:'780 mm' },
+      {itemTitle:'Alto', description:'1080 mm' },
       {itemTitle:'Base de la Rueda', description:'1325 mm' },
-      {itemTitle:'Distancia del Suelo', description:'163 mm' },
+      {itemTitle:'Distancia del Suelo', description:'145 mm' },
       {itemTitle:'Peso (seco)', description:'130kg' },
-      {itemTitle:'Carga máxima', description:'145 kg (Brakes - FR/RR--> Disc / Drum) 147 Kg (Brakes - FR/RR - Disc / Drum)' },
+      {itemTitle:'Carga máxima', description:'147 Kg (frenos - FR/RR - Disc / Drum)' },
     ],
     paneTitle: 'Dimensiones'
   },
@@ -118,7 +110,7 @@ class HankSpecs extends Component {
     return(
       <div className="page-column-card no-border">
           {fromHome ?  <Button className="btn-sticky" size="massive" primary> Comprar una Hunk </Button> : '' }
-          <h2 className="txt-center fs-massive">Nueva HUNK con sistema i3S</h2>
+          <h2 className="txt-center fs-massive">HUNK SPORTS</h2>
 
           <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
 

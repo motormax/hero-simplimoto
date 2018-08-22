@@ -16,7 +16,9 @@ import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
 import HunkSpecs from './Specs/HunkSpecs';
-
+import IgnitorSpecs from './Specs/IgnitorSpecs';
+import DashSpecs from './Specs/DashSpecs';
+import HunkSportSpecs from './Specs/HunkSportSpecs';
 
 import logoUrl from './hero-logo.png';
 
@@ -38,6 +40,9 @@ class App extends React.Component {
             <Route path="/plate-registration" component={PlateRegistrationPage} />
             <Route path="/summary" component={PurchaseSummaryPage} />
             <Route path="/hunk-specs" component={HunkSpecs} />
+            <Route path="/ignitor-specs" component={IgnitorSpecs} />
+            <Route path="/dash-specs" component={DashSpecs} />
+            <Route path="/hunk-sport-specs" component={HunkSportSpecs} />
           </Switch>
         </Container>
         <Footer />
