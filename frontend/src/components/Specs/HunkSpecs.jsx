@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Tab, Table, Segment, Button } from 'semantic-ui-react';
 import Slider from 'react-slick';
 
-
 const bikeImages = [
   'http://www.heromotos.com.ar/medios/files/images/hunk/hunk frente.jpg',
   'http://www.heromotos.com.ar/medios/files/images/hunk/hunk 3 cuartos atras.jpg',
@@ -12,14 +11,13 @@ const bikeImages = [
   'http://www.heromotos.com.ar/medios/files/images/hunk/Hunk IB CB Red Back.jpg',
 ];
 
-
 const bikeInfo = [
   {
     paneItems: [
       { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
       { itemTitle: 'Desplazamiento', description: '124.7 cc' },
-      { itemTitle: 'Potencia Max.	', description: '6.72 KW (9.1 Ps) @ 7000 rpm' },
-      { itemTitle: 'Torque Max.	', description: '13.50 Nm @ 7000 rpm' },
+      { itemTitle: 'Potencia Max.', description: '6.72 KW (9.1 Ps) @ 7000 rpm' },
+      { itemTitle: 'Torque Max.', description: '13.50 Nm @ 7000 rpm' },
       { itemTitle: 'Diámetro x Carrera', description: '57.3 x 57.8 mm' },
       { itemTitle: 'Carburador', description: 'Carburador con control variable de ignicion' },
       { itemTitle: 'Relación de Compresión', description: '10 : 1' },
@@ -76,7 +74,10 @@ const bikeInfo = [
       { itemTitle: 'Base de la Rueda', description: '1325 mm' },
       { itemTitle: 'Distancia del Suelo', description: '163 mm' },
       { itemTitle: 'Peso (seco)', description: '130kg' },
-      { itemTitle: 'Carga máxima', description: '145 kg (Brakes - FR/RR--> Disc / Drum) 147 Kg (Brakes - FR/RR - Disc / Drum)' },
+      {
+        itemTitle: 'Carga máxima',
+        description: '145 kg (Brakes - FR/RR--> Disc / Drum) 147 Kg (Brakes - FR/RR - Disc / Drum)',
+      },
     ],
     paneTitle: 'Dimensiones',
   },
@@ -84,24 +85,29 @@ const bikeInfo = [
 
 const panes = bikeInfo.map(pane => ({
   menuItem: pane.paneTitle,
-  render: () =>
-    (<Tab.Pane>
+  render: () => (
+    <Tab.Pane>
       <Table basic="very">
         <Table.Body>
           {
-            pane.paneItems.map(paneItem => (<Table.Row>
-              <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
-              <Table.Cell>{paneItem.description}</Table.Cell>
-                                            </Table.Row>))
+            pane.paneItems.map(paneItem => (
+              <Table.Row>
+                <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
+                <Table.Cell>{paneItem.description}</Table.Cell>
+              </Table.Row>
+            ))
           }
         </Table.Body>
       </Table>
-     </Tab.Pane>),
+    </Tab.Pane>
+  ),
 }));
 
-const sliderImages = bikeImages.map(url => (<div>
-  <img src={url} className="carrousel-default-images" alt="Foto de Hunk" />
-                                            </div>));
+const sliderImages = bikeImages.map(url => (
+  <div>
+    <img src={url} className="carrousel-default-images" alt="Foto de Hunk" />
+  </div>
+));
 
 const fromHome = true;
 
@@ -117,7 +123,7 @@ class HankSpecs extends Component {
 
     return (
       <div className="page-column-card no-border">
-        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Hunk </Button> : '' }
+        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Hunk </Button> : ''}
         <h2 className="txt-center fs-massive">Nueva HUNK con sistema i3S</h2>
 
         <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
@@ -135,7 +141,7 @@ class HankSpecs extends Component {
 
           {fromHome ?
             <Button size="large" secondary> Volver </Button> : <Button size="large" primary> Volver </Button>
-            }
+          }
         </div>
 
       </div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Tab, Table, Segment, Button } from 'semantic-ui-react';
 import Slider from 'react-slick';
 
-
 const bikeImages = [
   'http://www.heromotos.com.ar/medios/files/images/hunk%20sports/hunksp-red-34t.jpeg',
   'http://www.heromotos.com.ar/medios/files/images/hunk%20sports/Hunk Sports Argentina 3-4th Front Red.jpg',
@@ -10,14 +9,13 @@ const bikeImages = [
   'http://www.heromotos.com.ar/medios/files/images/hunk%20sports/hunksp-red-front.jpeg',
 ];
 
-
 const bikeInfo = [
   {
     paneItems: [
       { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
       { itemTitle: 'Desplazamiento', description: '149.2 cc' },
-      { itemTitle: 'Potencia Max.	', description: '11.33 kW (15.2 BHP) @ 8500 rpm' },
-      { itemTitle: 'Torque Max.	', description: '13.50 Nm @ 7000 rpm' },
+      { itemTitle: 'Potencia Max.', description: '11.33 kW (15.2 BHP) @ 8500 rpm' },
+      { itemTitle: 'Torque Max.', description: '13.50 Nm @ 7000 rpm' },
       { itemTitle: 'Diámetro x Carrera', description: '57.3 x 57.8 mm' },
       { itemTitle: 'Carburador', description: 'CV Type with Carburettor Controlled Variable Ignition' },
       { itemTitle: 'Relación de Compresión', description: '10:01' },
@@ -51,7 +49,10 @@ const bikeInfo = [
   {
     paneItems: [
       { itemTitle: 'Batería', description: '12 V - 4 Ah, MF Bateria' },
-      { itemTitle: 'Lámpara/Luz delantera', description: '12 V - 35 W / 35 W - Halogen HS1 Bulb, Trapezoidal (Multi - Reflector Type)' },
+      {
+        itemTitle: 'Lámpara/Luz delantera',
+        description: '12 V - 35 W / 35 W - Halogen HS1 Bulb, Trapezoidal (Multi - Reflector Type)',
+      },
       { itemTitle: 'Lámpara/Luz Trasera o de Freno', description: '12 V - 10 W (Ambar) x 4 nos (MFR - Clear Lens)' },
       { itemTitle: 'Luz de Cruce', description: '12 V - Twin Lamp - LED' },
       { itemTitle: 'Lámpara luz trasera', description: '12 V - 1.3 W / 1.96 W (LED)' },
@@ -75,24 +76,28 @@ const bikeInfo = [
 
 const panes = bikeInfo.map(pane => ({
   menuItem: pane.paneTitle,
-  render: () =>
-    (<Tab.Pane>
+  render: () => (
+    <Tab.Pane>
       <Table basic="very">
         <Table.Body>
           {
-            pane.paneItems.map(paneItem => (<Table.Row>
-              <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
-              <Table.Cell>{paneItem.description}</Table.Cell>
-                                            </Table.Row>))
+            pane.paneItems.map(paneItem => (
+              <Table.Row>
+                <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
+                <Table.Cell>{paneItem.description}</Table.Cell>
+              </Table.Row>))
           }
         </Table.Body>
       </Table>
-     </Tab.Pane>),
+    </Tab.Pane>
+  ),
 }));
 
-const sliderImages = bikeImages.map(url => (<div>
-  <img src={url} className="carrousel-default-images" alt="Foto de Hunk Sport" />
-                                            </div>));
+const sliderImages = bikeImages.map(url => (
+  <div>
+    <img src={url} className="carrousel-default-images" alt="Foto de Hunk Sport" />
+  </div>
+));
 
 const fromHome = true;
 
@@ -108,7 +113,7 @@ class HankSpecs extends Component {
 
     return (
       <div className="page-column-card no-border">
-        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Hunk </Button> : '' }
+        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Hunk </Button> : ''}
         <h2 className="txt-center fs-massive">HUNK SPORTS</h2>
 
         <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
@@ -126,7 +131,7 @@ class HankSpecs extends Component {
 
           {fromHome ?
             <Button size="large" secondary> Volver </Button> : <Button size="large" primary> Volver </Button>
-            }
+          }
         </div>
 
       </div>

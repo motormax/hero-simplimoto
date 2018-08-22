@@ -18,8 +18,8 @@ const bikeInfo = [
     paneItems: [
       { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4-tiempos' },
       { itemTitle: 'Desplazamiento', description: '110.9 cc' },
-      { itemTitle: 'Potencia Max.	', description: '6.2 kW @ 8000 RPM' },
-      { itemTitle: 'Torque Max.	', description: '8.30 Nm @ 6500 RPM' },
+      { itemTitle: 'Potencia Max.', description: '6.2 kW @ 8000 RPM' },
+      { itemTitle: 'Torque Max.', description: '8.30 Nm @ 6500 RPM' },
       { itemTitle: 'Arranque', description: 'Automatico / patada' },
     ],
     paneTitle: 'Motor',
@@ -63,24 +63,29 @@ const bikeInfo = [
 
 const panes = bikeInfo.map(pane => ({
   menuItem: pane.paneTitle,
-  render: () =>
-    (<Tab.Pane>
+  render: () => (
+    <Tab.Pane>
       <Table basic="very">
         <Table.Body>
           {
-            pane.paneItems.map(paneItem => (<Table.Row>
-              <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
-              <Table.Cell>{paneItem.description}</Table.Cell>
-                                            </Table.Row>))
+            pane.paneItems.map(paneItem => (
+              <Table.Row>
+                <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
+                <Table.Cell>{paneItem.description}</Table.Cell>
+              </Table.Row>
+            ))
           }
         </Table.Body>
       </Table>
-     </Tab.Pane>),
+    </Tab.Pane>
+  ),
 }));
 
-const sliderImages = bikeImages.map(url => (<div>
-  <img src={url} className="carrousel-default-images" alt="Foto de Dash" />
-                                            </div>));
+const sliderImages = bikeImages.map(url => (
+  <div>
+    <img src={url} className="carrousel-default-images" alt="Foto de Dash" />
+  </div>
+));
 
 const fromHome = true;
 
@@ -96,7 +101,7 @@ class HankSpecs extends Component {
 
     return (
       <div className="page-column-card no-border">
-        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Dash </Button> : '' }
+        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Dash </Button> : ''}
         <h2 className="txt-center fs-massive">Dash</h2>
 
         <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
@@ -114,7 +119,7 @@ class HankSpecs extends Component {
 
           {fromHome ?
             <Button size="large" secondary> Volver </Button> : <Button size="large" primary> Volver </Button>
-            }
+          }
         </div>
 
       </div>

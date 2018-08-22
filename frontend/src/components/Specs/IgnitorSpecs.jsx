@@ -14,8 +14,8 @@ const bikeInfo = [
     paneItems: [
       { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
       { itemTitle: 'Desplazamiento', description: '124.7 cc' },
-      { itemTitle: 'Potencia Max.	', description: '6.72 KW (9.1 Ps) @ 7000 rpm' },
-      { itemTitle: 'Torque Max.	', description: '10.35 Nm @ 4000 rpm' },
+      { itemTitle: 'Potencia Max.', description: '6.72 KW (9.1 Ps) @ 7000 rpm' },
+      { itemTitle: 'Torque Max.', description: '10.35 Nm @ 4000 rpm' },
       { itemTitle: 'Diámetro x Carrera', description: '52.4 x 57.8 mm' },
       { itemTitle: 'Carburador', description: 'Carburador con control variable de ignicion' },
       { itemTitle: 'Relación de Compresión', description: '9.1 : 1' },
@@ -41,8 +41,8 @@ const bikeInfo = [
   },
   {
     paneItems: [
-      { itemTitle: 'Freno Delantero', description: '	240 mm - sin asbestos' },
-      { itemTitle: 'Freno Trasero', description: '	130 mm - sin asbestos' },
+      { itemTitle: 'Freno Delantero', description: '240 mm - sin asbestos' },
+      { itemTitle: 'Freno Trasero', description: '130 mm - sin asbestos' },
     ],
     paneTitle: 'Frenos',
   },
@@ -81,24 +81,29 @@ const bikeInfo = [
 
 const panes = bikeInfo.map(pane => ({
   menuItem: pane.paneTitle,
-  render: () =>
-    (<Tab.Pane>
+  render: () => (
+    <Tab.Pane>
       <Table basic="very">
         <Table.Body>
           {
-            pane.paneItems.map(paneItem => (<Table.Row>
-              <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
-              <Table.Cell>{paneItem.description}</Table.Cell>
-                                            </Table.Row>))
+            pane.paneItems.map(paneItem => (
+              <Table.Row>
+                <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
+                <Table.Cell>{paneItem.description}</Table.Cell>
+              </Table.Row>
+            ))
           }
         </Table.Body>
       </Table>
-     </Tab.Pane>),
+    </Tab.Pane>
+  ),
 }));
 
-const sliderImages = bikeImages.map(url => (<div>
-  <img src={url} className="carrousel-default-images" alt="Foto de Ignitor" />
-                                            </div>));
+const sliderImages = bikeImages.map(url => (
+  <div>
+    <img src={url} className="carrousel-default-images" alt="Foto de Ignitor" />
+  </div>
+));
 
 const fromHome = true;
 
@@ -114,7 +119,7 @@ class HankSpecs extends Component {
 
     return (
       <div className="page-column-card no-border">
-        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Ignitor</Button> : '' }
+        {fromHome ? <Button className="btn-sticky" size="massive" primary> Comprar una Ignitor</Button> : ''}
         <h2 className="txt-center fs-massive">Nueva Ignitor con sistema i3S</h2>
 
         <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
@@ -132,7 +137,7 @@ class HankSpecs extends Component {
 
           {fromHome ?
             <Button size="large" secondary> Volver </Button> : <Button size="large" primary> Volver </Button>
-            }
+          }
         </div>
 
       </div>
