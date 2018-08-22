@@ -14,6 +14,9 @@ const defaultState = {};
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
+    case actionTypes.cancelPurchase:
+      window.localStorage.removeItem('leadId');
+      return defaultState;
     case actionTypes.leadFetched:
       window.localStorage.setItem('leadId', action.lead.id);
 
