@@ -1,11 +1,14 @@
 defmodule HeroDigital.Payment.PaymentGateway do
 
+  alias HeroDigital.Fulfillment.PurchaseOrder
+
   @access_token Application.get_env(:hero_digital, HeroDigital.Payment.PaymentGateway)[:access_token]
   @http_adapter Application.get_env(:hero_digital, HeroDigital.Payment.PaymentGateway)[:http_adapter]
 
   @base_uri "https://api.mercadopago.com"
 
   @success_default_message "El pago fue procesado con éxito."
+  @error_default_message "Hubo un error al procesar el pago. Por favor intente nuevamente o pruebe con otro medio de pago."
 
   @success_responses %{
     "accredited" => "El pago fue procesado con éxito.",
@@ -28,8 +31,6 @@ defmodule HeroDigital.Payment.PaymentGateway do
     "cc_rejected_max_attempts" => "Llegaste al límite de intentos permitidos. Elige otro medio de pago.",
     "cc_rejected_other_reason" => "No se pudo procesar el pago. Por favor elige otro de los medios de pago.",
   }
-
-  @error_default_message "Hubo un error al procesar el pago. Por favor intente nuevamente o pruebe con otro medio de pago."
 
   require Logger
 
@@ -70,17 +71,17 @@ defmodule HeroDigital.Payment.PaymentGateway do
     ]
   end
 
-  defp build_payment_data(credit_card_token) do
+  defp build_payment_data(purchase_order) do
     %{
-      "transaction_amount" => 100,
-      "token" => credit_card_token,
-      "description" => "Title of what you are paying for",
+      "transaction_amount" => PurchaseOrder.total_amount(purchase_order),
+      "token" => purchase_order.payment_method_token,
+      "description" => PurchaseOrder.description(purchase_order),
       "payer" => %{
-        "email" => "example@email.com"
+        "email" => purchase_order.email
       },
-      "installments" => 3,
-      "payment_method_id" => "visa",
-      # "issuer_id" => 338
+      "installments" => PurchaseOrder.installments(purchase_order),
+      "payment_method_id" => PurchaseOrder.payment_method_id(purchase_order),
+      "issuer_id" => PurchaseOrder.issuer_id(purchase_order),
     }
     |> Poison.encode!
   end
@@ -89,21 +90,21 @@ defmodule HeroDigital.Payment.PaymentGateway do
     Logger.info "Payment approved with ID: #{approved_response["id"]}"
     Logger.debug "Payment response: #{inspect(approved_response)}"
 
-    {:ok, Map.put(approved_response, :success_message, fetch_success_message(approved_response))}
+    {:ok, Map.put(approved_response, "success_message", fetch_success_message(approved_response))}
   end
 
   defp handle_success_response(inprog_response = %{"status" => "in_process"}) do
     Logger.info "Payment in_process with ID: #{inprog_response["id"]}"
     Logger.debug "Payment response: #{inspect(inprog_response)}"
 
-    {:ok, Map.put(inprog_response, :success_message, fetch_success_message(inprog_response))}
+    {:ok, Map.put(inprog_response, "success_message", fetch_success_message(inprog_response))}
   end
 
   defp handle_success_response(rejected_response = %{"status" => "rejected"}) do
     Logger.info "Payment rejected with ID: #{rejected_response["id"]}"
     Logger.debug "Payment response: #{inspect(rejected_response)}"
 
-    {:error, Map.put(rejected_response, :error_message, fetch_error_message(rejected_response))}
+    {:payment_error, Map.put(rejected_response, "error_message", fetch_error_message(rejected_response))}
   end
 
   defp fetch_error_message(response) do
@@ -118,13 +119,25 @@ defmodule HeroDigital.Payment.PaymentGateway do
     Logger.error "Payment failed with code: #{code}"
     Logger.error "Response body: #{inspect(error_response)}"
 
-    {:error, Map.put(error_response, :error_message, @error_default_message)}
+    failed_response = %{"status" => "#{error_response["message"]}",
+      "error_message" => @error_default_message,
+      "status_detail" => error_response["message"],
+      "id" => "n/a",
+    }
+
+    {:payment_error, Map.merge(error_response, failed_response)}
   end
 
   defp handle_error_response(reason) do
     Logger.error "Payment failed with reason: [#{reason}]"
 
-    {:error,%{"status" => reason, error_message: @error_default_message}}
+    failed_response = %{"status" => reason,
+      "error_message" => @error_default_message,
+      "status_detail" => reason,
+      "id" => "n/a",
+    }
+
+    {:payment_error, failed_response}
   end
 
 end

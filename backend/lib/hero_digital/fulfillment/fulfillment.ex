@@ -44,39 +44,87 @@ defmodule HeroDigital.Fulfillment do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_purchase_order_from_lead(%Lead{} = lead, credit_card_token) do
-    Logger.info "Creating Purchase Order"
+  def create_purchase_order_from_lead(%Lead{} = lead, payment_params) do
 
-    changeset = %PurchaseOrder{}
-      |> PurchaseOrder.changeset(lead, %{})
-
-    Logger.debug "Purchase Order changeset #{inspect(changeset)}"
+    changeset = build_purchase_order_changeset(lead, payment_params)
 
     if changeset.valid? do
-      Logger.info "Delete Lead"
-      {:ok, lead} = Identity.deactivate_lead(lead)
+      purchase_order = create_purchase_order(changeset)
 
-      Logger.info "Insert Purchase Order"
-      with {:ok, purchase_order} <- Repo.insert(changeset),
-           {:ok, mp_response} <- PaymentGateway.process_payment(credit_card_token),
-           {:ok, payment} <- create_payment_for(purchase_order, mp_response) do
-          {:ok, purchase_order}
+      # case PaymentGateway.process_payment(purchase_order) do
+      #   {:payment_error, response} ->
+      #     #  crear un payment con la response fallido
+      #   {:ok, mp_response} ->
+      #     # crear un payment success
+      #   {:payment_error, }
+      # end
+      with {:ok, mp_response} <- PaymentGateway.process_payment(purchase_order),
+           {:ok, payment} <- create_payment_for(purchase_order, mp_response),
+           {:ok, lead} <- Identity.deactivate_lead(lead) do
+            {:ok, load_purchase_order_with_payment(purchase_order)}
+      else
+        {:payment_error, mp_response} ->
+           create_failed_payment_for(purchase_order, mp_response)
+          {:payment_error, load_purchase_order_with_payment(purchase_order)}
       end
     else
       {:error, changeset}
     end
   end
 
-  def create_payment_for(%PurchaseOrder{} = purchase_order, mp_response) do
+  def load_purchase_order_with_payment(purchase_order) do
+    po = Repo.preload(purchase_order, :payment)
+    Logger.debug "purchase order to return #{inspect(po.payment.status)}"
+    po
+  end
+
+  def create_purchase_order(changeset) do
+    Logger.info "Processing Purchase Order"
+    {:ok, purchase_order} = Repo.insert(changeset)
+    purchase_order |> Repo.preload(lead: :motorcycle)
+  end
+
+  defp build_purchase_order_changeset(lead, payment_params) do
+    Logger.info "Creating Purchase Order"
+
+    purchase_order_data = %{
+      email: payment_params["email"],
+      payment_method: "credit_card",
+      payment_method_token: payment_params["credit_card_token"],
+    }
+
+    changeset = %PurchaseOrder{}
+      |> PurchaseOrder.changeset(lead, purchase_order_data)
+
+    Logger.debug "Purchase Order changeset #{inspect(changeset)}"
+    changeset
+  end
+
+  defp create_payment_for(%PurchaseOrder{} = purchase_order, mp_response) do
     %Payment{}
     |> Payment.changeset(%{
       status: mp_response["status"],
       status_detail: mp_response["status_detail"],
       purchase_order_id: purchase_order.id,
-      transaction_id: mp_response["id"],
+      transaction_id: inspect(mp_response["id"]),
+      user_message: mp_response["success_message"],
       raw_body: Poison.encode!(mp_response)
     })
     |> Repo.insert()
+  end
+
+  defp create_failed_payment_for(%PurchaseOrder{} = purchase_order, mp_response) do
+    %Payment{}
+    |> Payment.changeset(%{
+      status: mp_response["status"],
+      status_detail: mp_response["status_detail"],
+      purchase_order_id: purchase_order.id,
+      transaction_id: inspect(mp_response["id"]),
+      user_message: mp_response["error_message"],
+      raw_body: Poison.encode!(mp_response)
+    })
+    |> Repo.insert!()
+    {:payment_error, purchase_order}
   end
 
   @doc """
@@ -91,7 +139,7 @@ defmodule HeroDigital.Fulfillment do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_purchase_order(%PurchaseOrder{} = purchase_order) do
+  defp delete_purchase_order(%PurchaseOrder{} = purchase_order) do
     Repo.delete(purchase_order)
   end
 end

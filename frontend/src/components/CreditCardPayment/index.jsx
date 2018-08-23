@@ -124,14 +124,26 @@ class CreditCardPayment extends Component {
     return false;
   };
 
-  sdkResponseHandler = (status, response) => {
+  sdkResponseHandler = async (status, response) => {
     if (status !== 200 && status !== 201) {
       this.handleGatewayError(status, response);
     } else {
       this.setState({ creditCardToken: response.id });
-      this.props.createPurchaseOrder(this.props.lead.id, response.id);
-      console.log(`Token! ${response.id}`);
-      console.log(response);
+      try {
+        const creditCardToken = response.id;
+        console.log(`Token! ${creditCardToken}`);
+        console.log(response);
+        await this.props.createPurchaseOrder(this.props.lead.id, creditCardToken, 
+          this.state.paymentMethod.email);
+      } catch (error) {
+        if (error.response.data.user_message) {
+          const newErrors = this.state.errors;
+          newErrors.description += `${error.response.data.user_message}\n`;
+          this.setState({ errors: newErrors });
+        } else {
+          throw error;
+        }
+      }
     }
   };
 
@@ -277,8 +289,8 @@ class CreditCardPayment extends Component {
 
           <Message
             error
-            header="Error"
-            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+            header="Lo sentimos hubo un error al procesar la solicitud"
+            content={this.state.errors.description}
           />
           
           <Button 
@@ -304,19 +316,16 @@ const mapDispatchToProps = dispatch => ({
   changeFinancing: () => {
     dispatch(push('/financing'));
   },
-  createPurchaseOrder: async (leadId, creditCardToken) => {
-    axios.post(
+  createPurchaseOrder: async (leadId, creditCardToken, email) => {
+    const response = await axios.post(
       `/api/leads/${leadId}/purcharse_order`,
       {
         credit_card_token: creditCardToken,
+        email: email,
       },
-    ).then((response) => {
-      console.log(response); // eslint-disable-line no-console
-      dispatch(push('/dashboard'));
-    })
-      .catch((error) => {
-        console.log(error); // eslint-disable-line no-console
-      });
+    );
+    console.log(response); // eslint-disable-line no-console
+    dispatch(push('/success'));      
   },
 });
 

@@ -8,6 +8,9 @@ config :hero_digital, HeroDigitalWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+# config :logger,
+#   backends: [:console],
+#   compile_time_purge_level: :debug
 
 # Configure your database
 config :hero_digital, HeroDigital.Repo,
