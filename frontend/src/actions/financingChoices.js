@@ -1,5 +1,9 @@
 import actionTypes from './actionTypes';
 
+export const startedFetchingFinancing = () => ({
+  type: actionTypes.startedFetchingFinancing,
+});
+
 export const financingSelected = financingForm => ({
   type: actionTypes.financingSelected,
   financingForm,

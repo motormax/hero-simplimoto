@@ -53,7 +53,7 @@ class DashboardPage extends Component {
             </Grid.Column>
             <Grid.Column width={6}>
               <div>
-                <CheckoutSummary motorcycle={lead.motorcycle} />
+                <CheckoutSummary motorcycle={lead.motorcycle} lead={lead} />
               </div>
             </Grid.Column>
           </Grid>

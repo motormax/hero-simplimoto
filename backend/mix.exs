@@ -47,6 +47,7 @@ defmodule HeroDigital.Mixfile do
       {:logglix, "~> 1.0.0"},
       {:sentry, "~> 6.3"},
       {:mox, "~> 0.4", only: :test},
+      {:decimal, "~> 1.0"},
     ]
   end
 

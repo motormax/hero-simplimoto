@@ -1,29 +1,47 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import axios from 'axios';
+import humps from 'humps';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 import classNames from 'classnames';
+import { financingSelected, startedFetchingFinancing } from '../../../actions/financingChoices';
 
 
 class FinancingSection extends Component {
+  static defaultProps = {
+    isLoading: false,
+  }
   static propTypes = {
     t: propTypes.func.isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
     changeToSelectFinancing: propTypes.func.isRequired,
-    financingSelected: propTypes.bool.isRequired,
+    fetchFinancing: propTypes.func.isRequired,
+    isLoading: propTypes.bool,
+    financingSelected: propTypes.bool,
     financingForm: propTypes.shape({
       message: propTypes.string.isRequired,
       issuerName: propTypes.string.isRequired,
       paymentMethodName: propTypes.string.isRequired,
-    }).isRequired,
-    // saveFinancing: propTypes.func.isRequired,
+    }),
+  };
+
+  componentWillMount() {
+    if (!this.props.financingSelected) {
+      this.props.fetchFinancing(this.props.lead.id);
+    }
   }
 
   render() {
-    const { t } = this.props;
+    const { t, isLoading } = this.props;
 
-    // const isOk = true;
+    if (isLoading) {
+      return <div>Cargando</div>;
+    }
     const color = this.props.financingSelected ? '#67CC4F' : 'red';
 
     const message = this.props.financingSelected ? `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName} del banco ${this.props.financingForm.issuerName}` : 'Elegí el financiamiento más conveniente';
@@ -65,11 +83,17 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
+  isLoading: state.main.financing.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
   changeToSelectFinancing: () => {
     dispatch(push('/financing'));
+  },
+  fetchFinancing: async (leadId) => {
+    dispatch(startedFetchingFinancing());
+    const { data: { data: financingForm } } = await axios.get(`/api/leads/${leadId}/financing_data`);
+    dispatch(financingSelected(humps.camelizeKeys(financingForm)));
   },
 });
 

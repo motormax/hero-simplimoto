@@ -9,7 +9,7 @@ defmodule HeroDigitalWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/", from: :hero_digital, gzip: false,
-    only: ~w(index.html static css fonts images js favicon.ico robots.txt service-worker.js)
+    only: ~w(index.html static css fonts images js favicon.png robots.txt service-worker.js)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
