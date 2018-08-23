@@ -13,7 +13,7 @@ defmodule HeroDigital.Repo.Migrations.CreateFinancingData do
       add :message, :string
       add :costs, :string
       add :monthly_amount, :float
-      add :lead_id, references(:leads, type: :uuid, on_delete: :nothing)
+      add :lead_id, references(:leads, type: :uuid, on_delete: :delete_all)
 
       timestamps()
     end
