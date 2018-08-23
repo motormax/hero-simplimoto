@@ -25,7 +25,7 @@ class BikeSpecsPage extends Component {
           <Table.Body>
             {
               pane.paneItems.map(paneItem => (
-                <Table.Row>
+                <Table.Row key={paneItem.itemTitle}>
                   <Table.Cell><span className="fw-bold">{paneItem.itemTitle}</span></Table.Cell>
                   <Table.Cell>{paneItem.description}</Table.Cell>
                 </Table.Row>
@@ -38,7 +38,7 @@ class BikeSpecsPage extends Component {
   }));
 
   sliderImages = () => this.props.bike.bikeImages.map(url => (
-    <div>
+    <div key={url}>
       <img src={url} className="carrousel-default-images" alt="Foto de Ignitor" />
     </div>
   ));
@@ -102,7 +102,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state, ownProps) => ({
   hasPickedBike: !!state.main.lead,
-  bike: availableMotorcycles[ownProps.match.params.bikeName.toUpperCase()],
+  bike: availableMotorcycles[ownProps.match.params.bikeName.toUpperCase().replace(/ /g, '_')],
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BikeSpecsPage);

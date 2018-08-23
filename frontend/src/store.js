@@ -8,6 +8,11 @@ import reducers from './reducers';
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory();
+history.listen((location, action) => {
+  if (action !== 'POP') {
+    window.scrollTo(0, 0);
+  }
+});
 
 // Build the middleware for intercepting and dispatching navigation actions
 const middlewares = [];

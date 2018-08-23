@@ -16,7 +16,7 @@ class ListOfBikesModels extends Component {
     const { t } = this.props;
 
     const bikesModels = Object.values(availableMotorcycles).map(bikeData => (
-      <Card className="image-card">
+      <Card key={bikeData.displayName} className="image-card">
         <Card.Content className="btn-displaced-container">
           <img src={bikeData.defaultImageUrl} alt={bikeData.displayName} />
           <h2 className="txt-center">{bikeData.displayName}</h2>

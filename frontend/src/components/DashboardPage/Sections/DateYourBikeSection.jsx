@@ -21,8 +21,8 @@ class DateYourBikeSection extends Component {
     fetchDateAppointment: propTypes.func.isRequired,
     changeToDateYourBike: propTypes.func.isRequired,
     appointment: propTypes.shape({
-      id: propTypes.number.isRequired,
-      address: propTypes.object.isRequired,
+      id: propTypes.number,
+      address: propTypes.object,
     }).isRequired,
   };
 
@@ -68,7 +68,7 @@ class DateYourBikeSection extends Component {
             </Grid.Column>
             <Grid.Column width={5}>
               <Button className={appointment.id ? 'btn-outline' : 'btn-opacity'} fluid secondary onClick={() => this.props.changeToDateYourBike()}>
-                <Icon name="calendar alternate" /> { appointment.id ? 'Cambiar' : 'Arreglá una cita'}
+                <Icon className="calendar alternate" /> { appointment.id ? 'Cambiar' : 'Arreglá una cita'}
               </Button>
             </Grid.Column>
           </Grid.Row>
