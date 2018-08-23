@@ -1,3 +1,4 @@
+/* eslint react/no-danger: 0 */
 import React, { Component } from 'react';
 import _ from 'lodash';
 import propTypes from 'prop-types';
@@ -144,11 +145,8 @@ class InsurancePage extends Component {
     <span>Ver más información<Icon name="info circle" /></span>
   );
 
-  dangerousHTMLQuoteDetails = (moreInfo) => {
-    return (
-      <div dangerouslySetInnerHTML={{ __html: moreInfo }} /> // eslint-disable-line
-    );
-  };
+  dangerousHTMLQuoteDetails = moreInfo =>
+    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />
 
   popUpMoreInfo(quote) {
     return (
