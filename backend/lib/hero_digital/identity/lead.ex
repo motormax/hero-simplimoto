@@ -9,6 +9,8 @@ defmodule HeroDigital.Identity.Lead do
     field :is_active, :boolean
     belongs_to(:motorcycle, HeroDigital.Product.Motorcycle)
 
+    has_one :financing_data, HeroDigital.Financing.FinancingData
+
     timestamps()
   end
 

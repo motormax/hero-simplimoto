@@ -120,9 +120,7 @@ class CheckoutSummary extends Component {
     } = this.props;
 
     const {
-      motorcycle, insurancePrice, insurancePolicy, insuranceBrokerLogo,
-      insuranceBroker, changeToSelectInsurance, insuranceSelected,
-      insuranceOptOut, accessoriesPrice,
+      motorcycle, changeToSelectInsurance, accessoriesPrice,
     } = this.props;
 
     if (this.props.chosen_opt_in_or_out === 'heroInsurance') {

@@ -13,7 +13,7 @@ import MaskedInput from 'react-text-mask';
 import { loadSDK, getPaymentMethod } from '../FinancingPage/mercadoPagoHelper';
 
 import FinancingInfo from '../DashboardPage/Sections/FinancingInfo';
-import gatewayErrorCodes from './gatewayErrors';
+import {gatewayErrorCodes, gatewayDefaultErrorCodes} from './gatewayErrors';
 
 class CreditCardPayment extends Component {
   static propTypes = {
@@ -127,7 +127,7 @@ class CreditCardPayment extends Component {
   sdkResponseHandler = async (status, response) => {
     if (status !== 200 && status !== 201) {
       this.handleGatewayError(status, response);
-    } else {
+    } else {      
       this.setState({ creditCardToken: response.id });
       try {
         const creditCardToken = response.id;
@@ -138,7 +138,7 @@ class CreditCardPayment extends Component {
       } catch (error) {
         if (error.response.data.user_message) {
           const newErrors = this.state.errors;
-          newErrors.description += `${error.response.data.user_message}\n`;
+          newErrors.description = `${error.response.data.user_message}\n`;
           this.setState({ errors: newErrors });
         } else {
           throw error;
@@ -148,11 +148,12 @@ class CreditCardPayment extends Component {
   };
 
   handleGatewayError = (status, response) => {
+    window.Mercadopago.clearSession();
     response.cause.forEach((errorCause) => {
-      const errorObj = gatewayErrorCodes.find(error => error.code === errorCause.code);
+      const errorObj = gatewayErrorCodes.find(error => error.code === errorCause.code) || gatewayDefaultErrorCodes;
       const newErrors = this.state.errors;
       newErrors[errorObj.field] = true;
-      newErrors.description += `${errorObj.message}\n`;
+      newErrors.description = `${errorObj.message}\n`;
       this.setState({ errors: newErrors });
     });
   };

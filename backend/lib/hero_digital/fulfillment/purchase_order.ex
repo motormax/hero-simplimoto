@@ -2,6 +2,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias HeroDigital.Repo
 
   schema "purchase_orders" do
     field :email, :string
@@ -22,27 +23,28 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   end
 
   def description(purchase_order) do
-    "Motocicleta Hero " <> purchase_order.lead.motorcycle.name
+    "Motocicleta Hero " <> lead(purchase_order).motorcycle.name
   end
 
   def installments(purchase_order) do
-    #TODO: Grab installment from purchase_order.lead.financing.installments
-    1
+    lead(purchase_order).financing_data.installments
   end
 
   def payment_method_id(purchase_order) do
-    #TODO: Grab installment from purchase_order.lead.financing.payment_method_id
-    "visa"
+    lead(purchase_order).financing_data.payment_method_id
   end
 
   def issuer_id(purchase_order) do
-    #TODO: Grab installment from purchase_order.lead.financing.issuer_id
-    ""
+    lead(purchase_order).financing_data.issuer_id
   end
 
   def total_amount(purchase_order) do
-    purchase_order.lead.motorcycle.price
+    lead(purchase_order).motorcycle.price
     # TODO: Patentamiento +
     # TODO: purchase_order.lead.accesories
+  end
+
+  defp lead(purchase_order) do
+    purchase_order.lead |> Repo.preload(:financing_data)
   end
 end

@@ -3,6 +3,7 @@ defmodule HeroDigital.FulfillmentTest do
 
   alias HeroDigital.Fulfillment
   alias HeroDigital.Product.Motorcycle
+  alias HeroDigital.Financing
 
   alias Http.Mock
 
@@ -12,6 +13,7 @@ defmodule HeroDigital.FulfillmentTest do
     alias HeroDigital.Fulfillment.PurchaseOrder
 
     @transaction_approved_body Poison.encode!(%{"id" => 123, "status" => "approved", "status_detail" => "accredited"})
+    @financing_data_params %{costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
 
     @valid_attrs %{"email" => "some email", "credit_card_token" => "a cc token"}
     @invalid_attrs %{"email" => nil}
@@ -31,6 +33,11 @@ defmodule HeroDigital.FulfillmentTest do
       end
     end
 
+    setup %{lead: lead} do
+      with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params) do
+        %{financing_data: financing_data}
+      end
+    end
 
     # test "get_purchase_order!/1 returns the purchase_order with given id", %{lead: lead} do
 
