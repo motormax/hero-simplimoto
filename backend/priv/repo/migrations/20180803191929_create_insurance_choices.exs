@@ -8,7 +8,7 @@ defmodule HeroDigital.Repo.Migrations.CreateInsuranceChoices do
       add :quote_broker_name, :string
       add :quote_broker_logo_url, :string
       add :quote_policy, :string
-      add :quote_more_info, :string
+      add :quote_more_info, :binary
       add :query_province, :string
       add :query_age, :integer
       add :query_postal_code, :string
