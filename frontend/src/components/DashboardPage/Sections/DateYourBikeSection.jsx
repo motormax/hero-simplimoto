@@ -21,12 +21,15 @@ class DateYourBikeSection extends Component {
     fetchDateAppointment: propTypes.func.isRequired,
     changeToDateYourBike: propTypes.func.isRequired,
     appointment: propTypes.shape({
+      id: propTypes.number.isRequired,
       address: propTypes.object.isRequired,
     }).isRequired,
   };
 
   componentWillMount() {
-    this.props.fetchDateAppointment(this.props.lead.id);
+    if (!this.props.appointment) {
+      this.props.fetchDateAppointment(this.props.lead.id);
+    }
   }
 
   render() {
