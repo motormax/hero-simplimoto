@@ -5,22 +5,25 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import humps from 'humps';
 import { push } from 'react-router-redux';
 import { Button, Form, Card, Divider, Image, Segment, Icon, Search, Popup, Message } from 'semantic-ui-react';
-import { insuranceSelected, insuranceOptOut, insuranceChoiceFetched } from '../../actions/insuranceChoices';
+import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
 
-const optInOrOutOptions = [{
-  key: HERO_INSURANCE,
-  text: 'Quiero cotizar mi seguro con Hero',
-  value: HERO_INSURANCE,
-},
-{
-  key: PERSONAL_INSURANCE,
-  text: 'Voy a contratar mi propio seguro',
-  value: PERSONAL_INSURANCE,
-}];
+const optInOrOutOptions = [
+  {
+    key: HERO_INSURANCE,
+    text: 'Quiero cotizar mi seguro con Hero',
+    value: HERO_INSURANCE,
+  },
+  {
+    key: PERSONAL_INSURANCE,
+    text: 'Voy a contratar mi propio seguro',
+    value: PERSONAL_INSURANCE,
+  },
+];
 
 class InsurancePage extends Component {
   static propTypes = {
@@ -34,32 +37,31 @@ class InsurancePage extends Component {
       }),
     }).isRequired,
     insuranceChoice: propTypes.shape({
-      opt_in_or_out: propTypes.string,
-      query_province: propTypes.string,
-      query_postal_code: propTypes.string,
-      query_age: propTypes.number,
+      optInOrOut: propTypes.string,
+      queryProvince: propTypes.string,
+      queryPostalCode: propTypes.string,
+      queryAge: propTypes.number,
     }).isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.paymentMethodForm = React.createRef();
     this.state = {
       insuranceQuotes: [],
-      optInOrOut: props.insuranceChoice.opt_in_or_out,
+      optInOrOut: props.insuranceChoice.optInOrOut || HERO_INSURANCE,
       insuranceChoice: {
-        query_province: props.insuranceChoice.query_province,
-        query_postal_code: props.insuranceChoice.query_postal_code,
-        query_age: props.insuranceChoice.query_age,
+        queryProvince: props.insuranceChoice.queryProvince || PROVINCE_CABA,
+        queryPostalCode: props.insuranceChoice.queryPostalCode || '',
+        queryAge: props.insuranceChoice.queryAge || 18,
       },
       isLoading: false,
-      value: '',
+      value: props.insuranceChoice.queryPostalCode || '',
       results: [],
       hasSearchedHeroInsurance: false,
       errors: {
-        query_province: false,
-        query_postal_code: false,
-        query_age: false,
+        queryProvince: false,
+        queryPostalCode: false,
+        queryAge: false,
       },
     };
   }
@@ -69,7 +71,7 @@ class InsurancePage extends Component {
     axios.get(`api/leads/${this.props.lead.id}/insurance_quotes`, {
       params: {
         motorcycle_id: this.props.lead.motorcycle.id,
-        ...this.state.insuranceChoice,
+        ...humps.decamelizeKeys(this.state.insuranceChoice),
       },
     })
       .then((response) => {
@@ -112,10 +114,10 @@ class InsurancePage extends Component {
 
   handleResultSelect = (e, { result }) => {
     this.setState({
+      value: result.text,
       insuranceChoice: {
-        query_postal_code: result.text,
-        query_age: this.state.insuranceChoice.query_age,
-        query_province: this.state.insuranceChoice.query_province,
+        ...this.state.insuranceChoice,
+        queryPostalCode: result.text,
       },
     });
   }
@@ -129,7 +131,7 @@ class InsurancePage extends Component {
       const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
       const isMatch = result => re.test(result.text);
 
-      const source = this.state.insuranceChoice.query_province === PROVINCE_CABA ?
+      const source = this.state.insuranceChoice.queryProvince === PROVINCE_CABA ?
         cabaInsuranceLocations : bsasInsuranceLocations;
 
       this.setState({
@@ -230,11 +232,11 @@ class InsurancePage extends Component {
                 search
                 required
                 label="Provincia"
-                name="query_province"
+                name="queryProvince"
                 options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
                   { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
-                value={this.state.insuranceChoice.query_province}
-                error={this.state.errors.query_province}
+                value={this.state.insuranceChoice.queryProvince}
+                error={this.state.errors.queryProvince}
                 onChange={this.handleDropdownChange}
                 placeholder="Provincia"
               />
@@ -248,7 +250,7 @@ class InsurancePage extends Component {
                   required
                   noResultsMessage="No se encuentran resultados"
                   results={results}
-                  value={value.title}
+                  value={value}
                   placeholder="Código Postal"
                 />
               </Form.Field>
@@ -259,9 +261,9 @@ class InsurancePage extends Component {
                 type="number"
                 min={18}
                 max={99}
-                name="query_age"
-                value={this.state.insuranceChoice.query_age}
-                error={this.state.errors.query_age}
+                name="queryAge"
+                value={this.state.insuranceChoice.queryAge}
+                error={this.state.errors.queryAge}
                 onChange={this.handleHeroInsuranceDataChange}
                 placeholder="Edad"
               />
@@ -342,9 +344,8 @@ const mapDispatchToProps = dispatch => ({
       body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceOptOut());
       dispatch(push('/dashboard'));
-      dispatch(insuranceChoiceFetched(body.insurance_choice));
+      dispatch(insuranceChoiceFetched(humps.camelizeKeys(body.insurance_choice)));
     })
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
@@ -362,9 +363,9 @@ const mapDispatchToProps = dispatch => ({
         quote_broker_logo_url: quote.brokerLogo,
         quote_policy: quote.policy,
         quote_more_info: quote.moreInfo,
-        query_postal_code: insuranceChoice.query_postal_code,
-        query_age: insuranceChoice.query_age,
-        query_province: insuranceChoice.query_province,
+        query_postal_code: insuranceChoice.queryPostalCode,
+        query_age: insuranceChoice.queryAge,
+        query_province: insuranceChoice.queryProvince,
       },
     };
 
@@ -373,9 +374,8 @@ const mapDispatchToProps = dispatch => ({
       body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
-      dispatch(insuranceSelected(quote, insuranceChoice));
       dispatch(push('/dashboard'));
-      dispatch(insuranceChoiceFetched(body.insurance_choice));
+      dispatch(insuranceChoiceFetched(humps.camelizeKeys(body.insurance_choice)));
     })
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
