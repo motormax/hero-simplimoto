@@ -1,51 +1,21 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { Button, Card, Container, Divider, Grid, Icon, List } from 'semantic-ui-react';
+import { Container, Divider, Grid, Icon, List } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 
-import logoUrl from './hero-logo.png';
-import availableMotorcycles from './motorcycles/availableMotorcycles';
-import availableColors from './motorcycles/availableColors';
+import logoUrl from '../hero-logo.png';
+import FooterBike from './FooterBike';
+
 
 class Footer extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
-    currentBikeModel: propTypes.string.isRequired,
-    currentColor: propTypes.number.isRequired,
+    isBuying: propTypes.bool.isRequired,
   };
 
   render() {
-    const { t, currentBikeModel, currentColor } = this.props;
-
-    let youAreBuying;
-    if (currentBikeModel) {
-      const bikeDisplayName = availableMotorcycles[currentBikeModel].displayName;
-      const bikeImageUrl = availableColors[currentBikeModel][currentColor].bikeImageURL;
-      youAreBuying = (
-        <List>
-          <List.Item>
-            <List.Header>{t('you_are_buying')}</List.Header>
-          </List.Item>
-          <List.Item>
-            <Card className="gray-card">
-              <Grid fluid>
-                <Grid.Row>
-                  <Grid.Column width={5}>
-                    <img className="bike-img" alt={bikeImageUrl} src={bikeImageUrl} />
-                  </Grid.Column>
-                  <Grid.Column width={11}>
-                    <div>
-                      <span className="bike-name fw-bold fs-large">{bikeDisplayName}</span>
-                      <Button className="btn-outline" secondary fluid>{t('cancel_order')}</Button>
-                    </div>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Card>
-          </List.Item>
-        </List>);
-    }
+    const { t, isBuying } = this.props;
 
     return (
       <footer className="footer">
@@ -56,7 +26,7 @@ class Footer extends Component {
               <Grid.Column width={5}>
                 <List>
                   <List.Item>
-                    <Icon className="txt-med-gray" name="map marker alternate" />
+                    <Icon className="txt-med-gray map marker alternate" />
                     <List.Content>
                       <List.Header className="uppercase">{t('company_name')}</List.Header>
                       <List.Description className="txt-med-gray">{t('company_address')}
@@ -101,7 +71,7 @@ class Footer extends Component {
                 </List>
               </Grid.Column>
               <Grid.Column width={5}>
-                {youAreBuying}
+                {isBuying ? <FooterBike /> : null}
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -125,16 +95,8 @@ class Footer extends Component {
   }
 }
 
-
-const mapStateToProps = store => (
-  store.main.lead && store.main.lead.motorcycle ?
-    {
-      currentBikeModel: store.main.lead.motorcycle.name,
-      currentColor: store.main.customization.color,
-    } : {
-      currentBikeModel: undefined,
-      currentColor: undefined,
-    }
-);
+const mapStateToProps = store => ({
+  isBuying: !!(store.main.lead && store.main.lead.motorcycle),
+});
 
 export default translate('footer')(connect(mapStateToProps)(Footer));

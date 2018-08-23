@@ -8,6 +8,9 @@ config :hero_digital, HeroDigitalWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+# config :logger,
+#   backends: [:console],
+#   compile_time_purge_level: :debug
 
 # Configure your database
 config :hero_digital, HeroDigital.Repo,
@@ -17,3 +20,6 @@ config :hero_digital, HeroDigital.Repo,
   database: "hero_digital_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :hero_digital, HeroDigital.Payment.PaymentGateway,
+  http_adapter: Http.Mock

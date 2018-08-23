@@ -7,8 +7,11 @@ defmodule HeroDigital.Payment.Payment do
     field :raw_body, :string
     field :status, :string
     field :status_detail, :string
-    field :transaction_id, :integer
-    field :purchase_order_id, :id
+    field :user_message, :string
+    field :transaction_id, :string
+    # field :purchase_order_id, :id
+
+    belongs_to :purchase_order, HeroDigital.Fulfillment.PurchaseOrder
 
     timestamps()
   end
@@ -16,7 +19,7 @@ defmodule HeroDigital.Payment.Payment do
   @doc false
   def changeset(payment, attrs) do
     payment
-    |> cast(attrs, [:purchase_order_id, :status, :status_detail, :transaction_id, :raw_body])
-    |> validate_required([:purchase_order_id, :status, :status_detail, :transaction_id, :raw_body])
+    |> cast(attrs, [:purchase_order_id, :status, :status_detail, :transaction_id, :user_message, :raw_body])
+    |> validate_required([:purchase_order_id, :status, :status_detail, :transaction_id, :user_message, :raw_body])
   end
 end

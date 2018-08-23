@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { Card, Segment, Grid, Icon } from 'semantic-ui-react';
 import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
 import availableAccessories from './motorcycles/availableAccessories';

@@ -3,15 +3,14 @@ defmodule HeroDigital.Repo.Migrations.CreatePurchaseOrders do
 
   def change do
     create table(:purchase_orders) do
-      add :price, :integer
-      add :lead_id, :uuid
-      add :phone, :string
+      add :lead_id, references(:leads, type: :uuid, on_delete: :delete_all)
       add :email, :string
-      add :motorcycle_id, references(:motorcycles, on_delete: :nothing)
+      add :payment_method, :string
+      add :payment_method_token, :string
 
       timestamps()
     end
 
-    create index(:purchase_orders, [:motorcycle_id])
+    create index(:purchase_orders, [:lead_id])
   end
 end

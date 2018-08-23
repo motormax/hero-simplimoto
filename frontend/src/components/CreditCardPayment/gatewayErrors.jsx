@@ -1,4 +1,4 @@
-const gatewayErrorCodes = [
+export const gatewayErrorCodes = [
   { code: '205', field: 'cardNumber', message: 'Ingresa el número de tu tarjeta.' },
   { code: '208', field: 'cardExpirationMonth', message: 'Elige un mes.' },
   { code: '209', field: 'cardExpirationYear', message: 'Elige un año.' },
@@ -18,5 +18,5 @@ const gatewayErrorCodes = [
   { code: '326', field: 'cardExpirationYear', message: 'Revisa la fecha.' },
 ];
 
-export default gatewayErrorCodes;
+export const gatewayDefaultErrorCodes = { code: '000', field: 'cardNumber', message: 'Hubo un problema con el medio de pago ingresado. Por favor reintente nuevamente.' };
 

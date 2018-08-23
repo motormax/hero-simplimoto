@@ -1,6 +1,8 @@
 /* eslint-env browser */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import axios from 'axios';
+import humps from 'humps';
 import { translate } from 'react-i18next';
 import { Button, Form, Card, Radio, Label, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -20,6 +22,9 @@ class FinancingPage extends Component {
     selectFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
     financingForm: propTypes.shape({
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string.isRequired,
@@ -150,12 +155,12 @@ class FinancingPage extends Component {
   disableContinueButton = () => (
     this.state.financingForm.issuerId.length === 0 && this.state.installmentOptions.length === 0);
 
-  handleInstallmentSelected = (e, { value }) => {
+  handleInstallmentSelected = (e, installment) => {
     const newData = this.state.financingForm;
-    newData.installments = value.installments;
-    newData.message = value.message;
-    newData.costs = value.label;
-    newData.monthlyAmount = value.monthlyAmount;
+    newData.installments = installment.installments;
+    newData.message = installment.message;
+    newData.costs = installment.label;
+    newData.monthlyAmount = installment.monthlyAmount;
     this.setState({ financingForm: newData });
   };
 
@@ -167,13 +172,12 @@ class FinancingPage extends Component {
     if (this.state.installmentOptions.length > 0) {
       const installmentItems =
         this.state.installmentOptions.map(installment => (
-          <Form.Field>
+          <Form.Field key={installment.label}>
             <Radio
               label={installment.message}
               name="installment_id"
-              value={installment}
               checked={this.state.financingForm.installments === installment.installments}
-              onChange={this.handleInstallmentSelected}
+              onChange={e => this.handleInstallmentSelected(e, installment)}
             /><Label size="small">{installment.label}</Label>
           </Form.Field>
         ));
@@ -222,7 +226,7 @@ class FinancingPage extends Component {
             this.state.financingForm.paymentMethodId === creditCardItem.value ? 'txt-green' : ' ',
           );
           return (
-            <label className="square-item">
+            <label className="square-item" key={creditCardItem.value}>
               <Radio
                 style={{ display: 'none' }}
                 name="creditCardList"
@@ -280,7 +284,7 @@ class FinancingPage extends Component {
                 primary
                 {...continueButtonAttributes}
                 onClick={() => {
-                  this.props.selectFinancing(this.state.financingForm);
+                  this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
                 }}
               >Continuar
               </Button>
@@ -305,11 +309,18 @@ const mapStateToProps = state => ({
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
   motorcyclePrice: state.main.lead.motorcycle.price,
+  lead: state.main.lead,
   accessoriesPrice: state.main.accessories.totalPrice,
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectFinancing: async (financingForm) => {
+  selectFinancing: async (leadId, financingForm) => {
+    await axios.post(
+      `/api/leads/${leadId}/financing_data`,
+      {
+        financing_data: humps.decamelizeKeys(financingForm),
+      },
+    );
     dispatch(financingSelected(financingForm));
     dispatch(push('/dashboard'));
   },

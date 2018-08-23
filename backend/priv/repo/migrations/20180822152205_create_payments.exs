@@ -5,9 +5,10 @@ defmodule HeroDigital.Repo.Migrations.CreatePayments do
     create table(:payments) do
       add :status, :string
       add :status_detail, :string
-      add :transaction_id, :integer
+      add :user_message, :string
+      add :transaction_id, :string
       add :raw_body, :text
-      add :purchase_order_id, references(:purchase_orders, on_delete: :nothing)
+      add :purchase_order_id, references(:purchase_orders, on_delete: :delete_all)
 
       timestamps()
     end

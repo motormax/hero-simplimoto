@@ -13,7 +13,7 @@ import MaskedInput from 'react-text-mask';
 import { loadSDK, getPaymentMethod } from '../FinancingPage/mercadoPagoHelper';
 
 import FinancingInfo from '../DashboardPage/Sections/FinancingInfo';
-import gatewayErrorCodes from './gatewayErrors';
+import { gatewayErrorCodes, gatewayDefaultErrorCodes } from './gatewayErrors';
 
 class CreditCardPayment extends Component {
   static propTypes = {
@@ -22,7 +22,11 @@ class CreditCardPayment extends Component {
       name: propTypes.string.isRequired,
       price: propTypes.string.isRequired,
     }).isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string,
+    }).isRequired,
     changeFinancing: propTypes.func.isRequired,
+    createPurchaseOrder: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
     financingForm: propTypes.shape({
       message: propTypes.string.isRequired,
@@ -44,7 +48,6 @@ class CreditCardPayment extends Component {
     this.paymentMethodForm = React.createRef();
     this.state = {
       docTypes: [],
-      creditCardToken: '',
       paymentMethod: {
         cardNumber: '',
         email: '',
@@ -76,7 +79,7 @@ class CreditCardPayment extends Component {
 
   setPaymentMethodInfo = (status, response) => {
     if (status === 200) {
-      console.log(response);
+      console.log(response); // eslint-disable-line no-console
       const newData = this.state.paymentMethod;
       newData.paymentMethodId = response[0].id;
       this.setState({ paymentMethod: newData });
@@ -124,23 +127,38 @@ class CreditCardPayment extends Component {
     return false;
   };
 
-  sdkResponseHandler = (status, response) => {
+  sdkResponseHandler = async (status, response) => {
     if (status !== 200 && status !== 201) {
       this.handleGatewayError(status, response);
     } else {
-      this.setState({ creditCardToken: response.id });
-      this.props.createPurchaseOrder(this.props.lead.id, response.id);
-      console.log(`Token! ${response.id}`);
-      console.log(response);
+      try {
+        const creditCardToken = response.id;
+        console.log(`Token! ${creditCardToken}`); // eslint-disable-line no-console
+        console.log(response); // eslint-disable-line no-console
+        await this.props.createPurchaseOrder(
+          this.props.lead.id, creditCardToken,
+          this.state.paymentMethod.email,
+        );
+      } catch (error) {
+        if (error.response.data.user_message) {
+          const newErrors = this.state.errors;
+          newErrors.description = `${error.response.data.user_message}\n`;
+          this.setState({ errors: newErrors });
+        } else {
+          throw error;
+        }
+      }
     }
   };
 
   handleGatewayError = (status, response) => {
+    window.Mercadopago.clearSession();
     response.cause.forEach((errorCause) => {
-      const errorObj = gatewayErrorCodes.find(error => error.code === errorCause.code);
+      const errorObj = gatewayErrorCodes.find(error => error.code === errorCause.code) ||
+        gatewayDefaultErrorCodes;
       const newErrors = this.state.errors;
       newErrors[errorObj.field] = true;
-      newErrors.description += `${errorObj.message}\n`;
+      newErrors.description = `${errorObj.message}\n`;
       this.setState({ errors: newErrors });
     });
   };
@@ -277,19 +295,20 @@ class CreditCardPayment extends Component {
 
           <Message
             error
-            header="Error"
-            content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+            header="Lo sentimos hubo un error al procesar la solicitud"
+            content={this.state.errors.description}
           />
-          
-          <Button 
-            size="small" 
-            className="btn-outline" 
+
+          <Button
+            size="small"
+            className="btn-outline"
             secondary
             onClick={() => {
               this.props.changeFinancing();
-            }}>
+            }}
+          >
               Cambiar
-            </Button>
+          </Button>
 
           <div className="txt-center">
             <Button type="submit" size="big" primary>Comprar</Button>
@@ -304,19 +323,16 @@ const mapDispatchToProps = dispatch => ({
   changeFinancing: () => {
     dispatch(push('/financing'));
   },
-  createPurchaseOrder: async (leadId, creditCardToken) => {
-    axios.post(
+  createPurchaseOrder: async (leadId, creditCardToken, email) => {
+    const response = await axios.post(
       `/api/leads/${leadId}/purcharse_order`,
       {
         credit_card_token: creditCardToken,
+        email,
       },
-    ).then((response) => {
-      console.log(response); // eslint-disable-line no-console
-      dispatch(push('/dashboard'));
-    })
-      .catch((error) => {
-        console.log(error); // eslint-disable-line no-console
-      });
+    );
+    console.log(response); // eslint-disable-line no-console
+    dispatch(push('/success'));
   },
 });
 

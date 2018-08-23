@@ -14,6 +14,7 @@ class MainPage extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
     pickBike: propTypes.func.isRequired,
+    goToSpec: propTypes.func.isRequired,
   };
 
   render() {
@@ -23,7 +24,7 @@ class MainPage extends Component {
       <div>
         <h1 className="home-title">{t('buy_the_bike')} <br /> <span className="emphasis">{t('online')}</span></h1>
         <HomeCarrousel pickBike={this.props.pickBike} />
-        <ListOfBikesModels pickBike={this.props.pickBike} />
+        <ListOfBikesModels goToSpec={this.props.goToSpec} />
       </div>
     );
   }
@@ -35,6 +36,9 @@ const mapDispatchToProps = dispatch => ({
 
     dispatch(leadFetched(lead));
     dispatch(push('/dashboard'));
+  },
+  goToSpec: (bikeName) => {
+    dispatch(push(`/specs/${bikeName}`));
   },
 });
 
