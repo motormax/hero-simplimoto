@@ -1,4 +1,5 @@
-.ui.card.page-column-card{
+.ui.card.page-column-card,
+.page-column-card{
   width: 90%;
   max-width: 750px;
   margin: auto;
@@ -13,6 +14,9 @@
     &.white-segment{
       background-color: white;
     }
+  }
+  &.no-border{
+    border: none;
   }
   &_slim{
     max-width: 500px;

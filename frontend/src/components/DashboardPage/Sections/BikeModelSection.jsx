@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Button, Grid, Icon, Segment } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import availableMotorcycles from '../../motorcycles/availableMotorcycles';
@@ -44,8 +45,12 @@ class BikeModelSection extends Component {
             <Grid.Column width={5}>
               <div className="resume-button-container">
                 <Button fluid secondary> <Icon name="play circle" /> {t('live_tour')}</Button>
-                <Button className="btn-outline" fluid secondary> <Icon name="eye" /> {t('moto_specs')}
-                </Button>
+                <Link to={`/specs/${motorcycle.name}`}>
+                  <Button className="btn-outline" fluid secondary>
+                    <Icon name="eye" />
+                    {t('moto_specs')}
+                  </Button>
+                </Link>
                 <Button className="btn-outline" fluid secondary> <Icon name="motorcycle" /> {t('change_model')}
                 </Button>
               </div>
