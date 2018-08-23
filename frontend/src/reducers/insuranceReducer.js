@@ -5,7 +5,7 @@ const initialViewState = {
   optInOrOut: HERO_INSURANCE,
   query_province: PROVINCE_CABA,
   query_postal_code: '',
-  query_age: 1,
+  query_age: 18,
 };
 
 export function insuranceViewReducer(state = initialViewState, action) {
@@ -36,7 +36,7 @@ const initialInsuranceChoiceState = {
   opt_in_or_out: HERO_INSURANCE,
   query_province: PROVINCE_CABA,
   query_postal_code: '',
-  query_age: 1,
+  query_age: 18,
 };
 
 export function insuranceChoiceReducer(state = initialInsuranceChoiceState, action) {

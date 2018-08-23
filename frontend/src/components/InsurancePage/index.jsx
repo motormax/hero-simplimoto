@@ -57,9 +57,9 @@ class InsurancePage extends Component {
       results: [],
       hasSearchedHeroInsurance: false,
       errors: {
-        province: false,
-        postalCode: false,
-        age: false,
+        query_province: false,
+        query_postal_code: false,
+        query_age: false,
       },
     };
   }
@@ -124,7 +124,7 @@ class InsurancePage extends Component {
     this.setState({ isLoading: true, value });
 
     setTimeout(() => {
-      if (this.state.value.length < 3) return this.resetComponent();
+      if (this.state.value.length < 1) return this.resetComponent();
 
       const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
       const isMatch = result => re.test(result.text);
@@ -223,7 +223,7 @@ class InsurancePage extends Component {
     if (this.state.optInOrOut === HERO_INSURANCE) {
       heroQuery = (
         <Segment attached padded>
-          <Form>
+          <Form onSubmit={this.getQuote} error={error}>
             <Form.Group widths="equal">
               <Form.Select
                 search
@@ -233,7 +233,7 @@ class InsurancePage extends Component {
                 options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
                   { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
                 value={this.state.insuranceChoice.query_province}
-                error={this.state.errors.province}
+                error={this.state.errors.query_province}
                 onChange={this.handleDropdownChange}
                 placeholder="Provincia"
               />
@@ -243,31 +243,38 @@ class InsurancePage extends Component {
                   loading={isLoading}
                   onResultSelect={this.handleResultSelect}
                   onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
+                  minCharacters={3}
+                  error={this.state.errors.query_postal_code}
+                  required
+                  noResultsMessage="No se encuentran resultados"
                   results={results}
                   value={value.title}
+                  placeholder="Código Postal"
                 />
               </Form.Field>
               <Form.Input
                 fluid
                 required
                 label="Edad"
-                type="text"
+                type="number"
+                min={18}
+                max={99}
                 name="query_age"
                 value={this.state.insuranceChoice.query_age}
-                error={this.state.errors.age}
+                error={this.state.errors.query_age}
                 onChange={this.handleHeroInsuranceDataChange}
+                placeholder="Edad"
               />
             </Form.Group>
-
+            <div className="txt-center">
+              <Button size="large" primary type="submit" >Cotizar</Button>
+              <Button onClick={() => {
+                        this.props.backToDashboard();
+                      }}
+              >Volver
+              </Button>
+            </div>
           </Form>
-          <div className="txt-center">
-            <Button size="large" primary onClick={this.getQuote} >Cotizar</Button>
-            <Button onClick={() => {
-                      this.props.backToDashboard();
-                    }}
-            >Volver
-            </Button>
-          </div>
           {quotesList}
           <Divider />
           <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
@@ -292,7 +299,7 @@ class InsurancePage extends Component {
         <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
         <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br /> nosotros nos ocupamos del papeleo.</p>
         <Card className="page-column-card">
-          <Form onSubmit={this.handleSubmit} error={error}>
+          <Form>
             <Form.Select
               fluid
               options={optInOrOutOptions}
@@ -325,7 +332,7 @@ const mapDispatchToProps = dispatch => ({
         motorcycle_id: lead.motorcycle.id,
         query_province: PROVINCE_CABA,
         query_postal_code: '',
-        query_age: 1,
+        query_age: 18,
       },
     };
     axios.post(
