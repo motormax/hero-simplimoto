@@ -208,20 +208,24 @@ class PlateRegistrationPage extends Component {
           required
           label="Nombre"
           type="text"
+          maxLength={100}
           name="name"
           value={this.state.personalData.name}
           error={this.state.errors.name}
           onChange={this.handlePersonalDataChange}
+          placeholder="Jorge"
         />
         <Form.Input
           fluid
           required
           label="Apellido"
           type="text"
+          maxLength={100}
           name="lastName"
           value={this.state.personalData.lastName}
           error={this.state.errors.lastName}
           onChange={this.handlePersonalDataChange}
+          placeholder="Silva"
         />
         <Form.Input
           fluid
@@ -232,10 +236,8 @@ class PlateRegistrationPage extends Component {
           value={this.state.personalData.dni}
           error={this.state.errors.dni}
           onChange={this.handlePersonalDataChange}
+          placeholder="12.345.678"
         />
-      </Form>);
-    const addressFormGroup = (
-      <Form>
         <Form.Input
           fluid
           required
@@ -245,6 +247,7 @@ class PlateRegistrationPage extends Component {
           value={this.state.address.street}
           error={this.state.errors.street}
           onChange={this.handleAddressDataChange}
+          placeholder="Av. del Libertador 1150, Vicente López. Buenos Aires, Argentina"
         />
         <Form.Input
           fluid
@@ -255,39 +258,43 @@ class PlateRegistrationPage extends Component {
           value={this.state.address.complements}
           error={this.state.errors.complements}
           onChange={this.handleAddressDataChange}
+          placeholder="1A"
         />
         <Form.Input
           fluid
           required
           label="Código postal"
           type="text"
+          maxLength={10}
           name="postalCode"
           value={this.state.address.postalCode}
           error={this.state.errors.postalCode}
           onChange={this.handleAddressDataChange}
+          placeholder="1234"
         />
-      </Form>);
-    const lastFieldsFormGroup = (
-      <Form>
         <Form.Input
           fluid
           required
           label="Email"
-          type="text"
+          type="email"
           name="email"
           value={this.state.email}
           error={this.state.errors.email}
           onChange={this.handleChange}
+          placeholder="ejemplo@email.com"
         />
         <Form.Input
           fluid
           required
           label="Celular/Teléfono fijo"
+          minLength={6}
+          maxLength={25}
           type="text"
           name="phone"
           value={this.state.phone}
           error={this.state.errors.phone}
           onChange={this.handleChange}
+          placeholder="11 1234 5678"
         />
       </Form>);
 
@@ -350,13 +357,7 @@ class PlateRegistrationPage extends Component {
             </Segment>
             <Segment attached>
               {personalDataFormGroup}
-              {addressFormGroup}
-              {lastFieldsFormGroup}
-              <Message
-                error
-                header="Error"
-                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-              />
+              
             </Segment>
 
             <Segment attached="bottom" className="txt-center">
