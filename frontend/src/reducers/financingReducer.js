@@ -18,11 +18,15 @@ const initialState = {
 
 export default function financingReducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.financingSelected:
+    case actionTypes.startedFetchingFinancing:
       return {
+        isLoading: true,
+      };
+    case actionTypes.financingSelected:
+      return action.financingForm ? {
         financingSelected: true,
         financingForm: action.financingForm,
-      };
+      } : initialState;
     case actionTypes.financingChanged:
       return {
         financingSelected: true,

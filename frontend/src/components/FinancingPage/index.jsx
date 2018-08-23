@@ -1,12 +1,13 @@
 /* eslint-env browser */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import axios from 'axios';
+import humps from 'humps';
 import { translate } from 'react-i18next';
 import { Button, Form, Card, Radio, Label, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import classNames from 'classnames';
-
 
 import { loadSDK, getInstallments, filterInstallmentLabels } from './mercadoPagoHelper';
 import { financingSelected } from '../../actions/financingChoices';
@@ -20,6 +21,9 @@ class FinancingPage extends Component {
     selectFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
     financingForm: propTypes.shape({
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string.isRequired,
@@ -213,31 +217,31 @@ class FinancingPage extends Component {
     }
 
     const creditCardList =
-        this.state.paymentMethodOptions.map((creditCardItem) => {
-          const activeBtn = classNames(
-            'square-btn',
-            this.state.financingForm.paymentMethodId === creditCardItem.value ? 'active' : ' ',
-          );
-          const activeTxt = classNames(
-            'txt-center fs-small',
-            this.state.financingForm.paymentMethodId === creditCardItem.value ? 'txt-green' : ' ',
-          );
-          return (
-            <label className="square-item">
-              <Radio
-                style={{ display: 'none' }}
-                name="creditCardList"
-                value={creditCardItem.value}
-                checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
-                onChange={this.handlePaymentMethodChange}
-              />
-              <div className={activeBtn}>
-                <img src={creditCardItem.image.src} alt="" />
-              </div>
-              <p className={activeTxt}>{creditCardItem.text}</p>
-            </label>
-          );
-        });
+      this.state.paymentMethodOptions.map((creditCardItem) => {
+        const activeBtn = classNames(
+          'square-btn',
+          this.state.financingForm.paymentMethodId === creditCardItem.value ? 'active' : ' ',
+        );
+        const activeTxt = classNames(
+          'txt-center fs-small',
+          this.state.financingForm.paymentMethodId === creditCardItem.value ? 'txt-green' : ' ',
+        );
+        return (
+          <label className="square-item">
+            <Radio
+              style={{ display: 'none' }}
+              name="creditCardList"
+              value={creditCardItem.value}
+              checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
+              onChange={this.handlePaymentMethodChange}
+            />
+            <div className={activeBtn}>
+              <img src={creditCardItem.image.src} alt="" />
+            </div>
+            <p className={activeTxt}>{creditCardItem.text}</p>
+          </label>
+        );
+      });
     const creditCardOptions = (
       <Segment className="not-border-bottom" attached>
         <p className="txt-dark-gray fw-bold fs-huge">Elegí tu tarjeta de credito</p>
@@ -246,7 +250,6 @@ class FinancingPage extends Component {
         </Form.Field>
       </Segment>
     );
-
 
     const continueButtonAttributes = this.disableContinueButton() ? { disabled: true } : {};
 
@@ -279,7 +282,7 @@ class FinancingPage extends Component {
                 primary
                 {...continueButtonAttributes}
                 onClick={() => {
-                  this.props.selectFinancing(this.state.financingForm);
+                  this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
                 }}
               >Continuar
               </Button>
@@ -299,16 +302,22 @@ class FinancingPage extends Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
   motorcyclePrice: state.main.lead.motorcycle.price,
+  lead: state.main.lead,
   accessoriesPrice: state.main.accessories.totalPrice,
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectFinancing: async (financingForm) => {
+  selectFinancing: async (leadId, financingForm) => {
+    await axios.post(
+      `/api/leads/${leadId}/financing_data`,
+      {
+        financing_data: humps.decamelizeKeys(financingForm),
+      },
+    );
     dispatch(financingSelected(financingForm));
     dispatch(push('/dashboard'));
   },

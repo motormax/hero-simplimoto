@@ -36,8 +36,12 @@ defmodule HeroDigitalWeb.Router do
 
       post "/plate_registration", PlateRegistrationDataController, :create
       get "/plate_registration", PlateRegistrationDataController, :show
-      get "/date_appointment", DateAppointmentController, :show
+
+      post "/financing_data", FinancingDataController, :create
+      get "/financing_data", FinancingDataController, :show
+
       post "/date_appointment", DateAppointmentController, :create
+      get "/date_appointment", DateAppointmentController, :show
 
       get "/insurance_quotes", InsuranceController, :quote
       get "/insurance", InsuranceChoiceController, :show

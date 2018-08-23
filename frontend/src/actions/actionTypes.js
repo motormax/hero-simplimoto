@@ -16,4 +16,5 @@ export default {
   startedFetchingInsuranceChoice: 'STARTED_FETCHING_INSURANCE_CHOICE',
   financingSelected: 'FINANCING_SELECTED',
   financingChanged: 'FINANCING_CHANGED',
+  startedFetchingFinancing: 'STARTED_FETCHING_FINANCING',
 };
