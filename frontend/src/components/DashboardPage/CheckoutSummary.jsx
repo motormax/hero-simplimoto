@@ -18,23 +18,23 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
   maximumFractionDigits: 2,
 });
 
-
 class CheckoutSummary extends Component {
   static propTypes = {
     fetchInsuranceChoice: propTypes.func.isRequired,
     changeToSelectInsurance: propTypes.func.isRequired,
     changeFinancing: propTypes.func.isRequired,
+
     insuranceBroker: propTypes.string,
     insurancePrice: propTypes.string,
     insurancePolicy: propTypes.string,
     insuranceBrokerLogo: propTypes.string,
     insuranceSelected: propTypes.bool,
     insuranceOptOut: propTypes.bool,
-    accessoriesPrice: propTypes.number.isRequired,
+    accessoriesPrice: propTypes.number,
     quote_chosen_policy: propTypes.string,
     quote_chosen_broker_name: propTypes.string,
     quote_chosen_broker_logo_url: propTypes.string,
-    quote_chosen_price: propTypes.number,
+    quote_chosen_price: propTypes.string,
     chosen_opt_in_or_out: propTypes.string,
     lead: propTypes.shape({
       id: propTypes.string.isRequired,
@@ -42,9 +42,9 @@ class CheckoutSummary extends Component {
     motorcycle: propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
-      price: propTypes.string.isRequired,
+      price: propTypes.number.isRequired,
     }).isRequired,
-    financingSelected: propTypes.bool.isRequired,
+    financingSelected: propTypes.bool,
     financingForm: propTypes.shape({
       message: propTypes.string.isRequired,
       costs: propTypes.string.isRequired,
@@ -56,7 +56,7 @@ class CheckoutSummary extends Component {
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string.isRequired,
       installments: propTypes.number.isRequired,
-    }).isRequired,
+    }),
   };
 
   static defaultProps = {
@@ -138,22 +138,23 @@ class CheckoutSummary extends Component {
 
     let insuranceSection;
     if (insuranceSelected) {
-      const insuranceItems = [];
-      if (insuranceOptOut) {
-        insuranceItems.push(<List.Content>Voy a contratar mi propio seguro</List.Content>);
-      } else {
-        insuranceItems.push(<Image className="bike-image" src={insuranceBrokerLogo} />);
-        insuranceItems.push(<List.Content>{insuranceBroker}<div className="fw-normal">{insurancePolicy}</div></List.Content>);
-        insuranceItems.push(<List.Content><span className="fs-big">${insurancePrice}</span>/mes</List.Content>);
-      }
-      const insuranceSelection = insuranceItems.map(item => (
-        <List.Item>
-          {item}
-        </List.Item>));
+      const insuranceSelection = insuranceOptOut ? (
+        <List.Item key={insuranceOptOut}>
+          <List.Content key="self-ensured">Voy a contratar mi propio seguro</List.Content>
+        </List.Item>
+      ) : (
+        <List.Item key={insuranceOptOut}>
+          <Image key="bike-image" className="bike-image" src={insuranceBrokerLogo} />
+          <List.Content key="broker">{insuranceBroker}
+            <div className="fw-normal">{insurancePolicy}</div>
+          </List.Content>
+          <List.Content key="price"><span className="fs-big">${insurancePrice}</span>/mes</List.Content>
+        </List.Item>
+      );
 
       insuranceSection = (
         <div className="txt-center">
-          <List className="summary-list" horizontal fluid>
+          <List className="summary-list" horizontal>
             {insuranceSelection}
           </List>
           <Button
@@ -194,7 +195,6 @@ class CheckoutSummary extends Component {
 
     const financingPeriod = this.props.financingSelected ? '/ mes' : '';
 
-
     let financingInfo;
     if (this.props.financingSelected) {
       financingInfo = (
@@ -214,7 +214,6 @@ class CheckoutSummary extends Component {
         </div>
       );
     }
-
 
     return (
       <div className="checkoutSummary">
@@ -272,7 +271,11 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">$<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>{financingPeriod}</p>
+              <p className="final-price">
+                $
+                <span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
+                {financingPeriod}
+              </p>
             </div>
 
             {financingInfo}
@@ -312,6 +315,7 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   motorcycle: state.main.lead.motorcycle,
   accessoriesPrice: state.main.accessories.totalPrice,
+
   insuranceBroker: state.main.insurance.broker,
   insurancePrice: state.main.insurance.price,
   insurancePolicy: state.main.insurance.policy,

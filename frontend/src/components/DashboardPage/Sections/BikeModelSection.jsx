@@ -10,7 +10,7 @@ class BikeModelSection extends Component {
     motorcycle: propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
-      price: propTypes.string.isRequired,
+      price: propTypes.number.isRequired,
     }).isRequired,
     imgUrl: propTypes.string.isRequired,
     t: propTypes.func.isRequired,

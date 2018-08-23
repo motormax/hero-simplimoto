@@ -161,14 +161,16 @@ class InsurancePage extends Component {
 
   cardInsuranceQuote(quote) {
     return (
-      <Card>
+      <Card key={quote.policyId}>
         <Card.Content textAlign="center">
           <Image src={quote.brokerLogo} />
           <Card.Description>{quote.policy}</Card.Description>
           <Card.Meta>{this.popUpMoreInfo(quote)}</Card.Meta>
         </Card.Content>
         <Card.Content className="btn-displaced-container txt-center">
-          <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
+          <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/
+            mes
+          </div>
           <Button
             primary
             className="btn-displaced"
@@ -181,7 +183,7 @@ class InsurancePage extends Component {
                     );
             }}
           >
-          Elegir
+            Elegir
           </Button>
         </Card.Content>
       </Card>
@@ -189,8 +191,7 @@ class InsurancePage extends Component {
   }
 
   render() {
-    const error = Object.values(this.state.errors)
-      .some(Boolean);
+    const error = Object.values(this.state.errors).some(Boolean);
 
     const { isLoading, value, results } = this.state;
 
@@ -244,7 +245,6 @@ class InsurancePage extends Component {
                   onResultSelect={this.handleResultSelect}
                   onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
                   minCharacters={3}
-                  error={this.state.errors.query_postal_code}
                   required
                   noResultsMessage="No se encuentran resultados"
                   results={results}
@@ -277,7 +277,9 @@ class InsurancePage extends Component {
           </Form>
           {quotesList}
           <Divider />
-          <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
+          <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para
+            completar el seguro de tu moto
+          </p>
         </Segment>);
     } else {
       heroQuery = (
@@ -297,19 +299,19 @@ class InsurancePage extends Component {
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
-        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br /> nosotros nos ocupamos del papeleo.</p>
+        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas
+          conveniente, <br /> nosotros nos ocupamos del papeleo.
+        </p>
         <Card className="page-column-card">
-          <Form>
-            <Form.Select
-              fluid
-              options={optInOrOutOptions}
-              name="optInOrOut"
-              value={this.state.optInOrOut}
-              onChange={this.handleDropdownOptInOrOutChange}
-              className="fs-big"
-            />
-            {heroQuery}
-          </Form>
+          <Form.Select
+            fluid
+            options={optInOrOutOptions}
+            name="optInOrOut"
+            value={this.state.optInOrOut}
+            onChange={this.handleDropdownOptInOrOutChange}
+            className="fs-big"
+          />
+          {heroQuery}
         </Card>
       </div>
     );

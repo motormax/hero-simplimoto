@@ -20,7 +20,7 @@ class PlateRegistrationSection extends Component {
     }).isRequired,
 
     plateRegistrationData: propTypes.shape({
-      id: propTypes.number.isRequired,
+      id: propTypes.number,
     }).isRequired,
   };
 

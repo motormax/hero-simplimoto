@@ -21,7 +21,7 @@ class BikeColorSection extends Component {
     const selectedColor = availableColors[selectedColorIndex];
 
     const colorOptions = availableColors.map((color, index) => (
-      <div className="dashboard-card_items">
+      <div key={color.name} className="dashboard-card_items">
         <Radio
           value={color.name}
           name="setColor"
