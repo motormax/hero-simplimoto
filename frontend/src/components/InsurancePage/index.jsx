@@ -239,7 +239,7 @@ class InsurancePage extends Component {
                 onChange={this.handleDropdownChange}
                 placeholder="Provincia"
               />
-              <Form.Field>
+              <Form.Field required>
                 <label>Código Postal</label>
                 <Search
                   loading={isLoading}
