@@ -29,7 +29,7 @@ class HomeCarrousel extends Component {
     };
 
     const carrouselItems = Object.values(availableMotorcycles).map(bikeData => (
-      <div>
+      <div key={bikeData.displayName}>
         <CarrouselItem
           bikeImageUrl={bikeData.defaultImageUrl}
           bikeName={bikeData.displayName}

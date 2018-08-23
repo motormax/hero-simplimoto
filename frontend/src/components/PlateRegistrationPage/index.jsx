@@ -130,7 +130,7 @@ class PlateRegistrationPage extends Component {
     const { name: inputName, value } = event.target;
     const newPersonalData = this.state.personalData;
     newPersonalData[inputName] = value;
-    this.setState({ address: newPersonalData });
+    this.setState({ personalData: newPersonalData });
   };
 
   handleEmailChange = (event) => {
@@ -202,7 +202,7 @@ class PlateRegistrationPage extends Component {
     );
 
     const personalDataFormGroup = (
-      <Form>
+      <React.Fragment>
         <Form.Input
           fluid
           required
@@ -233,9 +233,9 @@ class PlateRegistrationPage extends Component {
           error={this.state.errors.dni}
           onChange={this.handlePersonalDataChange}
         />
-      </Form>);
+      </React.Fragment>);
     const addressFormGroup = (
-      <Form>
+      <React.Fragment>
         <Form.Input
           fluid
           required
@@ -266,9 +266,9 @@ class PlateRegistrationPage extends Component {
           error={this.state.errors.postalCode}
           onChange={this.handleAddressDataChange}
         />
-      </Form>);
+      </React.Fragment>);
     const lastFieldsFormGroup = (
-      <Form>
+      <React.Fragment>
         <Form.Input
           fluid
           required
@@ -289,7 +289,7 @@ class PlateRegistrationPage extends Component {
           error={this.state.errors.phone}
           onChange={this.handleChange}
         />
-      </Form>);
+      </React.Fragment>);
 
     let heroPlateRegistrationForm;
     if (this.state.optInOrOut === HERO_PLATE_REGISTRATION) {

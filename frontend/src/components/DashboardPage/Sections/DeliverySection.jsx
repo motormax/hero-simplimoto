@@ -10,12 +10,12 @@ class DeliverySection extends Component {
   static propTypes = {
     fetchDelivery: propTypes.func.isRequired,
     changeToDelivery: propTypes.func.isRequired,
-    lead: propTypes.shape({ id: propTypes.number.isRequired }).isRequired,
-    delivery: propTypes.shape({ id: propTypes.number.isRequired }).isRequired,
+    lead: propTypes.shape({ id: propTypes.string.isRequired }).isRequired,
+    delivery: propTypes.shape({ id: propTypes.number }).isRequired,
   };
 
   componentDidMount() {
-    if (!this.props.delivery.id) {
+    if (!this.props.delivery) {
       this.props.fetchDelivery(this.props.lead.id);
     }
   }
@@ -47,19 +47,19 @@ class DeliverySection extends Component {
 
   render() {
     const { delivery } = this.props;
-    const isOk = true;
-    const color = isOk ? 'darkgray' : 'red';
+    const hasPickedDelivery = !!delivery.id;
+    const color = hasPickedDelivery ? '#67CC4F' : 'red';
 
     if (delivery.isLoading) {
       return <div>Cargando</div>;
     }
 
     return (
-      <Segment className="dashboard-card" style={{ borderLeftColor: delivery.id ? '#67CC4F' : color }}>
+      <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {delivery.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" /> }
+              {hasPickedDelivery ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" /> }
             </Grid.Column>
             <Grid.Column width={9}>
               <h3 className="fw-bold fs-big">

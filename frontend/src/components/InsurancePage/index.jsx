@@ -28,10 +28,10 @@ class InsurancePage extends Component {
     lead: propTypes.shape({
       id: propTypes.string,
       motorcycle: propTypes.shape({
-        id: propTypes.string,
+        id: propTypes.number,
       }),
     }).isRequired,
-    optInOrOut: propTypes.string.isRequired,
+    optInOrOut: propTypes.string,
     query: propTypes.shape({
       province: propTypes.string,
       postalCode: propTypes.string,
@@ -41,7 +41,6 @@ class InsurancePage extends Component {
 
   constructor(props) {
     super(props);
-    this.paymentMethodForm = React.createRef();
     this.state = {
       insuranceQuotes: [],
       optInOrOut: HERO_INSURANCE,
@@ -80,11 +79,11 @@ class InsurancePage extends Component {
     const newData = this.state.query;
     newData[inputName] = value;
     this.setState({ query: newData });
-  }
+  };
 
   handleDropdownOptInOrOutChange = (e, selectObj) => {
     this.setState({ optInOrOut: selectObj.value });
-  }
+  };
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
@@ -100,33 +99,35 @@ class InsurancePage extends Component {
     let quotesList;
     if (this.state.insuranceQuotes.length > 0) {
       const quoteItems =
-            this.state.insuranceQuotes.map(quote => (
-              <Card>
-                <Card.Content>
-                  <Image src={quote.brokerLogo} />
-                  <Card.Header>{quote.broker}</Card.Header>
-                  <Card.Description>{quote.policy}</Card.Description>
-                  <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
+        this.state.insuranceQuotes.map(quote => (
+          <Card key={`${quote.brokerId}-${quote.policyId}`}>
+            <Card.Content>
+              <Image src={quote.brokerLogo} />
+              <Card.Header>{quote.broker}</Card.Header>
+              <Card.Description>{quote.policy}</Card.Description>
+              <Card.Meta>Ver mas información <Icon name="info circle" /></Card.Meta>
 
-                </Card.Content>
-                <Card.Content className="btn-displaced-container txt-center">
-                  <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/ mes </div>
-                  <Button
-                    primary
-                    className="btn-displaced"
-                    onClick={() => {
-                            this.props.selectInsurance(
-                              quote,
-                              this.state.optInOrOut,
-                              this.state.query,
-                              this.props.lead,
-                            );
-                    }}
-                  >
-                  Elegir
-                  </Button>
-                </Card.Content>
-              </Card>));
+            </Card.Content>
+            <Card.Content className="btn-displaced-container txt-center">
+              <div className="fs-big txt-dark-gray txt-center">$<span className="fw-bold fs-big">{quote.price}</span>/
+                mes
+              </div>
+              <Button
+                primary
+                className="btn-displaced"
+                onClick={() => {
+                  this.props.selectInsurance(
+                    quote,
+                    this.state.optInOrOut,
+                    this.state.query,
+                    this.props.lead,
+                  );
+                }}
+              >
+                Elegir
+              </Button>
+            </Card.Content>
+          </Card>));
       quotesList = (
         <div className="margin-bottom">
           <Divider />
@@ -177,16 +178,18 @@ class InsurancePage extends Component {
             />
           </Form.Group>
           <div className="txt-center">
-            <Button size="large" primary onClick={this.getQuote} >Cotizar</Button>
+            <Button size="large" primary onClick={this.getQuote}>Cotizar</Button>
             <Button onClick={() => {
-                      this.props.cancelQuote();
-                    }}
+              this.props.cancelQuote();
+            }}
             >Cancelar
             </Button>
           </div>
           {quotesList}
           <Divider />
-          <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto</p>
+          <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para
+            completar el seguro de tu moto
+          </p>
         </Segment>);
     } else {
       heroQuery = (
@@ -206,7 +209,9 @@ class InsurancePage extends Component {
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres asegurarte?</h2>
-        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas conveniente, <br /> nosotros nos ocupamos del papeleo.</p>
+        <p className="fs-huge txt-med-gray txt-center">Asegurá tu moto con la prestadora que te sea mas
+          conveniente, <br /> nosotros nos ocupamos del papeleo.
+        </p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
             <Form.Select

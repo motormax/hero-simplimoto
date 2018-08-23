@@ -14,7 +14,6 @@ class FinancingSection extends Component {
   static defaultProps = {
     isLoading: false,
   }
-
   static propTypes = {
     t: propTypes.func.isRequired,
     lead: propTypes.shape({
@@ -23,12 +22,12 @@ class FinancingSection extends Component {
     changeToSelectFinancing: propTypes.func.isRequired,
     fetchFinancing: propTypes.func.isRequired,
     isLoading: propTypes.bool,
-    financingSelected: propTypes.bool.isRequired,
+    financingSelected: propTypes.bool,
     financingForm: propTypes.shape({
       message: propTypes.string.isRequired,
       issuerName: propTypes.string.isRequired,
       paymentMethodName: propTypes.string.isRequired,
-    }).isRequired,
+    }),
   };
 
   componentWillMount() {
@@ -43,10 +42,12 @@ class FinancingSection extends Component {
     if (isLoading) {
       return <div>Cargando</div>;
     }
-
     const color = this.props.financingSelected ? '#67CC4F' : 'red';
+
     const message = this.props.financingSelected ? `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName} del banco ${this.props.financingForm.issuerName}` : 'Elegí el financiamiento más conveniente';
+
     const buttonActionLabel = this.props.financingSelected ? 'Cambiar' : 'Seleccionar';
+
     const buttonActionStyle = classNames(this.props.financingSelected ? 'secondary btn-outline' : 'primary');
 
 

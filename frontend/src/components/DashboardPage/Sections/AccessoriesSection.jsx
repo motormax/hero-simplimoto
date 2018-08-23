@@ -27,7 +27,7 @@ class AccessoriesSection extends Component {
         const { price, imgUrl } = availableAccessories[name];
         const isSelected = selectedAccessories[name];
         return (
-          <div className="dashboard-card_items">
+          <div key={name} className="dashboard-card_items">
             <Checkbox defaultChecked={isSelected} onChange={() => toggleAccessoryStatus(name)} />
             <img src={imgUrl} alt={t(name)} />
             <div className="accessory_item_details">

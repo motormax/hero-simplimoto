@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import classNames from 'classnames';
 
+
 import { loadSDK, getInstallments, filterInstallmentLabels } from './mercadoPagoHelper';
 import { financingSelected } from '../../actions/financingChoices';
 import PurchaseCalculator from '../calculator';
@@ -16,7 +17,7 @@ import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSe
 
 class FinancingPage extends Component {
   static propTypes = {
-    motorcyclePrice: propTypes.string.isRequired,
+    motorcyclePrice: propTypes.number.isRequired,
     accessoriesPrice: propTypes.number.isRequired,
     selectFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
@@ -155,12 +156,12 @@ class FinancingPage extends Component {
   disableContinueButton = () => (
     this.state.financingForm.issuerId.length === 0 && this.state.installmentOptions.length === 0);
 
-  handleInstallmentSelected = (e, { value }) => {
+  handleInstallmentSelected = (e, installment) => {
     const newData = this.state.financingForm;
-    newData.installments = value.installments;
-    newData.message = value.message;
-    newData.costs = value.label;
-    newData.monthlyAmount = value.monthlyAmount;
+    newData.installments = installment.installments;
+    newData.message = installment.message;
+    newData.costs = installment.label;
+    newData.monthlyAmount = installment.monthlyAmount;
     this.setState({ financingForm: newData });
   };
 
@@ -172,13 +173,12 @@ class FinancingPage extends Component {
     if (this.state.installmentOptions.length > 0) {
       const installmentItems =
         this.state.installmentOptions.map(installment => (
-          <Form.Field>
+          <Form.Field key={installment.label}>
             <Radio
               label={installment.message}
               name="installment_id"
-              value={installment}
               checked={this.state.financingForm.installments === installment.installments}
-              onChange={this.handleInstallmentSelected}
+              onChange={e => this.handleInstallmentSelected(e, installment)}
             /><Label size="small">{installment.label}</Label>
           </Form.Field>
         ));
@@ -217,31 +217,31 @@ class FinancingPage extends Component {
     }
 
     const creditCardList =
-      this.state.paymentMethodOptions.map((creditCardItem) => {
-        const activeBtn = classNames(
-          'square-btn',
-          this.state.financingForm.paymentMethodId === creditCardItem.value ? 'active' : ' ',
-        );
-        const activeTxt = classNames(
-          'txt-center fs-small',
-          this.state.financingForm.paymentMethodId === creditCardItem.value ? 'txt-green' : ' ',
-        );
-        return (
-          <label className="square-item">
-            <Radio
-              style={{ display: 'none' }}
-              name="creditCardList"
-              value={creditCardItem.value}
-              checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
-              onChange={this.handlePaymentMethodChange}
-            />
-            <div className={activeBtn}>
-              <img src={creditCardItem.image.src} alt="" />
-            </div>
-            <p className={activeTxt}>{creditCardItem.text}</p>
-          </label>
-        );
-      });
+        this.state.paymentMethodOptions.map((creditCardItem) => {
+          const activeBtn = classNames(
+            'square-btn',
+            this.state.financingForm.paymentMethodId === creditCardItem.value ? 'active' : ' ',
+          );
+          const activeTxt = classNames(
+            'txt-center fs-small',
+            this.state.financingForm.paymentMethodId === creditCardItem.value ? 'txt-green' : ' ',
+          );
+          return (
+            <label className="square-item" key={creditCardItem.value}>
+              <Radio
+                style={{ display: 'none' }}
+                name="creditCardList"
+                value={creditCardItem.value}
+                checked={this.state.financingForm.paymentMethodId === creditCardItem.value}
+                onChange={this.handlePaymentMethodChange}
+              />
+              <div className={activeBtn}>
+                <img src={creditCardItem.image.src} alt="" />
+              </div>
+              <p className={activeTxt}>{creditCardItem.text}</p>
+            </label>
+          );
+        });
     const creditCardOptions = (
       <Segment className="not-border-bottom" attached>
         <p className="txt-dark-gray fw-bold fs-huge">Elegí tu tarjeta de credito</p>
@@ -250,6 +250,7 @@ class FinancingPage extends Component {
         </Form.Field>
       </Segment>
     );
+
 
     const continueButtonAttributes = this.disableContinueButton() ? { disabled: true } : {};
 
@@ -301,6 +302,7 @@ class FinancingPage extends Component {
     );
   }
 }
+
 
 const mapStateToProps = state => ({
   financingSelected: state.main.financing.financingSelected,
