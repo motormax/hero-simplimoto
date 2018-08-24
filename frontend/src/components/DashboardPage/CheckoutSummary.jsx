@@ -3,69 +3,143 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Button, Card, Icon, List, Divider, Image } from 'semantic-ui-react';
+import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
+import axios from 'axios';
+import humps from 'humps';
 
-import bankImage from './../images/banks-logos/icbc-logo.png';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
+import { registrationPrice } from './Sections/PlateRegistrationSection';
+import { startedFetchingInsuranceChoice, insuranceChoiceFetched } from '../../actions/insuranceChoices';
+import PurchaseCalculator from '../calculator';
+import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
+import { financingChanged } from '../../actions/financingChoices';
+import { PERSONAL_INSURANCE } from '../InsurancePage/constants';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
-  minimumFractionDigits: 0,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
-
 
 class CheckoutSummary extends Component {
   static propTypes = {
+    fetchInsuranceChoice: propTypes.func.isRequired,
     changeToSelectInsurance: propTypes.func.isRequired,
-    broker: propTypes.string,
-    price: propTypes.string,
-    policy: propTypes.string,
-    brokerLogo: propTypes.string,
-    insuranceSelected: propTypes.bool,
-    insuranceOptOut: propTypes.bool,
+    changeFinancing: propTypes.func.isRequired,
+
+    insuranceChoice: propTypes.shape({
+      optInOrOut: propTypes.string,
+      accessoriesPrice: propTypes.string,
+    }).isRequired,
+
+    accessoriesPrice: propTypes.number,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
     motorcycle: propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
-      price: propTypes.string.isRequired,
+      price: propTypes.number.isRequired,
     }).isRequired,
+    financingSelected: propTypes.bool,
+    financingForm: propTypes.shape({
+      message: propTypes.string.isRequired,
+      costs: propTypes.string.isRequired,
+      monthlyAmount: propTypes.number.isRequired,
+      issuerLogo: propTypes.string.isRequired,
+      issuerName: propTypes.string.isRequired,
+      paymentMethodName: propTypes.string.isRequired,
+      paymentMethodLogo: propTypes.string.isRequired,
+      paymentMethodId: propTypes.string.isRequired,
+      issuerId: propTypes.string.isRequired,
+      installments: propTypes.number.isRequired,
+    }),
   };
-  static defaultProps = {
-    broker: '',
-    price: '',
-    policy: '',
-    brokerLogo: '',
-    insuranceSelected: false,
-    insuranceOptOut: false,
+
+  componentDidMount() {
+    if (!this.props.insuranceChoice.optInOrOut) {
+      this.props.fetchInsuranceChoice(this.props.lead.id);
+    }
+  }
+
+  componentDidUpdate({ accessoriesPrice }) {
+    if (this.props.accessoriesPrice !== accessoriesPrice && this.props.financingSelected) {
+      getInstallments(
+        this.props.financingForm.paymentMethodId,
+        this.props.financingForm.issuerId,
+        this.calculator().totalAmount(),
+        this.fetchInstallmentsCallback,
+      );
+    }
+  }
+
+  calculator = () => {
+    const { motorcycle, accessoriesPrice } = this.props;
+    return new PurchaseCalculator(motorcycle.price, accessoriesPrice, registrationPrice);
+  };
+
+  fetchInstallmentsCallback = (status, response) => {
+    if (status === 200) {
+      response.forEach((installment) => {
+        installment.payer_costs.forEach((costs) => {
+          if (this.props.financingForm.installments === costs.installments) {
+            this.props.changeFinancing({
+              message: costs.recommended_message,
+              costs: filterInstallmentLabels(costs.labels),
+              monthlyAmount: costs.installment_amount,
+            });
+          }
+        });
+      });
+    }
   };
 
   render() {
-    const { motorcycle } = this.props;
+    const {
+      insuranceChoice: {
+        quotePrice, quotePolicy, quoteBrokerLogoUrl,
+        quoteBrokerName, optInOrOut,
+      }, motorcycle, changeToSelectInsurance, accessoriesPrice,
+    } = this.props;
+    const insuranceSelected = !!optInOrOut;
+    const insuranceOptOut = optInOrOut === PERSONAL_INSURANCE;
+
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
-    const bankName = 'ICBC';
 
     let insuranceSection;
-    if (this.props.insuranceSelected) {
-      const insuranceItems = [];
-      if (this.props.insuranceOptOut) {
-        insuranceItems.push(<List.Content>Voy a contratar mi propio seguro</List.Content>);
-      } else {
-        insuranceItems.push(<List.Content><Image className="bike-image" src={this.props.brokerLogo} /> {this.props.broker}</List.Content>);
-        insuranceItems.push(<List.Content>{this.props.policy}</List.Content>);
-        insuranceItems.push(<List.Content>${this.props.price}/mes</List.Content>);
-      }
-      const insuranceSelection = insuranceItems.map(item => (
-        <List.Item className="summary-list-btn-container">
-          <Icon name="arrow right" />
-          {item}
-        </List.Item>));
+    if (insuranceSelected) {
+      const insuranceSelection = insuranceOptOut ? (
+        <List.Item key={insuranceOptOut}>
+          <List.Content key="self-ensured">Voy a contratar mi propio seguro</List.Content>
+        </List.Item>
+      ) : (
+        <List.Item key={insuranceOptOut}>
+          <Image key="bike-image" className="bike-image" src={quoteBrokerLogoUrl} />
+          <List.Content key="broker">{quoteBrokerName}
+            <div className="fw-normal">{quotePolicy}</div>
+          </List.Content>
+          <List.Content key="price"><span className="fs-big">${quotePrice}</span>/mes</List.Content>
+        </List.Item>
+      );
 
       insuranceSection = (
-        <List className="summary-list">
-          {insuranceSelection}
-          <List.Item className="summary-list-btn-container">
-            <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Cambiar</Button>
-          </List.Item>
-        </List>
+        <div className="txt-center">
+          <List className="summary-list" horizontal>
+            {insuranceSelection}
+          </List>
+          <Button
+            className="btn-outline"
+            secondary
+            onClick={() => changeToSelectInsurance()}
+          >Cambiar
+          </Button>
+          <div className="margin-top-tinny txt-med-gray txt-center">
+            {quotePolicy ?
+              'Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto'
+              : ''
+            }
+          </div>
+        </div>
       );
     } else {
       insuranceSection = (
@@ -73,11 +147,44 @@ class CheckoutSummary extends Component {
           <List.Item className="summary-list-btn-container">
             <Icon name="arrow right" />
             <List.Content>Seguro</List.Content>
-            <Button className="btn-outline" fluid secondary onClick={() => this.props.changeToSelectInsurance()}>Elegir seguro</Button>
+            <Button
+              className="btn-outline"
+              fluid
+              secondary
+              onClick={() => changeToSelectInsurance()}
+            >Elegir seguro
+            </Button>
           </List.Item>
         </List>
       );
     }
+
+    const financingAmount = this.props.financingSelected ?
+      this.props.financingForm.monthlyAmount :
+      this.calculator().totalAmount();
+
+    const financingPeriod = this.props.financingSelected ? '/ mes' : '';
+
+    let financingInfo;
+    if (this.props.financingSelected) {
+      financingInfo = (
+        <div className="finnancial-bank">
+          <img
+            src={this.props.financingForm.paymentMethodLogo}
+            alt={this.props.financingForm.paymentMethodName}
+          />
+          <img
+            src={this.props.financingForm.issuerLogo}
+            alt={this.props.financingForm.issuerName}
+          />
+          <div>
+            <p className="fs-small">{this.props.financingForm.message}</p>
+            <p className="fs-tinny">{this.props.financingForm.costs}</p>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -87,7 +194,7 @@ class CheckoutSummary extends Component {
             <List className="summary-list" verticalAlign="middle">
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(bikePrice)}</span>
                 </List.Content>
                 <List.Content>{bikeDisplayName}</List.Content>
@@ -101,16 +208,16 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>{moneyFormatter.format(1200)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
+                  <span>{moneyFormatter.format(accessoriesPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Accesorios</List.Content>
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">AR$</span>
-                  <span>{moneyFormatter.format(1200)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
+                  <span>{moneyFormatter.format(registrationPrice)}</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Patentamiento online</List.Content>
@@ -134,25 +241,24 @@ class CheckoutSummary extends Component {
             </List>
 
             <div>
-              <p className="final-price">AR$<span className="final-price-number">{moneyFormatter.format(10000)}</span>/ month </p>
+              <p className="final-price">
+                $
+                <span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
+                {financingPeriod}
+              </p>
             </div>
 
-            <div className="finnancial-bank">
-              <img src={bankImage} alt={bankName} />
-              <div className="right-column txt-dark-gray">
-                <p className="fw-bold fs-small">Préstamo {bankName}</p>
-                <p className="fs-tinny">85 cuotas de AR$ {moneyFormatter.format(1300)}-</p>
-                <p className="fs-large">CFT: 48.12%</p>
-              </div>
-            </div>
+            {financingInfo}
 
           </Card.Content>
-        </Card>
 
-        <Card fluid>
-          <Card.Content className="btn-displaced-container">
+          <Segment className="bg-backgroung_gray" attached>
             {insuranceSection}
-            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra</Button>
+          </Segment>
+
+          <Card.Content className="btn-displaced-container txt-center">
+            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra
+            </Button>
           </Card.Content>
         </Card>
 
@@ -162,19 +268,27 @@ class CheckoutSummary extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
+  fetchInsuranceChoice: async (leadId) => {
+    dispatch(startedFetchingInsuranceChoice());
+    const { data: { data: insuranceChoice } } = await axios.get(`/api/leads/${leadId}/insurance`);
+    dispatch(insuranceChoiceFetched(humps.camelizeKeys(insuranceChoice)));
+  },
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
+  },
+  changeFinancing: async (financingForm) => {
+    dispatch(financingChanged(financingForm));
   },
 });
 
 const mapStateToProps = state => ({
-  user: state.main.user,
-  broker: state.main.insurance.broker,
-  price: state.main.insurance.price,
-  policy: state.main.insurance.policy,
-  brokerLogo: state.main.insurance.brokerLogo,
-  insuranceSelected: state.main.insurance.selected,
-  insuranceOptOut: state.main.insurance.optOut,
+  lead: state.main.lead,
+  motorcycle: state.main.lead.motorcycle,
+  accessoriesPrice: state.main.accessories.totalPrice,
+  insuranceChoice: state.main.insuranceChoice,
+  financingSelected: state.main.financing.financingSelected,
+  financingForm: state.main.financing.financingForm,
 });
 
 export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));
+export { moneyFormatter };

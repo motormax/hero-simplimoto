@@ -1,33 +1,13 @@
 import actionTypes from '../actions/actionTypes';
-import { PROVINCE_CABA, HERO_INSURANCE } from '../components/InsurancePage/constants';
 
-const initialState = {
-  insuranceForm: {
-    optInOrOut: HERO_INSURANCE,
-    province: PROVINCE_CABA,
-    postalCode: '',
-    age: 0,
-  },
-};
+const initialInsuranceChoiceState = {};
 
-export default function deliveryReducer(state = initialState, action) {
+export default function insuranceChoiceReducer(state = initialInsuranceChoiceState, action) {
   switch (action.type) {
-    case actionTypes.insuranceSelected:
-      return {
-        selected: true,
-        optOut: false,
-        price: action.quote.price,
-        policy: action.quote.policy,
-        broker: action.broker,
-        brokerLogo: action.brokerLogo,
-        insuranceForm: action.insuranceForm,
-      };
-    case actionTypes.insuranceOptOut:
-      return {
-        selected: true,
-        optOut: true,
-        insuranceForm: action.insuranceForm,
-      };
+    case actionTypes.startedFetchingInsuranceChoice:
+      return { isLoading: true };
+    case actionTypes.insuranceChoiceFetched:
+      return action.insuranceChoice || initialInsuranceChoiceState;
     default:
       return state;
   }

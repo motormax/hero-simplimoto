@@ -4,6 +4,7 @@ $disabled-btn: $med-gray;
 .ui.button{
   border-radius: 50px;
   padding: .5em 2em;
+  margin: 0 .5em;
   &.primary{
     background-color: $primary-color;
     &:focus{
@@ -66,6 +67,32 @@ $disabled-btn: $med-gray;
         color: rgba(255,255,255, 1);
       }
     }
+  }
+
+  &.btn-green{
+    &.btn-outline{
+        background: transparent;
+        border: 2px solid $green;
+        color: $green;
+        &:focus{
+          background: transparent;
+          border: 2px solid $green;
+          color: $green;
+        }
+        &:hover,
+        &:active{
+          border: 2px solid darken($green, 15%);
+          color: darken($green, 15%);
+        }
+    }
+  }
+  &.btn-sticky{
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px 10px 0 0;
+    z-index: 99;
   }
 }
 

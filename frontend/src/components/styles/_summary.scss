@@ -10,6 +10,9 @@
   .ui.cards>.card>.content{
     border: none;
   }
+  .ui.segment.bg-backgroung_gray{
+    background-color: $background-page-color;
+  }
   .summary-list{
     .item{
       font-size: 1.2em;
@@ -25,12 +28,20 @@
         color: $med-gray;
       }
     }
+    img{
+      width: 50px;
+    }
     .summary-list-btn-container{
       display: flex;
       align-items: center;
       .content{
         margin-right: .5em;
       }
+    }
+    &.horizontal{
+      text-align: left;
+      display: inline-flex;
+      align-items: center;
     }
   }
   .final-price{
@@ -49,21 +60,14 @@
     }
   }
   .finnancial-bank{
-    width: 80%;
+    width: 90%;
     margin: auto;
-    max-width: 240px;
+    max-width: 300px;
     display: flex;
     align-items: flex-start;
-    img{
-      width: 100px;
-    }
-    .right-column{
-      width: calc(100% - 100px);
-      padding: .5em 0 0 .5em;
-      line-height: .8em;
-      .fs-large{
-        line-height: 2em;
-      }
+    justify-content: center;
+    &>*:not(:last-child){
+      margin-right: .5em;
     }
   }
 }

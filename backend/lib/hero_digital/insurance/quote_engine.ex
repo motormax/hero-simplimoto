@@ -13,7 +13,7 @@ defmodule HeroDigital.Insurance.QuoteEngine do
 
     query = from p in Policy,
         join: b in assoc(p, :insurance_broker),
-        select: %{policy: p.name, price: p.price, moreInfo: p.details, broker: b.name, brokerLogo: b.logo_url},
+        select: %{policy: p.name, policyId: p.id, price: p.price, moreInfo: p.details, brokerName: b.name, brokerLogo: b.logo_url, brokerId: b.id},
         where: p.min_age <= ^age
         and  p.max_age >= ^age
         and  p.motorcycle_id == ^motorcycle_id

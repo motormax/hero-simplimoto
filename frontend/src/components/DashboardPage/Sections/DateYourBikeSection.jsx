@@ -21,12 +21,15 @@ class DateYourBikeSection extends Component {
     fetchDateAppointment: propTypes.func.isRequired,
     changeToDateYourBike: propTypes.func.isRequired,
     appointment: propTypes.shape({
-      address: propTypes.object.isRequired,
+      id: propTypes.number,
+      address: propTypes.object,
     }).isRequired,
   };
 
   componentWillMount() {
-    this.props.fetchDateAppointment(this.props.lead.id);
+    if (!this.props.appointment) {
+      this.props.fetchDateAppointment(this.props.lead.id);
+    }
   }
 
   render() {
@@ -48,7 +51,7 @@ class DateYourBikeSection extends Component {
     }
 
     return (
-      <Segment className={cardStyle} style={{ borderLeftColor: appointment.id ? '#21ba45' : 'transparent' }}>
+      <Segment className={cardStyle} style={{ borderLeftColor: appointment.id ? '#67CC4F' : 'transparent' }}>
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
@@ -59,13 +62,13 @@ class DateYourBikeSection extends Component {
               <p className={textStyle}>
                 { appointment.id ?
                 `Te llevamos la moto ${moment(appointment.date).locale('es').fromNow()} a ${appointment.address.street}` :
-                "Te arreglamos una 'cita a ciegas' en tu casa"
+                "Te arreglamos una 'cita a ciegas' donde quieras"
               }
               </p>
             </Grid.Column>
             <Grid.Column width={5}>
               <Button className={appointment.id ? 'btn-outline' : 'btn-opacity'} fluid secondary onClick={() => this.props.changeToDateYourBike()}>
-                <Icon name="calendar alternate" /> { appointment.id ? 'Cambiar' : 'Arreglá una cita'}
+                <Icon className="calendar alternate" /> { appointment.id ? 'Cambiar' : 'Arreglá una cita'}
               </Button>
             </Grid.Column>
           </Grid.Row>

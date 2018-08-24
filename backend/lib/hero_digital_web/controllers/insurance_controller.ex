@@ -1,24 +1,14 @@
 defmodule HeroDigitalWeb.InsuranceController do
   use HeroDigitalWeb, :controller
 
-  action_fallback HeroDigitalWeb.FallbackController
-
   alias HeroDigital.Insurance.QuoteEngine
+
+  action_fallback HeroDigitalWeb.FallbackController
 
   require Logger
 
-  def update(conn, params) do
-    json conn, %{status: "success"}
-  end
-
-  def opt_out(conn, params) do
-    json conn, %{status: "success"}
-  end
-
-  def quote(conn, %{"motorcycle_id" => motorcycle_id, "postalCode" => postalCode, "age" => age}) do
-
-    quotes = QuoteEngine.fetch_quotes_by(motorcycle_id, postalCode , age)
-
+  def quote(conn, %{"motorcycle_id" => motorcycle_id, "query_postal_code" => query_postal_code, "query_age" => query_age}) do
+    quotes = QuoteEngine.fetch_quotes_by(motorcycle_id, query_postal_code , query_age)
     render(conn, "quotes.json", quotes: quotes)
   end
 end

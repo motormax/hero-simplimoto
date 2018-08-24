@@ -33,10 +33,12 @@ config :ex_admin,
     HeroDigital.ExAdmin.UserData.Phone,
     HeroDigital.ExAdmin.UserData.PersonalData,
     HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationData,
+    HeroDigital.ExAdmin.DateYourBike.DateAppointment,
     HeroDigital.ExAdmin.UserData.Address,
     HeroDigital.ExAdmin.UserData.Image,
     HeroDigital.ExAdmin.Insurance.Broker,
     HeroDigital.ExAdmin.Insurance.Policy,
+    HeroDigital.ExAdmin.Insurance.InsuranceChoice,
   ]
 
 config :hero_digital, basic_auth: [
