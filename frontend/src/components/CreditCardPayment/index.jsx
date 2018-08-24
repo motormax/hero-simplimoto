@@ -7,8 +7,9 @@ import { Button, Form, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import axios from 'axios';
-
 import MaskedInput from 'react-text-mask';
+
+import { cancelPurchase } from '../../actions/beginning';
 
 import { loadSDK, getPaymentMethod } from '../FinancingPage/mercadoPagoHelper';
 
@@ -332,6 +333,7 @@ const mapDispatchToProps = dispatch => ({
       },
     );
     console.log(response); // eslint-disable-line no-console
+    dispatch(cancelPurchase());
     dispatch(push('/success'));
   },
 });
