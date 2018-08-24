@@ -392,7 +392,6 @@ class PlateRegistrationPage extends Component {
         </p>
 
         <Card className="page-column-card">
-          <Card.Content>
             <Form onSubmit={this.handleSubmit} error={error}>
               <Form.Select
                 fluid
@@ -404,8 +403,6 @@ class PlateRegistrationPage extends Component {
               />
               {heroPlateRegistrationForm}
             </Form>
-          </Card.Content>
-
         </Card>
 
       </div>

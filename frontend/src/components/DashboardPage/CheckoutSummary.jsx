@@ -119,8 +119,8 @@ class CheckoutSummary extends Component {
           <Image key="bike-image" className="bike-image" src={quoteBrokerLogoUrl} />
           <List.Content key="broker">{quoteBrokerName}
             <div className="fw-normal">{quotePolicy}</div>
+            <p key="price"><span className="fs-big">${quotePrice}</span>/mes</p>
           </List.Content>
-          <List.Content key="price"><span className="fs-big">${quotePrice}</span>/mes</List.Content>
         </List.Item>
       );
 
@@ -170,8 +170,8 @@ class CheckoutSummary extends Component {
             <List className="summary-list" verticalAlign="middle">
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(bikePrice)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                 </List.Content>
                 <List.Content>{bikeDisplayName}</List.Content>
               </List.Item>
@@ -184,16 +184,16 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(accessoriesPrice)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Accesorios</List.Content>
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(registrationPrice)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Patentamiento online</List.Content>

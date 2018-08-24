@@ -16,11 +16,10 @@ class ListOfBikesModels extends Component {
     const { t } = this.props;
 
     const bikesModels = Object.values(availableMotorcycles).map(bikeData => (
-      <Card key={bikeData.displayName} className="image-card">
-        <Card.Content className="btn-displaced-container">
+      <Card key={bikeData.displayName} className="image-card" onClick={() => this.props.goToSpec(bikeData.displayName)} link>
+        <Card.Content>
           <img src={bikeData.defaultImageUrl} alt={bikeData.displayName} />
-          <h2 className="txt-center">{bikeData.displayName}</h2>
-          <Button size="large" className="btn-displaced" onClick={() => this.props.goToSpec(bikeData.displayName)}>Ver</Button>
+          <h2 className="txt-center txt-med-gray">{bikeData.displayName}</h2>
         </Card.Content>
       </Card>
     ));
