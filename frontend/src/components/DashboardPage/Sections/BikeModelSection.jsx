@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button, Grid, Icon, Segment } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import availableMotorcycles from '../../motorcycles/availableMotorcycles';
+import { moneyFormatter } from '../CheckoutSummary';
+
 
 class BikeModelSection extends Component {
   static propTypes = {
@@ -30,9 +32,8 @@ class BikeModelSection extends Component {
               <h3 className="fw-bold fs-big">
                 {availableMotorcycles[motorcycle.name].displayName}
                 <span className="fs-medium txt-dark-gray">
-                  <span className="fw-normal">{t('currency_sign')}
-                  </span>
-                  {motorcycle.price}
+                  <span className="fw-normal">$</span>
+                  {moneyFormatter.format(motorcycle.price)}
                 </span>
               </h3>
               <ul className="txt-med-gray fs-medium italic">
