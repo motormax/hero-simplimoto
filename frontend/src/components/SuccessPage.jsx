@@ -15,9 +15,6 @@ class SuccessPage extends Component {
             <Icon name="check circle" size="massive" />
             <p className="margin-top-tinny fs-big txt-med-gray txt-center">{message}</p>
           </Segment>
-          <Segment attached className="txt-center">
-            <Button size="big" primary>Continuar</Button>
-          </Segment>
         </Card>
       </div>
     );
