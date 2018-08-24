@@ -19,10 +19,23 @@ atm = HeroDigital.Repo.insert!(%HeroDigital.Insurance.Broker{external_id: "atm",
 mapfre = HeroDigital.Repo.insert!(%HeroDigital.Insurance.Broker{external_id: "mapfre", logo_url: "http://motos-ci.123seguro.com/images/front/paso34/SVG/mapfre.svg", name: "Mapfre"})
 
 abasto_cp = "1194"
+policy_details = """
+<div class="ui bulleted list">
+  <div class="item">Responsabilidad Civil hasta $6.000.000</div>
+  <div class="item">Mecánica ligera</div>
+  <div class="item">Traslado ó Remolque de la moto</div>
+  <div class="item">Desplazamiento de los Beneficiarios. (Servicio prestado en Viaje)</div>
+  <div class="item">Alojamiento por Inmovilización o Robo del Vehículo (Servicio prestado en Viaje)</div>
+  <div class="item">Guarda del Vehículo Reparado o Recuperado (Servicio prestado en Viaje)</div>
+  <div class="item">Abastecimiento de combustible</div>
+  <div class="item">Transmisión de mensajes urgentes</div>
+  <div class="item">Información telefónica las 24 Hs</div>
+</div>
+"""
 
 first_atm_policy = %HeroDigital.Insurance.Policy {
   name: "Solo responsabilidad civil",
-  details: "Detalle del seguro",
+  details: policy_details,
   price: 123,
   postal_codes: abasto_cp,
   min_age: 1,
@@ -34,7 +47,7 @@ first_atm_policy = %HeroDigital.Insurance.Policy {
 
 second_atm_policy = %HeroDigital.Insurance.Policy {
   name: "Contra todo riesgo",
-  details: "Detalle del seguro",
+  details: policy_details,
   price: 321,
   postal_codes: abasto_cp,
   min_age: 1,
@@ -46,7 +59,7 @@ second_atm_policy = %HeroDigital.Insurance.Policy {
 
 first_mapfre_policy = %HeroDigital.Insurance.Policy {
   name: "Solo responsabilidad civil",
-  details: "Detalle del seguro",
+  details: policy_details,
   price: 111,
   postal_codes: abasto_cp,
   min_age: 1,
@@ -58,7 +71,7 @@ first_mapfre_policy = %HeroDigital.Insurance.Policy {
 
 second_mapfre_policy = %HeroDigital.Insurance.Policy {
   name: "Contra todo riesgo",
-  details: "Detalle del seguro",
+  details: policy_details,
   price: 222,
   postal_codes: abasto_cp,
   min_age: 1,

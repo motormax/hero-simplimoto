@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
 import axios from 'axios';
+import humps from 'humps';
 
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import ConfirmationButton from './ConfirmationButton';
@@ -14,6 +15,7 @@ import PurchaseCalculator from '../calculator';
 import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
 import { financingChanged } from '../../actions/financingChoices';
 import FinancingInfo from './Sections/FinancingInfo';
+import { PERSONAL_INSURANCE } from '../InsurancePage/constants';
 
 export const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
@@ -26,18 +28,12 @@ class CheckoutSummary extends Component {
     changeToSelectInsurance: propTypes.func.isRequired,
     changeFinancing: propTypes.func.isRequired,
 
-    insuranceBroker: propTypes.string,
-    insurancePrice: propTypes.string,
-    insurancePolicy: propTypes.string,
-    insuranceBrokerLogo: propTypes.string,
-    insuranceSelected: propTypes.bool,
-    insuranceOptOut: propTypes.bool,
+    insuranceChoice: propTypes.shape({
+      optInOrOut: propTypes.string,
+      accessoriesPrice: propTypes.string,
+    }).isRequired,
+
     accessoriesPrice: propTypes.number,
-    quote_chosen_policy: propTypes.string,
-    quote_chosen_broker_name: propTypes.string,
-    quote_chosen_broker_logo_url: propTypes.string,
-    quote_chosen_price: propTypes.string,
-    chosen_opt_in_or_out: propTypes.string,
     lead: propTypes.shape({
       id: propTypes.string.isRequired,
     }).isRequired,
@@ -61,22 +57,8 @@ class CheckoutSummary extends Component {
     }),
   };
 
-  static defaultProps = {
-    insuranceBroker: '',
-    insurancePrice: '',
-    insurancePolicy: '',
-    insuranceBrokerLogo: '',
-    insuranceSelected: false,
-    insuranceOptOut: false,
-    quote_chosen_policy: '',
-    quote_chosen_broker_name: '',
-    quote_chosen_broker_logo_url: '',
-    quote_chosen_price: '',
-    chosen_opt_in_or_out: '',
-  };
-
   componentDidMount() {
-    if (!this.props.chosen_opt_in_or_out) {
+    if (!this.props.insuranceChoice.optInOrOut) {
       this.props.fetchInsuranceChoice(this.props.lead.id);
     }
   }
@@ -114,26 +96,14 @@ class CheckoutSummary extends Component {
   };
 
   render() {
-    let {
-      insurancePrice, insurancePolicy, insuranceBrokerLogo,
-      insuranceBroker, insuranceSelected, insuranceOptOut,
-    } = this.props;
-
     const {
-      motorcycle, changeToSelectInsurance, accessoriesPrice,
+      insuranceChoice: {
+        quotePrice, quotePolicy, quoteBrokerLogoUrl,
+        quoteBrokerName, optInOrOut,
+      }, motorcycle, changeToSelectInsurance, accessoriesPrice,
     } = this.props;
-
-    if (this.props.chosen_opt_in_or_out === 'heroInsurance') {
-      insuranceBroker = this.props.quote_chosen_broker_name;
-      insurancePrice = this.props.quote_chosen_price;
-      insurancePolicy = this.props.quote_chosen_policy;
-      insuranceBrokerLogo = this.props.quote_chosen_broker_logo_url;
-      insuranceSelected = true;
-      insuranceOptOut = false;
-    } else if (this.props.chosen_opt_in_or_out === 'personalInsurance') {
-      insuranceSelected = true;
-      insuranceOptOut = true;
-    }
+    const insuranceSelected = !!optInOrOut;
+    const insuranceOptOut = optInOrOut === PERSONAL_INSURANCE;
 
     const bikeDisplayName = availableMotorcycles[motorcycle.name].displayName;
     const bikePrice = motorcycle.price;
@@ -146,11 +116,11 @@ class CheckoutSummary extends Component {
         </List.Item>
       ) : (
         <List.Item key={insuranceOptOut}>
-          <Image key="bike-image" className="bike-image" src={insuranceBrokerLogo} />
-          <List.Content key="broker">{insuranceBroker}
-            <div className="fw-normal">{insurancePolicy}</div>
+          <Image key="bike-image" className="bike-image" src={quoteBrokerLogoUrl} />
+          <List.Content key="broker">{quoteBrokerName}
+            <div className="fw-normal">{quotePolicy}</div>
           </List.Content>
-          <List.Content key="price"><span className="fs-big">${insurancePrice}</span>/mes</List.Content>
+          <List.Content key="price"><span className="fs-big">${quotePrice}</span>/mes</List.Content>
         </List.Item>
       );
 
@@ -166,7 +136,7 @@ class CheckoutSummary extends Component {
           >Cambiar
           </Button>
           <div className="margin-top-tinny txt-med-gray txt-center">
-            {insurancePolicy ?
+            {quotePolicy ?
               'Al momento de concretar la compra te pediremos más datos para completar el seguro de tu moto'
               : ''
             }
@@ -273,7 +243,7 @@ const mapDispatchToProps = dispatch => ({
   fetchInsuranceChoice: async (leadId) => {
     dispatch(startedFetchingInsuranceChoice());
     const { data: { data: insuranceChoice } } = await axios.get(`/api/leads/${leadId}/insurance`);
-    dispatch(insuranceChoiceFetched(insuranceChoice));
+    dispatch(insuranceChoiceFetched(humps.camelizeKeys(insuranceChoice)));
   },
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
@@ -287,21 +257,7 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   motorcycle: state.main.lead.motorcycle,
   accessoriesPrice: state.main.accessories.totalPrice,
-
-  insuranceBroker: state.main.insurance.broker,
-  insurancePrice: state.main.insurance.price,
-  insurancePolicy: state.main.insurance.policy,
-  insuranceBrokerLogo: state.main.insurance.brokerLogo,
-  insuranceSelected: state.main.insurance.selected,
-  insuranceOptOut: state.main.insurance.optOut,
-
-  quote_chosen_policy: state.main.insuranceChoice.quote_policy,
-  quote_chosen_more_info: state.main.insuranceChoice.quote_more_info,
-  quote_chosen_broker_name: state.main.insuranceChoice.quote_broker_name,
-  quote_chosen_broker_logo_url: state.main.insuranceChoice.quote_broker_logo_url,
-  quote_chosen_price: state.main.insuranceChoice.quote_price,
-  chosen_opt_in_or_out: state.main.insuranceChoice.opt_in_or_out,
-
+  insuranceChoice: state.main.insuranceChoice,
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
 });
