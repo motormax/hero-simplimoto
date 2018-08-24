@@ -9,7 +9,7 @@ class ConfirmationButton extends Component {
     financing: {},
     delivery: {},
     plateRegistration: {},
-    insurance: {},
+    insuranceChoice: {},
   };
 
   static propTypes = {
@@ -22,7 +22,7 @@ class ConfirmationButton extends Component {
     plateRegistration: propTypes.shape({
       id: propTypes.number.isRequired,
     }),
-    insurance: propTypes.shape({
+    insuranceChoice: propTypes.shape({
       selected: propTypes.bool.isRequired,
     }),
     goToCheckout: propTypes.func.isRequired,
@@ -30,13 +30,13 @@ class ConfirmationButton extends Component {
 
   canConfirm = () => {
     const {
-      financing, delivery, insurance, plateRegistration,
+      financing, delivery, insuranceChoice, plateRegistration,
     } = this.props;
 
     return !!(
       financing && financing.financingSelected &&
       delivery && delivery.id &&
-      insurance && insurance.selected &&
+      insuranceChoice && insuranceChoice.id &&
       plateRegistration && plateRegistration.id
     );
   };
@@ -66,7 +66,7 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   financing: state.main.financing,
   delivery: state.main.delivery,
-  insurance: state.main.insurance,
+  insuranceChoice: state.main.insuranceChoice,
   plateRegistration: state.main.plateRegistrationData,
 });
 

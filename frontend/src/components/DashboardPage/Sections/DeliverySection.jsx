@@ -15,7 +15,7 @@ class DeliverySection extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.delivery) {
+    if (!this.props.delivery.id) {
       this.props.fetchDelivery(this.props.lead.id);
     }
   }

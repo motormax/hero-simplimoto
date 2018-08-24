@@ -11,7 +11,7 @@ import CreditCardPayment from './CreditCardPayment';
 class PurchaseSummary extends Component {
   static defaultProps = {
     delivery: {},
-    insurance: {},
+    insuranceChoice: {},
     lead: {},
   };
 
@@ -22,7 +22,7 @@ class PurchaseSummary extends Component {
     delivery: propTypes.shape({
       id: propTypes.number.isRequired,
     }),
-    insurance: propTypes.shape({
+    insuranceChoice: propTypes.shape({
       selected: propTypes.bool.isRequired,
     }),
     customization: propTypes.shape({
@@ -65,7 +65,7 @@ class PurchaseSummary extends Component {
 
   render() {
     const {
-      lead, accessories, insurance,
+      lead, accessories, insuranceChoice,
     } = this.props;
 
     if (!this.props.lead.id) {
@@ -153,13 +153,13 @@ class PurchaseSummary extends Component {
           <Segment className="white-segment" attached>
             <Grid verticalAlign="middle">
               <Grid.Column width={2}>
-                <img width="100%" src={insurance.brokerLogo} alt="un seguro" />
+                <img width="100%" src={insuranceChoice.quoteBrokerLogoUrl} alt="un seguro" />
               </Grid.Column>
               <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">{insurance.broker} - {insurance.policy}</h3>
+                <h3 className="fw-bold fs-big">{insuranceChoice.quoteBrokerName} - {insuranceChoice.quotePolicy}</h3>
                 <div className="fs-large fs-medium txt-dark-gray">
                   {'AR$ '}
-                  <span className="fw-bold">{moneyFormatter.format(insurance.price)}</span> por mes
+                  <span className="fw-bold">{moneyFormatter.format(insuranceChoice.quotePrice)}</span> por mes
                 </div>
               </Grid.Column>
             </Grid>
@@ -180,7 +180,7 @@ const mapStateToProps = store => ({
   lead: store.main.lead,
   financing: store.main.financing,
   delivery: store.main.delivery,
-  insurance: store.main.insurance,
+  insuranceChoice: store.main.insuranceChoice,
   plateRegistration: store.main.plateRegistrationData,
   customization: store.main.customization,
   accessories: store.main.accessories,

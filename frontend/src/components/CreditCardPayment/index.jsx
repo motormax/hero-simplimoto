@@ -342,7 +342,6 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   motorcycle: state.main.lead.motorcycle,
   accessoriesPrice: state.main.accessories.totalPrice,
-  insurancePrice: state.main.insurance.price,
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
 });
