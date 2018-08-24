@@ -16,4 +16,11 @@ defmodule HeroDigitalWeb.ChangesetView do
     # as a JSON object. So we just pass it forward.
     %{errors: translate_errors(changeset)}
   end
+
+  def render("payment_error.json", %{params: params}) do
+    %{
+      cause: params["message"],
+      user_message: params["error_message"],
+    }
+  end
 end

@@ -75,7 +75,6 @@ config :hero_digital, basic_auth: [
   realm:    {:system, "BASIC_AUTH_REALM"}
 ]
 
-
 config :logger,
   backends: [{Logglix, :logglix}, :console]
 
@@ -93,3 +92,6 @@ config :sentry,
     env: "production"
   },
   included_environments: [:prod]
+
+config :hero_digital, HeroDigital.Payment.PaymentGateway,
+    access_token: System.get_env("MERCADO_PAGO_ACCESS_TOKEN")

@@ -46,6 +46,7 @@ defmodule HeroDigital.Mixfile do
       {:basic_auth, "~> 2.2.2"},
       {:logglix, "~> 1.0.0"},
       {:sentry, "~> 6.3"},
+      {:mox, "~> 0.4", only: :test},
       {:decimal, "~> 1.0"},
     ]
   end
