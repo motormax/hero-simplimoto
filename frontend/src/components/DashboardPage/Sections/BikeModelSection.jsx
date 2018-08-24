@@ -51,8 +51,6 @@ class BikeModelSection extends Component {
                     {t('moto_specs')}
                   </Button>
                 </Link>
-                <Button className="btn-outline" fluid secondary> <Icon name="motorcycle" /> {t('change_model')}
-                </Button>
               </div>
             </Grid.Column>
           </Grid.Row>
