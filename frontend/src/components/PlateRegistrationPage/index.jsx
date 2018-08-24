@@ -1,7 +1,7 @@
 /* global FileReader */
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Grid, Card, Segment } from 'semantic-ui-react';
+import { Button, Form, Message, Grid, Card, Segment, Divider } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
 import propTypes from 'prop-types';
@@ -208,34 +208,38 @@ class PlateRegistrationPage extends Component {
           required
           label="Nombre"
           type="text"
+          maxLength={100}
           name="name"
           value={this.state.personalData.name}
           error={this.state.errors.name}
           onChange={this.handlePersonalDataChange}
+          placeholder="Jorge"
         />
         <Form.Input
           fluid
           required
           label="Apellido"
           type="text"
+          maxLength={100}
           name="lastName"
           value={this.state.personalData.lastName}
           error={this.state.errors.lastName}
           onChange={this.handlePersonalDataChange}
+          placeholder="Silva"
         />
         <Form.Input
           fluid
           required
           label="DNI"
           type="text"
+          minLength={6}
+          maxLength={9}
           name="dni"
           value={this.state.personalData.dni}
           error={this.state.errors.dni}
           onChange={this.handlePersonalDataChange}
+          placeholder="12.345.678"
         />
-      </React.Fragment>);
-    const addressFormGroup = (
-      <React.Fragment>
         <Form.Input
           fluid
           required
@@ -245,6 +249,7 @@ class PlateRegistrationPage extends Component {
           value={this.state.address.street}
           error={this.state.errors.street}
           onChange={this.handleAddressDataChange}
+          placeholder="Av. del Libertador 1150, Vicente López. Buenos Aires, Argentina"
         />
         <Form.Input
           fluid
@@ -255,45 +260,49 @@ class PlateRegistrationPage extends Component {
           value={this.state.address.complements}
           error={this.state.errors.complements}
           onChange={this.handleAddressDataChange}
+          placeholder="1A"
         />
         <Form.Input
           fluid
           required
           label="Código postal"
           type="text"
+          maxLength={10}
           name="postalCode"
           value={this.state.address.postalCode}
           error={this.state.errors.postalCode}
           onChange={this.handleAddressDataChange}
+          placeholder="1234"
         />
-      </React.Fragment>);
-    const lastFieldsFormGroup = (
-      <React.Fragment>
         <Form.Input
           fluid
           required
           label="Email"
-          type="text"
+          type="email"
           name="email"
           value={this.state.email}
           error={this.state.errors.email}
           onChange={this.handleChange}
+          placeholder="ejemplo@email.com"
         />
         <Form.Input
           fluid
           required
           label="Celular/Teléfono fijo"
+          minLength={6}
+          maxLength={25}
           type="text"
           name="phone"
           value={this.state.phone}
           error={this.state.errors.phone}
           onChange={this.handleChange}
+          placeholder="11 1234 5678"
         />
       </React.Fragment>);
 
-    let heroPlateRegistrationForm;
+    let plateRegistrationForm;
     if (this.state.optInOrOut === HERO_PLATE_REGISTRATION) {
-      heroPlateRegistrationForm = (
+      plateRegistrationForm = (
         <React.Fragment>
           <Segment attached>
             <p className="fs-big fw-bold txt-dark-gray txt-center">
@@ -303,68 +312,68 @@ class PlateRegistrationPage extends Component {
               Te vamos a pedir que le saques una foto a tu documento y
               la cargues con el siguiente botón.
             </p>
+            <Form
+              onSubmit={this.props.selectHeroPlateRegistration(
+                this.props.lead.id,
+                this.state.email,
+                this.state.phone,
+                this.state.personalData,
+                this.state.address,
+                this.state.frontDniImage,
+                this.state.backDniImage,
+              )}
+              error={error}>
+              <Grid>
+                <Grid.Row centered>
+                  <Grid.Column width={7}>
+                    <img src={dniImage} alt="" />
+                  </Grid.Column>
+                  <Grid.Column width={7}>
+                    <div className="required field">
+                      <label className={frontButtonStyles} htmlFor="frontDni">
+                        { this.state.frontDniImage.name ?
+                          <span>{this.state.frontDniImage.name}</span> :
+                          <span> <i className="upload icon" /> Imagen frontal DNI</span>
+                        }
+                      </label>
+                      <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
+                    </div>
+                    <div className="required field">
+                      <label className={backButtonStyles} htmlFor="backDni">
+                        { this.state.backDniImage.name ?
+                          <span>{this.state.backDniImage.name}</span> :
+                          <span> <i className="upload icon" /> Imagen dorso DNI</span>
+                        }
+                      </label>
+                      <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
+                    </div>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
 
-            <Grid>
-              <Grid.Row centered>
-                <Grid.Column width={7}>
-                  <img src={dniImage} alt="" />
-                </Grid.Column>
-                <Grid.Column width={7}>
-                  <div className="required field">
-                    <label className={frontButtonStyles} htmlFor="frontDni">
-                      { this.state.frontDniImage.name ?
-                        <span>{this.state.frontDniImage.name}</span> :
-                        <span> <i className="upload icon" /> Imagen frontal DNI</span>
-                      }
-                    </label>
-                    <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
-                  </div>
-                  <div className="required field">
-                    <label className={backButtonStyles} htmlFor="backDni">
-                      { this.state.backDniImage.name ?
-                        <span>{this.state.backDniImage.name}</span> :
-                        <span> <i className="upload icon" /> Imagen dorso DNI</span>
-                      }
-                    </label>
-                    <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
-                  </div>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
+              <Divider />
 
-          <Segment attached>
-            {personalDataFormGroup}
-            {addressFormGroup}
-            {lastFieldsFormGroup}
-            <Message
-              error
-              header="Error"
-              content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-            />
-          </Segment>
+              {personalDataFormGroup}
+              <Message
+                error
+                header="Error"
+                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+              />
 
-          <Segment attached="bottom" className="txt-center">
-            <Button
-              size="big"
-              primary
-              onClick={() => {
-                this.props.selectHeroPlateRegistration(
-                  this.props.lead.id,
-                  this.state.email,
-                  this.state.phone,
-                  this.state.personalData,
-                  this.state.address,
-                  this.state.frontDniImage,
-                  this.state.backDniImage,
-                );
-              }}
-            >Continuar
-            </Button>
+              <Segment attached="bottom" className="txt-center">
+                <Button
+                  size="big"
+                  primary
+                  type="submit"
+                >Continuar
+                </Button>
+              </Segment>
+
+            </Form>
           </Segment>
         </React.Fragment>);
     } else {
-      heroPlateRegistrationForm = (
+      plateRegistrationForm = (
         <Segment attached="bottom" className="txt-center">
           <Button
             size="big"
@@ -402,7 +411,7 @@ class PlateRegistrationPage extends Component {
                 onChange={this.handlePlateRegistrationMethodChange}
                 className="fs-big"
               />
-              {heroPlateRegistrationForm}
+              {plateRegistrationForm}
             </Form>
           </Card.Content>
 
