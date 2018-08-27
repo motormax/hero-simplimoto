@@ -109,6 +109,15 @@ class PlateRegistrationPage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.props.selectHeroPlateRegistration(
+      this.props.lead.id,
+      this.state.email,
+      this.state.phone,
+      this.state.personalData,
+      this.state.address,
+      this.state.frontDniImage,
+      this.state.backDniImage,
+    );
   };
 
   handleChange = (event, { name, value }) => {
@@ -312,64 +321,53 @@ class PlateRegistrationPage extends Component {
               Te vamos a pedir que le saques una foto a tu documento y
               la cargues con el siguiente botón.
             </p>
-            <Form
-              onSubmit={this.props.selectHeroPlateRegistration(
-                this.props.lead.id,
-                this.state.email,
-                this.state.phone,
-                this.state.personalData,
-                this.state.address,
-                this.state.frontDniImage,
-                this.state.backDniImage,
-              )}
-              error={error}>
-              <Grid>
-                <Grid.Row centered>
-                  <Grid.Column width={7}>
-                    <img src={dniImage} alt="" />
-                  </Grid.Column>
-                  <Grid.Column width={7}>
-                    <div className="required field">
-                      <label className={frontButtonStyles} htmlFor="frontDni">
-                        { this.state.frontDniImage.name ?
-                          <span>{this.state.frontDniImage.name}</span> :
-                          <span> <i className="upload icon" /> Imagen frontal DNI</span>
-                        }
-                      </label>
-                      <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
-                    </div>
-                    <div className="required field">
-                      <label className={backButtonStyles} htmlFor="backDni">
-                        { this.state.backDniImage.name ?
-                          <span>{this.state.backDniImage.name}</span> :
-                          <span> <i className="upload icon" /> Imagen dorso DNI</span>
-                        }
-                      </label>
-                      <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
-                    </div>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
 
-              <Divider />
+            <Grid>
+              <Grid.Row centered>
+                <Grid.Column width={7}>
+                  <img src={dniImage} alt="" />
+                </Grid.Column>
+                <Grid.Column width={7}>
+                  <div className="required field">
+                    <label className={frontButtonStyles} htmlFor="frontDni">
+                      { this.state.frontDniImage.name ?
+                        <span>{this.state.frontDniImage.name}</span> :
+                        <span> <i className="upload icon" /> Imagen frontal DNI</span>
+                      }
+                    </label>
+                    <input type="file" id="frontDni" style={{ display: 'none' }} onChange={this.handleFrontDniImageChange} />
+                  </div>
+                  <div className="required field">
+                    <label className={backButtonStyles} htmlFor="backDni">
+                      { this.state.backDniImage.name ?
+                        <span>{this.state.backDniImage.name}</span> :
+                        <span> <i className="upload icon" /> Imagen dorso DNI</span>
+                      }
+                    </label>
+                    <input type="file" id="backDni" style={{ display: 'none' }} onChange={this.handleBackDniImageChange} />
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
 
-              {personalDataFormGroup}
-              <Message
-                error
-                header="Error"
-                content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
-              />
+            <Divider />
 
-              <Segment attached="bottom" className="txt-center">
-                <Button
-                  size="big"
-                  primary
-                  type="submit"
-                >Continuar
-                </Button>
-              </Segment>
+            {personalDataFormGroup}
+            <Message
+              error
+              header="Error"
+              content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
+            />
 
-            </Form>
+            <Segment attached="bottom" className="txt-center">
+              <Button
+                size="big"
+                primary
+                type="submit"
+              >Continuar
+              </Button>
+            </Segment>
+
           </Segment>
         </React.Fragment>);
     } else {
