@@ -61,7 +61,9 @@ defmodule HeroDigital.Fulfillment do
       with {:ok, mp_response} <- PaymentGateway.process_payment(purchase_order),
            {:ok, payment} <- create_payment_for(purchase_order, mp_response),
            {:ok, lead} <- Identity.deactivate_lead(lead) do
-            {:ok, load_purchase_order_with_payment(purchase_order)}
+            purcharse_order = load_purchase_order_with_payment(purchase_order)
+            HeroDigital.Mailer.send_successful_purcharse_mail(purcharse_order)
+            {:ok, purcharse_order}
       else
         {:payment_error, mp_response} ->
            create_failed_payment_for(purchase_order, mp_response)

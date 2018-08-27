@@ -56,3 +56,6 @@ config :hero_digital, HeroDigital.Repo,
   database: "hero_digital_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :hero_digital, HeroDigital.Mailer,
+  adapter: Bamboo.LocalAdapter

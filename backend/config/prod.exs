@@ -95,3 +95,10 @@ config :sentry,
 
 config :hero_digital, HeroDigital.Payment.PaymentGateway,
     access_token: System.get_env("MERCADO_PAGO_ACCESS_TOKEN")
+
+config :hero_digital, HeroDigitalWeb.MailsView,
+  assets_path: "https://simplimoto.herokuapp.com/mails/"
+
+config :hero_digital, HeroDigital.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: {:system, "SENDGRID_API_KEY"}
