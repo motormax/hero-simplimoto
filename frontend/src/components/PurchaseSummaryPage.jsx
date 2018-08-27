@@ -78,7 +78,7 @@ class PurchaseSummary extends Component {
 
         <Card className="page-column-card page-column-card_slim">
           <Segment className="bike-container" attached>
-            <img src={this.motorcycleImage()} alt="Hunk negra" />
+            <img src={this.motorcycleImage()} alt={lead.motorcycle.name} />
           </Segment>
           <Segment attached>
             <Grid verticalAlign="middle">
@@ -89,7 +89,7 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">{lead.motorcycle.name} </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{lead.motorcycle.price}</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{lead.motorcycle.price}</span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -103,7 +103,7 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Con accesorios: </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{accessories.totalPrice}</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{accessories.totalPrice}</span>
               </Grid.Column>
             </Grid>
             <Grid>

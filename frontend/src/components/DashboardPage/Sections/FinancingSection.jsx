@@ -44,7 +44,7 @@ class FinancingSection extends Component {
     }
     const color = this.props.financingSelected ? '#67CC4F' : 'red';
 
-    const message = this.props.financingSelected ? `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName} del banco ${this.props.financingForm.issuerName}` : 'Elegí el financiamiento más conveniente';
+    const message = this.props.financingSelected ? `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName}, ${this.props.financingForm.issuerName}` : 'Elegí el financiamiento más conveniente';
 
     const buttonActionLabel = this.props.financingSelected ? 'Cambiar' : 'Seleccionar';
 

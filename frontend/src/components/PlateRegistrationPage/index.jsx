@@ -392,20 +392,17 @@ class PlateRegistrationPage extends Component {
         </p>
 
         <Card className="page-column-card">
-          <Card.Content>
-            <Form onSubmit={this.handleSubmit} error={error}>
-              <Form.Select
-                fluid
-                options={plateRegistrationMethods}
-                name="optInOrOut"
-                value={this.state.optInOrOut}
-                onChange={this.handlePlateRegistrationMethodChange}
-                className="fs-big"
-              />
-              {heroPlateRegistrationForm}
-            </Form>
-          </Card.Content>
-
+          <Form onSubmit={this.handleSubmit} error={error}>
+            <Form.Select
+              fluid
+              options={plateRegistrationMethods}
+              name="optInOrOut"
+              value={this.state.optInOrOut}
+              onChange={this.handlePlateRegistrationMethodChange}
+              className="fs-big"
+            />
+            {heroPlateRegistrationForm}
+          </Form>
         </Card>
 
       </div>
