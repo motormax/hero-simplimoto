@@ -58,7 +58,6 @@ class FinancingPage extends Component {
   };
 
   handleSDKLoaded = () => {
-    window.Mercadopago.setPublishableKey(process.env.REACT_APP_MERCADO_LIBRE_KEY);
     window.Mercadopago.getAllPaymentMethods(this.fetchPaymentMethodsCallback);
   };
 
@@ -260,7 +259,9 @@ class FinancingPage extends Component {
         <p className="fs-huge txt-med-gray txt-center">Elegí el metodo de financiación más conveniente.</p>
         <Card className="page-column-card financing-page">
           <Form onSubmit={this.handleSubmit} error={error}>
-            <Form.Field>
+            {/*
+            Reemplazar con pagar por transferencia
+              <Form.Field>
               <Form.Select
                 fluid
                 search
@@ -271,7 +272,7 @@ class FinancingPage extends Component {
                 onChange={this.handlePaymentMethodChange}
                 className="fs-big"
               />
-            </Form.Field>
+            </Form.Field> */}
 
             {creditCardOptions}
             {issuerDropdown}

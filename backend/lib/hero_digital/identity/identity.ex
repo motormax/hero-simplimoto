@@ -39,6 +39,10 @@ defmodule HeroDigital.Identity do
     Repo.get!(Lead, id)
     |> Repo.preload(:motorcycle)
   end
+  def get_lead(id) do
+    Repo.get(Lead, id)
+    |> Repo.preload(:motorcycle)
+  end
 
   @doc """
   Creates a lead.
@@ -73,6 +77,12 @@ defmodule HeroDigital.Identity do
   def update_lead(%Lead{} = lead, attrs) do
     lead
     |> Lead.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def deactivate_lead(%Lead{} = lead) do
+    lead
+    |> Lead.deactivation_changeset()
     |> Repo.update()
   end
 

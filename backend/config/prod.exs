@@ -75,14 +75,13 @@ config :hero_digital, basic_auth: [
   realm:    {:system, "BASIC_AUTH_REALM"}
 ]
 
-
 config :logger,
   backends: [{Logglix, :logglix}, :console]
 
 config :logger, :logglix,
   loggly_key: System.get_env("LOGGLY_KEY"),
   tags: ["herodigital", "elixir"],
-  level: :info
+  level: String.to_atom(Map.get(System.get_env(), "LOG_LEVEL", "info"))
 
 config :sentry,
   dsn: {:system, "SENTRY_DSN"},
@@ -93,3 +92,6 @@ config :sentry,
     env: "production"
   },
   included_environments: [:prod]
+
+config :hero_digital, HeroDigital.Payment.PaymentGateway,
+    access_token: System.get_env("MERCADO_PAGO_ACCESS_TOKEN")

@@ -8,14 +8,16 @@ import axios from 'axios';
 import humps from 'humps';
 
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
+import ConfirmationButton from './ConfirmationButton';
 import { registrationPrice } from './Sections/PlateRegistrationSection';
 import { startedFetchingInsuranceChoice, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import PurchaseCalculator from '../calculator';
 import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
 import { financingChanged } from '../../actions/financingChoices';
+import FinancingInfo from './Sections/FinancingInfo';
 import { PERSONAL_INSURANCE } from '../InsurancePage/constants';
 
-const moneyFormatter = new Intl.NumberFormat('es-AR', {
+export const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
@@ -117,8 +119,8 @@ class CheckoutSummary extends Component {
           <Image key="bike-image" className="bike-image" src={quoteBrokerLogoUrl} />
           <List.Content key="broker">{quoteBrokerName}
             <div className="fw-normal">{quotePolicy}</div>
+            <p key="price"><span className="fs-big">${quotePrice}</span>/mes</p>
           </List.Content>
-          <List.Content key="price"><span className="fs-big">${quotePrice}</span>/mes</List.Content>
         </List.Item>
       );
 
@@ -159,32 +161,6 @@ class CheckoutSummary extends Component {
       );
     }
 
-    const financingAmount = this.props.financingSelected ?
-      this.props.financingForm.monthlyAmount :
-      this.calculator().totalAmount();
-
-    const financingPeriod = this.props.financingSelected ? '/ mes' : '';
-
-    let financingInfo;
-    if (this.props.financingSelected) {
-      financingInfo = (
-        <div className="finnancial-bank">
-          <img
-            src={this.props.financingForm.paymentMethodLogo}
-            alt={this.props.financingForm.paymentMethodName}
-          />
-          <img
-            src={this.props.financingForm.issuerLogo}
-            alt={this.props.financingForm.issuerName}
-          />
-          <div>
-            <p className="fs-small">{this.props.financingForm.message}</p>
-            <p className="fs-tinny">{this.props.financingForm.costs}</p>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="checkoutSummary">
         <Card fluid>
@@ -194,8 +170,8 @@ class CheckoutSummary extends Component {
             <List className="summary-list" verticalAlign="middle">
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(bikePrice)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                 </List.Content>
                 <List.Content>{bikeDisplayName}</List.Content>
               </List.Item>
@@ -208,16 +184,16 @@ class CheckoutSummary extends Component {
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(accessoriesPrice)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Accesorios</List.Content>
               </List.Item>
               <List.Item>
                 <List.Content className="price-column" floated="right">
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
                   <span>{moneyFormatter.format(registrationPrice)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Patentamiento online</List.Content>
@@ -240,15 +216,12 @@ class CheckoutSummary extends Component {
               </List.Item>
             </List>
 
-            <div>
-              <p className="final-price">
-                $
-                <span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
-                {financingPeriod}
-              </p>
-            </div>
-
-            {financingInfo}
+            <FinancingInfo
+              financingSelected={this.props.financingSelected}
+              financingForm={this.props.financingForm}
+              accessoriesPrice={this.props.accessoriesPrice}
+              motorcycle={this.props.motorcycle}
+            />
 
           </Card.Content>
 
@@ -257,8 +230,7 @@ class CheckoutSummary extends Component {
           </Segment>
 
           <Card.Content className="btn-displaced-container txt-center">
-            <Button className="btn-displaced" size="huge" primary disabled>Preparar la compra
-            </Button>
+            <ConfirmationButton />
           </Card.Content>
         </Card>
 
@@ -291,4 +263,3 @@ const mapStateToProps = state => ({
 });
 
 export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));
-export { moneyFormatter };

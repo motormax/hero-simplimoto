@@ -5,10 +5,13 @@ import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import { plateRegistrationDataFetched, startedFetchingPlateRegistrationData } from '../../../actions/plateRegistrationData';
+import {
+  plateRegistrationDataFetched,
+  startedFetchingPlateRegistrationData,
+} from '../../../actions/plateRegistrationData';
 import { moneyFormatter } from '../CheckoutSummary';
 
-const registrationPrice = 3800;
+export const registrationPrice = 3800;
 
 class PlateRegistrationSection extends Component {
   static propTypes = {
@@ -49,7 +52,11 @@ class PlateRegistrationSection extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={1}>
-              {plateRegistrationData.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color={color} name="arrow right" />}
+              {plateRegistrationData.id ? <Icon size="large" className="txt-green" name="check" /> : <Icon
+                size="large"
+                color={color}
+                name="arrow right"
+              />}
             </Grid.Column>
             <Grid.Column width={10}>
               <h3 className="fw-bold fs-big">
@@ -60,7 +67,9 @@ class PlateRegistrationSection extends Component {
               {this.displayLegend()}
             </Grid.Column>
             <Grid.Column width={5}>
-              <Button className="btn-outline" fluid secondary onClick={() => changeToPlateRegistration()}>Preparar patentamiento</Button>
+              <Button className="btn-outline" fluid secondary onClick={() => changeToPlateRegistration()}>Preparar
+                patentamiento
+              </Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -86,4 +95,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default translate('plateRegistration')(connect(mapStateToProps, mapDispatchToProps)(PlateRegistrationSection));
-export { registrationPrice };

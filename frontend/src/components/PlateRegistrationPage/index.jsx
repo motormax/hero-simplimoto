@@ -101,9 +101,6 @@ class PlateRegistrationPage extends Component {
         lastName: false,
         email: false,
         phone: false,
-        frontDniImage: false,
-        backDniImage: false,
-        description: '',
       },
     };
   }
