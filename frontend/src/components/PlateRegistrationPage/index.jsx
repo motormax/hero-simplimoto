@@ -101,6 +101,9 @@ class PlateRegistrationPage extends Component {
         lastName: false,
         email: false,
         phone: false,
+        frontDniImage: false,
+        backDniImage: false,
+        description: '',
       },
     };
   }
@@ -109,6 +112,22 @@ class PlateRegistrationPage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!this.hasLoadedImage(this.state.frontDniImage)) {
+      const newErrors = this.state.errors;
+      newErrors.frontDniImage = true;
+      newErrors.description = 'Falta cargar la imagen frontal del DNI.';
+      this.setState({ errors: newErrors });
+      return;
+    }
+    if (!this.hasLoadedImage(this.state.backDniImage)) {
+      const newErrors = this.state.errors;
+      newErrors.backDniImage = true;
+      newErrors.description = 'Falta cargar la imagen trasera del DNI.';
+      this.setState({ errors: newErrors });
+      return;
+    }
+
     this.props.selectHeroPlateRegistration(
       this.props.lead.id,
       this.state.email,
@@ -195,6 +214,8 @@ class PlateRegistrationPage extends Component {
       fileReader.readAsDataURL(fileToLoad);
     }
   });
+
+  hasLoadedImage = image => image.data !== '' && image.type !== '' && image.name !== ''
 
   render() {
     const error = Object.values(this.state.errors)
