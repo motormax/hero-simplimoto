@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, Icon, Segment } from 'semantic-ui-react';
+import { Card, Icon, Segment } from 'semantic-ui-react';
 
 const message = 'Tu pago ha sido procesado con éxito';
 

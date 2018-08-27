@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Card, Button } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 
 
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
