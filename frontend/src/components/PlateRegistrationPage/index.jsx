@@ -240,7 +240,7 @@ class PlateRegistrationPage extends Component {
           value={this.state.personalData.name}
           error={this.state.errors.name}
           onChange={this.handlePersonalDataChange}
-          placeholder="Jorge"
+          placeholder="Juan"
         />
         <Form.Input
           fluid
@@ -252,7 +252,7 @@ class PlateRegistrationPage extends Component {
           value={this.state.personalData.lastName}
           error={this.state.errors.lastName}
           onChange={this.handlePersonalDataChange}
-          placeholder="Silva"
+          placeholder="Perez"
         />
         <Form.Input
           fluid
@@ -323,7 +323,7 @@ class PlateRegistrationPage extends Component {
           value={this.state.phone}
           error={this.state.errors.phone}
           onChange={this.handleChange}
-          placeholder="11 1234 5678"
+          placeholder="1112345678"
         />
       </React.Fragment>);
 
