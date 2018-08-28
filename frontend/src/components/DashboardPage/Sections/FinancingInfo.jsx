@@ -26,6 +26,7 @@ class FinancingInfo extends Component {
         issuerName: propTypes.string.isRequired,
         paymentMethodName: propTypes.string.isRequired,
         paymentMethodLogo: propTypes.string.isRequired,
+        installments: propTypes.number.isRequired,
       }).isRequired,
     };
 
@@ -40,7 +41,9 @@ class FinancingInfo extends Component {
         this.props.financingForm.monthlyAmount :
         this.calculator().totalAmount();
 
-      const financingPeriod = this.props.financingSelected ? '/ mes' : '';
+      const financingPeriod = this.props.financingSelected &&
+        (this.props.financingForm.installments > 1) ? 
+        '/ mes' : '';
 
       let financingInfo;
       if (this.props.financingSelected) {
