@@ -12,7 +12,6 @@ defmodule HeroDigitalWeb.PlateRegistrationTypeView do
 
   def render("plate_registration_type.json", %{plate_registration_type: plate_registration_type}) do
     %{
-      id: plate_registration_type.id,
       name: plate_registration_type.name,
       price: plate_registration_type.price,
     }
