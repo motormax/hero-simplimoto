@@ -36,6 +36,8 @@ defmodule HeroDigital.PlateRegistrationTest do
       "telephone_number" => "some telephone_number",
       "town" => "some town"
     }
+    @personal_plate_registration_type %{"name" => @personal_plate_registration, "price" => Decimal.new(0)}
+    @hero_plate_registration_type %{"name" => @hero_plate_registration, "price" => Decimal.new(1000)}
 
     @valid_hero_plate_registration_attrs %{
       "personal_data" => @personal_data,
@@ -44,12 +46,14 @@ defmodule HeroDigital.PlateRegistrationTest do
       "front_dni_image" => @dni_image,
       "back_dni_image" => @dni_image,
       "address" => @address,
-      "opt_in_or_out" => @hero_plate_registration
+      "opt_in_or_out" => @hero_plate_registration,
     }
 
     @valid_personal_plate_registration_attrs %{ "opt_in_or_out" => @personal_plate_registration }
 
     setup do
+      {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(@personal_plate_registration_type)
+      {:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(@hero_plate_registration_type)
       motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
       {:ok, lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})
       %{lead: lead}
@@ -84,6 +88,8 @@ defmodule HeroDigital.PlateRegistrationTest do
       assert plate_registration_data.address.street == @address["street"]
       assert plate_registration_data.address.telephone_number == @address["telephone_number"]
       assert plate_registration_data.address.town == @address["town"]
+      assert plate_registration_data.plate_registration_type.name == @hero_plate_registration_type["name"]
+      assert plate_registration_data.plate_registration_type.price == @hero_plate_registration_type["price"]
     end
 
     test "create_plate_registration_data/1 with valid data and opt_in_ot_out as personal_insurance
@@ -96,6 +102,8 @@ defmodule HeroDigital.PlateRegistrationTest do
       assert plate_registration_data.phone_id == nil
       assert plate_registration_data.personal_data_id == nil
       assert plate_registration_data.address_id == nil
+      assert plate_registration_data.plate_registration_type.name == @personal_plate_registration_type["name"]
+      assert plate_registration_data.plate_registration_type.price == @personal_plate_registration_type["price"]
     end
 
     test "when a lead choose a hero plate registration option and then chooses a personal plate registratrion option,

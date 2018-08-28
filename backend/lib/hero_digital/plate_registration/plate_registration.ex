@@ -10,6 +10,7 @@ defmodule HeroDigital.PlateRegistration do
   alias HeroDigital.PlateRegistration.PlateRegistrationData
 
   @hero_plate_registration "heroPlateRegistration"
+  @personal_plate_registration "personalPlateRegistration"
 
   @doc """
   Returns the list of plate_registration_data.
@@ -21,7 +22,7 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def list_plate_registration_data do
-    Repo.all from plate_registration_data in PlateRegistrationData, preload: [:email, :personal_data, :phone, :address]
+    Repo.all from plate_registration_data in PlateRegistrationData, preload: [:email, :personal_data, :phone, :address, :plate_registration_type]
   end
 
   @doc """
@@ -40,12 +41,12 @@ defmodule HeroDigital.PlateRegistration do
   """
   def get_plate_registration_data!(id) do
     plate_registration_data = Repo.get!(PlateRegistrationData, id)
-    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
+    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address, :plate_registration_type])
   end
 
   def get_plate_registration_data_for_lead!(lead_id) do
     plate_registration_data = Repo.one(from p in PlateRegistrationData, where: p.lead_id == ^lead_id, order_by: p.inserted_at, limit: 1)
-    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
+    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address, :plate_registration_type])
   end
 
   @doc """
@@ -82,7 +83,7 @@ defmodule HeroDigital.PlateRegistration do
       is_creating_hero_plate_registration(attrs) ->
         get_hero_plate_registration_data(attrs)
       true ->
-        attrs
+        get_personal_plate_registration_data(attrs)
     end
   end
 
@@ -101,7 +102,8 @@ defmodule HeroDigital.PlateRegistration do
          {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
-         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"]))
+         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
+         hero_plate_registration_type <- get_plate_registration_type_by_name!(@hero_plate_registration)
     do
       %{
         opt_in_or_out: attrs["opt_in_or_out"],
@@ -111,9 +113,15 @@ defmodule HeroDigital.PlateRegistration do
         personal_data_id: personal_data.id,
         front_dni_image_id: front_dni_image.id,
         back_dni_image_id: back_dni_image.id,
-        address_id: address.id
+        address_id: address.id,
+        plate_registration_type_id: hero_plate_registration_type.id
       }
     end
+  end
+
+  defp get_personal_plate_registration_data(attrs) do
+    personal_plate_registration_type = get_plate_registration_type_by_name!(@personal_plate_registration)
+    Map.put(attrs, "plate_registration_type_id", personal_plate_registration_type.id)
   end
 
   defp delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, plate_registration_data_changeset) do
@@ -124,7 +132,7 @@ defmodule HeroDigital.PlateRegistration do
 
   defp create_plate_registration_data_by_changeset(plate_registration_data_changeset) do
     with {:ok, new_plate_registration_data} <- Repo.insert(plate_registration_data_changeset) do
-      {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address])}
+      {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address, :plate_registration_type])}
     end
   end
 
@@ -205,6 +213,10 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def get_plate_registration_type!(id), do: Repo.get!(PlateRegistrationType, id)
+
+  def get_plate_registration_type_by_name!(name) do
+    plate_registration_type = Repo.one(from p in PlateRegistrationType, where: p.name == ^name, order_by: p.inserted_at, limit: 1)
+  end
 
   @doc """
   Creates a plate_registration_type.

@@ -14,6 +14,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
     belongs_to :front_dni_image, HeroDigital.UserData.Image
     belongs_to :back_dni_image, HeroDigital.UserData.Image
     belongs_to :address, HeroDigital.UserData.Address
+    belongs_to :plate_registration_type, HeroDigital.PlateRegistration.PlateRegistrationType
 
     timestamps()
   end
@@ -31,13 +32,23 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
 
   @doc false
   defp create_hero_registration_data_changeset(plate_registration_data, attrs) do
-    attrs_names = [:opt_in_or_out, :lead_id, :personal_data_id, :email_id, :phone_id, :front_dni_image_id, :back_dni_image_id, :address_id]
+    attrs_names = [
+      :opt_in_or_out,
+      :lead_id,
+      :personal_data_id,
+      :email_id,
+      :phone_id,
+      :front_dni_image_id,
+      :back_dni_image_id,
+      :address_id,
+      :plate_registration_type_id
+    ]
     create_changeset_by_attrs(plate_registration_data, attrs, attrs_names)
   end
 
   @doc false
   defp create_personal_registration_data_changeset(plate_registration_data, attrs) do
-    attrs_names = [:opt_in_or_out, :lead_id]
+    attrs_names = [:opt_in_or_out, :lead_id, :plate_registration_type_id]
     create_changeset_by_attrs(plate_registration_data, attrs, attrs_names)
   end
 
