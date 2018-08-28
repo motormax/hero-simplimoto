@@ -19,7 +19,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationType do
   end
 
   defp validate_positive_price(changeset) do
-    if Decimal.cmp(changeset.changes.price, 0) == :lt do
+    if changeset.valid? and Decimal.cmp(get_field(changeset, :price), 0) == :lt do
       add_error(changeset, :price, "Price should be greater or equal than zero.")
     else
       changeset
