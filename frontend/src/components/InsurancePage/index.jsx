@@ -369,17 +369,11 @@ const mapDispatchToProps = dispatch => ({
       },
     };
 
-    axios.post(
-      `/api/leads/${lead.id}/insurance`,
-      body,
-    ).then((response) => {
-      console.log(response); // eslint-disable-line no-console
-      dispatch(push('/dashboard'));
-      dispatch(insuranceChoiceFetched(humps.camelizeKeys(body.insurance_choice)));
-    })
-      .catch((error) => {
-        console.log(error); // eslint-disable-line no-console
-      });
+    const response = await axios.post(`/api/leads/${lead.id}/insurance`, body);
+
+    console.log(response); // eslint-disable-line no-console
+    dispatch(push('/dashboard'));
+    dispatch(insuranceChoiceFetched(humps.camelizeKeys(response.data.data)));
   },
 });
 
