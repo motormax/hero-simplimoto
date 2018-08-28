@@ -174,4 +174,100 @@ defmodule HeroDigital.PlateRegistration do
   def change_plate_registration_data(%PlateRegistrationData{} = plate_registration_data) do
     PlateRegistrationData.changeset(plate_registration_data, %{})
   end
+
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
+
+  @doc """
+  Returns the list of plate_registration_types.
+
+  ## Examples
+
+      iex> list_plate_registration_types()
+      [%PlateRegistrationType{}, ...]
+
+  """
+  def list_plate_registration_types do
+    Repo.all(PlateRegistrationType)
+  end
+
+  @doc """
+  Gets a single plate_registration_type.
+
+  Raises `Ecto.NoResultsError` if the Plate registration price does not exist.
+
+  ## Examples
+
+      iex> get_plate_registration_type!(123)
+      %PlateRegistrationType{}
+
+      iex> get_plate_registration_type!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_plate_registration_type!(id), do: Repo.get!(PlateRegistrationType, id)
+
+  @doc """
+  Creates a plate_registration_type.
+
+  ## Examples
+
+      iex> create_plate_registration_type(%{field: value})
+      {:ok, %PlateRegistrationType{}}
+
+      iex> create_plate_registration_type(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_plate_registration_type(attrs \\ %{}) do
+    %PlateRegistrationType{}
+    |> PlateRegistrationType.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a plate_registration_type.
+
+  ## Examples
+
+      iex> update_plate_registration_type(plate_registration_type, %{field: new_value})
+      {:ok, %PlateRegistrationType{}}
+
+      iex> update_plate_registration_type(plate_registration_type, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_plate_registration_type(%PlateRegistrationType{} = plate_registration_type, attrs) do
+    plate_registration_type
+    |> PlateRegistrationType.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a PlateRegistrationType.
+
+  ## Examples
+
+      iex> delete_plate_registration_type(plate_registration_type)
+      {:ok, %PlateRegistrationType{}}
+
+      iex> delete_plate_registration_type(plate_registration_type)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_plate_registration_type(%PlateRegistrationType{} = plate_registration_type) do
+    Repo.delete(plate_registration_type)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking plate_registration_type changes.
+
+  ## Examples
+
+      iex> change_plate_registration_type(plate_registration_type)
+      %Ecto.Changeset{source: %PlateRegistrationType{}}
+
+  """
+  def change_plate_registration_type(%PlateRegistrationType{} = plate_registration_type) do
+    PlateRegistrationType.changeset(plate_registration_type, %{})
+  end
 end

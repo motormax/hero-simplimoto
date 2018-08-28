@@ -4,6 +4,10 @@ defmodule HeroDigital.PlateRegistrationTest do
   alias HeroDigital.PlateRegistration
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
+  alias Decimal
+
+  @personal_plate_registration "personalPlateRegistration"
+  @hero_plate_registration "heroPlateRegistration"
 
   describe "plate_registration_data" do
     alias HeroDigital.PlateRegistration.PlateRegistrationData
@@ -15,9 +19,6 @@ defmodule HeroDigital.PlateRegistrationTest do
 
       plate_registration_data
     end
-
-    @personal_plate_registration "personalPlateRegistration"
-    @hero_plate_registration "heroPlateRegistration"
 
     @personal_data %{"dni" => "some dni", "last_name" => "some last_name", "name" => "some name"}
     @dni_image %{
@@ -127,6 +128,74 @@ defmodule HeroDigital.PlateRegistrationTest do
 
     test "create_plate_registration_data/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = PlateRegistration.create_plate_registration_data()
+    end
+  end
+
+  describe "plate_registration_types" do
+    alias HeroDigital.PlateRegistration.PlateRegistrationType
+
+    def plate_registration_type_fixture(attrs \\ %{}) do
+      {:ok, plate_registration_type} =
+        attrs
+        |> PlateRegistration.create_plate_registration_type()
+
+      plate_registration_type
+    end
+
+    @valid_price Decimal.new(1000)
+    @valid_plate_registration_type %{
+      "name" => @hero_plate_registration,
+      "price" => @valid_price
+    }
+    @invalid_price Decimal.new(-1)
+    @invalid_plate_registration_type %{
+      "name" => @hero_plate_registration,
+      "price" => @invalid_price
+    }
+
+    test "list_plate_registration_types/0 returns all plate_registration_types" do
+      plate_registration_type = plate_registration_type_fixture(@valid_plate_registration_type)
+      assert PlateRegistration.list_plate_registration_types() == [plate_registration_type]
+    end
+
+    test "get_plate_registration_type!/1 returns the plate_registration_type with given id" do
+      plate_registration_type = plate_registration_type_fixture(@valid_plate_registration_type)
+      assert PlateRegistration.get_plate_registration_type!(plate_registration_type.id) == plate_registration_type
+    end
+
+    test "create_plate_registration_type/1 with valid data creates a plate_registration_type" do
+      assert {:ok, %PlateRegistrationType{} = plate_registration_type} = PlateRegistration.create_plate_registration_type(@valid_plate_registration_type)
+
+      assert plate_registration_type.name == @hero_plate_registration
+      assert plate_registration_type.price == @valid_price
+    end
+
+    test "create_plate_registration_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = PlateRegistration.create_plate_registration_type(@invalid_plate_registration_type)
+    end
+
+    test "update_plate_registration_type/2 with valid data updates the plate_registration_type" do
+      valid_updated_price = %{"price" => Decimal.new(2000)}
+      plate_registration_type = plate_registration_type_fixture(@valid_plate_registration_type)
+      assert {:ok, plate_registration_type} = PlateRegistration.update_plate_registration_type(plate_registration_type, valid_updated_price)
+
+      assert %PlateRegistrationType{} = plate_registration_type
+      assert plate_registration_type.price == valid_updated_price["price"]
+      assert plate_registration_type.name == @valid_plate_registration_type["name"]
+    end
+
+    test "update_plate_registration_type/2 with invalid data returns error changeset" do
+      invalid_updated_price = %{"price" => @invalid_price}
+      plate_registration_type = plate_registration_type_fixture(@valid_plate_registration_type)
+      assert {:error, %Ecto.Changeset{}} = PlateRegistration.update_plate_registration_type(plate_registration_type, invalid_updated_price)
+
+      assert plate_registration_type == PlateRegistration.get_plate_registration_type!(plate_registration_type.id)
+    end
+
+    test "delete_plate_registration_type/1 deletes the plate_registration_type" do
+      plate_registration_type = plate_registration_type_fixture(@valid_plate_registration_type)
+      assert {:ok, %PlateRegistrationType{}} = PlateRegistration.delete_plate_registration_type(plate_registration_type)
+      assert_raise Ecto.NoResultsError, fn -> PlateRegistration.get_plate_registration_type!(plate_registration_type.id) end
     end
   end
 end
