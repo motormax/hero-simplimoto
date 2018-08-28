@@ -42,7 +42,7 @@ class FinancingInfo extends Component {
         this.calculator().totalAmount();
 
       const financingPeriod = this.props.financingSelected &&
-        (this.props.financingForm.installments > 1) ? 
+        (this.props.financingForm.installments > 1) ?
         '/ mes' : '';
 
       let financingInfo;

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Form, Message } from 'semantic-ui-react';
+import { Button, Form, Message, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -27,6 +27,7 @@ class CreditCardPayment extends Component {
       id: propTypes.string,
     }).isRequired,
     changeFinancing: propTypes.func.isRequired,
+    backToDashboard: propTypes.func.isRequired,
     createPurchaseOrder: propTypes.func.isRequired,
     financingSelected: propTypes.bool.isRequired,
     financingForm: propTypes.shape({
@@ -60,6 +61,8 @@ class CreditCardPayment extends Component {
         docNumber: '',
         paymentMethodId: '',
       },
+      binMatchFinance: false,
+      submitInProgress: false,
       errors: {
         cardNumber: false,
         securityCode: false,
@@ -84,6 +87,8 @@ class CreditCardPayment extends Component {
       const newData = this.state.paymentMethod;
       newData.paymentMethodId = response[0].id;
       this.setState({ paymentMethod: newData });
+      const binMatchFinance = newData.paymentMethodId === this.props.financingForm.paymentMethodId;
+      this.setState({ binMatchFinance });
     }
   };
 
@@ -123,6 +128,7 @@ class CreditCardPayment extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    this.setState({ submitInProgress: true });
 
     window.Mercadopago.createToken(this.state.paymentMethod, this.sdkResponseHandler);
     return false;
@@ -130,6 +136,7 @@ class CreditCardPayment extends Component {
 
   sdkResponseHandler = async (status, response) => {
     if (status !== 200 && status !== 201) {
+      this.setState({ submitInProgress: false });
       this.handleGatewayError(status, response);
     } else {
       try {
@@ -141,6 +148,7 @@ class CreditCardPayment extends Component {
           this.state.paymentMethod.email,
         );
       } catch (error) {
+        this.setState({ submitInProgress: false });
         if (error.response.data.user_message) {
           const newErrors = this.state.errors;
           newErrors.description = `${error.response.data.user_message}\n`;
@@ -164,40 +172,22 @@ class CreditCardPayment extends Component {
     });
   };
 
+  canConfirm = () => !!(
+    this.state.binMatchFinance && !this.submitInProgress()
+  );
+
+  submitInProgress = () => !!(
+    this.state.submitInProgress
+  );
+
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
 
-    return (
-      <div>
-        <Form id="pay" onSubmit={this.handleSubmit} error={error} ref={this.paymentMethodForm}>
-          <Form.Input
-            fluid
-            required
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="user@example.com"
-            value={this.state.paymentMethod.email}
-            error={this.state.errors.email}
-            onChange={this.handleFormDataChange}
-          />
-          <Form.Input
-            fluid
-            required
-            label="Número de tarjeta"
-          >
-            <MaskedInput
-              type="text"
-              placeholder="4509 9535 6623 3704"
-              name="cardNumber"
-              data-checkout="cardNumber"
-              value={this.state.paymentMethod.cardNumber}
-              error={this.state.errors.cardNumber}
-              onChange={this.handleCreditCardNumberDataChange}
-              mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
-            />
-          </Form.Input>
+    let creditCardInputs;
+    if (this.state.binMatchFinance) {
+      creditCardInputs = (
+        <div>
           <Form.Input
             fluid
             required
@@ -280,24 +270,56 @@ class CreditCardPayment extends Component {
             error={this.state.errors.docNumber}
             onChange={this.handleFormDataChange}
           />
-          <input
-            type="hidden"
-            name="paymentMethodId"
-            data-checkout="paymentMethodId"
-            value={this.state.paymentMethod.paymentMethodId}
+        </div>
+      );
+    }
+    let cardNumberErrorMessage;
+    if (!this.state.binMatchFinance && !!this.state.paymentMethod.paymentMethodId) {
+      cardNumberErrorMessage = (
+        <Label basic color="red" pointing key="red">
+        La tarjeta ingresada no coincide con el financiamiento seleccionado.
+        Por favor ingrese una nueva tarjeta o cambie el financiamiento.
+        </Label>
+      );
+    }
+    return (
+      <div>
+        <Form id="pay" onSubmit={this.handleSubmit} error={error} ref={this.paymentMethodForm}>
+          <Form.Input
+            fluid
+            required
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="user@example.com"
+            value={this.state.paymentMethod.email}
+            error={this.state.errors.email}
+            onChange={this.handleFormDataChange}
           />
+          <Form.Input
+            fluid
+            required
+            label="Número de tarjeta"
+          >
+            <MaskedInput
+              type="text"
+              placeholder="4509 9535 6623 3704"
+              name="cardNumber"
+              data-checkout="cardNumber"
+              value={this.state.paymentMethod.cardNumber}
+              error={this.state.errors.cardNumber}
+              onChange={this.handleCreditCardNumberDataChange}
+              mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
+            />
+          </Form.Input>
+
+          {cardNumberErrorMessage}
 
           <FinancingInfo
             financingSelected={this.props.financingSelected}
             financingForm={this.props.financingForm}
             accessoriesPrice={this.props.accessoriesPrice}
             motorcycle={this.props.motorcycle}
-          />
-
-          <Message
-            error
-            header="Lo sentimos hubo un error al procesar la solicitud"
-            content={this.state.errors.description}
           />
 
           <Button
@@ -311,8 +333,38 @@ class CreditCardPayment extends Component {
               Cambiar
           </Button>
 
+          {creditCardInputs}
+
+          <input
+            type="hidden"
+            name="paymentMethodId"
+            data-checkout="paymentMethodId"
+            value={this.state.paymentMethod.paymentMethodId}
+          />
+
+          <Message
+            error
+            header="Lo sentimos hubo un error al procesar la solicitud"
+            content={this.state.errors.description}
+          />
+
           <div className="txt-center">
-            <Button type="submit" size="big" primary>Comprar</Button>
+            <Button
+              type="submit"
+              size="big"
+              disabled={!this.canConfirm()}
+              primary
+              loading={this.submitInProgress()}
+            >Comprar
+            </Button>
+            <Button
+              size="large"
+              secondary
+              onClick={() => {
+                  this.props.backToDashboard();
+                }}
+            >Volver
+            </Button>
           </div>
         </Form>
       </div>
@@ -323,6 +375,9 @@ class CreditCardPayment extends Component {
 const mapDispatchToProps = dispatch => ({
   changeFinancing: () => {
     dispatch(push('/financing'));
+  },
+  backToDashboard: async () => {
+    dispatch(push('/dashboard'));
   },
   createPurchaseOrder: async (leadId, creditCardToken, email) => {
     const response = await axios.post(

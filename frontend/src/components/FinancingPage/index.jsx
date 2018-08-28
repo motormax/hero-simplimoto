@@ -77,7 +77,7 @@ class FinancingPage extends Component {
         );
       }
     } else {
-      console.log("Failed fetchPaymentMethodsCallback!!"); // eslint-disable-line no-console
+      console.log('Failed fetchPaymentMethodsCallback!!'); // eslint-disable-line no-console
       console.log(status); // eslint-disable-line no-console
       console.log(response); // eslint-disable-line no-console
     }
@@ -101,7 +101,7 @@ class FinancingPage extends Component {
         );
       }
     } else {
-      console.log("Failed fetchIssuerCallback!!"); // eslint-disable-line no-console
+      console.log('Failed fetchIssuerCallback!!'); // eslint-disable-line no-console
       console.log(status); // eslint-disable-line no-console
       console.log(response); // eslint-disable-line no-console
     }
@@ -131,7 +131,7 @@ class FinancingPage extends Component {
 
       this.setState({ installmentOptions: installments });
     } else {
-      console.log("fetchInstallmentCallback!!"); // eslint-disable-line no-console
+      console.log('fetchInstallmentCallback!!'); // eslint-disable-line no-console
       console.log(status); // eslint-disable-line no-console
       console.log(response); // eslint-disable-line no-console
     }
