@@ -4,6 +4,7 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
   alias HeroDigital.PlateRegistration
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
+  alias Decimal
 
   @personal_plate_registration "personalPlateRegistration"
   @hero_plate_registration "heroPlateRegistration"
@@ -28,6 +29,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
     type: "image/png",
     data: "YW5vdGhlciBpbWFnZQ=="
   }
+  @personal_plate_registration_type %{"name" => @personal_plate_registration, "price" => Decimal.new(0)}
+  @hero_plate_registration_type %{"name" => @hero_plate_registration, "price" => Decimal.new(1000)}
 
   def personal_plate_registration_attrs() do
     %{opt_in_or_out: @personal_plate_registration}
@@ -51,6 +54,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
   end
 
   setup do
+    {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(@personal_plate_registration_type)
+    {:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(@hero_plate_registration_type)
     motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
     %{motorcycle: motorcycle}
   end
@@ -72,9 +77,12 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
 
       conn = get conn, lead_plate_registration_data_path(conn, :show, lead.id)
       response = json_response(conn, 200)["data"]
+
       assert response["id"] == id
       assert response["opt_in_or_out"] == @personal_plate_registration
       assert response["lead_id"] == lead.id
+      assert response["plate_registration_type"]["name"] == @personal_plate_registration_type["name"]
+      assert Decimal.new(response["plate_registration_type"]["price"]) == @personal_plate_registration_type["price"]
       assert is_nil(response["phone"])
       assert is_nil(response["email"])
       assert is_nil(response["personal_data"])
@@ -91,6 +99,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
       assert response["id"] == id
       assert response["opt_in_or_out"] == @hero_plate_registration
       assert response["lead_id"] == lead.id
+      assert response["plate_registration_type"]["name"] == @hero_plate_registration_type["name"]
+      assert Decimal.new(response["plate_registration_type"]["price"]) == @hero_plate_registration_type["price"]
       assert response["phone"]["phone"] == @phone
       assert response["email"]["email"] == @email
       assert response["personal_data"]["dni"] == @personal_data.dni
@@ -121,6 +131,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
       refute personal_plate_registration_response == hero_plate_registration_response
       assert hero_plate_registration_response["lead_id"] == lead.id
       assert hero_plate_registration_response["opt_in_or_out"] == @hero_plate_registration
+      assert hero_plate_registration_response["plate_registration_type"]["name"] == @hero_plate_registration_type["name"]
+      assert Decimal.new(hero_plate_registration_response["plate_registration_type"]["price"]) == @hero_plate_registration_type["price"]
       assert hero_plate_registration_response["phone"]["phone"] == @phone
       assert hero_plate_registration_response["email"]["email"] == @email
       assert hero_plate_registration_response["personal_data"]["dni"] == @personal_data.dni

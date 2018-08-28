@@ -18,7 +18,8 @@ defmodule HeroDigitalWeb.PlateRegistrationDataView do
       phone: render_one(plate_registration_data.phone, HeroDigitalWeb.PhoneView, "phone.json", as: :phone),
       email: render_one(plate_registration_data.email, HeroDigitalWeb.EmailView, "email.json", as: :email),
       personal_data: render_one(plate_registration_data.personal_data, HeroDigitalWeb.PersonalDataView, "personal_data.json", as: :personal_data),
-      address: render_one(plate_registration_data.address, HeroDigitalWeb.AddressView, "address.json", as: :address)
+      address: render_one(plate_registration_data.address, HeroDigitalWeb.AddressView, "address.json", as: :address),
+      plate_registration_type: render_one(plate_registration_data.plate_registration_type, HeroDigitalWeb.PlateRegistrationTypeView, "plate_registration_type.json", as: :plate_registration_type)
     }
   end
 end

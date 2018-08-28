@@ -214,8 +214,8 @@ defmodule HeroDigital.PlateRegistration do
   """
   def get_plate_registration_type!(id), do: Repo.get!(PlateRegistrationType, id)
 
-  def get_plate_registration_type_by_name!(name) do
-    plate_registration_type = Repo.one(from p in PlateRegistrationType, where: p.name == ^name, order_by: p.inserted_at, limit: 1)
+  defp get_plate_registration_type_by_name!(name) do
+    Repo.one(from p in PlateRegistrationType, where: p.name == ^name, order_by: p.inserted_at, limit: 1)
   end
 
   @doc """
