@@ -6,7 +6,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
   @hero_plate_registration "heroPlateRegistration"
 
   schema "plate_registration_data" do
-    field :opt_in_or_out, :string
+    field :opt_in_or_out, :string, virtual: true
     belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
     belongs_to :personal_data, HeroDigital.UserData.PersonalData
     belongs_to :email, HeroDigital.UserData.Email
@@ -33,7 +33,6 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
   @doc false
   defp create_hero_registration_data_changeset(plate_registration_data, attrs) do
     attrs_names = [
-      :opt_in_or_out,
       :lead_id,
       :personal_data_id,
       :email_id,
@@ -48,7 +47,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
 
   @doc false
   defp create_personal_registration_data_changeset(plate_registration_data, attrs) do
-    attrs_names = [:opt_in_or_out, :lead_id, :plate_registration_type_id]
+    attrs_names = [:lead_id, :plate_registration_type_id]
     create_changeset_by_attrs(plate_registration_data, attrs, attrs_names)
   end
 

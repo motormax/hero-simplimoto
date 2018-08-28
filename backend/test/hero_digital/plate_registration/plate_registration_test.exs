@@ -75,7 +75,6 @@ defmodule HeroDigital.PlateRegistrationTest do
     creates a plate_registration_data with all fields non nil", %{lead: lead} do
       attrs = Map.put(@valid_hero_plate_registration_attrs, "lead_id", lead.id)
       assert {:ok, %PlateRegistrationData{} = plate_registration_data} = PlateRegistration.create_plate_registration_data(attrs)
-      assert plate_registration_data.opt_in_or_out == @hero_plate_registration
       assert plate_registration_data.lead_id == lead.id
       assert plate_registration_data.email.email == @email
       assert plate_registration_data.phone.phone == @phone
@@ -96,7 +95,6 @@ defmodule HeroDigital.PlateRegistrationTest do
     creates a plate_registration_data with fields opt_in_or_out and lead_id as non nil", %{lead: lead} do
       attrs = Map.put(@valid_personal_plate_registration_attrs, "lead_id", lead.id)
       assert {:ok, %PlateRegistrationData{} = plate_registration_data} = PlateRegistration.create_plate_registration_data(attrs)
-      assert plate_registration_data.opt_in_or_out == @personal_plate_registration
       assert plate_registration_data.lead_id == lead.id
       assert plate_registration_data.email_id == nil
       assert plate_registration_data.phone_id == nil

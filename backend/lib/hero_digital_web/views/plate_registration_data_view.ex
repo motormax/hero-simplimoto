@@ -14,7 +14,6 @@ defmodule HeroDigitalWeb.PlateRegistrationDataView do
     %{
       id: plate_registration_data.id,
       lead_id: plate_registration_data.lead_id,
-      opt_in_or_out: plate_registration_data.opt_in_or_out,
       phone: render_one(plate_registration_data.phone, HeroDigitalWeb.PhoneView, "phone.json", as: :phone),
       email: render_one(plate_registration_data.email, HeroDigitalWeb.EmailView, "email.json", as: :email),
       personal_data: render_one(plate_registration_data.personal_data, HeroDigitalWeb.PersonalDataView, "personal_data.json", as: :personal_data),
