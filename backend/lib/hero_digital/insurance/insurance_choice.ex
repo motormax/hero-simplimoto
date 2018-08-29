@@ -69,4 +69,7 @@ defmodule HeroDigital.Insurance.InsuranceChoice do
     |> cast(attrs, attr_names)
     |> validate_required(attr_names)
   end
+
+  def personal_insurance_type, do: @personal_insurance
+  def hero_insurance_type, do: @hero_insurance
 end

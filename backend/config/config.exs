@@ -62,6 +62,9 @@ config :hero_digital, HeroDigital.Payment.PaymentGateway,
 config :hero_digital, HeroDigitalWeb.MailsView,
   assets_path: "http://localhost:4000/mails/"
 
+config :hero_digital, HeroDigital.Mailer,
+  adapter: Bamboo.LocalAdapter
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

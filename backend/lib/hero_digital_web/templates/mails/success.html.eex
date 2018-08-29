@@ -71,9 +71,14 @@
                     </tr>
                     <tr>
                       <td style="font-size:1.3em;padding:10px;">
-                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento online incluido</td>
+                        <%= if @plate_registration_data.opt_in_or_out == hero_plate_registration_type() do %>
+                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento con hero</td>
+                        <% else %>
+                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento por tu cuenta</td>
+                        <% end %>
                       </tr>
                       <tr>
+                        <%= if @insurance.opt_in_or_out == hero_insurance_type do %>
                         <td style="font-size:1.3em;padding:10px;">
                           <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Elegiste asegurarla con:</td>
                         </tr>
@@ -82,17 +87,25 @@
                             <table style="background: #ffffff; padding:10px;border-top:1px solid #BFBFBF;border-bottom:1px solid #BFBFBF;">
                               <tr>
                                 <td style="padding:10px;">
-                                  <img src="https://elenabeser.com/wp-content/uploads/2015/06/lock@2x.png" width="50" alt="lock@2x.png">
+                                  <img src="<%= @insurance.quote_broker_logo_url %>" width="50" alt="lock@2x.png">
                                 </td>
                                 <td style="padding:10px;">
-                                  <p style="font-size:1.3em;font-weight:bold;margin:5px;">Seguro Pepito - Un plan</p>
-                                  <p style="margin:5px;"><strong>$900</strong> por mes</p>
-                                  <p style="font-size:.8em;margin:5px;">Te protegemos contra todo lo que te imagines</p>
+                                  <p style="font-size:1.3em;font-weight:bold;margin:5px;"> <%= @insurance.quote_broker_name %> - <%= @insurance.quote_policy %></p>
+                                  <p style="margin:5px;"><strong>$ <%= @insurance.quote_price %></strong> por mes</p>
+                                  <!-- <p style="font-size:.8em;margin:5px;">Te protegemos contra todo lo que te imagines</p> --> 
                                 </td>
                               </tr>
                             </table>
                           </td>
                         </tr>
+                        <% else %>
+                        <tr>
+                          <td>
+                            Te aseguras por tu cuenta
+                          </td>
+                        </tr>
+                        <% end %>
+                        <%= if @delivery.address do %>
                         <tr>
                           <td style="font-size:1.3em;padding:10px;">
                             <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Te la enviaremos a:</td>
@@ -100,7 +113,7 @@
                           <tr>
                             <td style="padding-left:65px;">
                               <img src="<%= assets_path() %>/img/casa.png" style="margin-right: 5px;"/>
-                              <span>Leandro N Alem 678 - CABA</span>
+                              <span><%= @delivery.address.street %></span>
                              </td>
                             </tr>
                             <tr>
@@ -108,6 +121,13 @@
                             </tr>
                           </table>
                         </td>
+                        <% else %>
+                        <tr>
+                          <td>
+                            Venís a buscar la moto a <%= @delivery.pickup_location %>
+                          </td>
+                        </tr>
+                        <% end %>
                         <td></td>
                       </tr>
                       <tr>

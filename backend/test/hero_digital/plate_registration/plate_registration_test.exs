@@ -48,6 +48,10 @@ defmodule HeroDigital.PlateRegistrationTest do
 
     @valid_personal_plate_registration_attrs %{ "opt_in_or_out" => @personal_plate_registration }
 
+    def personal_plate_registration do
+      @valid_hero_plate_registration_attrs
+    end
+
     setup do
       motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
       {:ok, lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})

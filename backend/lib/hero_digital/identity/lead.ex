@@ -10,6 +10,9 @@ defmodule HeroDigital.Identity.Lead do
     belongs_to(:motorcycle, HeroDigital.Product.Motorcycle)
 
     has_one :financing_data, HeroDigital.Financing.FinancingData
+    has_one :insurance_choice, HeroDigital.Insurance.InsuranceChoice
+    has_one :delivery_choice, HeroDigital.Delivery.DeliveryChoice
+    has_one :plate_registration_data, HeroDigital.PlateRegistration.PlateRegistrationData
 
     timestamps()
   end

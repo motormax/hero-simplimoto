@@ -4,12 +4,17 @@ defmodule HeroDigital.Mailer do
 
 
   def send_successful_purcharse_mail(purchase_order) do
+    lead = purchase_order.lead
     new_email()
     |> from("Hero Digital <hero@hero.com.ar>")
     |> to(purchase_order.email)
 
-    |> subject("Compraste un moto!")
+    |> subject("Compraste una moto en Hero Digital!")
     |> assign(:purchase_order, purchase_order)
+    |> assign(:lead, lead)
+    |> assign(:plate_registration_data, lead.plate_registration_data)
+    |> assign(:insurance, lead.insurance_choice)
+    |> assign(:delivery, lead.delivery_choice)
 
     |> put_text_layout({HeroDigitalWeb.MailsView, "success.text"})
     |> put_html_layout({HeroDigitalWeb.MailsView, "success.html"})
