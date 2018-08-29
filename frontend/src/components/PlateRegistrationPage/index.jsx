@@ -59,7 +59,8 @@ class PlateRegistrationPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      optInOrOut: props.plateRegistrationData.opt_in_or_out,
+      optInOrOut: props.plateRegistrationData.opt_in_or_out ?
+        props.plateRegistrationData.opt_in_or_out : HERO_PLATE_REGISTRATION,
       email: this.isValueNullOrUndefined(props.plateRegistrationData.email) ? '' : props.plateRegistrationData.email.email,
       phone: this.isValueNullOrUndefined(props.plateRegistrationData.phone) ? '' : props.plateRegistrationData.phone.phone,
       personalData: {
@@ -412,7 +413,7 @@ class PlateRegistrationPage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
-  plateRegistrationData: store.main.plateRegistrationData,
+  plateRegistrationData: store.main.plateRegistration.plateRegistrationData,
 });
 
 const mapDispatchToProps = dispatch => ({
