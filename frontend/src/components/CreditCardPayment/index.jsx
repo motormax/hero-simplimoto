@@ -171,6 +171,32 @@ class CreditCardPayment extends Component {
     return (
       <div>
         <Form id="pay" onSubmit={this.handleSubmit} error={error} ref={this.paymentMethodForm}>
+          <FinancingInfo
+            financingSelected={this.props.financingSelected}
+            financingForm={this.props.financingForm}
+            accessoriesPrice={this.props.accessoriesPrice}
+            motorcycle={this.props.motorcycle}
+          />
+
+          <Message
+            error
+            header="Lo sentimos hubo un error al procesar la solicitud"
+            content={this.state.errors.description}
+          />
+
+          <div className="txt-center margin-top-tinny">
+            <Button
+              size="small"
+              className="btn-outline"
+              secondary
+              onClick={() => {
+                this.props.changeFinancing();
+              }}
+            >
+                Cambiar método de pago
+            </Button>
+          </div>
+
           <Form.Input
             fluid
             required
@@ -198,7 +224,8 @@ class CreditCardPayment extends Component {
               mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
             />
           </Form.Input>
-          <Form.Input
+          <Form.Group>
+            <Form.Input
             fluid
             required
             label="Código de seguridad"
@@ -206,44 +233,48 @@ class CreditCardPayment extends Component {
             data-checkout="securityCode"
             name="securityCode"
             placeholder="123"
+            width={4}
             value={this.state.paymentMethod.securityCode}
             error={this.state.errors.securityCode}
             onChange={this.handleFormDataChange}
-          />
-          <Form.Input
+            />
+            <Form.Input
             fluid
             required
+            width={6}
             label="Mes de vencimiento de la tarjeta"
-          >
+            >
             <MaskedInput
-              type="text"
-              length="2"
-              data-checkout="cardExpirationMonth"
-              name="cardExpirationMonth"
-              value={this.state.paymentMethod.cardExpirationMonth}
-              error={this.state.errors.cardExpirationMonth}
-              onChange={this.handleFormDataChange}
-              mask={[/\d/, /\d/]}
-              placeholder="12"
+            type="text"
+            length="2"
+            data-checkout="cardExpirationMonth"
+            name="cardExpirationMonth"
+            value={this.state.paymentMethod.cardExpirationMonth}
+            error={this.state.errors.cardExpirationMonth}
+            onChange={this.handleFormDataChange}
+            mask={[/\d/, /\d/]}
+            placeholder="12"
             />
-          </Form.Input>
-          <Form.Input
+            </Form.Input>
+            <Form.Input
             fluid
             required
+            width={6}
             label="Año de vencimiento de la tarjeta"
-          >
+            >
             <MaskedInput
-              type="text"
-              length="4"
-              data-checkout="cardExpirationYear"
-              name="cardExpirationYear"
-              placeholder="2018"
-              value={this.state.paymentMethod.cardExpirationYear}
-              error={this.state.errors.cardExpirationYear}
-              onChange={this.handleFormDataChange}
-              mask={[/\d/, /\d/, /\d/, /\d/]}
+            type="text"
+            length="4"
+            data-checkout="cardExpirationYear"
+            name="cardExpirationYear"
+            placeholder="2018"
+            value={this.state.paymentMethod.cardExpirationYear}
+            error={this.state.errors.cardExpirationYear}
+            onChange={this.handleFormDataChange}
+            mask={[/\d/, /\d/, /\d/, /\d/]}
             />
-          </Form.Input>
+            </Form.Input>
+          </Form.Group>
           <Form.Input
             fluid
             required
@@ -287,30 +318,6 @@ class CreditCardPayment extends Component {
             value={this.state.paymentMethod.paymentMethodId}
           />
 
-          <FinancingInfo
-            financingSelected={this.props.financingSelected}
-            financingForm={this.props.financingForm}
-            accessoriesPrice={this.props.accessoriesPrice}
-            motorcycle={this.props.motorcycle}
-          />
-
-          <Message
-            error
-            header="Lo sentimos hubo un error al procesar la solicitud"
-            content={this.state.errors.description}
-          />
-
-          <Button
-            size="small"
-            className="btn-outline"
-            secondary
-            onClick={() => {
-              this.props.changeFinancing();
-            }}
-          >
-              Cambiar
-          </Button>
-
           <div className="txt-center">
             <Button type="submit" size="big" primary>Comprar</Button>
           </div>
@@ -347,4 +354,3 @@ const mapStateToProps = state => ({
 });
 
 export default translate('financing')(connect(mapStateToProps, mapDispatchToProps)(CreditCardPayment));
-

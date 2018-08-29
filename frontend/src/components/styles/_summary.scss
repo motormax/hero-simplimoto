@@ -45,30 +45,31 @@
       align-items: center;
     }
   }
-  .final-price{
-    font-size: 1.5em;
-    color: $med-gray;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    justify-content: center;
-    line-height: 2em;
-    .final-price-number{
-      font-size: 2.4em;
-      font-weight: bold;
-      color: black;
-      margin: 0 .3em .3em .3em;
-    }
+}
+
+.final-price{
+  font-size: 1.5em;
+  color: $med-gray;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  justify-content: center;
+  line-height: 2em;
+  .final-price-number{
+    font-size: 2.4em;
+    font-weight: bold;
+    color: black;
+    margin: 0 .3em .3em .3em;
   }
-  .finnancial-bank{
-    width: 90%;
-    margin: auto;
-    max-width: 300px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    &>*:not(:last-child){
-      margin-right: .5em;
-    }
+}
+.finnancial-bank{
+  width: 90%;
+  margin: auto;
+  max-width: 300px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  &>*:not(:last-child){
+    margin-right: .5em;
   }
 }
