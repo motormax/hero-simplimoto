@@ -9,6 +9,7 @@ import accessoriesReducer from './accessoriesReducer';
 import financingReducer from './financingReducer';
 import actionTypes from '../actions/actionTypes';
 import customizationsReducer from './customizationsReducer';
+import plateRegistrationTypesReducer from './plateRegistrationTypesReducer';
 
 
 const defaultState = {};
@@ -32,6 +33,7 @@ const reducer = (state = defaultState, action) => {
         insuranceChoice: insuranceChoiceReducer(undefined, action),
         accessories: accessoriesReducer(undefined, action),
         financing: financingReducer(undefined, action),
+        plateRegistrationTypes: plateRegistrationTypesReducer(undefined, action),
       };
     case actionTypes.startedFetchingLead:
       return {
@@ -49,6 +51,7 @@ const reducer = (state = defaultState, action) => {
         insuranceChoice: insuranceChoiceReducer(state.insuranceChoice, action),
         accessories: accessoriesReducer(state.accessories, action),
         financing: financingReducer(state.financing, action),
+        plateRegistrationTypes: plateRegistrationTypesReducer(state.plateRegistrationTypes, action),
       });
   }
 };
