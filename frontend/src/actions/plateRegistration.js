@@ -9,3 +9,8 @@ export const plateRegistrationFetched = (plateRegistrationData, plateRegistratio
 export const startedFetchingPlateRegistration = () => ({
   type: actionTypes.startedFetchingPlateRegistration,
 });
+
+export const changePlateRegistrationData = plateRegistrationData => ({
+  type: actionTypes.changePlateRegistrationData,
+  plateRegistrationData,
+});

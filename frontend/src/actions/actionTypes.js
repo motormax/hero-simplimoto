@@ -17,4 +17,5 @@ export default {
   financingSelected: 'FINANCING_SELECTED',
   financingChanged: 'FINANCING_CHANGED',
   startedFetchingFinancing: 'STARTED_FETCHING_FINANCING',
+  changePlateRegistrationData: 'CHANGE_PLATE_REGISTRATION_DATA',
 };

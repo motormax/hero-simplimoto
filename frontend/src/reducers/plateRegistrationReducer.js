@@ -18,6 +18,11 @@ export default function plateRegistrationReducer(state = initialState, action) {
         plateRegistrationData: action.plateRegistrationData || {},
         plateRegistrationTypes: action.plateRegistrationTypes || {},
       };
+    case actionTypes.changePlateRegistrationData:
+      return {
+        ...state,
+        plateRegistrationData: action.plateRegistrationData,
+      };
     default:
       return state;
   }

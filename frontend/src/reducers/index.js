@@ -44,7 +44,7 @@ const reducer = (state = defaultState, action) => {
         funding: fundingReducer(state.funding, action),
         dateYourBike: dateYourBikeReducer(state.dateYourBike, action),
         delivery: deliveryReducer(state.delivery, action),
-        plateRegistration: plateRegistrationReducer(state.plateRegistrationData, action),
+        plateRegistration: plateRegistrationReducer(state.plateRegistration, action),
         insuranceChoice: insuranceChoiceReducer(state.insuranceChoice, action),
         accessories: accessoriesReducer(state.accessories, action),
         financing: financingReducer(state.financing, action),
