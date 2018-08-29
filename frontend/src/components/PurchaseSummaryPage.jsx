@@ -39,18 +39,50 @@ class PurchaseSummary extends Component {
 
     if (delivery.address) {
       return (
-        <p className="txt-dark-gray">
-          <Icon name="home" />
-          {delivery.address.street}
-        </p>
+        <Segment attached>
+          <Grid verticalAlign="middle">
+            <Grid.Column width={2}>
+              <Icon className="txt-dark-gray" size="large" name="arrow right" />
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <h3 className="fw-bold fs-big">Llegando al domicilio </h3>
+            </Grid.Column>
+            <Grid.Column width={5}>
+              <span className="txt-green fs-large fw-bold uppercase">¡gratis!</span>
+            </Grid.Column>
+          </Grid>
+          <Grid>
+            <Grid.Column width={2} />
+            <Grid.Column className="details-container" width={9}>
+              <p className="txt-dark-gray">
+                <Icon name="home" />
+                {delivery.address.street}
+              </p>
+            </Grid.Column>
+          </Grid>
+        </Segment>
       );
     }
     if (delivery.pickup_location !== null) {
       return (
-        <p className="txt-dark-gray">
-          <Icon name="home" />
-          Venís a buscar la moto al concesionario {delivery.pickup_location}.
-        </p>
+        <Segment attached>
+          <Grid verticalAlign="middle">
+            <Grid.Column width={2}>
+              <Icon className="txt-dark-gray" size="large" name="arrow right" />
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <h3 className="fw-bold fs-big">Se entrega en: </h3>
+            </Grid.Column>
+          </Grid>
+          <Grid>
+            <Grid.Column width={2} />
+            <Grid.Column className="details-container" width={9}>
+              <p className="txt-dark-gray">
+                Concesionario {delivery.pickup_location}.
+              </p>
+            </Grid.Column>
+          </Grid>
+        </Segment>
       );
     }
 
@@ -63,6 +95,7 @@ class PurchaseSummary extends Component {
     return availableColors[lead.motorcycle.name][customization.color].bikeImageURL;
   };
 
+
   render() {
     const {
       lead, accessories, insuranceChoice,
@@ -72,13 +105,40 @@ class PurchaseSummary extends Component {
       return <div>Cargando</div>;
     }
 
+
+    const hasInsuranceChoice = Object.values(insuranceChoice).some(hasInsuranceChoice => hasInsuranceChoice);
+
+    const hasAccessories = Object.values(accessories.selectedAccessories).some(hasAccessory => hasAccessory);
+
+    const AccessoryPage = <Segment attached>
+        <Grid verticalAlign="middle">
+          <Grid.Column width={2}>
+            <Icon className="txt-dark-gray" size="large" name="arrow right" />
+          </Grid.Column>
+          <Grid.Column width={9}>
+            <h3 className="fw-bold fs-big">Con accesorios: </h3>
+          </Grid.Column>
+          <Grid.Column width={5}>
+            <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{accessories.totalPrice}</span>
+          </Grid.Column>
+        </Grid>
+        <Grid>
+          <Grid.Column width={2} />
+          <Grid.Column className="details-container" width={9}>
+            { Object.keys(accessories.selectedAccessories).map(accesoryName =>
+              accessories.selectedAccessories[accesoryName] &&
+                <img src={availableAccessories[accesoryName].imgUrl} alt={accesoryName} />)}
+          </Grid.Column>
+        </Grid>
+      </Segment>;
+
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">Estás comprando una ...</h2>
 
         <Card className="page-column-card page-column-card_slim">
           <Segment className="bike-container" attached>
-            <img src={this.motorcycleImage()} alt="Hunk negra" />
+            <img src={this.motorcycleImage()} alt={lead.motorcycle.name} />
           </Segment>
           <Segment attached>
             <Grid verticalAlign="middle">
@@ -89,32 +149,12 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">{lead.motorcycle.name} </h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{lead.motorcycle.price}</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{lead.motorcycle.price}</span>
               </Grid.Column>
             </Grid>
           </Segment>
 
-          <Segment attached>
-            <Grid verticalAlign="middle">
-              <Grid.Column width={2}>
-                <Icon className="txt-dark-gray" size="large" name="arrow right" />
-              </Grid.Column>
-              <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">Con accesorios: </h3>
-              </Grid.Column>
-              <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">AR$ </span>{accessories.totalPrice}</span>
-              </Grid.Column>
-            </Grid>
-            <Grid>
-              <Grid.Column width={2} />
-              <Grid.Column className="details-container" width={9}>
-                { Object.keys(accessories.selectedAccessories).map(accesoryName =>
-                  accessories.selectedAccessories[accesoryName] &&
-                    <img src={availableAccessories[accesoryName].imgUrl} alt={accesoryName} />)}
-              </Grid.Column>
-            </Grid>
-          </Segment>
+          {hasAccessories ? AccessoryPage : null}
 
           <Segment attached>
             <Grid verticalAlign="middle">
@@ -130,39 +170,34 @@ class PurchaseSummary extends Component {
             </Grid>
           </Segment>
 
-          <Segment attached>
-            <Grid verticalAlign="middle">
-              <Grid.Column width={2}>
-                <Icon className="txt-dark-gray" size="large" name="arrow right" />
-              </Grid.Column>
-              <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">Llegando al domicilio </h3>
-              </Grid.Column>
-              <Grid.Column width={5}>
-                <span className="txt-green fs-large fw-bold uppercase">¡gratis!</span>
-              </Grid.Column>
-            </Grid>
-            <Grid>
-              <Grid.Column width={2} />
-              <Grid.Column className="details-container" width={9}>
-                {this.addressText()}
-              </Grid.Column>
-            </Grid>
-          </Segment>
+          {this.addressText()}
 
           <Segment className="white-segment" attached>
-            <Grid verticalAlign="middle">
-              <Grid.Column width={2}>
-                <img width="100%" src={insuranceChoice.quoteBrokerLogoUrl} alt="un seguro" />
-              </Grid.Column>
-              <Grid.Column width={9}>
-                <h3 className="fw-bold fs-big">{insuranceChoice.quoteBrokerName} - {insuranceChoice.quotePolicy}</h3>
-                <div className="fs-large fs-medium txt-dark-gray">
-                  {'AR$ '}
-                  <span className="fw-bold">{moneyFormatter.format(insuranceChoice.quotePrice)}</span> por mes
-                </div>
-              </Grid.Column>
-            </Grid>
+              {
+                hasInsuranceChoice ?
+                <Grid verticalAlign="middle">
+                  <Grid.Column width={2}>
+                    <img width="100%" src={insuranceChoice.quoteBrokerLogoUrl} alt="un seguro" />
+                  </Grid.Column>
+                  <Grid.Column width={9}>
+                    <h3 className="fw-bold fs-big">{insuranceChoice.quoteBrokerName} - {insuranceChoice.quotePolicy}</h3>
+                    <div className="fs-large fs-medium txt-dark-gray">
+                    {'AR$ '}
+                    <span className="fw-bold">{moneyFormatter.format(insuranceChoice.quotePrice)}</span> por mes
+                    </div>
+                  </Grid.Column>
+                </Grid> :
+                <Grid verticalAlign="middle">
+                  <Grid.Column width={2}>
+                    <Icon className="txt-dark-gray" size="large" name="unlock alternate" />
+                  </Grid.Column>
+                  <Grid.Column width={14}>
+                    <div className="fs-large txt-dark-gray">
+                      Decidiste asegurar tu moto por tu cuenta
+                    </div>
+                  </Grid.Column>
+                </Grid>
+              }
           </Segment>
 
           <Segment className="btn-displaced-container" attached>
