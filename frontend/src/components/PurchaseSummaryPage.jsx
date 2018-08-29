@@ -76,7 +76,7 @@ class PurchaseSummary extends Component {
           </Grid>
           <Grid>
             <Grid.Column width={2} />
-            <Grid.Column className="details-container" width={9}>
+            <Grid.Column className="details-container" width={12}>
               <p className="txt-dark-gray">
                 Concesionario {delivery.pickup_location}.
               </p>
@@ -200,7 +200,7 @@ class PurchaseSummary extends Component {
               }
           </Segment>
 
-          <Segment className="btn-displaced-container" attached>
+          <Segment attached>
             <CreditCardPayment />
           </Segment>
 
