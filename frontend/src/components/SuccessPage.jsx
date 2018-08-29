@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, Icon, Segment } from 'semantic-ui-react';
+import { Card, Icon, Segment } from 'semantic-ui-react';
 
 const message = 'Tu pago ha sido procesado con éxito';
 
@@ -14,9 +14,6 @@ class SuccessPage extends Component {
           <Segment attached className="txt-center txt-green">
             <Icon name="check circle" size="massive" />
             <p className="margin-top-tinny fs-big txt-med-gray txt-center">{message}</p>
-          </Segment>
-          <Segment attached className="txt-center">
-            <Button size="big" primary>Continuar</Button>
           </Segment>
         </Card>
       </div>

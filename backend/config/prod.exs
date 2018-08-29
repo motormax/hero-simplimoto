@@ -81,7 +81,7 @@ config :logger,
 config :logger, :logglix,
   loggly_key: System.get_env("LOGGLY_KEY"),
   tags: ["herodigital", "elixir"],
-  level: :info
+  level: String.to_atom(Map.get(System.get_env(), "LOG_LEVEL", "info"))
 
 config :sentry,
   dsn: {:system, "SENTRY_DSN"},
