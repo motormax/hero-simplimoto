@@ -8,8 +8,8 @@ export default {
   startedFetchingDelivery: 'STARTED_FETCHING_DELIVERY',
   appointmentFetched: 'APPOINTMENT_FETCHED',
   startedFetchingAppointment: 'STARTED_FETCHING_APPOINTMENT',
-  plateRegistrationDataFetched: 'PLATE_REGISTRATION_FETCHED',
-  startedFetchingPlateRegistrationData: 'STARTED_FETCHING_PLATE_REGISTRATION',
+  plateRegistrationFetched: 'PLATE_REGISTRATION_FETCHED',
+  startedFetchingPlateRegistration: 'STARTED_FETCHING_PLATE_REGISTRATION',
   insuranceSelected: 'INSURANCE_SELECTED',
   insuranceOptOut: 'INSURANCE_OPT_OUT',
   insuranceChoiceFetched: 'INSURANCE_CHOICE_FETCHED',
@@ -17,6 +17,4 @@ export default {
   financingSelected: 'FINANCING_SELECTED',
   financingChanged: 'FINANCING_CHANGED',
   startedFetchingFinancing: 'STARTED_FETCHING_FINANCING',
-  plateRegistrationTypesFetched: 'PLATE_REGISTRATION_TYPES_FETCHED',
-  startedFetchingPlateRegistrationTypes: 'STARTED_FETCHING_PLATE_REGISTRATION_TYPES',
 };
