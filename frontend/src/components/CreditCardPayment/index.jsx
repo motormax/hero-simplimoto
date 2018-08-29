@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Label } from 'semantic-ui-react';
+import { Button, Form, Message, Label, Popup, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -181,6 +181,21 @@ class CreditCardPayment extends Component {
   );
 
   render() {
+    const cvvLabel = (
+      <span>CVV
+        <Popup trigger={<span><Icon name="info circle" /></span>}>
+          <Popup.Header>Código de seguridad</Popup.Header>
+          <Popup.Content>
+                  El <b>CVV</b> en su tarjeta de crédito o débito es un número de
+                  3 o 4 dígitos que se encuentra
+                  en el reverso de su tarjeta. <br />
+                  En su tarjeta de crédito o débito de marca American Express®,
+                  es un código numérico de 4 dígitos
+                  que se encuentra en el frente.
+          </Popup.Content>
+        </Popup>
+      </span>
+    );
     const error = Object.values(this.state.errors)
       .some(Boolean);
 
@@ -188,52 +203,58 @@ class CreditCardPayment extends Component {
     if (this.state.binMatchFinance) {
       creditCardInputs = (
         <div>
-          <Form.Input
-            fluid
-            required
-            label="Código de seguridad"
-            type="text"
-            data-checkout="securityCode"
-            name="securityCode"
-            placeholder="123"
-            value={this.state.paymentMethod.securityCode}
-            error={this.state.errors.securityCode}
-            onChange={this.handleFormDataChange}
-          />
-          <Form.Input
-            fluid
-            required
-            label="Mes de vencimiento de la tarjeta"
-          >
-            <MaskedInput
+          <Form.Group>
+            <Form.Input
+              fluid
+              required
+              label={cvvLabel}
               type="text"
-              length="2"
-              data-checkout="cardExpirationMonth"
-              name="cardExpirationMonth"
-              value={this.state.paymentMethod.cardExpirationMonth}
-              error={this.state.errors.cardExpirationMonth}
+              data-checkout="securityCode"
+              name="securityCode"
+              placeholder="123"
+              width={4}
+              value={this.state.paymentMethod.securityCode}
+              error={this.state.errors.securityCode}
               onChange={this.handleFormDataChange}
-              mask={[/\d/, /\d/]}
-              placeholder="12"
             />
-          </Form.Input>
-          <Form.Input
-            fluid
-            required
-            label="Año de vencimiento de la tarjeta"
-          >
-            <MaskedInput
-              type="text"
-              length="4"
-              data-checkout="cardExpirationYear"
-              name="cardExpirationYear"
-              placeholder="2018"
-              value={this.state.paymentMethod.cardExpirationYear}
-              error={this.state.errors.cardExpirationYear}
-              onChange={this.handleFormDataChange}
-              mask={[/\d/, /\d/, /\d/, /\d/]}
-            />
-          </Form.Input>
+
+            <Form.Input
+              fluid
+              required
+              label="Mes de vencimiento"
+              width={6}
+            >
+              <MaskedInput
+                type="text"
+                length="2"
+                data-checkout="cardExpirationMonth"
+                name="cardExpirationMonth"
+                value={this.state.paymentMethod.cardExpirationMonth}
+                error={this.state.errors.cardExpirationMonth}
+                onChange={this.handleFormDataChange}
+                mask={[/\d/, /\d/]}
+                placeholder="12"
+              />
+            </Form.Input>
+            <Form.Input
+              fluid
+              required
+              label="Año de vencimiento"
+              width={6}
+            >
+              <MaskedInput
+                type="text"
+                length="4"
+                data-checkout="cardExpirationYear"
+                name="cardExpirationYear"
+                placeholder="2018"
+                value={this.state.paymentMethod.cardExpirationYear}
+                error={this.state.errors.cardExpirationYear}
+                onChange={this.handleFormDataChange}
+                mask={[/\d/, /\d/, /\d/, /\d/]}
+              />
+            </Form.Input>
+          </Form.Group>
           <Form.Input
             fluid
             required
@@ -285,6 +306,26 @@ class CreditCardPayment extends Component {
     return (
       <div>
         <Form id="pay" onSubmit={this.handleSubmit} error={error} ref={this.paymentMethodForm}>
+          <FinancingInfo
+            financingSelected={this.props.financingSelected}
+            financingForm={this.props.financingForm}
+            accessoriesPrice={this.props.accessoriesPrice}
+            motorcycle={this.props.motorcycle}
+          />
+
+          <div className="txt-center margin-top-tinny">
+            <Button
+              size="small"
+              className="btn-outline"
+              secondary
+              onClick={() => {
+                this.props.changeFinancing();
+              }}
+            >
+                Cambiar método de pago
+            </Button>
+          </div>
+
           <Form.Input
             fluid
             required
@@ -314,24 +355,6 @@ class CreditCardPayment extends Component {
           </Form.Input>
 
           {cardNumberErrorMessage}
-
-          <FinancingInfo
-            financingSelected={this.props.financingSelected}
-            financingForm={this.props.financingForm}
-            accessoriesPrice={this.props.accessoriesPrice}
-            motorcycle={this.props.motorcycle}
-          />
-
-          <Button
-            size="small"
-            className="btn-outline"
-            secondary
-            onClick={() => {
-              this.props.changeFinancing();
-            }}
-          >
-              Cambiar
-          </Button>
 
           {creditCardInputs}
 

@@ -44,24 +44,23 @@ class PurchaseSummary extends Component {
     return 'Llegando al domicilio';
   }
 
+  deliveryFree = () => {
+    const { delivery } = this.props;
+
+    if (delivery.pickup_location !== null) {
+      return '';
+    }
+    return '¡gratis!';
+  }
+
   addressText = () => {
     const { delivery } = this.props;
 
     if (delivery.address) {
-      return (
-        <p className="txt-dark-gray">
-          <Icon name="home" />
-          {delivery.address.street}
-        </p>
-      );
+      return (delivery.address.street);
     }
     if (delivery.pickup_location !== null) {
-      return (
-        <p className="txt-dark-gray">
-          <Icon name="home" />
-          Venís a buscar la moto al concesionario {delivery.pickup_location}.
-        </p>
-      );
+      return (`Concesionario ${delivery.pickup_location}`);
     }
 
     // This should never happen since at this point the lead must have picked a delivery method
@@ -84,9 +83,12 @@ class PurchaseSummary extends Component {
     if (insuranceOptOut) {
       insuranceSection = (
         <Grid verticalAlign="middle">
-          <Grid.Column>
-            <div className="fs-large fs-medium txt-dark-gray">
-              Voy a contratar mi propio seguro
+          <Grid.Column width={2}>
+            <Icon className="txt-dark-gray" size="large" name="unlock alternate" />
+          </Grid.Column>
+          <Grid.Column width={14}>
+            <div className="fs-large txt-dark-gray">
+              Decidiste asegurar tu moto por tu cuenta
             </div>
           </Grid.Column>
         </Grid>
@@ -205,13 +207,16 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">{this.deliveryTitle()}</h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="txt-green fs-large fw-bold uppercase">¡gratis!</span>
+                <span className="txt-green fs-large fw-bold uppercase">{this.deliveryFree()}</span>
               </Grid.Column>
             </Grid>
             <Grid>
               <Grid.Column width={2} />
               <Grid.Column className="details-container" width={9}>
-                {this.addressText()}
+                <p className="txt-dark-gray">
+                  <Icon name="home" />
+                  {this.addressText()}
+                </p>
               </Grid.Column>
             </Grid>
           </Segment>
