@@ -88,5 +88,5 @@ HeroDigital.Repo.insert!(second_atm_policy)
 HeroDigital.Repo.insert!(first_mapfre_policy)
 HeroDigital.Repo.insert!(second_mapfre_policy)
 
-{:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "personalPlateRegistration", "price" => Decimal.new(0)})
-{:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "heroPlateRegistration", "price" => Decimal.new(1000)})
+{:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "personalPlateRegistration", "price" => Decimal.new(1500)})
+{:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "heroPlateRegistration", "price" => Decimal.new(3800)})
