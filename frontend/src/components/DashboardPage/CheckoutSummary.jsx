@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
+import _ from 'lodash';
 
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import ConfirmationButton from './ConfirmationButton';
@@ -68,8 +69,14 @@ class CheckoutSummary extends Component {
     }
   }
 
-  componentDidUpdate({ accessoriesPrice }) {
-    if (this.props.accessoriesPrice !== accessoriesPrice && this.props.financingSelected) {
+  componentDidUpdate({ accessoriesPrice, plateRegistrationData }) {
+    const hasPlateRegistrationChanged =
+      !_.isEqual(this.plateRegistrationData, plateRegistrationData);
+    const hasAccessoriesPriceChanged =
+      this.props.accessoriesPrice !== accessoriesPrice;
+
+    if (this.props.financingSelected &&
+        (hasAccessoriesPriceChanged || hasPlateRegistrationChanged)) {
       getInstallments(
         this.props.financingForm.paymentMethodId,
         this.props.financingForm.issuerId,
