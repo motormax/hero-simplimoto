@@ -13,7 +13,6 @@ import classNames from 'classnames';
 import { loadSDK, getInstallments, filterInstallmentLabels } from './mercadoPagoHelper';
 import { financingSelected } from '../../actions/financingChoices';
 import PurchaseCalculator from '../calculator';
-import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSection';
 
 class FinancingPage extends Component {
   static propTypes = {
@@ -33,6 +32,12 @@ class FinancingPage extends Component {
       installments: propTypes.number.isRequired,
       monthlyAmount: propTypes.number.isRequired,
     }).isRequired,
+
+    plateRegistrationData: propTypes.shape({
+      plateRegistrationType: propTypes.shape({
+        price: propTypes.string,
+      }),
+    }),
   };
 
   constructor(props) {
@@ -54,7 +59,7 @@ class FinancingPage extends Component {
 
   calculator = () => {
     const { motorcyclePrice, accessoriesPrice } = this.props;
-    return new PurchaseCalculator(motorcyclePrice, accessoriesPrice, registrationPrice);
+    return new PurchaseCalculator(motorcyclePrice, accessoriesPrice, this.plateRegistrationPrice());
   };
 
   handleSDKLoaded = () => {
@@ -163,6 +168,13 @@ class FinancingPage extends Component {
     newData.monthlyAmount = installment.monthlyAmount;
     this.setState({ financingForm: newData });
   };
+
+  isPlateRegistrationDataValid = () =>
+    this.props.plateRegistrationData && this.props.plateRegistrationData.plateRegistrationType;
+
+  plateRegistrationPrice = () =>
+    (this.isPlateRegistrationDataValid() ?
+      parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
   render() {
     const error = Object.values(this.state.errors)
@@ -311,6 +323,7 @@ const mapStateToProps = state => ({
   motorcyclePrice: state.main.lead.motorcycle.price,
   lead: state.main.lead,
   accessoriesPrice: state.main.accessories.totalPrice,
+  plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
 });
 
 const mapDispatchToProps = dispatch => ({

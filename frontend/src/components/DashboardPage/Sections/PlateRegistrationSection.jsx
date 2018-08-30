@@ -13,8 +13,6 @@ import {
 import { moneyFormatter } from '../CheckoutSummary';
 import { HERO_PLATE_REGISTRATION } from '../../PlateRegistrationPage/constants';
 
-export const registrationPrice = 3800;
-
 class PlateRegistrationSection extends Component {
   static defaultProps = {
     isLoading: false,

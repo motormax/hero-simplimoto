@@ -3,7 +3,6 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 
 import PurchaseCalculator from '../../calculator';
-import { registrationPrice } from './PlateRegistrationSection';
 
 const moneyFormatter = new Intl.NumberFormat('es-AR', {
   minimumFractionDigits: 2,
@@ -27,12 +26,13 @@ class FinancingInfo extends Component {
         paymentMethodName: propTypes.string.isRequired,
         paymentMethodLogo: propTypes.string.isRequired,
       }).isRequired,
+      plateRegistrationPrice: propTypes.number.isRequired,
     };
 
     calculator = () => new PurchaseCalculator(
       this.props.motorcycle.price,
       this.props.accessoriesPrice,
-      registrationPrice,
+      this.props.plateRegistrationPrice,
     );
 
     render() {
