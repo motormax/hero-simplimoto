@@ -26,7 +26,7 @@ class FinancingInfo extends Component {
         issuerName: propTypes.string.isRequired,
         paymentMethodName: propTypes.string.isRequired,
         paymentMethodLogo: propTypes.string.isRequired,
-        installments: propTypes.number.isRequired,
+        installments: propTypes.number,
       }).isRequired,
     };
 

@@ -182,7 +182,7 @@ class CreditCardPayment extends Component {
 
   render() {
     const cvvLabel = (
-      <span>CVV
+      <span>CVV&nbsp;
         <Popup trigger={<span><Icon name="info circle" /></span>}>
           <Popup.Header>Código de seguridad</Popup.Header>
           <Popup.Content>
@@ -299,7 +299,7 @@ class CreditCardPayment extends Component {
       cardNumberErrorMessage = (
         <Label basic color="red" pointing key="red">
         La tarjeta ingresada no coincide con el financiamiento seleccionado.
-        Por favor ingrese una nueva tarjeta o cambie el financiamiento.
+        Por favor ingrese una nueva tarjeta o cambie el método de pago.
         </Label>
       );
     }

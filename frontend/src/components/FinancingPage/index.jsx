@@ -27,10 +27,10 @@ class FinancingPage extends Component {
     }).isRequired,
     financingForm: propTypes.shape({
       paymentMethodId: propTypes.string.isRequired,
-      issuerId: propTypes.string.isRequired,
+      issuerId: propTypes.string,
       message: propTypes.string.isRequired,
       costs: propTypes.string.isRequired,
-      installments: propTypes.number.isRequired,
+      installments: propTypes.number,
       monthlyAmount: propTypes.number.isRequired,
     }).isRequired,
   };
@@ -58,8 +58,29 @@ class FinancingPage extends Component {
   };
 
   handleSDKLoaded = () => {
-    window.Mercadopago.getAllPaymentMethods(this.fetchPaymentMethodsCallback);
+    window.Mercadopago.getAllPaymentMethods((status, response) => {
+      this.fetchPaymentMethodsCallback(status, response);
+      if (this.props.financingSelected) {
+        window.Mercadopago.getIssuers(
+          this.state.financingForm.paymentMethodId,
+          this.fetchIssuerCallback,
+        );
+        getInstallments(
+          this.state.financingForm.paymentMethodId,
+          this.state.financingForm.issuerId,
+          this.calculator().totalAmount(),
+          this.fetchInstallmentsCallback,
+        );
+      }
+    });
   };
+
+  handleSdkError = (callbackName, status, response) => {
+    console.log(`Failed ${callbackName}`); // eslint-disable-line no-console
+    console.log(status); // eslint-disable-line no-console
+    console.log(response); // eslint-disable-line no-console
+    throw new Error(`Error [${status}] in call ${callbackName}`);
+  }
 
   fetchPaymentMethodsCallback = (status, response) => {
     if (status === 200) {
@@ -70,16 +91,8 @@ class FinancingPage extends Component {
         image: { avatar: false, src: method.secure_thumbnail },
       }));
       this.setState({ paymentMethodOptions: paymentMethods });
-      if (this.props.financingSelected) {
-        window.Mercadopago.getIssuers(
-          this.state.financingForm.paymentMethodId,
-          this.fetchIssuerCallback,
-        );
-      }
     } else {
-      console.log('Failed fetchPaymentMethodsCallback!!'); // eslint-disable-line no-console
-      console.log(status); // eslint-disable-line no-console
-      console.log(response); // eslint-disable-line no-console
+      this.handleSdkError('fetchPaymentMethodsCallback', status, response);
     }
   };
 
@@ -92,7 +105,7 @@ class FinancingPage extends Component {
         image: { avatar: false, src: issuer.secure_thumbnail },
       }));
       this.setState({ issuerOptions: issuers });
-      if (this.props.financingSelected) {
+      if (issuers.length === 0) {
         getInstallments(
           this.state.financingForm.paymentMethodId,
           this.state.financingForm.issuerId,
@@ -101,9 +114,7 @@ class FinancingPage extends Component {
         );
       }
     } else {
-      console.log('Failed fetchIssuerCallback!!'); // eslint-disable-line no-console
-      console.log(status); // eslint-disable-line no-console
-      console.log(response); // eslint-disable-line no-console
+      this.handleSdkError('fetchIssuerCallback', status, response);
     }
   };
 
@@ -120,40 +131,60 @@ class FinancingPage extends Component {
           });
         });
       });
-      if (installments.length > 0) {
-        const newData = this.state.financingForm;
-        const firstInstallment = installments[0];
-        newData.message = firstInstallment.message;
-        newData.costs = firstInstallment.label;
-        newData.monthlyAmount = firstInstallment.monthlyAmount;
-        this.setState({ financingForm: newData });
-      }
-
       this.setState({ installmentOptions: installments });
     } else {
-      console.log('fetchInstallmentCallback!!'); // eslint-disable-line no-console
-      console.log(status); // eslint-disable-line no-console
-      console.log(response); // eslint-disable-line no-console
+      this.handleSdkError('fetchInstallmentCallback', status, response);
     }
   };
 
+  clearStateObjWhenIssuerChanged = financingForm => ({
+    installmentOptions: [],
+    financingForm: {
+      ...financingForm,
+      message: null,
+      costs: null,
+      installments: null,
+      monthlyAmount: null,
+    },
+  });
+
+  clearStateObjWhenPaymentChanged = (financingForm) => {
+    const newState = this.clearStateObjWhenIssuerChanged(financingForm);
+    return {
+      ...newState,
+      issuerOptions: [],
+      financingForm: {
+        ...newState.financingForm,
+        issuerId: null,
+        issuerLogo: null,
+        issuerName: null,
+      },
+    };
+  };
+
   handlePaymentMethodChange = (e, { value }) => {
-    const newData = this.state.financingForm;
-    newData.paymentMethodId = value;
+    const newState = this.clearStateObjWhenPaymentChanged(this.state.financingForm);
+
+    const newFinancingForm = newState.financingForm;
+    newFinancingForm.paymentMethodId = value;
+
     const paymentMethodOption = this.state.paymentMethodOptions.find(o => o.value === value);
-    newData.paymentMethodName = paymentMethodOption.text;
-    newData.paymentMethodLogo = paymentMethodOption.image.src;
-    this.setState({ financingForm: newData });
+    newFinancingForm.paymentMethodName = paymentMethodOption.text;
+    newFinancingForm.paymentMethodLogo = paymentMethodOption.image.src;
+    this.setState(newState);
+
     window.Mercadopago.getIssuers(value, this.fetchIssuerCallback);
   };
 
   handleIssuerChange = (e, { value }) => {
-    const newData = this.state.financingForm;
-    newData.issuerId = value;
+    const newState = this.clearStateObjWhenIssuerChanged(this.state.financingForm);
+    const newFinancingForm = newState.financingForm;
+    newFinancingForm.issuerId = value;
     const issuerdOption = this.state.issuerOptions.find(o => o.value === value);
-    newData.issuerName = issuerdOption.text;
-    newData.issuerLogo = issuerdOption.image.src;
-    this.setState({ financingForm: newData });
+    newFinancingForm.issuerName = issuerdOption.text;
+    newFinancingForm.issuerLogo = issuerdOption.image.src;
+    this.setState(newState);
+
     window.Mercadopago.getInstallments(
       {
         issuer_id: value,
@@ -164,8 +195,7 @@ class FinancingPage extends Component {
     );
   };
 
-  disableContinueButton = () => (
-    this.state.financingForm.issuerId.length === 0 && this.state.installmentOptions.length === 0);
+  disableContinueButton = () => !this.state.financingForm.installments;
 
   handleInstallmentSelected = (e, installment) => {
     const newData = this.state.financingForm;
@@ -184,7 +214,7 @@ class FinancingPage extends Component {
     if (this.state.installmentOptions.length > 0) {
       const installmentItems =
         this.state.installmentOptions.map(installment => (
-          <Form.Field key={installment.label}>
+          <Form.Field>
             <Radio
               label={installment.message}
               name="installment_id"
@@ -262,9 +292,6 @@ class FinancingPage extends Component {
       </Segment>
     );
 
-
-    const continueButtonAttributes = this.disableContinueButton() ? { disabled: true } : {};
-
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres financiarte?</h2>
@@ -294,7 +321,7 @@ class FinancingPage extends Component {
               <Button
                 size="large"
                 primary
-                {...continueButtonAttributes}
+                disabled={this.disableContinueButton()}
                 onClick={() => {
                   this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
                 }}
