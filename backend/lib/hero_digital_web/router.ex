@@ -2,7 +2,9 @@ defmodule HeroDigitalWeb.Router do
   use HeroDigitalWeb, :router
   use ExAdmin.Router
   use Plug.ErrorHandler
-  use Sentry.Plug
+  if Mix.env == :prod do
+    use Sentry.Plug
+  end
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,6 +17,10 @@ defmodule HeroDigitalWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  if Mix.env == :dev do
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
   end
 
   scope "/admin", ExAdmin do
