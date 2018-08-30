@@ -134,7 +134,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(startedFetchingPlateRegistration());
     const { data: { data: plateRegistrationData } } = await axios.get(`/api/leads/${leadId}/plate_registration`);
     const { data: { data: plateRegistrationTypes } } = await axios.get('/api/plate_registration_types');
-    dispatch(plateRegistrationFetched(humps.camelizeKeys(plateRegistrationData), plateRegistrationTypes));
+    dispatch(plateRegistrationFetched(
+      humps.camelizeKeys(plateRegistrationData),
+      plateRegistrationTypes,
+    ));
   },
   changeToPlateRegistration: () => {
     dispatch(push('/plate-registration'));
