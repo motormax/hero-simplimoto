@@ -1,9 +1,13 @@
 defmodule HeroDigital.FulfillmentTest do
   use HeroDigital.DataCase
+  use Bamboo.Test
 
   alias HeroDigital.Fulfillment
   alias HeroDigital.Product.Motorcycle
   alias HeroDigital.Financing
+  alias HeroDigital.Delivery
+  alias HeroDigital.Insurance
+  alias HeroDigital.PlateRegistration
 
   alias Http.Mock
 
@@ -33,8 +37,16 @@ defmodule HeroDigital.FulfillmentTest do
       end
     end
 
-    setup %{lead: lead} do
-      with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params) do
+    setup %{lead: lead, motorcycle: motorcycle} do
+      with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params),
+           {:ok, delivery_choice} <- Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id}),
+           {:ok, delivery_choice} <- PlateRegistration.create_plate_registration_data(
+              Map.put(HeroDigital.PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
+           {:ok, delivery_choice} <- Insurance.create_insurance_choice(%{
+             opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
+             lead_id: lead.id,
+             motorcycle_id: motorcycle.id,
+           }) do
         %{financing_data: financing_data}
       end
     end
@@ -50,6 +62,12 @@ defmodule HeroDigital.FulfillmentTest do
       assert purchase_order.email == "some email"
       assert purchase_order.lead_id == lead.id
       assert purchase_order.payment_method_token == "a cc token"
+    end
+
+    test "create_purchase_order_for_lead/2 sends an email to the user", %{lead: lead} do
+      assert {:ok, %PurchaseOrder{} = purchase_order} = Fulfillment.create_purchase_order_from_lead(lead, @valid_attrs)
+
+      assert_email_delivered_with(to: [nil: purchase_order.email])
     end
 
     test "create_purchase_order_for_lead/2 with valid data deactivates the lead", %{lead: lead} do

@@ -23,3 +23,6 @@ config :hero_digital, HeroDigital.Repo,
 
 config :hero_digital, HeroDigital.Payment.PaymentGateway,
   http_adapter: Http.Mock
+
+config :hero_digital, HeroDigital.Mailer,
+  adapter: Bamboo.TestAdapter

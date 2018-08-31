@@ -20,7 +20,7 @@ defmodule HeroDigital.Mixfile do
   def application do
     [
       mod: {HeroDigital.Application, []},
-      extra_applications: [:logger, :runtime_tools, :logglix, :httpoison, :sentry]
+      extra_applications: [:logger, :runtime_tools, :logglix, :httpoison, :sentry, :bamboo, :bamboo_smtp]
     ]
   end
 
@@ -48,6 +48,8 @@ defmodule HeroDigital.Mixfile do
       {:sentry, "~> 6.3"},
       {:mox, "~> 0.4", only: :test},
       {:decimal, "~> 1.0"},
+      {:bamboo, "~> 1.0.0"},
+      {:bamboo_smtp, "~> 1.5.0"},
     ]
   end
 

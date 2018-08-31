@@ -51,6 +51,10 @@ defmodule HeroDigital.PlateRegistrationTest do
 
     @valid_personal_plate_registration_attrs %{ "opt_in_or_out" => @personal_plate_registration }
 
+    def personal_plate_registration do
+      @valid_hero_plate_registration_attrs
+    end
+
     setup do
       {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(@personal_plate_registration_type)
       {:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(@hero_plate_registration_type)

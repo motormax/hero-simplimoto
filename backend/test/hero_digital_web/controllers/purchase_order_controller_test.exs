@@ -4,6 +4,9 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
   alias HeroDigital.Fulfillment.PurchaseOrder
   alias HeroDigital.Product.Motorcycle
   alias HeroDigital.Financing
+  alias HeroDigital.Delivery
+  alias HeroDigital.Insurance
+  alias HeroDigital.PlateRegistration
 
   alias Http.Mock
 
@@ -36,6 +39,20 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
 
   setup %{lead: lead} do
     with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params) do
+      %{financing_data: financing_data}
+    end
+  end
+
+  setup %{lead: lead, motorcycle: motorcycle} do
+    with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params),
+         {:ok, delivery_choice} <- Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id}),
+         {:ok, delivery_choice} <- PlateRegistration.create_plate_registration_data(
+            Map.put(HeroDigital.PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
+         {:ok, delivery_choice} <- Insurance.create_insurance_choice(%{
+           opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
+           lead_id: lead.id,
+           motorcycle_id: motorcycle.id,
+         }) do
       %{financing_data: financing_data}
     end
   end

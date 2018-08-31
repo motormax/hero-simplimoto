@@ -57,4 +57,12 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
     |> cast(attrs, attrs_names)
     |> validate_required(attrs_names)
   end
+
+  def personal_plate_registration_type() do
+    @personal_plate_registration
+  end
+
+  def hero_plate_registration_type() do
+    @hero_plate_registration
+  end
 end
