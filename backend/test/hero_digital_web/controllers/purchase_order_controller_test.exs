@@ -7,7 +7,7 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
   alias HeroDigital.Delivery
   alias HeroDigital.Insurance
   alias HeroDigital.PlateRegistration
-
+  alias HeroDigital.PlateRegistrationTest
   alias Http.Mock
 
   import Mox
@@ -27,6 +27,7 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
     Mock
     |> stub(:post, fn _, _, _ -> {:ok, %HTTPoison.Response{status_code: 200, body: @transaction_approved_body}} end)
 
+    {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(PlateRegistrationTest.personal_plate_registration_type)
     motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "DASH", price: 50000})
     %{motorcycle: motorcycle}
   end

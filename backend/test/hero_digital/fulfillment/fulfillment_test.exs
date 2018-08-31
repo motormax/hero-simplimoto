@@ -8,6 +8,8 @@ defmodule HeroDigital.FulfillmentTest do
   alias HeroDigital.Delivery
   alias HeroDigital.Insurance
   alias HeroDigital.PlateRegistration
+  alias HeroDigital.PlateRegistrationTest
+  alias Decimal
 
   alias Http.Mock
 
@@ -22,10 +24,10 @@ defmodule HeroDigital.FulfillmentTest do
     @valid_attrs %{"email" => "some email", "credit_card_token" => "a cc token"}
     @invalid_attrs %{"email" => nil}
 
-
     setup do
       Mock
       |> stub(:post, fn _, _, _ -> {:ok, %HTTPoison.Response{status_code: 200, body: @transaction_approved_body}} end)
+      {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(PlateRegistrationTest.personal_plate_registration_type)
 
       motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "DASH", price: 50000})
       %{motorcycle: motorcycle}
@@ -41,7 +43,7 @@ defmodule HeroDigital.FulfillmentTest do
       with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params),
            {:ok, delivery_choice} <- Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id}),
            {:ok, delivery_choice} <- PlateRegistration.create_plate_registration_data(
-              Map.put(HeroDigital.PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
+              Map.put(PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
            {:ok, delivery_choice} <- Insurance.create_insurance_choice(%{
              opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
              lead_id: lead.id,
