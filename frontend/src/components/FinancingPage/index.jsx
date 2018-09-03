@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 import humps from 'humps';
 import { translate } from 'react-i18next';
-import { Button, Form, Card, Radio, Label, Segment } from 'semantic-ui-react';
+import { Button, Form, Card, Radio, Label, Segment, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import classNames from 'classnames';
@@ -292,21 +292,24 @@ class FinancingPage extends Component {
 
             <Segment attached="bottom" className="txt-center">
               <Button
-                size="large"
+                size="big"
                 primary
                 {...continueButtonAttributes}
                 onClick={() => {
                   this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
                 }}
-              >Continuar
+              >Confirmar
               </Button>
               <Button
                 size="large"
                 secondary
+                className="btn-outline"
                 onClick={() => {
                   this.props.cancelFinancing();
                 }}
-              >Volver
+              >
+                <Icon name="chevron left"/>
+                Cancelar y Volver
               </Button>
             </Segment>
           </Form>
