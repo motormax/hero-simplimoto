@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Card, Segment, Icon, } from 'semantic-ui-react';
+import { Button, Form, Message, Card, Segment, Icon,
+ } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
