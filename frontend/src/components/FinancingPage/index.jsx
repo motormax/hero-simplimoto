@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 import humps from 'humps';
 import { translate } from 'react-i18next';
-import { Button, Form, Card, Radio, Label, Segment } from 'semantic-ui-react';
+import { Button, Form, Card, Radio, Label, Segment, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import classNames from 'classnames';
@@ -328,6 +328,16 @@ class FinancingPage extends Component {
             {creditCardOptions}
             {issuerDropdown}
             {installmentList}
+
+            <Segment attached className="txt-center">
+              <a href="https://www.mercadopago.com.ar/cuotas" target="_blanck">
+                <Icon.Group size="large">
+                  <Icon name="shield alternate" />
+                  <Icon corner name="check circle" />
+                </Icon.Group>
+                Estamos financiando tu compra a través de <strong>mercadopago</strong>
+              </a>
+            </Segment>
 
             <Segment attached="bottom" className="txt-center">
               <Button

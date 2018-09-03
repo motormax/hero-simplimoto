@@ -225,9 +225,7 @@ class PurchaseSummary extends Component {
             {insuranceSection}
           </Segment>
 
-          <Segment className="btn-displaced-container" attached>
-            <CreditCardPayment />
-          </Segment>
+          <CreditCardPayment />
 
         </Card>
       </div>
