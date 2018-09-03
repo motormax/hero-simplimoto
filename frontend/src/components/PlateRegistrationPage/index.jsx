@@ -1,7 +1,7 @@
 /* global FileReader */
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Grid, Card, Segment, Divider } from 'semantic-ui-react';
+import { Button, Form, Message, Grid, Card, Segment, Divider, Icon, } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
 import propTypes from 'prop-types';
@@ -377,16 +377,23 @@ class PlateRegistrationPage extends Component {
               content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
             />
 
+            </Segment>
             <Segment attached="bottom" className="txt-center">
               <Button
                 size="big"
                 primary
                 type="submit"
-              >Continuar
+              >Confirmar
+              </Button>
+              <Button
+                size="large"
+                secondary
+                className="btn-outline">
+                <Icon name="chevron left"/>
+                Cancelar y Volver
               </Button>
             </Segment>
 
-          </Segment>
         </React.Fragment>);
     } else {
       plateRegistrationForm = (
@@ -397,7 +404,14 @@ class PlateRegistrationPage extends Component {
             onClick={() => {
               this.props.selectMyOwnPlateRegistration(this.props.lead.id);
             }}
-          >Continuar
+          >Confirmar
+          </Button>
+          <Button
+            size="large"
+            secondary
+            className="btn-outline">
+            <Icon name="chevron left"/>
+            Cancelar y Volver
           </Button>
         </Segment>
       );
@@ -417,20 +431,18 @@ class PlateRegistrationPage extends Component {
         </p>
 
         <Card className="page-column-card">
-          <Card.Content>
-            <Form onSubmit={this.handleSubmit} error={error}>
-              <Form.Select
-                fluid
-                options={plateRegistrationMethods}
-                name="optInOrOut"
-                value={this.state.optInOrOut}
-                onChange={this.handlePlateRegistrationMethodChange}
-                className="fs-big"
-              />
-              {plateRegistrationForm}
-            </Form>
-          </Card.Content>
+          <Form onSubmit={this.handleSubmit} error={error}>
+            <Form.Select
+              fluid
+              options={plateRegistrationMethods}
+              name="optInOrOut"
+              value={this.state.optInOrOut}
+              onChange={this.handlePlateRegistrationMethodChange}
+              className="fs-big"
+            />
 
+            {plateRegistrationForm}
+          </Form>
         </Card>
 
       </div>
