@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Label, Popup, Icon } from 'semantic-ui-react';
+import { Button, Form, Message, Label, Popup, Icon, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -306,72 +306,86 @@ class CreditCardPayment extends Component {
     return (
       <div>
         <Form id="pay" onSubmit={this.handleSubmit} error={error} ref={this.paymentMethodForm}>
-          <FinancingInfo
-            financingSelected={this.props.financingSelected}
-            financingForm={this.props.financingForm}
-            accessoriesPrice={this.props.accessoriesPrice}
-            motorcycle={this.props.motorcycle}
-          />
-
-          <div className="txt-center margin-top-tinny">
-            <Button
-              size="small"
-              className="btn-outline"
-              secondary
-              onClick={() => {
-                this.props.changeFinancing();
-              }}
-            >
-                Cambiar método de pago
-            </Button>
-          </div>
-
-          <Form.Input
-            fluid
-            required
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="user@example.com"
-            value={this.state.paymentMethod.email}
-            error={this.state.errors.email}
-            onChange={this.handleFormDataChange}
-          />
-          <Form.Input
-            fluid
-            required
-            label="Número de tarjeta"
-          >
-            <MaskedInput
-              type="text"
-              placeholder="4509 9535 6623 3704"
-              name="cardNumber"
-              data-checkout="cardNumber"
-              value={this.state.paymentMethod.cardNumber}
-              error={this.state.errors.cardNumber}
-              onChange={this.handleCreditCardNumberDataChange}
-              mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
+          <Segment attached>
+            <FinancingInfo
+              financingSelected={this.props.financingSelected}
+              financingForm={this.props.financingForm}
+              accessoriesPrice={this.props.accessoriesPrice}
+              motorcycle={this.props.motorcycle}
             />
-          </Form.Input>
 
-          {cardNumberErrorMessage}
+            <div className="txt-center margin-top-tinny">
+              <Button
+                size="small"
+                className="btn-outline"
+                secondary
+                onClick={() => {
+                  this.props.changeFinancing();
+                }}
+              >
+                  Cambiar método de pago
+              </Button>
+            </div>
 
-          {creditCardInputs}
+          </Segment>
 
-          <input
-            type="hidden"
-            name="paymentMethodId"
-            data-checkout="paymentMethodId"
-            value={this.state.paymentMethod.paymentMethodId}
-          />
+          <Segment attached>
 
-          <Message
-            error
-            header="Lo sentimos hubo un error al procesar la solicitud"
-            content={this.state.errors.description}
-          />
+            <Form.Input
+              fluid
+              required
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="user@example.com"
+              value={this.state.paymentMethod.email}
+              error={this.state.errors.email}
+              onChange={this.handleFormDataChange}
+            />
+            <Form.Input
+              fluid
+              required
+              label="Número de tarjeta"
+            >
+              <MaskedInput
+                type="text"
+                placeholder="4509 9535 6623 3704"
+                name="cardNumber"
+                data-checkout="cardNumber"
+                value={this.state.paymentMethod.cardNumber}
+                error={this.state.errors.cardNumber}
+                onChange={this.handleCreditCardNumberDataChange}
+                mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/]}
+              />
+            </Form.Input>
+            <div className="txt-center">
+              <a href="https://www.mercadopago.com.ar/ayuda/costos-financiacion_621" target="_blanck">
+                <Icon.Group size="large">
+                  <Icon name="shield alternate" />
+                  <Icon corner name="check circle" />
+                </Icon.Group>
+              Tu compra esta protegida por <strong>mercadopago</strong>
+              </a>
+            </div>
 
-          <div className="txt-center">
+            {cardNumberErrorMessage}
+
+            {creditCardInputs}
+
+            <input
+              type="hidden"
+              name="paymentMethodId"
+              data-checkout="paymentMethodId"
+              value={this.state.paymentMethod.paymentMethodId}
+            />
+
+            <Message
+              error
+              header="Lo sentimos hubo un error al procesar la solicitud"
+              content={this.state.errors.description}
+            />
+          </Segment>
+          <Segment attached className="txt-center">
             <Button
               type="submit"
               size="big"
@@ -388,7 +402,7 @@ class CreditCardPayment extends Component {
                 }}
             >Volver
             </Button>
-          </div>
+          </Segment>
         </Form>
       </div>
     );
@@ -425,4 +439,3 @@ const mapStateToProps = state => ({
 });
 
 export default translate('financing')(connect(mapStateToProps, mapDispatchToProps)(CreditCardPayment));
-
