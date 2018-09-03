@@ -112,50 +112,23 @@ defmodule HeroDigital.InsuranceTest do
       assert {:error, %Ecto.Changeset{}} = Insurance.create_insurance_choice()
     end
 
-    test "list_insurance_choices/0 returns all insurance_choices", %{motorcycle: motorcycle, lead: lead, broker: broker} do
-      {:ok, another_lead} = Identity.create_lead(%{:motorcycle_id => motorcycle.id})
-      personal_insurance_choices_attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
-      hero_insurance_choices_attrs = hero_insurance_choice_attrs(motorcycle, another_lead, broker)
-      assert {:ok, %InsuranceChoice{} = personal_insurance_choice} = Insurance.create_insurance_choice(personal_insurance_choices_attrs)
-      assert {:ok, %InsuranceChoice{} = hero_insurance_choice} = Insurance.create_insurance_choice(hero_insurance_choices_attrs)
-      assert Insurance.list_insurance_choices() == [personal_insurance_choice, hero_insurance_choice]
-    end
-
     test "get_insurance_choice!/1 returns the insurance_choice with given id", %{motorcycle: motorcycle, lead: lead} do
       personal_insurance_choices_attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
       assert {:ok, %InsuranceChoice{} = personal_insurance_choice} = Insurance.create_insurance_choice(personal_insurance_choices_attrs)
-      assert Insurance.get_insurance_choice!(personal_insurance_choice.id) == personal_insurance_choice
+      assert Insurance.get_insurance_choice_by_lead_id(lead.id) == personal_insurance_choice
     end
 
     test "when a lead choose a personal insurance quote and then chooses a hero insurance quote,
-    the first one gets erased and the last one is in the db", %{motorcycle: motorcycle, lead: lead, broker: broker} do
+    the last one is the current insurance choice", %{motorcycle: motorcycle, lead: lead, broker: broker} do
       personal_insurance_choices_attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
       assert {:ok, %InsuranceChoice{} = personal_insurance_choice} = Insurance.create_insurance_choice(personal_insurance_choices_attrs)
 
       hero_insurance_choices_attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
       assert {:ok, %InsuranceChoice{} = hero_insurance_choice} = Insurance.create_insurance_choice(hero_insurance_choices_attrs)
 
-      refute hero_insurance_choice.id == personal_insurance_choice.id
-      refute Insurance.get_insurance_choice!(hero_insurance_choice.id) == personal_insurance_choice
-      assert_raise(Ecto.NoResultsError, fn -> Insurance.get_insurance_choice!(personal_insurance_choice.id) end)
-      assert Insurance.get_insurance_choice!(hero_insurance_choice.id) == hero_insurance_choice
-      assert Insurance.list_insurance_choices() == [hero_insurance_choice]
+      assert Insurance.get_insurance_choice_by_lead_id(lead.id) == hero_insurance_choice
     end
 
-    test "when a lead choose a hero insurance quote and then chooses a personal insurance quote,
-    the first one gets erased and the last one is in the db", %{motorcycle: motorcycle, lead: lead, broker: broker} do
-      hero_insurance_choices_attrs = hero_insurance_choice_attrs(motorcycle, lead, broker)
-      assert {:ok, %InsuranceChoice{} = hero_insurance_choice} = Insurance.create_insurance_choice(hero_insurance_choices_attrs)
-
-      personal_insurance_choices_attrs = personal_insurance_choice_attrs(motorcycle.id, lead.id)
-      assert {:ok, %InsuranceChoice{} = personal_insurance_choice} = Insurance.create_insurance_choice(personal_insurance_choices_attrs)
-
-      refute hero_insurance_choice.id == personal_insurance_choice.id
-      refute Insurance.get_insurance_choice!(personal_insurance_choice.id) == hero_insurance_choice
-      assert_raise(Ecto.NoResultsError, fn -> Insurance.get_insurance_choice!(hero_insurance_choice.id) end)
-      assert Insurance.get_insurance_choice!(personal_insurance_choice.id) == personal_insurance_choice
-      assert Insurance.list_insurance_choices() == [personal_insurance_choice]
-    end
 
     test "when a lead has not chosen any insurance, get by its id returns nil", %{lead: lead} do
       assert is_nil(Insurance.get_insurance_choice_by_lead_id(lead.id))
