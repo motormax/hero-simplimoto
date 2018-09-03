@@ -5,7 +5,7 @@ const initialState = {
   financingForm: {
     paymentMethodId: '',
     issuerId: '',
-    installments: 1,
+    installments: null,
     paymentMethodName: '',
     paymentMethodLogo: '',
     issuerLogo: '',

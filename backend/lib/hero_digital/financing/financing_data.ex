@@ -24,6 +24,6 @@ defmodule HeroDigital.Financing.FinancingData do
     financing_data
     |> cast(attrs, [:payment_method_id, :issuer_id, :installments, :payment_method_name, :payment_method_logo, :issuer_logo, :issuer_name, :message, :costs, :monthly_amount])
     |> put_change(:lead_id, lead_id)
-    |> validate_required([:lead_id, :payment_method_id, :issuer_id, :installments, :payment_method_name, :payment_method_logo, :issuer_logo, :issuer_name, :message, :costs, :monthly_amount])
+    |> validate_required([:lead_id, :payment_method_id, :installments, :payment_method_name, :payment_method_logo, :message, :costs, :monthly_amount])
   end
 end

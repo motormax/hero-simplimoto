@@ -53,7 +53,7 @@ class CheckoutSummary extends Component {
       paymentMethodLogo: propTypes.string.isRequired,
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string.isRequired,
-      installments: propTypes.number.isRequired,
+      installments: propTypes.number,
     }),
   };
 
