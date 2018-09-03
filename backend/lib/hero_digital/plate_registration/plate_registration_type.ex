@@ -2,7 +2,6 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationType do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "plate_registration_types" do
     field :name, :string
     field :price, :decimal
@@ -24,5 +23,13 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationType do
     else
       changeset
     end
+  end
+
+  def personal_plate_registration_tag() do
+    "personalPlateRegistration"
+  end
+
+  def hero_plate_registration_tag() do
+    "heroPlateRegistration"
   end
 end

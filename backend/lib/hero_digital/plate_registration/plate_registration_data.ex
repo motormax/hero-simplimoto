@@ -2,8 +2,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @personal_plate_registration "personalPlateRegistration"
-  @hero_plate_registration "heroPlateRegistration"
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
 
   schema "plate_registration_data" do
     field :opt_in_or_out, :string, virtual: true
@@ -14,7 +13,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
     belongs_to :front_dni_image, HeroDigital.UserData.Image
     belongs_to :back_dni_image, HeroDigital.UserData.Image
     belongs_to :address, HeroDigital.UserData.Address
-    belongs_to :plate_registration_type, HeroDigital.PlateRegistration.PlateRegistrationType
+    belongs_to :plate_registration_type, PlateRegistrationType
 
     timestamps()
   end
@@ -23,7 +22,7 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
   def changeset(plate_registration_data, attrs) do
     changeset = cast(plate_registration_data, attrs, ["opt_in_or_out"])
     cond do
-      Map.has_key?(changeset.changes, :opt_in_or_out) and changeset.changes.opt_in_or_out == @personal_plate_registration ->
+      Map.has_key?(changeset.changes, :opt_in_or_out) and changeset.changes.opt_in_or_out == PlateRegistrationType.personal_plate_registration_tag ->
         create_personal_registration_data_changeset(plate_registration_data, attrs)
       true ->
         create_hero_registration_data_changeset(plate_registration_data, attrs)
@@ -56,13 +55,5 @@ defmodule HeroDigital.PlateRegistration.PlateRegistrationData do
     plate_registration_data
     |> cast(attrs, attrs_names)
     |> validate_required(attrs_names)
-  end
-
-  def personal_plate_registration_type() do
-    @personal_plate_registration
-  end
-
-  def hero_plate_registration_type() do
-    @hero_plate_registration
   end
 end

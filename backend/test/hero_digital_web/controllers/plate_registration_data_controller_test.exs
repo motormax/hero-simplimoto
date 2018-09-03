@@ -2,12 +2,11 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
   use HeroDigitalWeb.ConnCase
 
   alias HeroDigital.PlateRegistration
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
   alias Decimal
 
-  @personal_plate_registration "personalPlateRegistration"
-  @hero_plate_registration "heroPlateRegistration"
   @email "some email"
   @phone "some phone"
   @personal_data %{:dni => "some dni", :last_name => "some last_name", :name => "some name"}
@@ -29,16 +28,16 @@ defmodule HeroDigitalWeb.PlateRegistrationDataControllerTest do
     type: "image/png",
     data: "YW5vdGhlciBpbWFnZQ=="
   }
-  @personal_plate_registration_type %{"name" => @personal_plate_registration, "price" => Decimal.new(0)}
-  @hero_plate_registration_type %{"name" => @hero_plate_registration, "price" => Decimal.new(1000)}
+  @personal_plate_registration_type %{"name" => PlateRegistrationType.personal_plate_registration_tag, "price" => Decimal.new(0)}
+  @hero_plate_registration_type %{"name" => PlateRegistrationType.hero_plate_registration_tag, "price" => Decimal.new(1000)}
 
   def personal_plate_registration_attrs() do
-    %{opt_in_or_out: @personal_plate_registration}
+    %{opt_in_or_out: PlateRegistrationType.personal_plate_registration_tag}
   end
 
   def hero_plate_registration_attrs do
     %{
-      opt_in_or_out: @hero_plate_registration,
+      opt_in_or_out: PlateRegistrationType.hero_plate_registration_tag,
       personal_data: @personal_data,
       email: @email,
       phone: @phone,

@@ -6,11 +6,9 @@ defmodule HeroDigital.PlateRegistration do
   import Ecto.Query, warn: false
   alias HeroDigital.Repo
   alias HeroDigital.UserData
-
   alias HeroDigital.PlateRegistration.PlateRegistrationData
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
 
-  @hero_plate_registration "heroPlateRegistration"
-  @personal_plate_registration "personalPlateRegistration"
 
   @doc """
   Returns the list of plate_registration_data.
@@ -93,7 +91,7 @@ defmodule HeroDigital.PlateRegistration do
   end
 
   defp is_creating_hero_plate_registration(attrs) do
-    !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @hero_plate_registration
+    !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == PlateRegistrationType.hero_plate_registration_tag
   end
 
   defp get_hero_plate_registration_data(attrs) do
@@ -103,7 +101,7 @@ defmodule HeroDigital.PlateRegistration do
          {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
          {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
-         hero_plate_registration_type <- get_plate_registration_type_by_name!(@hero_plate_registration)
+         hero_plate_registration_type <- get_plate_registration_type_by_name!(PlateRegistrationType.hero_plate_registration_tag)
     do
       %{
         opt_in_or_out: attrs["opt_in_or_out"],
@@ -120,7 +118,7 @@ defmodule HeroDigital.PlateRegistration do
   end
 
   defp get_personal_plate_registration_data(attrs) do
-    personal_plate_registration_type = get_plate_registration_type_by_name!(@personal_plate_registration)
+    personal_plate_registration_type = get_plate_registration_type_by_name!(PlateRegistrationType.personal_plate_registration_tag)
     Map.put(attrs, "plate_registration_type_id", personal_plate_registration_type.id)
   end
 
@@ -182,8 +180,6 @@ defmodule HeroDigital.PlateRegistration do
   def change_plate_registration_data(%PlateRegistrationData{} = plate_registration_data) do
     PlateRegistrationData.changeset(plate_registration_data, %{})
   end
-
-  alias HeroDigital.PlateRegistration.PlateRegistrationType
 
   @doc """
   Returns the list of plate_registration_types.

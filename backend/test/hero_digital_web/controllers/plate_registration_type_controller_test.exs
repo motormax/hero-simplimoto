@@ -2,15 +2,13 @@ defmodule HeroDigitalWeb.PlateRegistrationTypeControllerTest do
   use HeroDigitalWeb.ConnCase
 
   alias HeroDigital.PlateRegistration
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
   alias Decimal
 
-  @personal_plate_registration "personalPlateRegistration"
-  @hero_plate_registration "heroPlateRegistration"
-
-  @personal_plate_registration_type %{"name" => @personal_plate_registration, "price" => Decimal.new(0)}
-  @hero_plate_registration_type %{"name" => @hero_plate_registration, "price" => Decimal.new(1000.2)}
-  @json_personal_plate_registration_type %{"name" => @personal_plate_registration, "price" => "0"}
-  @json_hero_plate_registration_type %{"name" => @hero_plate_registration, "price" => "1000.2"}
+  @personal_plate_registration_type %{"name" => PlateRegistrationType.personal_plate_registration_tag, "price" => Decimal.new(0)}
+  @hero_plate_registration_type %{"name" => PlateRegistrationType.hero_plate_registration_tag, "price" => Decimal.new(1000.2)}
+  @json_personal_plate_registration_type %{"name" => PlateRegistrationType.personal_plate_registration_tag, "price" => "0"}
+  @json_hero_plate_registration_type %{"name" => PlateRegistrationType.hero_plate_registration_tag, "price" => "1000.2"}
 
 
   defp create_plate_registration_types() do
