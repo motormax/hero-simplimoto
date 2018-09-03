@@ -4,13 +4,14 @@ import { translate } from 'react-i18next';
 import { Button, Form, Message, Grid, Card, Segment, Divider } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
+import humps from 'humps';
 import propTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import dniImage from '../images/dni.svg';
-import { registrationPrice } from '../DashboardPage/Sections/PlateRegistrationSection';
 import { moneyFormatter } from '../DashboardPage/CheckoutSummary';
 import { PERSONAL_PLATE_REGISTRATION, HERO_PLATE_REGISTRATION } from './constants';
+import { changePlateRegistrationData } from '../../actions/plateRegistration';
 
 const plateRegistrationMethods = [
   {
@@ -33,13 +34,13 @@ class PlateRegistrationPage extends Component {
       id: propTypes.string,
     }).isRequired,
     plateRegistrationData: propTypes.shape({
-      opt_in_or_out: propTypes.string,
+      optInOrOut: propTypes.string,
       phone: propTypes.shape({
         phone: propTypes.string,
       }),
-      personal_data: propTypes.shape({
+      personalData: propTypes.shape({
         name: propTypes.string,
-        last_name: propTypes.string,
+        lastName: propTypes.string,
         dni: propTypes.string,
       }),
       email: propTypes.shape({
@@ -47,33 +48,41 @@ class PlateRegistrationPage extends Component {
       }),
       address: propTypes.shape({
         town: propTypes.string,
-        telephone_number: propTypes.string,
+        telephoneNumber: propTypes.string,
         street: propTypes.string,
-        postal_code: propTypes.string,
+        postalCode: propTypes.string,
         number: propTypes.string,
         complements: propTypes.string,
       }),
+      plateRegistrationType: propTypes.shape({
+        name: propTypes.string,
+      }),
     }).isRequired,
+    plateRegistrationTypes: propTypes.arrayOf(propTypes.shape({
+      name: propTypes.string.isRequired,
+      price: propTypes.string.isRequired,
+    })).isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      optInOrOut: props.plateRegistrationData.opt_in_or_out,
+      optInOrOut: props.plateRegistrationData.plateRegistrationType ?
+        props.plateRegistrationData.plateRegistrationType.name : HERO_PLATE_REGISTRATION,
       email: this.isValueNullOrUndefined(props.plateRegistrationData.email) ? '' : props.plateRegistrationData.email.email,
       phone: this.isValueNullOrUndefined(props.plateRegistrationData.phone) ? '' : props.plateRegistrationData.phone.phone,
       personalData: {
-        dni: this.isValueNullOrUndefined(props.plateRegistrationData.personal_data) ? '' : props.plateRegistrationData.personal_data.dni,
-        name: this.isValueNullOrUndefined(props.plateRegistrationData.personal_data) ? '' : props.plateRegistrationData.personal_data.name,
-        lastName: this.isValueNullOrUndefined(props.plateRegistrationData.personal_data) ? '' : props.plateRegistrationData.personal_data.last_name,
+        dni: this.isValueNullOrUndefined(props.plateRegistrationData.personalData) ? '' : props.plateRegistrationData.personalData.dni,
+        name: this.isValueNullOrUndefined(props.plateRegistrationData.personalData) ? '' : props.plateRegistrationData.personalData.name,
+        lastName: this.isValueNullOrUndefined(props.plateRegistrationData.personalData) ? '' : props.plateRegistrationData.personalData.lastName,
       },
       address: {
         street: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.street,
         number: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.number,
         town: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.town,
         complements: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.complements,
-        postalCode: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.postal_code,
-        telephoneNumber: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.telephone_number,
+        postalCode: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.postalCode,
+        telephoneNumber: this.isValueNullOrUndefined(props.plateRegistrationData.address) ? '' : props.plateRegistrationData.address.telephoneNumber,
       },
       frontDniImage: {
         data: '',
@@ -212,11 +221,32 @@ class PlateRegistrationPage extends Component {
     }
   });
 
+  plateRegistrationTypePriceByName = typeName => (
+    this.props.plateRegistrationTypes.find(type => type.name === typeName).price
+  );
+
+  costInfoText = () => (
+    <React.Fragment>
+      <p className="fs-big txt-dark-gray txt-center">
+        El patentamiento por cuenta de Hero tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(this.plateRegistrationTypePriceByName(HERO_PLATE_REGISTRATION))} </span>
+        y éste se gestionará <span className="fw-bold">integramente</span> solo se requerirá una
+        <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto. <br />
+        El patentamiento por cuenta propia tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(this.plateRegistrationTypePriceByName(PERSONAL_PLATE_REGISTRATION))} </span>
+        por gastos de documentación. <br />
+        Estos se incorporan a la financiación.
+      </p>
+    </React.Fragment>
+  );
+
   hasLoadedImage = image => image.data !== '' && image.type !== '' && image.name !== ''
 
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
+
+    if (this.props.plateRegistrationTypes.length === 0) {
+      return <h1>CARGANDO</h1>;
+    }
 
     const frontButtonStyles = classNames(
       'ui button btn-outline',
@@ -410,11 +440,8 @@ class PlateRegistrationPage extends Component {
           Para realizar el patentamiento necesitamos pedirte la información
           necesaria para realizar el trámite.
         </p>
-        <p className="fs-big txt-dark-gray txt-center">
-          El patentamiento tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(registrationPrice)}</span> que se
-          incorporan a la financiación. El tramite lo gestionará <span className="fw-bold">integramente</span> Hero, y solo se requerirá una
-          <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto.
-        </p>
+
+        {this.costInfoText()}
 
         <Card className="page-column-card">
           <Card.Content>
@@ -440,20 +467,23 @@ class PlateRegistrationPage extends Component {
 
 const mapStateToProps = store => ({
   lead: store.main.lead,
-  plateRegistrationData: store.main.plateRegistrationData,
+  plateRegistrationData: store.main.plateRegistration.plateRegistrationData,
+  plateRegistrationTypes: store.main.plateRegistration.plateRegistrationTypes,
 });
 
 const mapDispatchToProps = dispatch => ({
   selectMyOwnPlateRegistration: async (leadId) => {
+    const body = {
+      plate_registration_data: {
+        opt_in_or_out: PERSONAL_PLATE_REGISTRATION,
+      },
+    };
     await axios.post(
       `/api/leads/${leadId}/plate_registration/`,
-      {
-        plate_registration_data: {
-          opt_in_or_out: PERSONAL_PLATE_REGISTRATION,
-        },
-      },
+      body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
+      dispatch(changePlateRegistrationData(humps.camelizeKeys(body.plate_registration_data)));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {
@@ -504,6 +534,7 @@ const mapDispatchToProps = dispatch => ({
       body,
     ).then((response) => {
       console.log(response); // eslint-disable-line no-console
+      dispatch(changePlateRegistrationData(humps.camelizeKeys(body.plate_registration_data)));
       dispatch(push('/dashboard'));
     })
       .catch((error) => {

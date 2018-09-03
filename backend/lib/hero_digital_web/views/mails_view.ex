@@ -1,6 +1,6 @@
 defmodule HeroDigitalWeb.MailsView do
   use HeroDigitalWeb, :view
-  alias HeroDigital.PlateRegistration.PlateRegistrationData
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
   alias HeroDigital.Insurance.InsuranceChoice
 
   @assets_path Application.get_env(:hero_digital, __MODULE__)[:assets_path]
@@ -10,11 +10,11 @@ defmodule HeroDigitalWeb.MailsView do
   end
 
   def personal_plate_registration_type() do
-    PlateRegistrationData.personal_plate_registration_type()
+    PlateRegistrationType.personal_plate_registration_tag()
   end
 
   def hero_plate_registration_type() do
-    PlateRegistrationData.hero_plate_registration_type()
+    PlateRegistrationType.hero_plate_registration_tag()
   end
 
 

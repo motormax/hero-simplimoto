@@ -6,10 +6,10 @@ import { push } from 'react-router-redux';
 import { Button, Card, Icon, List, Divider, Image, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
+import _ from 'lodash';
 
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import ConfirmationButton from './ConfirmationButton';
-import { registrationPrice } from './Sections/PlateRegistrationSection';
 import { startedFetchingInsuranceChoice, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import PurchaseCalculator from '../calculator';
 import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
@@ -32,6 +32,12 @@ class CheckoutSummary extends Component {
       optInOrOut: propTypes.string,
       accessoriesPrice: propTypes.string,
     }).isRequired,
+
+    plateRegistrationData: propTypes.shape({
+      plateRegistrationType: propTypes.shape({
+        price: propTypes.string,
+      }),
+    }),
 
     accessoriesPrice: propTypes.number,
     lead: propTypes.shape({
@@ -63,8 +69,14 @@ class CheckoutSummary extends Component {
     }
   }
 
-  componentDidUpdate({ accessoriesPrice }) {
-    if (this.props.accessoriesPrice !== accessoriesPrice && this.props.financingSelected) {
+  componentDidUpdate({ accessoriesPrice, plateRegistrationData }) {
+    const hasPlateRegistrationChanged =
+      !_.isEqual(this.plateRegistrationData, plateRegistrationData);
+    const hasAccessoriesPriceChanged =
+      this.props.accessoriesPrice !== accessoriesPrice;
+
+    if (this.props.financingSelected &&
+        (hasAccessoriesPriceChanged || hasPlateRegistrationChanged)) {
       getInstallments(
         this.props.financingForm.paymentMethodId,
         this.props.financingForm.issuerId,
@@ -76,7 +88,12 @@ class CheckoutSummary extends Component {
 
   calculator = () => {
     const { motorcycle, accessoriesPrice } = this.props;
-    return new PurchaseCalculator(motorcycle.price, accessoriesPrice, registrationPrice);
+    const plateRegistrationPrice = this.plateRegistrationPrice();
+    return new PurchaseCalculator(
+      motorcycle.price,
+      accessoriesPrice,
+      plateRegistrationPrice,
+    );
   };
 
   fetchInstallmentsCallback = (status, response) => {
@@ -93,6 +110,29 @@ class CheckoutSummary extends Component {
         });
       });
     }
+  };
+
+  isPlateRegistrationDataValid = () =>
+    this.props.plateRegistrationData && this.props.plateRegistrationData.plateRegistrationType;
+
+  plateRegistrationPrice = () =>
+    (this.isPlateRegistrationDataValid() ?
+      parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
+
+  plateRegistrationItem = () => {
+    if (this.isPlateRegistrationDataValid()) {
+      return (
+        <List.Item>
+          <List.Content className="price-column" floated="right">
+            <span>{moneyFormatter.format(this.plateRegistrationPrice())}</span>
+            <span className="fw-normal fs-small txt-med-gray">$</span>
+          </List.Content>
+          <Icon name="arrow right" />
+          <List.Content>Patentamiento online</List.Content>
+        </List.Item>
+      );
+    }
+    return null;
   };
 
   render() {
@@ -190,14 +230,7 @@ class CheckoutSummary extends Component {
                 <Icon name="arrow right" />
                 <List.Content>Accesorios</List.Content>
               </List.Item>
-              <List.Item>
-                <List.Content className="price-column" floated="right">
-                  <span>{moneyFormatter.format(registrationPrice)}</span>
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
-                </List.Content>
-                <Icon name="arrow right" />
-                <List.Content>Patentamiento online</List.Content>
-              </List.Item>
+              {this.plateRegistrationItem()}
               <List.Item>
                 <List.Content className="price-column" floated="right">
                   <span className="txt-green fs-small uppercase">¡gratis!</span>
@@ -221,6 +254,7 @@ class CheckoutSummary extends Component {
               financingForm={this.props.financingForm}
               accessoriesPrice={this.props.accessoriesPrice}
               motorcycle={this.props.motorcycle}
+              plateRegistrationPrice={this.plateRegistrationPrice()}
             />
 
           </Card.Content>
@@ -260,6 +294,7 @@ const mapStateToProps = state => ({
   insuranceChoice: state.main.insuranceChoice,
   financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
+  plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
 });
 
 export default translate('checkout')(connect(mapStateToProps, mapDispatchToProps)(CheckoutSummary));

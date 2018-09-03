@@ -5,35 +5,43 @@ import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { push } from 'react-router-redux';
+import humps from 'humps';
 import {
-  plateRegistrationDataFetched,
-  startedFetchingPlateRegistrationData,
-} from '../../../actions/plateRegistrationData';
+  plateRegistrationFetched,
+  startedFetchingPlateRegistration,
+} from '../../../actions/plateRegistration';
 import { moneyFormatter } from '../CheckoutSummary';
-
-export const registrationPrice = 3800;
+import { HERO_PLATE_REGISTRATION } from '../../PlateRegistrationPage/constants';
 
 class PlateRegistrationSection extends Component {
+  static defaultProps = {
+    isLoading: false,
+  }
   static propTypes = {
-    fetchPlateRegistrationData: propTypes.func.isRequired,
+    fetchPlateRegistration: propTypes.func.isRequired,
     changeToPlateRegistration: propTypes.func.isRequired,
     t: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string.isRequired,
     }).isRequired,
 
+    isLoading: propTypes.bool,
     plateRegistrationData: propTypes.shape({
       id: propTypes.number,
+      plateRegistrationType: propTypes.shape({
+        price: propTypes.string,
+        name: propTypes.string,
+      }),
     }).isRequired,
   };
 
   componentDidMount() {
     if (!this.props.plateRegistrationData.id) {
-      this.props.fetchPlateRegistrationData(this.props.lead.id);
+      this.props.fetchPlateRegistration(this.props.lead.id);
     }
   }
 
-  displayLegend = () => (
+  showLegendWhenNotChosen = () => (
     <p className="txt-med-gray fs-medium">
       Nos encargamos del patentamiento de tu moto para que tengas listos
       <span className="fw-bold"> todos los papeles para salir a andar </span>
@@ -41,8 +49,46 @@ class PlateRegistrationSection extends Component {
     </p>
   );
 
+  textPlateRegistrationChosen = () => (
+    <span className="fw-bold">
+      {this.props.plateRegistrationData.plateRegistrationType.name === HERO_PLATE_REGISTRATION ? ' con Hero' : ' por su cuenta'}
+    </span>
+  );
+
+  showLegendWhenChosen = () => (
+    <p className="txt-med-gray fs-medium">
+      Ustéd eligió realizar el patentamiento
+      {this.textPlateRegistrationChosen()}.
+    </p>
+  );
+
+  displayLegend = () => (
+    this.props.plateRegistrationData.plateRegistrationType ?
+      this.showLegendWhenChosen() : this.showLegendWhenNotChosen()
+  );
+
+  showPlateRegistrationPrice = () => (
+    <React.Fragment>
+      <span className="fs-medium fw-normal txt-dark-gray"> {this.props.t('currency_sign')}</span>
+      <span className="fs-medium fw-bold txt-dark-gray"> {moneyFormatter.format(this.props.plateRegistrationData.plateRegistrationType.price)}</span>
+    </React.Fragment>
+  );
+
+  plateRegistrationPrice = () => (
+    this.props.plateRegistrationData.plateRegistrationType ? this.showPlateRegistrationPrice() : ''
+  )
+
   render() {
-    const { t, plateRegistrationData, changeToPlateRegistration } = this.props;
+    const {
+      t,
+      plateRegistrationData,
+      changeToPlateRegistration,
+      isLoading,
+    } = this.props;
+
+    if (isLoading) {
+      return <div>Cargando</div>;
+    }
 
     const isOk = plateRegistrationData.id;
     const color = isOk ? '#67CC4F' : 'red';
@@ -61,8 +107,7 @@ class PlateRegistrationSection extends Component {
             <Grid.Column width={10}>
               <h3 className="fw-bold fs-big">
                 {t('plate_registration')}
-                <span className="fs-medium fw-normal txt-dark-gray"> {t('currency_sign')}</span>
-                <span className="fs-medium fw-bold txt-dark-gray"> {moneyFormatter.format(registrationPrice)}</span>
+                {this.plateRegistrationPrice()}
               </h3>
               {this.displayLegend()}
             </Grid.Column>
@@ -80,14 +125,19 @@ class PlateRegistrationSection extends Component {
 
 const mapStateToProps = state => ({
   lead: state.main.lead,
-  plateRegistrationData: state.main.plateRegistrationData,
+  plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
+  isLoading: state.main.plateRegistration.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchPlateRegistrationData: async (leadId) => {
-    dispatch(startedFetchingPlateRegistrationData());
+  fetchPlateRegistration: async (leadId) => {
+    dispatch(startedFetchingPlateRegistration());
     const { data: { data: plateRegistrationData } } = await axios.get(`/api/leads/${leadId}/plate_registration`);
-    dispatch(plateRegistrationDataFetched(plateRegistrationData));
+    const { data: { data: plateRegistrationTypes } } = await axios.get('/api/plate_registration_types');
+    dispatch(plateRegistrationFetched(
+      humps.camelizeKeys(plateRegistrationData),
+      plateRegistrationTypes,
+    ));
   },
   changeToPlateRegistration: () => {
     dispatch(push('/plate-registration'));

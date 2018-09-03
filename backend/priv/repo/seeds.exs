@@ -10,6 +10,8 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias HeroDigital.PlateRegistration
+
 hunk = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK", price: 22222})
 ignitor = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "IGNITOR", price: 22222})
 hunk_sport = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK_SPORT", price: 22222})
@@ -85,3 +87,6 @@ HeroDigital.Repo.insert!(first_atm_policy)
 HeroDigital.Repo.insert!(second_atm_policy)
 HeroDigital.Repo.insert!(first_mapfre_policy)
 HeroDigital.Repo.insert!(second_mapfre_policy)
+
+{:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "personalPlateRegistration", "price" => Decimal.new(1500)})
+{:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "heroPlateRegistration", "price" => Decimal.new(3800)})

@@ -6,10 +6,9 @@ defmodule HeroDigital.PlateRegistration do
   import Ecto.Query, warn: false
   alias HeroDigital.Repo
   alias HeroDigital.UserData
-
   alias HeroDigital.PlateRegistration.PlateRegistrationData
+  alias HeroDigital.PlateRegistration.PlateRegistrationType
 
-  @hero_plate_registration "heroPlateRegistration"
 
   @doc """
   Returns the list of plate_registration_data.
@@ -21,7 +20,7 @@ defmodule HeroDigital.PlateRegistration do
 
   """
   def list_plate_registration_data do
-    Repo.all from plate_registration_data in PlateRegistrationData, preload: [:email, :personal_data, :phone, :address]
+    Repo.all from plate_registration_data in PlateRegistrationData, preload: [:email, :personal_data, :phone, :address, :plate_registration_type]
   end
 
   @doc """
@@ -40,12 +39,12 @@ defmodule HeroDigital.PlateRegistration do
   """
   def get_plate_registration_data!(id) do
     plate_registration_data = Repo.get!(PlateRegistrationData, id)
-    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
+    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address, :plate_registration_type])
   end
 
   def get_plate_registration_data_for_lead!(lead_id) do
     plate_registration_data = Repo.one(from p in PlateRegistrationData, where: p.lead_id == ^lead_id, order_by: p.inserted_at, limit: 1)
-    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address])
+    Repo.preload(plate_registration_data, [:email, :personal_data, :phone, :address, :plate_registration_type])
   end
 
   @doc """
@@ -82,7 +81,7 @@ defmodule HeroDigital.PlateRegistration do
       is_creating_hero_plate_registration(attrs) ->
         get_hero_plate_registration_data(attrs)
       true ->
-        attrs
+        get_personal_plate_registration_data(attrs)
     end
   end
 
@@ -92,7 +91,7 @@ defmodule HeroDigital.PlateRegistration do
   end
 
   defp is_creating_hero_plate_registration(attrs) do
-    !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == @hero_plate_registration
+    !is_nil(attrs["opt_in_or_out"]) and attrs["opt_in_or_out"] == PlateRegistrationType.hero_plate_registration_tag
   end
 
   defp get_hero_plate_registration_data(attrs) do
@@ -101,7 +100,8 @@ defmodule HeroDigital.PlateRegistration do
          {:ok, front_dni_image} <- UserData.create_image(Map.put(attrs["front_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, back_dni_image} <- UserData.create_image(Map.put(attrs["back_dni_image"], "lead_id", attrs["lead_id"])),
          {:ok, personal_data} <- UserData.create_personal_data(Map.put(attrs["personal_data"], "lead_id", attrs["lead_id"])),
-         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"]))
+         {:ok, address} <- UserData.create_address(Map.put(attrs["address"], "lead_id", attrs["lead_id"])),
+         hero_plate_registration_type <- get_plate_registration_type_by_name!(PlateRegistrationType.hero_plate_registration_tag)
     do
       %{
         opt_in_or_out: attrs["opt_in_or_out"],
@@ -111,9 +111,15 @@ defmodule HeroDigital.PlateRegistration do
         personal_data_id: personal_data.id,
         front_dni_image_id: front_dni_image.id,
         back_dni_image_id: back_dni_image.id,
-        address_id: address.id
+        address_id: address.id,
+        plate_registration_type_id: hero_plate_registration_type.id
       }
     end
+  end
+
+  defp get_personal_plate_registration_data(attrs) do
+    personal_plate_registration_type = get_plate_registration_type_by_name!(PlateRegistrationType.personal_plate_registration_tag)
+    Map.put(attrs, "plate_registration_type_id", personal_plate_registration_type.id)
   end
 
   defp delete_old_plate_registration_data_when_exists_and_changeset_is_valid(old_plate_registration_data, plate_registration_data_changeset) do
@@ -124,7 +130,7 @@ defmodule HeroDigital.PlateRegistration do
 
   defp create_plate_registration_data_by_changeset(plate_registration_data_changeset) do
     with {:ok, new_plate_registration_data} <- Repo.insert(plate_registration_data_changeset) do
-      {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address])}
+      {:ok, Repo.preload(new_plate_registration_data, [:email, :personal_data, :phone, :address, :plate_registration_type])}
     end
   end
 
@@ -173,5 +179,103 @@ defmodule HeroDigital.PlateRegistration do
   """
   def change_plate_registration_data(%PlateRegistrationData{} = plate_registration_data) do
     PlateRegistrationData.changeset(plate_registration_data, %{})
+  end
+
+  @doc """
+  Returns the list of plate_registration_types.
+
+  ## Examples
+
+      iex> list_plate_registration_types()
+      [%PlateRegistrationType{}, ...]
+
+  """
+  def list_plate_registration_types do
+    Repo.all(PlateRegistrationType)
+  end
+
+  @doc """
+  Gets a single plate_registration_type.
+
+  Raises `Ecto.NoResultsError` if the Plate registration price does not exist.
+
+  ## Examples
+
+      iex> get_plate_registration_type!(123)
+      %PlateRegistrationType{}
+
+      iex> get_plate_registration_type!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_plate_registration_type!(id), do: Repo.get!(PlateRegistrationType, id)
+
+  defp get_plate_registration_type_by_name!(name) do
+    Repo.one(from p in PlateRegistrationType, where: p.name == ^name, order_by: p.inserted_at, limit: 1)
+  end
+
+  @doc """
+  Creates a plate_registration_type.
+
+  ## Examples
+
+      iex> create_plate_registration_type(%{field: value})
+      {:ok, %PlateRegistrationType{}}
+
+      iex> create_plate_registration_type(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_plate_registration_type(attrs \\ %{}) do
+    %PlateRegistrationType{}
+    |> PlateRegistrationType.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a plate_registration_type.
+
+  ## Examples
+
+      iex> update_plate_registration_type(plate_registration_type, %{field: new_value})
+      {:ok, %PlateRegistrationType{}}
+
+      iex> update_plate_registration_type(plate_registration_type, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_plate_registration_type(%PlateRegistrationType{} = plate_registration_type, attrs) do
+    plate_registration_type
+    |> PlateRegistrationType.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a PlateRegistrationType.
+
+  ## Examples
+
+      iex> delete_plate_registration_type(plate_registration_type)
+      {:ok, %PlateRegistrationType{}}
+
+      iex> delete_plate_registration_type(plate_registration_type)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_plate_registration_type(%PlateRegistrationType{} = plate_registration_type) do
+    Repo.delete(plate_registration_type)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking plate_registration_type changes.
+
+  ## Examples
+
+      iex> change_plate_registration_type(plate_registration_type)
+      %Ecto.Changeset{source: %PlateRegistrationType{}}
+
+  """
+  def change_plate_registration_type(%PlateRegistrationType{} = plate_registration_type) do
+    PlateRegistrationType.changeset(plate_registration_type, %{})
   end
 end
