@@ -20,24 +20,18 @@ defmodule HeroDigital.ProductTest do
       accessory
     end
 
-    setup do
-      motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
-      {:ok, lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
-      %{lead: lead}
-    end
-
-    test "list_accessories/0 returns all accessories", %{lead: lead} do
-      accessory = accessory_fixture(Map.put(@valid_attrs, :lead_id, lead.id))
+    test "list_accessories/0 returns all accessories" do
+      accessory = accessory_fixture(@valid_attrs)
       assert Product.list_accessories() == [accessory]
     end
 
-    test "get_accessory!/1 returns the accessory with given id", %{lead: lead} do
-      accessory = accessory_fixture(Map.put(@valid_attrs, :lead_id, lead.id))
+    test "get_accessory!/1 returns the accessory with given id" do
+      accessory = accessory_fixture(@valid_attrs)
       assert Product.get_accessory!(accessory.id) == accessory
     end
 
-    test "create_accessory/1 with valid data creates a accessory", %{lead: lead} do
-      assert {:ok, %Accessory{} = accessory} = Product.create_accessory(Map.put(@valid_attrs, :lead_id, lead.id))
+    test "create_accessory/1 with valid data creates a accessory" do
+      assert {:ok, %Accessory{} = accessory} = Product.create_accessory(@valid_attrs)
       assert accessory.description == "some description"
       assert accessory.logo_url == "some logo_url"
       assert accessory.name == "some name"
@@ -48,8 +42,8 @@ defmodule HeroDigital.ProductTest do
       assert {:error, %Ecto.Changeset{}} = Product.create_accessory(@invalid_attrs)
     end
 
-    test "delete_accessory/1 deletes the accessory", %{lead: lead} do
-      accessory = accessory_fixture(Map.put(@valid_attrs, :lead_id, lead.id))
+    test "delete_accessory/1 deletes the accessory" do
+      accessory = accessory_fixture(@valid_attrs)
       assert {:ok, %Accessory{}} = Product.delete_accessory(accessory)
       assert_raise Ecto.NoResultsError, fn -> Product.get_accessory!(accessory.id) end
     end

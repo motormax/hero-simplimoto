@@ -7,7 +7,6 @@ defmodule HeroDigital.Repo.Migrations.CreateAccessories do
       add :price, :decimal
       add :description, :text
       add :logo_url, :string
-      add :lead_id, references(:leads, type: :uuid, on_delete: :delete_all)
 
       timestamps()
     end

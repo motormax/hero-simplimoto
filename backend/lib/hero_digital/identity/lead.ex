@@ -8,11 +8,11 @@ defmodule HeroDigital.Identity.Lead do
     field :last_login, :utc_datetime
     field :is_active, :boolean
     belongs_to(:motorcycle, HeroDigital.Product.Motorcycle)
-
     has_one :financing_data, HeroDigital.Financing.FinancingData
     has_one :insurance_choice, HeroDigital.Insurance.InsuranceChoice
     has_one :delivery_choice, HeroDigital.Delivery.DeliveryChoice
     has_one :plate_registration_data, HeroDigital.PlateRegistration.PlateRegistrationData
+    many_to_many :accessories, HeroDigital.Product.Accessory, join_through: "leads_accessories"
 
     timestamps()
   end
