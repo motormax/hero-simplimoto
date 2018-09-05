@@ -21,7 +21,7 @@ defmodule HeroDigitalWeb.PlateRegistrationDataController do
   end
 
   def show(conn, %{"lead_id" => lead_id}) do
-    plate_registration_data = PlateRegistration.get_plate_registration_data_for_lead!(lead_id)
+    plate_registration_data = PlateRegistration.get_plate_registration_data_for_lead(lead_id)
     render(conn, "show.json", plate_registration_data: plate_registration_data)
   end
 end
