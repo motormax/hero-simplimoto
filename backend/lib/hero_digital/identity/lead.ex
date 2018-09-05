@@ -12,7 +12,7 @@ defmodule HeroDigital.Identity.Lead do
     has_one :insurance_choice, HeroDigital.Insurance.InsuranceChoice
     has_one :delivery_choice, HeroDigital.Delivery.DeliveryChoice
     has_one :plate_registration_data, HeroDigital.PlateRegistration.PlateRegistrationData
-    many_to_many :accessories, HeroDigital.Product.Accessory, join_through: "leads_accessories"
+    many_to_many :accessories, HeroDigital.Product.Accessory, join_through: "leads_accessories", on_replace: :delete, on_delete: :delete_all
 
     timestamps()
   end

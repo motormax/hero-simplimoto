@@ -7,6 +7,7 @@ defmodule HeroDigital.Product do
   alias HeroDigital.Repo
 
   alias HeroDigital.Product.Accessory
+  alias HeroDigital.Identity
 
   @doc """
   Returns the list of accessories.
@@ -100,5 +101,57 @@ defmodule HeroDigital.Product do
   """
   def change_accessory(%Accessory{} = accessory) do
     Accessory.changeset(accessory, %{})
+  end
+
+  @doc """
+  Gets all leads accessories.
+
+  Raises `Ecto.NoResultsError` if the Lead does not exist.
+  """
+  def lead_accessories(lead_id) do
+    lead_id
+    |> Identity.get_lead()
+    |> Repo.preload([:accessories])
+    |> get_lead_accessories()
+  end
+
+  defp get_lead_accessories(lead) do
+    lead.accessories
+  end
+
+  @doc """
+  Add one accessory association to the lead.
+
+  Raises `Ecto.NoResultsError` if the Lead does not exist.
+  """
+  def add_accessory_to_lead!(lead, accessory) do
+    add_accessories_to_lead!(lead, [accessory])
+  end
+
+  @doc """
+  Add a list of accessories association to the lead.
+
+  Raises `Ecto.NoResultsError` if the Lead does not exist.
+  """
+  def add_accessories_to_lead!(lead, accessory_list) do
+    Repo.preload(lead, [:accessories])
+    |> Accessory.add_new_accessories_to_lead_changeset(accessory_list)
+    |> Repo.update()
+  end
+
+  @doc """
+  delete the accessory association with lead.
+
+  Raises `Ecto.NoResultsError` if the Lead does not exist.
+  """
+  def delete_accessory_from_lead!(lead, accessory) do
+    lead = Repo.preload(lead, [:accessories])
+    lead_new_accessories = Enum.filter(lead.accessories, fn a ->
+      a.id != accessory.id
+    end)
+
+    lead
+    |> Accessory.put_accessories_assoc_to_lead_changeset(lead_new_accessories)
+    |> Repo.update()
   end
 end

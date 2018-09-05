@@ -4,13 +4,18 @@ defmodule HeroDigital.ProductTest do
   alias HeroDigital.Product
   alias HeroDigital.Product.Motorcycle
   alias HeroDigital.Identity
+  alias HeroDigital.Factory
+
+  @valid_accessory_attrs %{description: "some description", logo_url: "some logo_url", name: "some name", price: "120.5"}
+
+  def accessory_attrs() do
+    @valid_accessory_attrs
+  end
 
   describe "accessories" do
     alias HeroDigital.Product.Accessory
 
-    @valid_attrs %{description: "some description", logo_url: "some logo_url", name: "some name", price: "120.5"}
-    @update_attrs %{description: "some updated description", logo_url: "some updated logo_url", name: "some updated name", price: "456.7"}
-    @invalid_attrs %{description: nil, logo_url: nil, name: nil, price: nil}
+    @invalid_accessory_attrs %{description: nil, logo_url: nil, name: nil, price: nil}
 
     def accessory_fixture(attrs \\ %{}) do
       {:ok, accessory} =
@@ -21,17 +26,17 @@ defmodule HeroDigital.ProductTest do
     end
 
     test "list_accessories/0 returns all accessories" do
-      accessory = accessory_fixture(@valid_attrs)
+      accessory = accessory_fixture(@valid_accessory_attrs)
       assert Product.list_accessories() == [accessory]
     end
 
     test "get_accessory!/1 returns the accessory with given id" do
-      accessory = accessory_fixture(@valid_attrs)
+      accessory = accessory_fixture(@valid_accessory_attrs)
       assert Product.get_accessory!(accessory.id) == accessory
     end
 
     test "create_accessory/1 with valid data creates a accessory" do
-      assert {:ok, %Accessory{} = accessory} = Product.create_accessory(@valid_attrs)
+      assert {:ok, %Accessory{} = accessory} = Product.create_accessory(@valid_accessory_attrs)
       assert accessory.description == "some description"
       assert accessory.logo_url == "some logo_url"
       assert accessory.name == "some name"
@@ -39,13 +44,74 @@ defmodule HeroDigital.ProductTest do
     end
 
     test "create_accessory/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Product.create_accessory(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Product.create_accessory(@invalid_accessory_attrs)
     end
 
     test "delete_accessory/1 deletes the accessory" do
-      accessory = accessory_fixture(@valid_attrs)
+      accessory = accessory_fixture(@valid_accessory_attrs)
       assert {:ok, %Accessory{}} = Product.delete_accessory(accessory)
       assert_raise Ecto.NoResultsError, fn -> Product.get_accessory!(accessory.id) end
+    end
+  end
+
+  describe "accessories and leads association" do
+
+    def lead_fixture(attrs \\ %{}) do
+      {:ok, lead} =
+        attrs
+        |> Identity.create_lead()
+
+      lead
+    end
+
+    def new_accessory() do
+      {:ok, accessory} = Product.create_accessory(Factory.accessory_attrs)
+      accessory
+    end
+
+    setup do
+      motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
+      lead = lead_fixture(%{motorcycle_id: motorcycle.id})
+      %{lead: lead}
+    end
+
+    setup do
+      accessory = new_accessory()
+      %{accessory: accessory}
+    end
+
+    test "leads with no accessories get and empty list", %{lead: lead} do
+
+      assert Product.lead_accessories(lead.id) == []
+    end
+
+    test "leads can get an accessory", %{lead: lead, accessory: accessory} do
+
+      Product.add_accessory_to_lead!(lead, accessory)
+
+      assert Product.lead_accessories(lead.id) == [accessory]
+    end
+
+    test "leads can get more than one accessory by once", %{lead: lead, accessory: accessory} do
+      {:ok, second_accessory} = Product.create_accessory(%{description: "different description", logo_url: "different logo_url", name: "different name", price: "200.7"})
+
+      Product.add_accessories_to_lead!(lead, [accessory, second_accessory])
+
+      assert Product.lead_accessories(lead.id) == [accessory, second_accessory]
+    end
+
+    test "leads trying to get the same accesory more than once raise exception", %{lead: lead, accessory: accessory} do
+      assert_raise Postgrex.Error, fn ->
+        Product.add_accessories_to_lead!(lead, [accessory, accessory])
+      end
+    end
+
+    test "leads can delete an accessory", %{lead: lead, accessory: accessory} do
+      Product.add_accessory_to_lead!(lead, accessory)
+
+      Product.delete_accessory_from_lead!(lead, accessory)
+
+      assert Product.lead_accessories(lead.id) == []
     end
   end
 end

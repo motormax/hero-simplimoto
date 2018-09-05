@@ -2,18 +2,18 @@ defmodule HeroDigital.IdentityTest do
   use HeroDigital.DataCase
 
   alias HeroDigital.Identity
+  alias HeroDigital.Product
   alias HeroDigital.Product.Motorcycle
+  alias HeroDigital.Product.Accessory
 
   describe "leads" do
     alias HeroDigital.Identity.Lead
 
-    @valid_attrs %{}
     @invalid_attrs %{}
 
     def lead_fixture(attrs \\ %{}) do
       {:ok, lead} =
         attrs
-        |> Enum.into(@valid_attrs)
         |> Identity.create_lead()
 
       lead
@@ -25,7 +25,7 @@ defmodule HeroDigital.IdentityTest do
     end
 
     test "create_lead/1 with valid data creates a lead", %{motorcycle: motorcycle} do
-      assert {:ok, %Lead{} = lead} = Identity.create_lead(Map.put(@valid_attrs, :motorcycle_id, motorcycle.id))
+      assert {:ok, %Lead{} = lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
       assert lead.motorcycle.id == motorcycle.id
     end
 
