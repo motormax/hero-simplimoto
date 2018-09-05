@@ -9,6 +9,8 @@ import { Route } from 'react-router';
 import { I18nextProvider } from 'react-i18next';
 import Analytics from 'react-router-ga';
 import axios from 'axios';
+import moment from 'moment';
+import 'moment/locale/es';
 
 import './index.css';
 import App from './components/App';
@@ -16,6 +18,8 @@ import registerServiceWorker from './registerServiceWorker';
 import createAppStoreAndHistory from './store';
 import i18n from './i18n';
 import { leadFetched, startedFetchingLead } from './actions/beginning';
+
+moment.locale('es');
 
 const { store, history } = createAppStoreAndHistory();
 
