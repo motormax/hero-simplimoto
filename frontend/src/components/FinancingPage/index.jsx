@@ -218,9 +218,35 @@ class FinancingPage extends Component {
     (this.isPlateRegistrationDataValid() ?
       parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
+  choosingPaymentOption = (PaymentOption) => {
+    console.log(this)
+  };
+
   render() {
     const error = Object.values(this.state.errors)
       .some(Boolean);
+
+    let paymentOptions;
+    paymentOptions =
+    <div  className="page-column-card margin-bottom">
+      <Card.Group centered>
+        <Card className="financing-option selected" link onClick={e => this.choosingPaymentOption('mercadopago')}>
+            <img src="https://www.mercadopago.com/org-img/Manual/ManualMP/imgs/isologoHorizontal.png" alt="Mercadopago" />
+        </Card>
+        <Card className="financing-option" link onClick={e => this.choosingPaymentOption('transferencia')}>
+          <div>
+            <Icon.Group size="huge">
+              <Icon name="comment"/>
+              <Icon inverted color="white" size="tiny" name="dollar sign"/>
+            </Icon.Group>
+            <span className="fs-big fw-bold">Transferencia Bancaria</span>
+          </div>
+        </Card>
+        <Card className="financing-option" link onClick={e => this.choosingPaymentOption('credicuotas')}>
+            <img src="https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png" alt="Credicuotas" />
+        </Card>
+      </Card.Group>
+    </div>;
 
     let installmentList;
     if (this.state.installmentOptions.length > 0) {
@@ -308,6 +334,7 @@ class FinancingPage extends Component {
       <div>
         <h2 className="fs-massive fw-bold txt-center">¿Como queres financiarte?</h2>
         <p className="fs-huge txt-med-gray txt-center">Elegí el metodo de financiación más conveniente.</p>
+        {paymentOptions}
         <Card className="page-column-card financing-page">
           <Form onSubmit={this.handleSubmit} error={error}>
             {/*

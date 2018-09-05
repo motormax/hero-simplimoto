@@ -35,9 +35,32 @@
         }
         &.active{
           border: 2px solid $green;
+          background-color: lighten($green, 40%);
         }
       }
     }
+  }
+}
+
+.link.card.financing-option{
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  width: 240px;
+  img{
+    max-height: 50px;
+    margin: 0 1em;
+  }
+  div{
+    display: inline-flex;
+    align-items: center;
+    width: 87%;
+  }
+  &.selected,
+  &.selected:hover{
+    border: 2px solid $green;
+    background-color: lighten($green, 40%);
   }
 }
 
