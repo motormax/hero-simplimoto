@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { push } from 'react-router-redux';
 import { Button, Segment, Icon, Grid } from 'semantic-ui-react';
 import { dateAppointmentFetched, startedFetchingAppointment } from '../../../actions/dateAppointments';
+import { AFTERNOON, EVENING, MORNING } from '../../DateYourBikePage';
 
 import dateYourBikeIcon from './../../images/dateyourbike-icon.svg';
 
@@ -27,10 +28,36 @@ class DateYourBikeSection extends Component {
   };
 
   componentWillMount() {
-    if (!this.props.appointment) {
+    if (!this.props.appointment.id) {
       this.props.fetchDateAppointment(this.props.lead.id);
     }
   }
+
+  timeRangeFor = (shift) => {
+    switch (shift) {
+      case MORNING:
+        return ' entre las 9 y 12hs';
+      case AFTERNOON:
+        return ' entre las 12 y 18hs';
+      case EVENING:
+        return ' entre las 18 y 22hs';
+      default:
+        return '';
+    }
+  };
+
+  reservationMessage = (appointment) => {
+    const time = this.timeRangeFor(appointment.shift);
+
+    return (
+      <span>
+        Te estaremos llevando la moto el
+        <strong> {moment(appointment.date).format('LL')}</strong>
+        {time} a <strong>{appointment.address.street}</strong>.
+        Nos estaremos comunicando contigo para confirmar la visita a la brevedad.
+      </span>
+    );
+  };
 
   render() {
     const { t, appointment } = this.props;
@@ -61,7 +88,7 @@ class DateYourBikeSection extends Component {
               <h3 className={headerStyle}>{t('title')}</h3>
               <p className={textStyle}>
                 { appointment.id ?
-                `Te llevamos la moto ${moment(appointment.date).locale('es').fromNow()} a ${appointment.address.street}` :
+                this.reservationMessage(appointment) :
                 "Te arreglamos una 'cita a ciegas' donde quieras"
               }
               </p>
