@@ -17,7 +17,6 @@ defmodule HeroDigitalWeb.AccessoryView do
       price: accessory.price,
       description: accessory.description,
       logo_url: accessory.logo_url,
-      lead_id: accessory.lead_id
     }
   end
 end

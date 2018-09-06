@@ -111,7 +111,6 @@ defmodule HeroDigital.Product do
   def lead_accessories(lead_id) do
     lead_id
     |> Identity.get_lead()
-    |> Repo.preload([:accessories])
     |> get_lead_accessories()
   end
 
@@ -124,8 +123,8 @@ defmodule HeroDigital.Product do
 
   Raises `Ecto.NoResultsError` if the Lead does not exist.
   """
-  def add_accessory_to_lead!(lead, accessory) do
-    add_accessories_to_lead!(lead, [accessory])
+  def add_accessory_to_lead(lead, accessory) do
+    add_accessories_to_lead(lead, [accessory])
   end
 
   @doc """
@@ -133,7 +132,7 @@ defmodule HeroDigital.Product do
 
   Raises `Ecto.NoResultsError` if the Lead does not exist.
   """
-  def add_accessories_to_lead!(lead, accessory_list) do
+  def add_accessories_to_lead(lead, accessory_list) do
     Repo.preload(lead, [:accessories])
     |> Accessory.add_new_accessories_to_lead_changeset(accessory_list)
     |> Repo.update()
@@ -144,7 +143,7 @@ defmodule HeroDigital.Product do
 
   Raises `Ecto.NoResultsError` if the Lead does not exist.
   """
-  def delete_accessory_from_lead!(lead, accessory) do
+  def delete_accessory_from_lead(lead, accessory) do
     lead = Repo.preload(lead, [:accessories])
     lead_new_accessories = Enum.filter(lead.accessories, fn a ->
       a.id != accessory.id

@@ -64,11 +64,6 @@ defmodule HeroDigital.ProductTest do
       lead
     end
 
-    def new_accessory() do
-      {:ok, accessory} = Product.create_accessory(Factory.accessory_attrs)
-      accessory
-    end
-
     setup do
       motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "Dash", price: 200})
       lead = lead_fixture(%{motorcycle_id: motorcycle.id})
@@ -76,7 +71,7 @@ defmodule HeroDigital.ProductTest do
     end
 
     setup do
-      accessory = new_accessory()
+      accessory = Factory.new_accessory()
       %{accessory: accessory}
     end
 
@@ -87,7 +82,7 @@ defmodule HeroDigital.ProductTest do
 
     test "leads can get an accessory", %{lead: lead, accessory: accessory} do
 
-      Product.add_accessory_to_lead!(lead, accessory)
+      Product.add_accessory_to_lead(lead, accessory)
 
       assert Product.lead_accessories(lead.id) == [accessory]
     end
@@ -95,23 +90,24 @@ defmodule HeroDigital.ProductTest do
     test "leads can get more than one accessory by once", %{lead: lead, accessory: accessory} do
       {:ok, second_accessory} = Product.create_accessory(%{description: "different description", logo_url: "different logo_url", name: "different name", price: "200.7"})
 
-      Product.add_accessories_to_lead!(lead, [accessory, second_accessory])
+      Product.add_accessories_to_lead(lead, [accessory, second_accessory])
 
       assert Product.lead_accessories(lead.id) == [accessory, second_accessory]
     end
 
     test "leads trying to get the same accesory more than once raise exception", %{lead: lead, accessory: accessory} do
       assert_raise Postgrex.Error, fn ->
-        Product.add_accessories_to_lead!(lead, [accessory, accessory])
+        Product.add_accessories_to_lead(lead, [accessory, accessory])
       end
     end
 
     test "leads can delete an accessory", %{lead: lead, accessory: accessory} do
-      Product.add_accessory_to_lead!(lead, accessory)
+      Product.add_accessory_to_lead(lead, accessory)
 
-      Product.delete_accessory_from_lead!(lead, accessory)
+      {:ok, updated_lead} = Product.delete_accessory_from_lead(lead, accessory)
 
-      assert Product.lead_accessories(lead.id) == []
+      # TODO: Reload lead from DB and assert the association has been deleted
+      assert updated_lead.accessories == []
     end
   end
 end
