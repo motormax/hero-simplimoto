@@ -26,6 +26,10 @@
       }
     }
   }
+  &.inverted{
+    border-left: 30px solid $dark-gray;
+    background-color: $dark-gray;
+  }
 }
 
 .dashboard-card{
