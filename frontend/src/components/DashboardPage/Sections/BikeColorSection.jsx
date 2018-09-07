@@ -7,10 +7,8 @@ import { changeBikeColor } from '../../../actions/beginning';
 
 import mirrow1 from '../../images/accessories/mirrow-1.png';
 import mirrow2 from '../../images/accessories/mirrow-2.png';
-import mirrow3 from '../../images/accessories/mirrow-3.png';
 import mirrow4 from '../../images/accessories/mirrow-4.png';
 
-import seat1 from '../../images/accessories/seat1.png';
 import seat2 from '../../images/accessories/seat2.png';
 import seat3 from '../../images/accessories/seat3.png';
 
@@ -76,20 +74,6 @@ class BikeColorSection extends Component {
             width="60px"
             height="60px"
             src={mirrow2}
-          />
-        </div>
-        <div className="dashboard-card_items">
-          <Radio
-            name="setMirrow"
-            disabled
-          />
-
-          <Image
-            alt="un espejo"
-            className="color-img"
-            width="60px"
-            height="60px"
-            src={mirrow3}
           />
         </div>
         <div className="dashboard-card_items">
