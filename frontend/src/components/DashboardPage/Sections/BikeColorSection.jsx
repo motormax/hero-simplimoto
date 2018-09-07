@@ -5,6 +5,14 @@ import { Grid, Icon, Image, Segment, Radio } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { changeBikeColor } from '../../../actions/beginning';
 
+import mirrow1 from '../../images/accessories/mirrow-1.png';
+import mirrow2 from '../../images/accessories/mirrow-2.png';
+import mirrow3 from '../../images/accessories/mirrow-3.png';
+import mirrow4 from '../../images/accessories/mirrow-4.png';
+
+import seat1 from '../../images/accessories/seat1.png';
+import seat2 from '../../images/accessories/seat2.png';
+import seat3 from '../../images/accessories/seat3.png';
 
 class BikeColorSection extends Component {
   static propTypes = {
@@ -36,10 +44,101 @@ class BikeColorSection extends Component {
           height="40px"
           src={color.imageURL}
         />
-
         <p className="fw-bold txt-med-gray">{color.name}</p>
       </div>
     ));
+
+    const mirrorOptions =
+      <div className="dashboard-card_items-container">
+        <div className="dashboard-card_items">
+          <Radio
+            name="setMirrow"
+            disabled
+          />
+
+          <Image
+            alt="un espejo"
+            className="color-img"
+            width="60px"
+            height="60px"
+            src={mirrow1}
+          />
+        </div>
+        <div className="dashboard-card_items">
+          <Radio
+            name="setMirrow"
+            disabled
+          />
+
+          <Image
+            alt="un espejo"
+            className="color-img"
+            width="60px"
+            height="60px"
+            src={mirrow2}
+          />
+        </div>
+        <div className="dashboard-card_items">
+          <Radio
+            name="setMirrow"
+            disabled
+          />
+
+          <Image
+            alt="un espejo"
+            className="color-img"
+            width="60px"
+            height="60px"
+            src={mirrow3}
+          />
+        </div>
+        <div className="dashboard-card_items">
+          <Radio
+            name="setMirrow"
+            disabled
+          />
+
+          <Image
+            alt="un espejo"
+            className="color-img"
+            width="60px"
+            height="60px"
+            src={mirrow4}
+          />
+        </div>
+      </div>;
+
+    const seatOptions =
+      <div className="dashboard-card_items-container">
+        <div className="dashboard-card_items">
+          <Radio
+            name="setMirrow"
+            disabled
+          />
+
+          <Image
+            alt="un asiento"
+            className="color-img"
+            width="60px"
+            height="60px"
+            src={seat2}
+          />
+        </div>
+        <div className="dashboard-card_items">
+          <Radio
+            name="setMirrow"
+            disabled
+          />
+
+          <Image
+            alt="un asiento"
+            className="color-img"
+            width="60px"
+            height="60px"
+            src={seat3}
+          />
+        </div>
+      </div>;
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: '#67CC4F' }}>
@@ -49,10 +148,23 @@ class BikeColorSection extends Component {
               <Icon className="txt-green" size="large" name="check" />
             </Grid.Column>
             <Grid.Column width={15}>
-              <h3 className="fw-bold fs-big">¿De qué color? <span className="txt-green fs-tinny uppercase">¡gratis!</span></h3>
+              <h3 className="fw-bold fs-big">¡Podés personalizarla! <span className="txt-green fs-tinny uppercase">¡gratis!</span></h3>
+              <div className="fw-bold txt-med-gray">Elegí el color que más te guste</div>
               <div className="dashboard-card_items-container">
-                {colorOptions}
+              {colorOptions}
               </div>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={1}>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <div className="fw-bold txt-med-gray">Elegí los espejos <span className="fw-normal">(próximamente)</span></div>
+              {mirrorOptions}
+            </Grid.Column>
+            <Grid.Column width={7}>
+              <div className="fw-bold txt-med-gray">Elegí el asiento <span className="fw-normal">(próximamente)</span></div>
+              {seatOptions}
             </Grid.Column>
           </Grid.Row>
         </Grid>
