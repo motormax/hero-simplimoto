@@ -40,6 +40,7 @@ config :ex_admin,
     HeroDigital.ExAdmin.Insurance.Policy,
     HeroDigital.ExAdmin.Insurance.InsuranceChoice,
     HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationType,
+    HeroDigital.ExAdmin.Product.Accessory,
   ]
 
 config :hero_digital, basic_auth: [
