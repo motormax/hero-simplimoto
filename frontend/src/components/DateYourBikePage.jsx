@@ -12,11 +12,11 @@ import { dateAppointmentFetched } from '../actions/dateAppointments';
 import AddressSearchInput from './DeliveryPage/AddressSearchInput';
 import AddressGoogleMap from './DeliveryPage/AddressGoogleMap';
 
-const MORNING = 'morning';
-const AFTERNOON = 'afternoon';
-const EVENING = 'evening';
+export const MORNING = 'morning';
+export const AFTERNOON = 'afternoon';
+export const EVENING = 'evening';
 
-const shiftOptions = [
+export const shiftOptions = [
   {
     key: MORNING,
     text: 'Por la mañana (9 a 12)',

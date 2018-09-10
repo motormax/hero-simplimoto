@@ -41,7 +41,7 @@ defmodule HeroDigital.Insurance do
   Gets a single insurance_choice by lead id
   """
   def get_insurance_choice_by_lead_id(lead_id) do
-    Repo.one(from iqc in InsuranceChoice, where: iqc.lead_id == ^lead_id, order_by: [desc: iqc.id], limit: 1)
+    Repo.one(from iqc in InsuranceChoice, where: iqc.lead_id == ^lead_id, order_by: [desc: iqc.id], limit: 1, preload: [insurance_broker: [], insurance_policy: []])
   end
 
   @doc """
@@ -51,7 +51,9 @@ defmodule HeroDigital.Insurance do
     old_insurance_choice = get_insurance_choice_by_lead_in_attrs(attrs)
     insurance_choice_changeset = get_creation_changeset(attrs)
     delete_old_insurance_choice_when_exists_and_changeset_is_valid(old_insurance_choice, insurance_choice_changeset)
-    create_insurance_choice_by_changeset(insurance_choice_changeset)
+    with {:ok, insurance_choice} <- create_insurance_choice_by_changeset(insurance_choice_changeset) do
+      {:ok, insurance_choice |> Repo.preload([:insurance_policy, :insurance_broker])}
+    end
   end
 
   defp get_insurance_choice_by_lead_in_attrs(attrs) do
