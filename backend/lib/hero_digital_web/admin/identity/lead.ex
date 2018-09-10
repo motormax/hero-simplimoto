@@ -137,6 +137,7 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
         markup_contents do
           case HeroDigital.Product.lead_accessories(lead.id) do
             [] -> text "El usuario no eligió accesorios."
+            _ -> text "TODO"
           end
         end
       end
