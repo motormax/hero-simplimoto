@@ -3,6 +3,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   import Ecto.Changeset
 
   alias HeroDigital.Repo
+  alias HeroDigital.Product
 
   schema "purchase_orders" do
     field :email, :string
@@ -39,12 +40,17 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   end
 
   def total_amount(purchase_order) do
-    lead(purchase_order).motorcycle.price
-    # TODO: Patentamiento +
-    # TODO: purchase_order.lead.accesories
+    Decimal.new(lead(purchase_order).motorcycle.price)
+    |> Decimal.add(accessories_price(purchase_order.lead_id))
+    # TODO: + Patentamiento
   end
 
   defp lead(purchase_order) do
     purchase_order.lead |> Repo.preload(:financing_data)
+  end
+
+  defp accessories_price(lead_id) do
+    Product.lead_accessories(lead_id)
+    |> Enum.reduce(Decimal.new("0"), fn accessory, accumulator -> Decimal.add(accessory.price, accumulator) end)
   end
 end

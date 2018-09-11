@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias HeroDigital.PlateRegistration
+alias HeroDigital.Product
 
 hunk = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK", price: 22222})
 ignitor = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "IGNITOR", price: 22222})
@@ -90,3 +91,9 @@ HeroDigital.Repo.insert!(second_mapfre_policy)
 
 {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "personalPlateRegistration", "price" => Decimal.new(1500)})
 {:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "heroPlateRegistration", "price" => Decimal.new(3800)})
+
+
+Product.create_accessory(%{description: "Descripcion del casco", logo_url: "https://www.hjchelmets.es/5461-large_default/fg-70s-casco-de-moto-jet-hjc-starwars-x-wing-fighter-pilot.jpg", name: "Casco", price: "2000"})
+Product.create_accessory(%{description: "Descripcion del baul", logo_url: "https://www.nilmoto.com/imagenes/Image/Productos/550-501_1_shin-yo-maleta-48.jpg", name: "Baul", price: "1500"})
+Product.create_accessory(%{description: "Descripcion de los guantes", logo_url: "https://i0.wp.com/ae01.alicdn.com/kf/HTB1MfUnSFXXXXaOXXXXq6xXFXXX8/Moto-transpirable-usable-para-caballero-protector-Guantes-Moto-Luvas-Alpine-Motocross-Gants-Moto-guantes.jpg", name: "Guantes", price: "700"})
+
