@@ -2,9 +2,7 @@ defmodule HeroDigitalWeb.AccessoryLeadController do
   use HeroDigitalWeb, :controller
 
   alias HeroDigital.Product
-  alias HeroDigital.Product.Accessory
   alias HeroDigital.Identity
-  alias HeroDigital.Lead
 
   action_fallback HeroDigitalWeb.FallbackController
 

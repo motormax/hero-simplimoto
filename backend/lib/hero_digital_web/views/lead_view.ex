@@ -15,7 +15,6 @@ defmodule HeroDigitalWeb.LeadView do
     %{
       id: lead.id,
       last_login: lead.last_login,
-      accessories: render_many(lead.accessories, AccessoryView, "index.json", as: :accessory),
       motorcycle: render_one(lead.motorcycle, LeadView, "motorcycle.json", as: :motorcycle)
     }
   end
