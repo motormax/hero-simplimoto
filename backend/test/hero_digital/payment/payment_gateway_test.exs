@@ -7,6 +7,7 @@ defmodule HeroDigital.Payment.PaymentGatewayTest do
   alias HeroDigital.Fulfillment
   alias HeroDigital.Fulfillment.PurchaseOrder
   alias HeroDigital.Financing
+  alias HeroDigital.PlateRegistrationTest
 
   import Mox
 
@@ -33,6 +34,11 @@ defmodule HeroDigital.Payment.PaymentGatewayTest do
     with {:ok, lead} <- HeroDigital.Identity.create_lead(%{motorcycle_id: motorcycle.id}) do
       %{lead: lead}
     end
+  end
+
+  setup %{lead: lead} do
+    {:ok, personal_plate_registration} = PlateRegistrationTest.create_personal_plate_registration(lead.id)
+    %{personal_plate_registration: personal_plate_registration}
   end
 
   setup %{lead: lead} do

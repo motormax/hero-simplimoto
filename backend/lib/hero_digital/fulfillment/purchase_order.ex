@@ -39,12 +39,19 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   end
 
   def total_amount(purchase_order) do
-    lead(purchase_order).motorcycle.price
-    # TODO: Patentamiento +
-    # TODO: purchase_order.lead.accesories
+    Decimal.new(lead(purchase_order).motorcycle.price)
+    |> Decimal.add(plate_registration_price(purchase_order.lead_id))
+    # TODO: + Accessorios
   end
 
   defp lead(purchase_order) do
     purchase_order.lead |> Repo.preload(:financing_data)
+  end
+
+  defp plate_registration_price(lead_id) do
+     case HeroDigital.PlateRegistration.get_plate_registration_data_for_lead(lead_id) do
+      nil -> raise "Has not chosen a plate registration"
+      plate_registration_type -> plate_registration_type.plate_registration_type.price
+     end
   end
 end

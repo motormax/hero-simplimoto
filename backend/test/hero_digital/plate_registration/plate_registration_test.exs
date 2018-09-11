@@ -43,6 +43,12 @@ defmodule HeroDigital.PlateRegistrationTest do
     @valid_personal_plate_registration_attrs
   end
 
+  def create_personal_plate_registration(lead_id) do
+    PlateRegistration.create_plate_registration_type(@personal_plate_registration_type)
+    Map.put(@valid_personal_plate_registration_attrs, "lead_id", lead_id)
+    |> PlateRegistration.create_plate_registration_data()
+  end
+
   def hero_plate_registration do
     @valid_hero_plate_registration_attrs
   end
