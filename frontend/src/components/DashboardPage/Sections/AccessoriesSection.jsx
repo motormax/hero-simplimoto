@@ -7,8 +7,8 @@ import axios from 'axios';
 import humps from 'humps';
 
 import {
-  allAccessoriesFetched,
-  startedFetchingAllAccessories,
+  allAndChosenAccessoriesFetched,
+  startedFetchingAllAndChosenAccessories,
   toggleAccessorySelection,
 } from '../../../actions/accessories';
 import { moneyFormatter } from '../CheckoutSummary';
@@ -40,7 +40,7 @@ class AccessoriesSection extends Component {
   componentDidMount() {
     // POLEMICO: ¿podrian no haber accessorios en la base?
     if (this.props.allAccessories.length === 0) {
-      this.props.fetchAccessories();
+      this.props.fetchAccessories(this.props.lead.id);
     }
   }
 
@@ -56,11 +56,11 @@ class AccessoriesSection extends Component {
 
     const dashboardCardItems = allAccessories
       .map((accessory) => {
-        const { name, price, logoUrl } = accessory;
+        const { name, price, logoUrl, id } = accessory;
         const isSelected = selectedAccessories[accessory.name];
         return (
           <div key={name} className="dashboard-card_items">
-            <Checkbox defaultChecked={isSelected} onChange={() => toggleAccessoryStatus(name)} />
+            <Checkbox defaultChecked={isSelected} onChange={() => toggleAccessoryStatus(id, name, !isSelected, this.props.lead.id)} />
             <img
               src={logoUrl}
               alt={accessory.name}
@@ -109,11 +109,25 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleAccessoryStatus: accesoryName => dispatch(toggleAccessorySelection(accesoryName)),
-  fetchAccessories: async () => {
-    dispatch(startedFetchingAllAccessories());
+  toggleAccessoryStatus: async (accessoryId, accesoryName, isSelected, leadId) => {
+    dispatch(toggleAccessorySelection(accesoryName));
+
+    if (isSelected) {
+      const response = await axios.post(`/api/leads/${leadId}/accessory/${accessoryId}`);
+      console.log(response); // eslint-disable-line no-console
+    } else {
+      const response = await axios.delete(`/api/leads/${leadId}/accessory/${accessoryId}`);
+      console.log(response); // eslint-disable-line no-console
+    }
+  },
+  fetchAccessories: async (leadId) => {
+    dispatch(startedFetchingAllAndChosenAccessories());
     const { data: { data: allAccessories } } = await axios.get('/api/accessories');
-    dispatch(allAccessoriesFetched(humps.camelizeKeys(allAccessories)));
+    const { data: { data: chosenAccessories } } = await axios.get(`/api/leads/${leadId}/accessories`);
+    dispatch(allAndChosenAccessoriesFetched(
+      humps.camelizeKeys(allAccessories),
+      humps.camelizeKeys(chosenAccessories),
+    ));
   },
 });
 

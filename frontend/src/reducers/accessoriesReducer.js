@@ -30,15 +30,16 @@ export default function accessoriesReducer(state = initialState, action) {
         selectedAccessories: newSelectedAccessories,
       };
     }
-    case actionTypes.startedFetchingAllAccessories:
+    case actionTypes.startedFetchingAllAndChosenAccessories:
       return { isLoading: true };
-    case actionTypes.allAccessoriesFetched: {
-      const { allAccessories } = action;
+    case actionTypes.allAndChosenAccessoriesFetched: {
+      const { allAccessories, chosenAccessories } = action;
       const selectedAccessories = {};
       let totalPrice = 0;
 
       allAccessories.forEach((accessory) => {
-        selectedAccessories[accessory.name] = true;
+        selectedAccessories[accessory.name] =
+          chosenAccessories.some(chosenAccesory => chosenAccesory.name === accessory.name);
         totalPrice += Number(accessory.price);
       });
 

@@ -1,12 +1,13 @@
 import actionTypes from './actionTypes';
 
-export const allAccessoriesFetched = allAccessories => ({
-  type: actionTypes.allAccessoriesFetched,
+export const allAndChosenAccessoriesFetched = (allAccessories, chosenAccessories) => ({
+  type: actionTypes.allAndChosenAccessoriesFetched,
   allAccessories,
+  chosenAccessories,
 });
 
-export const startedFetchingAllAccessories = () => ({
-  type: actionTypes.startedFetchingAllAccessories,
+export const startedFetchingAllAndChosenAccessories = () => ({
+  type: actionTypes.startedFetchingAllAndChosenAccessories,
 });
 
 export const toggleAccessorySelection = accesoryName => ({
