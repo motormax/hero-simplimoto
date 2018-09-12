@@ -61,7 +61,7 @@ defmodule HeroDigitalWeb.Router do
 
       post "/accessory/:accessory_id", AccessoryLeadController, :create
       delete "/accessory/:accessory_id", AccessoryLeadController, :delete
-      get "/accessory", AccessoryLeadController, :show
+      get "/accessories", AccessoryLeadController, :show
     end
 
     match :*, "/*path", StaticFilesController, :not_found
