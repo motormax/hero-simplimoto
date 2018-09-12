@@ -18,4 +18,6 @@ export default {
   financingChanged: 'FINANCING_CHANGED',
   startedFetchingFinancing: 'STARTED_FETCHING_FINANCING',
   changePlateRegistrationData: 'CHANGE_PLATE_REGISTRATION_DATA',
+  startedFetchingAllAccessories: 'STARTED_FETCHING_ALL_ACCESSORIES',
+  allAccessoriesFetched: 'ALL_ACCESSORIES_FETCHED',
 };

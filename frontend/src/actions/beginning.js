@@ -18,7 +18,3 @@ export const noop = () => ({ type: 'NOOP' });
 export const changeBikeColor = bikeColorIndex => ({
   type: actionTypes.changeBikeColor, bikeColorIndex,
 });
-
-export const toggleAccessorySelection = accesoryName => ({
-  type: actionTypes.toggleAccessorySelection, accesoryName,
-});

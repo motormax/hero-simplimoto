@@ -3,35 +3,72 @@ import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { Checkbox, Grid, Icon, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import humps from 'humps';
 
-import { toggleAccessorySelection } from '../../../actions/beginning';
-import availableAccessories from '../../motorcycles/availableAccessories';
+import {
+  allAccessoriesFetched,
+  startedFetchingAllAccessories,
+  toggleAccessorySelection,
+} from '../../../actions/accessories';
 import { moneyFormatter } from '../CheckoutSummary';
 
 
 class AccessoriesSection extends Component {
+  static defaultProps = {
+    isLoading: false,
+  }
   static propTypes = {
+    fetchAccessories: propTypes.func.isRequired,
+    toggleAccessoryStatus: propTypes.func.isRequired,
     t: propTypes.func.isRequired,
     totalPrice: propTypes.number.isRequired,
     selectedAccessories: propTypes.objectOf(propTypes.bool).isRequired,
-    toggleAccessoryStatus: propTypes.func.isRequired,
+    allAccessories: propTypes.arrayOf({
+      id: propTypes.number.isRequired,
+      name: propTypes.string.isRequired,
+      price: propTypes.number.isRequired,
+      description: propTypes.string.isRequired,
+      logoUrl: propTypes.string.isRequired,
+    }).isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
+    isLoading: propTypes.bool,
   };
+
+  componentDidMount() {
+    // POLEMICO: ¿podrian no haber accessorios en la base?
+    if (this.props.allAccessories.length === 0) {
+      this.props.fetchAccessories();
+    }
+  }
 
   render() {
     const {
       t, totalPrice, selectedAccessories, toggleAccessoryStatus,
+      isLoading, allAccessories,
     } = this.props;
 
-    const dashboardCardItems = Object.keys(availableAccessories)
-      .map((name) => {
-        const { price, imgUrl } = availableAccessories[name];
-        const isSelected = selectedAccessories[name];
+    if (isLoading) {
+      return <div>Cargando</div>;
+    }
+
+    const dashboardCardItems = allAccessories
+      .map((accessory) => {
+        const { name, price, logoUrl } = accessory;
+        const isSelected = selectedAccessories[accessory.name];
         return (
           <div key={name} className="dashboard-card_items">
             <Checkbox defaultChecked={isSelected} onChange={() => toggleAccessoryStatus(name)} />
-            <img src={imgUrl} alt={t(name)} />
+            <img
+              src={logoUrl}
+              alt={accessory.name}
+              width="60px"
+              height="60px"
+            />
             <div className="accessory_item_details">
-              <p className="fw-bold txt-med-gray">{t(name)}</p>
+              <p className="fw-bold txt-med-gray">{name}</p>
               <p className="txt-med-gray">{t('currency_sign')}
                 <span className="fw-bold">{moneyFormatter.format(price)}</span>
               </p>
@@ -63,13 +100,21 @@ class AccessoriesSection extends Component {
   }
 }
 
-const mapStateToProps = store => ({
-  totalPrice: store.main.accessories.totalPrice,
-  selectedAccessories: store.main.accessories.selectedAccessories,
+const mapStateToProps = state => ({
+  lead: state.main.lead,
+  totalPrice: state.main.accessories.totalPrice,
+  selectedAccessories: state.main.accessories.selectedAccessories,
+  allAccessories: state.main.accessories.allAccessories,
+  isLoading: state.main.accessories.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleAccessoryStatus: accesoryName => dispatch(toggleAccessorySelection(accesoryName)),
+  fetchAccessories: async () => {
+    dispatch(startedFetchingAllAccessories());
+    const { data: { data: allAccessories } } = await axios.get('/api/accessories');
+    dispatch(allAccessoriesFetched(humps.camelizeKeys(allAccessories)));
+  },
 });
 
 export default translate('accessories_section')(connect(mapStateToProps, mapDispatchToProps)(AccessoriesSection));
