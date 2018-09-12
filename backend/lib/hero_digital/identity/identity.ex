@@ -37,11 +37,11 @@ defmodule HeroDigital.Identity do
   """
   def get_lead!(id) do
     Repo.get!(Lead, id)
-    |> Repo.preload(:motorcycle)
+    |> Repo.preload([:motorcycle, :accessories])
   end
   def get_lead(id) do
     Repo.get(Lead, id)
-    |> Repo.preload(:motorcycle)
+    |> Repo.preload([:motorcycle, :accessories])
   end
 
   @doc """

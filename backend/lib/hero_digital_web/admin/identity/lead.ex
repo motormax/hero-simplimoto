@@ -135,7 +135,10 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
 
       panel "Accesorios" do
         markup_contents do
-          text "TODO"
+          case HeroDigital.Product.lead_accessories(lead.id) do
+            [] -> text "El usuario no eligió accesorios."
+            _ -> text "TODO"
+          end
         end
       end
     end
