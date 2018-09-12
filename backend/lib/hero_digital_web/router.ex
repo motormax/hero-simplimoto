@@ -36,6 +36,8 @@ defmodule HeroDigitalWeb.Router do
     resources "/phone", PhoneController, only: [:create, :show]
     get "/plate_registration_types", PlateRegistrationTypeController, :index
 
+    get "/accessories", AccessoryController, :index
+
     resources "/leads", LeadController, only: [:create, :show] do
       get "/delivery_choice", DeliveryChoiceController, :show
       post "/delivery_choice", DeliveryChoiceController, :create
@@ -56,8 +58,11 @@ defmodule HeroDigitalWeb.Router do
       get "/insurance_quotes", InsuranceController, :quote
       get "/insurance", InsuranceChoiceController, :show
       post "/insurance", InsuranceChoiceController, :create
-    end
 
+      post "/accessory/:accessory_id", AccessoryLeadController, :create
+      delete "/accessory/:accessory_id", AccessoryLeadController, :delete
+      get "/accessory", AccessoryLeadController, :show
+    end
 
     match :*, "/*path", StaticFilesController, :not_found
   end

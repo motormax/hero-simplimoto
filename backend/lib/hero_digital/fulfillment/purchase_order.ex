@@ -3,6 +3,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   import Ecto.Changeset
 
   alias HeroDigital.Repo
+  alias HeroDigital.Product
 
   schema "purchase_orders" do
     field :email, :string
@@ -41,7 +42,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   def total_amount(purchase_order) do
     Decimal.new(lead(purchase_order).motorcycle.price)
     |> Decimal.add(plate_registration_price(purchase_order.lead_id))
-    # TODO: + Accessorios
+    |> Decimal.add(accessories_price(purchase_order.lead_id))
   end
 
   defp lead(purchase_order) do
@@ -49,9 +50,14 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   end
 
   defp plate_registration_price(lead_id) do
-     case HeroDigital.PlateRegistration.get_plate_registration_data_for_lead(lead_id) do
+    case HeroDigital.PlateRegistration.get_plate_registration_data_for_lead(lead_id) do
       nil -> raise "Has not chosen a plate registration"
       plate_registration_type -> plate_registration_type.plate_registration_type.price
-     end
+    end
+  end
+
+  defp accessories_price(lead_id) do
+    Product.lead_accessories(lead_id)
+    |> Enum.reduce(Decimal.new("0"), fn accessory, accumulator -> Decimal.add(accessory.price, accumulator) end)
   end
 end
