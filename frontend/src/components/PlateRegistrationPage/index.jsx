@@ -1,7 +1,7 @@
 /* global FileReader */
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Grid, Card, Segment, Divider } from 'semantic-ui-react';
+import { Button, Form, Message, Grid, Card, Segment, Divider, Icon } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
 import humps from 'humps';
@@ -30,6 +30,7 @@ class PlateRegistrationPage extends Component {
   static propTypes = {
     selectHeroPlateRegistration: propTypes.func.isRequired,
     selectMyOwnPlateRegistration: propTypes.func.isRequired,
+    goToDashboard: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
@@ -407,16 +408,26 @@ class PlateRegistrationPage extends Component {
               content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
             />
 
-            <Segment attached="bottom" className="txt-center">
-              <Button
-                size="big"
-                primary
-                type="submit"
-              >Continuar
-              </Button>
-            </Segment>
-
           </Segment>
+          <Segment attached="bottom" className="txt-center">
+            <Button
+              size="big"
+              primary
+              type="submit"
+            >Confirmar
+            </Button>
+            <Button
+              size="large"
+              secondary
+              className="btn-outline"
+              type="button"
+              onClick={this.props.goToDashboard}
+            >
+              <Icon name="chevron left" />
+                Cancelar y Volver
+            </Button>
+          </Segment>
+
         </React.Fragment>);
     } else {
       plateRegistrationForm = (
@@ -427,7 +438,17 @@ class PlateRegistrationPage extends Component {
             onClick={() => {
               this.props.selectMyOwnPlateRegistration(this.props.lead.id);
             }}
-          >Continuar
+          >Confirmar
+          </Button>
+          <Button
+            size="large"
+            secondary
+            className="btn-outline"
+            type="button"
+            onClick={this.props.goToDashboard}
+          >
+            <Icon name="chevron left" />
+            Cancelar y Volver
           </Button>
         </Segment>
       );
@@ -444,20 +465,18 @@ class PlateRegistrationPage extends Component {
         {this.costInfoText()}
 
         <Card className="page-column-card">
-          <Card.Content>
-            <Form onSubmit={this.handleSubmit} error={error}>
-              <Form.Select
-                fluid
-                options={plateRegistrationMethods}
-                name="optInOrOut"
-                value={this.state.optInOrOut}
-                onChange={this.handlePlateRegistrationMethodChange}
-                className="fs-big"
-              />
-              {plateRegistrationForm}
-            </Form>
-          </Card.Content>
+          <Form onSubmit={this.handleSubmit} error={error}>
+            <Form.Select
+              fluid
+              options={plateRegistrationMethods}
+              name="optInOrOut"
+              value={this.state.optInOrOut}
+              onChange={this.handlePlateRegistrationMethodChange}
+              className="fs-big"
+            />
 
+            {plateRegistrationForm}
+          </Form>
         </Card>
 
       </div>
@@ -472,6 +491,9 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  goToDashboard: () => {
+    dispatch(push('/dashboard'));
+  },
   selectMyOwnPlateRegistration: async (leadId) => {
     const body = {
       plate_registration_data: {

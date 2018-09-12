@@ -341,21 +341,24 @@ class FinancingPage extends Component {
 
             <Segment attached="bottom" className="txt-center">
               <Button
-                size="large"
+                size="big"
                 primary
                 disabled={this.disableContinueButton()}
                 onClick={() => {
                   this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
                 }}
-              >Continuar
+              >Confirmar
               </Button>
               <Button
                 size="large"
                 secondary
+                className="btn-outline"
                 onClick={() => {
                   this.props.cancelFinancing();
                 }}
-              >Volver
+              >
+                <Icon name="chevron left" />
+                Cancelar y Volver
               </Button>
             </Segment>
           </Form>
