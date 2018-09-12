@@ -1,6 +1,7 @@
 defmodule HeroDigitalWeb.LeadView do
   use HeroDigitalWeb, :view
   alias HeroDigitalWeb.LeadView
+  alias HeroDigitalWeb.AccessoryView
 
   def render("index.json", %{leads: leads}) do
     %{data: render_many(leads, LeadView, "lead.json")}

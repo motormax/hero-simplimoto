@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
 import { push } from 'react-router-redux';
-import { Button, Form, Message, Card, Segment } from 'semantic-ui-react';
+import { Button, Form, Message, Card, Segment, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
 import moment from 'moment';
@@ -12,11 +12,11 @@ import { dateAppointmentFetched } from '../actions/dateAppointments';
 import AddressSearchInput from './DeliveryPage/AddressSearchInput';
 import AddressGoogleMap from './DeliveryPage/AddressGoogleMap';
 
-const MORNING = 'morning';
-const AFTERNOON = 'afternoon';
-const EVENING = 'evening';
+export const MORNING = 'morning';
+export const AFTERNOON = 'afternoon';
+export const EVENING = 'evening';
 
-const shiftOptions = [
+export const shiftOptions = [
   {
     key: MORNING,
     text: 'Por la mañana (9 a 12)',
@@ -40,6 +40,7 @@ class DateYourBikePage extends Component {
       id: propTypes.string,
     }).isRequired,
     submitDateAppointment: propTypes.func.isRequired,
+    goToDashboard: propTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -218,7 +219,7 @@ class DateYourBikePage extends Component {
     );
 
     const leadDataFormGroup = (
-      <Segment attached>
+      <Segment className="not-border-bottom" attached>
         <p className="txt-dark-gray fw-bold fs-huge">Quién la va a recibir</p>
 
         <Form.Group widths="equal">
@@ -266,6 +267,16 @@ class DateYourBikePage extends Component {
             />
             <Segment className="txt-center" attached="bottom">
               <Button size="big" type="submit" primary>Confirmar</Button>
+              <Button
+                size="large"
+                secondary
+                className="btn-outline"
+                type="button"
+                onClick={this.props.goToDashboard}
+              >
+                <Icon name="chevron left" />
+                Cancelar y Volver
+              </Button>
             </Segment>
           </Form>
         </Card>
@@ -279,6 +290,9 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  goToDashboard: () => {
+    dispatch(push('/dashboard'));
+  },
   submitDateAppointment: async (leadId, dateAppointment) => {
     const { data: { data: newDateAppointment } } = await axios.post(`/api/leads/${leadId}/date_appointment`, { date_appointment: dateAppointment });
     dispatch(dateAppointmentFetched(newDateAppointment));
