@@ -85,5 +85,19 @@ defmodule HeroDigital.FulfillmentTest do
 
       assert HeroDigital.Identity.get_lead(lead.id).is_active == true
     end
+
+    test "when creating purchase order for lead with no plate registration data throws exception and leads keeps active", %{motorcycle: motorcycle} do
+      {:ok, lead} = HeroDigital.Identity.create_lead(%{motorcycle_id: motorcycle.id})
+      Financing.set_financing_data(lead.id, @financing_data_params)
+      Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id})
+      Insurance.create_insurance_choice(%{
+        opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
+        lead_id: lead.id,
+        motorcycle_id: motorcycle.id,
+      })
+
+      assert_raise RuntimeError, fn -> Fulfillment.create_purchase_order_from_lead(lead, @valid_attrs) end
+      assert HeroDigital.Identity.get_lead(lead.id).is_active == true
+    end
   end
 end
