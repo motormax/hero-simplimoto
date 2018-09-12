@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Card, Segment, Icon,
- } from 'semantic-ui-react';
+import { Button, Form, Message, Card, Segment, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import humps from 'humps';
 import propTypes from 'prop-types';
@@ -35,6 +34,7 @@ const deliveryMethods = [
 class DeliveryPage extends Component {
   static propTypes = {
     submitDeliveryData: propTypes.func.isRequired,
+    goToDashboard: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
@@ -234,8 +234,14 @@ class DeliveryPage extends Component {
 
             <Segment attached="bottom" className="txt-center">
               <Button type="submit" size="big" primary>Confirmar</Button>
-              <Button size="large" secondary className="btn-outline">
-                <Icon name="chevron left"/>
+              <Button
+                size="large"
+                secondary
+                className="btn-outline"
+                type="button"
+                onClick={this.props.goToDashboard}
+              >
+                <Icon name="chevron left" />
                 Cancelar y Volver
               </Button>
             </Segment>
@@ -254,6 +260,9 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  goToDashboard: () => {
+    dispatch(push('/dashboard'));
+  },
   submitDeliveryData: async (leadId, deliveryChoice) => {
     const { data: { data: delivery } } = await axios.post(`/api/leads/${leadId}/delivery_choice`, { delivery_choice: deliveryChoice });
     dispatch(deliveryFetched(delivery));

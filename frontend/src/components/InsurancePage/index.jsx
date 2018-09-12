@@ -278,7 +278,7 @@ class InsurancePage extends Component {
                   this.props.backToDashboard();
                 }}
               >
-                <Icon name="chevron left"/>
+                <Icon name="chevron left" />
                 Cancelar y Volver
               </Button>
             </div>
@@ -308,7 +308,7 @@ class InsurancePage extends Component {
               this.props.backToDashboard();
             }}
           >
-            <Icon name="chevron left"/>
+            <Icon name="chevron left" />
             Cancelar y Volver
           </Button>
         </Segment>

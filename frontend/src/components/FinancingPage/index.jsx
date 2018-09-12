@@ -308,7 +308,7 @@ class FinancingPage extends Component {
                   this.props.cancelFinancing();
                 }}
               >
-                <Icon name="chevron left"/>
+                <Icon name="chevron left" />
                 Cancelar y Volver
               </Button>
             </Segment>

@@ -1,7 +1,7 @@
 /* global FileReader */
 import React, { Component } from 'react';
 import { translate } from 'react-i18next';
-import { Button, Form, Message, Grid, Card, Segment, Divider, Icon, } from 'semantic-ui-react';
+import { Button, Form, Message, Grid, Card, Segment, Divider, Icon } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import axios from 'axios';
 import propTypes from 'prop-types';
@@ -29,6 +29,7 @@ class PlateRegistrationPage extends Component {
   static propTypes = {
     selectHeroPlateRegistration: propTypes.func.isRequired,
     selectMyOwnPlateRegistration: propTypes.func.isRequired,
+    goToDashboard: propTypes.func.isRequired,
     lead: propTypes.shape({
       id: propTypes.string,
     }).isRequired,
@@ -377,22 +378,25 @@ class PlateRegistrationPage extends Component {
               content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.description)}
             />
 
-            </Segment>
-            <Segment attached="bottom" className="txt-center">
-              <Button
-                size="big"
-                primary
-                type="submit"
-              >Confirmar
-              </Button>
-              <Button
-                size="large"
-                secondary
-                className="btn-outline">
-                <Icon name="chevron left"/>
+          </Segment>
+          <Segment attached="bottom" className="txt-center">
+            <Button
+              size="big"
+              primary
+              type="submit"
+            >Confirmar
+            </Button>
+            <Button
+              size="large"
+              secondary
+              className="btn-outline"
+              type="button"
+              onClick={this.props.goToDashboard}
+            >
+              <Icon name="chevron left" />
                 Cancelar y Volver
-              </Button>
-            </Segment>
+            </Button>
+          </Segment>
 
         </React.Fragment>);
     } else {
@@ -409,8 +413,11 @@ class PlateRegistrationPage extends Component {
           <Button
             size="large"
             secondary
-            className="btn-outline">
-            <Icon name="chevron left"/>
+            className="btn-outline"
+            type="button"
+            onClick={this.props.goToDashboard}
+          >
+            <Icon name="chevron left" />
             Cancelar y Volver
           </Button>
         </Segment>
@@ -456,6 +463,9 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  goToDashboard: () => {
+    dispatch(push('/dashboard'));
+  },
   selectMyOwnPlateRegistration: async (leadId) => {
     await axios.post(
       `/api/leads/${leadId}/plate_registration/`,
