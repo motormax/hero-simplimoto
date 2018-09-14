@@ -45,7 +45,9 @@ class BikeModelSection extends Component {
             </Grid.Column>
             <Grid.Column width={5}>
               <div className="resume-button-container">
-                <Button fluid secondary> <Icon name="play circle" /> {t('live_tour')}</Button>
+                <Link to={`/tour/${motorcycle.name}`}>
+                  <Button fluid secondary> <Icon name="play circle" /> {t('live_tour')}</Button>
+                </Link>
                 <Link to={`/specs/${motorcycle.name}`}>
                   <Button className="btn-outline" fluid secondary>
                     <Icon name="eye" />

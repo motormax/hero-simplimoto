@@ -12,6 +12,7 @@ const availableMotorcycles = {
     id: 1,
     displayName: 'Hunk',
     defaultImageUrl: hunkImgUrl,
+    videoId: 'ksVob1Jc0E0',
     specsTitle: 'Hunk',
 
     bikeImages: [
@@ -99,6 +100,7 @@ const availableMotorcycles = {
     id: 2,
     displayName: 'Ignitor',
     defaultImageUrl: ignitorImgUrl,
+    videoId: 'xFCnbwFHn7E',
     specsTitle: 'Ignitor',
     bikeImages: [
       'http://www.heromotos.com.ar/medios/files/images/ignitor/ignitor-blue-34.jpg',
@@ -180,6 +182,7 @@ const availableMotorcycles = {
     id: 3,
     displayName: 'Hunk Sport',
     defaultImageUrl: hunkSportImgUrl,
+    videoId: 'xJ9Rfd9q_qc',
     specsTitle: 'Hunk Sport',
 
     bikeImages: [
@@ -258,6 +261,7 @@ const availableMotorcycles = {
     id: 4,
     displayName: 'Dash',
     defaultImageUrl: dashImgUrl,
+    videoId: 'E7Quvpn_EIw',
     specsTitle: 'Dash',
 
     bikeImages: [

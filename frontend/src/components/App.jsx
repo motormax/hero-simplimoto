@@ -40,9 +40,9 @@ class App extends React.Component {
             <Route path="/plate-registration" component={PlateRegistrationPage} />
             <Route path="/financing" component={FinancingPage} />
             <Route path="/summary" component={PurchaseSummaryPage} />
-            <Route path="/tour" component={LiveTourPage} />
             <Route path="/success" component={SuccessPage} />
             <Route path="/specs/:bikeName" component={BikeSpecs} />
+            <Route path="/tour/:bikeName" component={LiveTourPage} />
           </Switch>
         </Container>
         <Footer />
