@@ -70,6 +70,7 @@
   &_items-container{
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     .dashboard-card_items{
       display: inline-flex;
       align-items: center;
