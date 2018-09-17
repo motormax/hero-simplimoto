@@ -27,13 +27,16 @@ export async function getPaymentMethod(creditCardNumber, callback) {
   }
 }
 
-export async function getInstallments(paymentMethodId, issuerId, amount, callback) {
-  window.Mercadopago.getInstallments(
-    {
-      issuer_id: issuerId,
-      amount,
-      payment_method_id: paymentMethodId,
-    },
-    callback,
-  );
+export function getInstallments(paymentMethodId, issuerId, amount, callback) {
+
+  if (window.Mercadopago) {
+    window.Mercadopago.getInstallments(
+      {
+        issuer_id: issuerId,
+        amount,
+        payment_method_id: paymentMethodId,
+      },
+      callback,
+    );
+  }
 }

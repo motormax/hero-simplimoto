@@ -12,7 +12,7 @@ import availableMotorcycles from '../motorcycles/availableMotorcycles';
 import ConfirmationButton from './ConfirmationButton';
 import { startedFetchingInsuranceChoice, insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import PurchaseCalculator from '../calculator';
-import { getInstallments, filterInstallmentLabels } from '../FinancingPage/mercadoPagoHelper';
+import { getInstallments, filterInstallmentLabels, loadSDK } from '../FinancingPage/mercadoPagoHelper';
 import { financingChanged } from '../../actions/financingChoices';
 import FinancingInfo from './Sections/FinancingInfo';
 import { PERSONAL_INSURANCE } from '../InsurancePage/constants';
@@ -64,6 +64,9 @@ class CheckoutSummary extends Component {
   };
 
   componentDidMount() {
+    loadSDK(() => {
+      this.fetchInstallments();
+    });
     if (!this.props.insuranceChoice.optInOrOut) {
       this.props.fetchInsuranceChoice(this.props.lead.id);
     }
@@ -71,18 +74,12 @@ class CheckoutSummary extends Component {
 
   componentDidUpdate({ accessoriesPrice, plateRegistrationData }) {
     const hasPlateRegistrationChanged =
-      !_.isEqual(this.plateRegistrationData, plateRegistrationData);
+      !_.isEqual(this.props.plateRegistrationData, plateRegistrationData);
     const hasAccessoriesPriceChanged =
       this.props.accessoriesPrice !== accessoriesPrice;
 
-    if (this.props.financingSelected &&
-        (hasAccessoriesPriceChanged || hasPlateRegistrationChanged)) {
-      getInstallments(
-        this.props.financingForm.paymentMethodId,
-        this.props.financingForm.issuerId,
-        this.calculator().totalAmount(),
-        this.fetchInstallmentsCallback,
-      );
+    if (hasAccessoriesPriceChanged || hasPlateRegistrationChanged) {
+      this.fetchInstallments();
     }
   }
 
@@ -134,6 +131,17 @@ class CheckoutSummary extends Component {
     }
     return null;
   };
+
+  fetchInstallments = () => {
+    if (this.props.financingSelected) {
+      getInstallments(
+        this.props.financingForm.paymentMethodId,
+        this.props.financingForm.issuerId,
+        this.calculator().totalAmount(),
+        this.fetchInstallmentsCallback,
+      );
+    }
+  }
 
   render() {
     const {
@@ -282,7 +290,7 @@ const mapDispatchToProps = dispatch => ({
   changeToSelectInsurance: () => {
     dispatch(push('/insurance'));
   },
-  changeFinancing: async (financingForm) => {
+  changeFinancing: (financingForm) => {
     dispatch(financingChanged(financingForm));
   },
 });
