@@ -7,9 +7,12 @@ import axios from 'axios';
 import humps from 'humps';
 
 import {
-  allAndChosenAccessoriesFetched,
-  startedFetchingAllAndChosenAccessories,
-  toggleAccessorySelection,
+  allAccessoriesFetched,
+  startedFetchingAllAccessories,
+  chosenAccessoriesFetched,
+  startedFetchingChosenAccessories,
+  addAccessoryToChosens,
+  deleteAccessoryFromChosens,
 } from '../../../actions/accessories';
 import { moneyFormatter } from '../CheckoutSummary';
 
@@ -17,13 +20,18 @@ import { moneyFormatter } from '../CheckoutSummary';
 class AccessoriesSection extends Component {
   static defaultProps = {
     isLoading: false,
+    chosenAccessories: [],
   }
   static propTypes = {
-    fetchAccessories: propTypes.func.isRequired,
+    fetchAllAccessories: propTypes.func.isRequired,
+    fetchChosenAccessories: propTypes.func.isRequired,
     toggleAccessoryStatus: propTypes.func.isRequired,
     t: propTypes.func.isRequired,
     totalPrice: propTypes.number.isRequired,
-    selectedAccessories: propTypes.objectOf(propTypes.bool).isRequired,
+    accessories: propTypes.shape({
+      hasFetchedAllAccessories: propTypes.bool.isRequired,
+      hasFetchedChosenAccessories: propTypes.bool.isRequired,
+    }).isRequired,
     allAccessories: propTypes.arrayOf({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
@@ -31,6 +39,13 @@ class AccessoriesSection extends Component {
       description: propTypes.string.isRequired,
       logoUrl: propTypes.string.isRequired,
     }).isRequired,
+    chosenAccessories: propTypes.arrayOf(propTypes.shape({
+      id: propTypes.number,
+      name: propTypes.string.isRequired,
+      price: propTypes.string.isRequired,
+      description: propTypes.string.isRequired,
+      logoUrl: propTypes.string.isRequired,
+    })),
     lead: propTypes.shape({
       id: propTypes.string.isRequired,
     }).isRequired,
@@ -38,15 +53,20 @@ class AccessoriesSection extends Component {
   };
 
   componentDidMount() {
-    // POLEMICO: ¿podrian no haber accessorios en la base?
-    if (this.props.allAccessories.length === 0) {
-      this.props.fetchAccessories(this.props.lead.id);
+    if (!this.props.accessories.hasFetchedAllAccessories) {
+      this.props.fetchAllAccessories();
+    }
+    if (!this.props.accessories.hasFetchedChosenAccessories) {
+      this.props.fetchChosenAccessories(this.props.lead.id);
     }
   }
 
+  isAccessoryChosen = accessory =>
+    this.props.chosenAccessories.some(chosenAccessory => chosenAccessory.id === accessory.id);
+
   render() {
     const {
-      t, totalPrice, selectedAccessories, toggleAccessoryStatus,
+      t, totalPrice, toggleAccessoryStatus,
       isLoading, allAccessories,
     } = this.props;
 
@@ -56,11 +76,16 @@ class AccessoriesSection extends Component {
 
     const dashboardCardItems = allAccessories
       .map((accessory) => {
-        const { name, price, logoUrl, id } = accessory;
-        const isSelected = selectedAccessories[accessory.name];
+        const {
+          name,
+          price,
+          logoUrl,
+          id,
+        } = accessory;
+        const isSelected = this.isAccessoryChosen(accessory);
         return (
           <div key={name} className="dashboard-card_items">
-            <Checkbox defaultChecked={isSelected} onChange={() => toggleAccessoryStatus(id, name, !isSelected, this.props.lead.id)} />
+            <Checkbox checked={isSelected} onChange={() => toggleAccessoryStatus(id, !isSelected, this.props.lead.id)} />
             <img
               src={logoUrl}
               alt={accessory.name}
@@ -104,30 +129,34 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   totalPrice: state.main.accessories.totalPrice,
   selectedAccessories: state.main.accessories.selectedAccessories,
+  accessories: state.main.accessories,
   allAccessories: state.main.accessories.allAccessories,
+  chosenAccessories: state.main.accessories.chosenAccessories,
   isLoading: state.main.accessories.isLoading,
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleAccessoryStatus: async (accessoryId, accesoryName, isSelected, leadId) => {
-    dispatch(toggleAccessorySelection(accesoryName));
+  toggleAccessoryStatus: async (accessoryId, isSelected, leadId) => {
+    let response;
 
     if (isSelected) {
-      const response = await axios.post(`/api/leads/${leadId}/accessory/${accessoryId}`);
-      console.log(response); // eslint-disable-line no-console
+      response = await axios.post(`/api/leads/${leadId}/accessory/${accessoryId}`);
+      dispatch(addAccessoryToChosens(accessoryId));
     } else {
-      const response = await axios.delete(`/api/leads/${leadId}/accessory/${accessoryId}`);
-      console.log(response); // eslint-disable-line no-console
+      response = await axios.delete(`/api/leads/${leadId}/accessory/${accessoryId}`);
+      dispatch(deleteAccessoryFromChosens(accessoryId));
     }
+    console.log(response); // eslint-disable-line no-console
   },
-  fetchAccessories: async (leadId) => {
-    dispatch(startedFetchingAllAndChosenAccessories());
+  fetchAllAccessories: async () => {
+    dispatch(startedFetchingAllAccessories());
     const { data: { data: allAccessories } } = await axios.get('/api/accessories');
+    dispatch(allAccessoriesFetched(humps.camelizeKeys(allAccessories)));
+  },
+  fetchChosenAccessories: async (leadId) => {
+    dispatch(startedFetchingChosenAccessories());
     const { data: { data: chosenAccessories } } = await axios.get(`/api/leads/${leadId}/accessories`);
-    dispatch(allAndChosenAccessoriesFetched(
-      humps.camelizeKeys(allAccessories),
-      humps.camelizeKeys(chosenAccessories),
-    ));
+    dispatch(chosenAccessoriesFetched(humps.camelizeKeys(chosenAccessories)));
   },
 });
 
