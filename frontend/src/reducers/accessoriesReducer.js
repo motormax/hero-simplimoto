@@ -3,50 +3,78 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
   totalPrice: 0,
-  selectedAccessories: {},
   allAccessories: [],
+  chosenAccessories: [],
+  hasFetchedAllAccessories: false,
+  hasFetchedChosenAccessories: false,
+  isLoading: true,
 };
 
 export default function accessoriesReducer(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.toggleAccessorySelection: {
-      const { accesoryName } = action;
-      const { selectedAccessories, allAccessories } = state;
-
-      const newSelectedAccessories = Object.assign(
-        {},
-        selectedAccessories,
-        { [accesoryName]: !selectedAccessories[accesoryName] },
-      );
-
-      const newTotalPrice = _.sum(_.filter(
-        allAccessories,
-        accessory => newSelectedAccessories[accessory.name],
-      ).map(accesory => Number(accesory.price)));
+    case actionTypes.leadFetched:
+      return {
+        ...initialState,
+        isLoading: state.isLoading,
+        hasFetchedAllAccessories: state.hasFetchedAllAccessories,
+        allAccessories: state.allAccessories,
+      };
+    case actionTypes.addAccessoryToChosens: {
+      const { accessoryId } = action;
+      const { allAccessories, chosenAccessories } = state;
+      chosenAccessories.push(_.find(allAccessories, accessory => accessory.id === accessoryId));
+      const newTotalPrice = _.sum(chosenAccessories.map(accessory => _.toNumber(accessory.price)));
 
       return {
         ...state,
         totalPrice: newTotalPrice,
-        selectedAccessories: newSelectedAccessories,
+        chosenAccessories,
       };
     }
-    case actionTypes.startedFetchingAllAndChosenAccessories:
-      return { isLoading: true };
-    case actionTypes.allAndChosenAccessoriesFetched: {
-      const { allAccessories, chosenAccessories } = action;
-      const selectedAccessories = {};
-      let totalPrice = 0;
-
-      allAccessories.forEach((accessory) => {
-        selectedAccessories[accessory.name] =
-          chosenAccessories.some(chosenAccesory => chosenAccesory.name === accessory.name);
-        totalPrice += Number(accessory.price);
-      });
+    case actionTypes.deleteAccessoryFromChosens: {
+      const { accessoryId } = action;
+      const { chosenAccessories } = state;
+      const newChosenAccessories = _.filter(
+        chosenAccessories,
+        accessory => accessory.id !== accessoryId,
+      );
+      const newTotalPrice =
+        _.sum(newChosenAccessories.map(accessory => _.toNumber(accessory.price)));
 
       return {
-        allAccessories,
-        selectedAccessories,
+        ...state,
+        totalPrice: newTotalPrice,
+        chosenAccessories: newChosenAccessories,
+      };
+    }
+    case actionTypes.startedFetchingAllAccessories:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case actionTypes.allAccessoriesFetched: {
+      return {
+        ...state,
+        isLoading: false,
+        allAccessories: action.allAccessories,
+        hasFetchedAllAccessories: true,
+      };
+    }
+    case actionTypes.startedFetchingChosenAccessories:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case actionTypes.chosenAccessoriesFetched: {
+      const { chosenAccessories } = action;
+      const totalPrice = _.sum(chosenAccessories.map(accessory => _.toNumber(accessory.price)));
+
+      return {
+        ...state,
+        isLoading: false,
         totalPrice,
+        chosenAccessories,
+        hasFetchedChosenAccessories: true,
       };
     }
     default:
