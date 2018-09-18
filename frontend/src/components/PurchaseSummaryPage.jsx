@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Card, Segment, Grid, Icon } from 'semantic-ui-react';
 import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
-import availableAccessories from './motorcycles/availableAccessories';
 import availableColors from './motorcycles/availableColors';
 import CreditCardPayment from './CreditCardPayment';
 import { PERSONAL_INSURANCE } from './InsurancePage/constants';
@@ -33,6 +33,13 @@ class PurchaseSummary extends Component {
       selectedAccessories: propTypes.any.isRequired,
       totalPrice: propTypes.number.isRequired,
     }).isRequired,
+    chosenAccessories: propTypes.arrayOf(propTypes.shape({
+      id: propTypes.number,
+      name: propTypes.string.isRequired,
+      price: propTypes.string.isRequired,
+      description: propTypes.string.isRequired,
+      logoUrl: propTypes.string.isRequired,
+    })),
   };
 
   deliveryTitle = () => {
@@ -74,7 +81,7 @@ class PurchaseSummary extends Component {
 
   render() {
     const {
-      lead, accessories, insuranceChoice,
+      lead, accessories, insuranceChoice, chosenAccessories,
     } = this.props;
 
     const insuranceOptOut = insuranceChoice.optInOrOut === PERSONAL_INSURANCE;
@@ -115,8 +122,7 @@ class PurchaseSummary extends Component {
 
     let accesoriesSegment;
 
-    const anyAccesoriesSelected =
-      Object.values(accessories.selectedAccessories).some(value => !!value);
+    const anyAccesoriesSelected = !_.isEmpty(chosenAccessories);
 
     if (anyAccesoriesSelected) {
       accesoriesSegment = (
@@ -129,15 +135,16 @@ class PurchaseSummary extends Component {
               <h3 className="fw-bold fs-big">Con accesorios: </h3>
             </Grid.Column>
             <Grid.Column width={5}>
-              <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{moneyFormatter.format(accessories.totalPrice)}</span>
+              <span className="fw-bold fs-large fs-medium txt-dark-gray">
+                <span className="fw-normal">$</span>{moneyFormatter.format(accessories.totalPrice)}
+              </span>
             </Grid.Column>
           </Grid>
           <Grid>
             <Grid.Column width={2} />
             <Grid.Column className="details-container" width={9}>
-              { Object.keys(accessories.selectedAccessories).map(accesoryName =>
-                accessories.selectedAccessories[accesoryName] &&
-                  <img src={availableAccessories[accesoryName].imgUrl} alt={accesoryName} />)}
+              { chosenAccessories.map(accessory =>
+                <img src={accessory.logoUrl} alt={accessory.name} />) }
             </Grid.Column>
           </Grid>
         </Segment>
@@ -242,6 +249,7 @@ const mapStateToProps = store => ({
   plateRegistration: store.main.plateRegistrationData,
   customization: store.main.customization,
   accessories: store.main.accessories,
+  chosenAccessories: store.main.accessories.chosenAccessories,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PurchaseSummary);
