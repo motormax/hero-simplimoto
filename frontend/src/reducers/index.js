@@ -29,7 +29,7 @@ const reducer = (state = defaultState, action) => {
         delivery: deliveryReducer(undefined, action),
         plateRegistration: plateRegistrationReducer(undefined, action),
         insuranceChoice: insuranceChoiceReducer(undefined, action),
-        accessories: accessoriesReducer(undefined, action),
+        accessories: accessoriesReducer(state.accessories, action),
         financing: financingReducer(undefined, action),
       };
     case actionTypes.startedFetchingLead:
