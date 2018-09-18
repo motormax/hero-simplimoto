@@ -16,6 +16,7 @@ import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 import FinancingPage from './FinancingPage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
+import LiveTourPage from './LiveTourPage';
 import SuccessPage from './SuccessPage';
 import BikeSpecs from './Specs/BikeSpecs';
 
@@ -41,6 +42,7 @@ class App extends React.Component {
             <Route path="/summary" component={PurchaseSummaryPage} />
             <Route path="/success" component={SuccessPage} />
             <Route path="/specs/:bikeName" component={BikeSpecs} />
+            <Route path="/tour/:bikeName" component={LiveTourPage} />
           </Switch>
         </Container>
         <Footer />
