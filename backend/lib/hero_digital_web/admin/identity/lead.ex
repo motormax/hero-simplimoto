@@ -134,10 +134,14 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
       end
 
       panel "Accesorios" do
-        markup_contents do
-          case HeroDigital.Product.lead_accessories(lead.id) do
-            [] -> text "El usuario no eligió accesorios."
-            _ -> text "TODO"
+        table_for(HeroDigital.Product.lead_accessories(lead.id)) do
+          column "Nombre", fn(ac) -> text ac.name end
+          column "Descripcion", fn(ac) -> text ac.description end
+          column "Precio", fn(ac) -> text ac.price end
+          column "Imagen", fn(ac) ->
+            div do
+              img(src: ac.logo_url, height: "50px")
+            end
           end
         end
       end
