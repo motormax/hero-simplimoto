@@ -67,7 +67,7 @@ const mapStateToProps = state => ({
   financing: state.main.financing,
   delivery: state.main.delivery,
   insuranceChoice: state.main.insuranceChoice,
-  plateRegistration: state.main.plateRegistrationData,
+  plateRegistration: state.main.plateRegistration.plateRegistrationData,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationButton);
