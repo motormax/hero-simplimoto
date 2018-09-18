@@ -28,7 +28,6 @@ export async function getPaymentMethod(creditCardNumber, callback) {
 }
 
 export function getInstallments(paymentMethodId, issuerId, amount, callback) {
-
   if (window.Mercadopago) {
     window.Mercadopago.getInstallments(
       {

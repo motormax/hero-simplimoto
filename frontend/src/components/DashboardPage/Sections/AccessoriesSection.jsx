@@ -85,7 +85,10 @@ class AccessoriesSection extends Component {
         const isSelected = this.isAccessoryChosen(accessory);
         return (
           <div key={name} className="dashboard-card_items">
-            <Checkbox checked={isSelected} onChange={() => toggleAccessoryStatus(id, !isSelected, this.props.lead.id)} />
+            <Checkbox
+              checked={isSelected}
+              onChange={() => toggleAccessoryStatus(id, !isSelected, this.props.lead.id)}
+            />
             <img
               src={logoUrl}
               alt={accessory.name}
