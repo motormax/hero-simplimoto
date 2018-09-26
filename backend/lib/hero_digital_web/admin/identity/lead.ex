@@ -69,7 +69,6 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
               if insurance.quote_policy == nil do
                 attributes_table_for(insurance) do
                   row "Tipo", fn(d) -> text "Me aseguro a mi mismo" end
-                  row "Concesionario", fn(d) -> d.pickup_location end
                 end
               else
                 attributes_table_for(insurance) do
