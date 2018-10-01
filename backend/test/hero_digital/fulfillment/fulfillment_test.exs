@@ -11,6 +11,8 @@ defmodule HeroDigital.FulfillmentTest do
   alias HeroDigital.PlateRegistration
   alias HeroDigital.PlateRegistrationTest
   alias Decimal
+  alias HeroDigital.Factory
+  alias HeroDigital.Product
 
   alias Http.Mock
 
@@ -30,8 +32,11 @@ defmodule HeroDigital.FulfillmentTest do
       |> stub(:post, fn _, _, _ -> {:ok, %HTTPoison.Response{status_code: 200, body: @transaction_approved_body}} end)
       {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(PlateRegistrationTest.personal_plate_registration_type)
 
+      an_accessory = Factory.new_accessory()
+      another_accessory = Factory.new_different_accessory()
+
       motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "DASH", price: 50000})
-      %{motorcycle: motorcycle}
+      %{motorcycle: motorcycle, an_accessory: an_accessory, another_accessory: another_accessory}
     end
 
     setup %{motorcycle: motorcycle} do
@@ -40,11 +45,12 @@ defmodule HeroDigital.FulfillmentTest do
       end
     end
 
-    setup %{lead: lead, motorcycle: motorcycle} do
+    setup %{lead: lead, motorcycle: motorcycle, an_accessory: an_accessory, another_accessory: another_accessory} do
       with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params),
            {:ok, delivery_choice} <- Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id}),
            {:ok, plate_registration_data} <- PlateRegistration.create_plate_registration_data(
               Map.put(PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
+           {:ok, lead} <- Product.add_accessories_to_lead(lead, [an_accessory, another_accessory]),
            {:ok, insurance_choice} <- Insurance.create_insurance_choice(%{
              opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
              lead_id: lead.id,
@@ -77,6 +83,20 @@ defmodule HeroDigital.FulfillmentTest do
     test "create_purchase_order_for_lead/2 with invalid does not deactivate the lead", %{lead: lead} do
       assert {:error, %Ecto.Changeset{}} = Fulfillment.create_purchase_order_from_lead(lead, @invalid_attrs)
 
+      assert HeroDigital.Identity.get_lead(lead.id).is_active == true
+    end
+
+    test "when creating purchase order for lead with no plate registration data throws exception and leads keeps active", %{motorcycle: motorcycle} do
+      {:ok, lead} = HeroDigital.Identity.create_lead(%{motorcycle_id: motorcycle.id})
+      Financing.set_financing_data(lead.id, @financing_data_params)
+      Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id})
+      Insurance.create_insurance_choice(%{
+        opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
+        lead_id: lead.id,
+        motorcycle_id: motorcycle.id,
+      })
+
+      assert_raise RuntimeError, fn -> Fulfillment.create_purchase_order_from_lead(lead, @valid_attrs) end
       assert HeroDigital.Identity.get_lead(lead.id).is_active == true
     end
   end

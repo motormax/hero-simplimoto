@@ -7,6 +7,7 @@ defmodule HeroDigital.Identity do
   alias HeroDigital.Repo
 
   alias HeroDigital.Identity.Lead
+  alias HeroDigital.Product
 
   @doc """
   Returns the list of leads.
@@ -37,11 +38,11 @@ defmodule HeroDigital.Identity do
   """
   def get_lead!(id) do
     Repo.get!(Lead, id)
-    |> Repo.preload(:motorcycle)
+    |> Repo.preload([:motorcycle, :accessories])
   end
   def get_lead(id) do
     Repo.get(Lead, id)
-    |> Repo.preload(:motorcycle)
+    |> Repo.preload([:motorcycle, :accessories])
   end
 
   @doc """
@@ -58,6 +59,8 @@ defmodule HeroDigital.Identity do
   """
   def create_lead(attrs \\ %{}) do
     with {:ok, lead } <- (%Lead{} |> Lead.changeset(attrs) |> Repo.insert()) do
+      all_accessories = Product.list_accessories()
+      Product.add_accessories_to_lead(lead, all_accessories)
       {:ok, get_lead!(lead.id)}
     end
   end

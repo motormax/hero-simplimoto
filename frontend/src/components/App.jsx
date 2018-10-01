@@ -16,10 +16,13 @@ import Footer from './Footer';
 import InsurancePage from './InsurancePage';
 import FinancingPage from './FinancingPage';
 import PurchaseSummaryPage from './PurchaseSummaryPage';
+import LiveTourPage from './LiveTourPage';
 import SuccessPage from './SuccessPage';
 import BikeSpecs from './Specs/BikeSpecs';
 
 import logoUrl from './hero-logo.png';
+import PrivacyPolicy from './legal/privacyPolicy';
+import ResponsibilityDisclaimer from './legal/responsibilityDisclaimer';
 
 
 class App extends React.Component {
@@ -41,6 +44,9 @@ class App extends React.Component {
             <Route path="/summary" component={PurchaseSummaryPage} />
             <Route path="/success" component={SuccessPage} />
             <Route path="/specs/:bikeName" component={BikeSpecs} />
+            <Route path="/tour/:bikeName" component={LiveTourPage} />
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/responsibility-disclaimer" component={ResponsibilityDisclaimer} />
           </Switch>
         </Container>
         <Footer />

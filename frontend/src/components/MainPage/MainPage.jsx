@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
+import humps from 'humps';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { leadFetched } from '../../actions/beginning';
 
+import {
+  allAccessoriesFetched,
+  startedFetchingAllAccessories,
+} from '../../actions/accessories';
 import HomeCarrousel from './HomeCarrousel';
 import ListOfBikesModels from './ListOfBikesModels';
 
@@ -13,12 +18,28 @@ import ListOfBikesModels from './ListOfBikesModels';
 class MainPage extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
+    fetchAllAccessories: propTypes.func.isRequired,
     pickBike: propTypes.func.isRequired,
     goToSpec: propTypes.func.isRequired,
+    accessories: propTypes.shape({
+      hasFetchedAllAccessories: propTypes.bool.isRequired,
+      hasFetchedChosenAccessories: propTypes.bool.isRequired,
+    }).isRequired,
+    isLoading: propTypes.bool,
   };
 
+  componentDidMount() {
+    if (!this.props.accessories.hasFetchedAllAccessories) {
+      this.props.fetchAllAccessories();
+    }
+  }
+
   render() {
-    const { t } = this.props;
+    const { t, isLoading } = this.props;
+
+    if (isLoading) {
+      return <div>CARGANDO</div>;
+    }
 
     return (
       <div>
@@ -30,6 +51,12 @@ class MainPage extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  accessories: state.main.accessories,
+  isLoading: state.main.accessories.isLoading,
+  allAccessories: state.main.accessories.allAccessories,
+});
+
 const mapDispatchToProps = dispatch => ({
   pickBike: async (motorcycleId) => {
     const { data: { data: lead } } = await axios.post('/api/leads/', { lead: { motorcycle_id: motorcycleId } });
@@ -40,6 +67,11 @@ const mapDispatchToProps = dispatch => ({
   goToSpec: (bikeName) => {
     dispatch(push(`/specs/${bikeName}`));
   },
+  fetchAllAccessories: async () => {
+    dispatch(startedFetchingAllAccessories());
+    const { data: { data: allAccessories } } = await axios.get('/api/accessories');
+    dispatch(allAccessoriesFetched(humps.camelizeKeys(allAccessories)));
+  },
 });
 
-export default translate('index')(connect(undefined, mapDispatchToProps)(MainPage));
+export default translate('index')(connect(mapStateToProps, mapDispatchToProps)(MainPage));

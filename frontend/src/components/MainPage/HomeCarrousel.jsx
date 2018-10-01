@@ -33,6 +33,7 @@ class HomeCarrousel extends Component {
         <CarrouselItem
           bikeImageUrl={bikeData.defaultImageUrl}
           bikeName={bikeData.displayName}
+          bikeMonthlyPrice={bikeData.monthlyPrice}
           onBuy={() => this.props.pickBike(bikeData.id)}
         />
       </div>

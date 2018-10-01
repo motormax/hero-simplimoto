@@ -2,7 +2,6 @@ export default {
   leadFetched: 'LEAD_FETCHED',
   cancelPurchase: 'CANCEL_PURCHASE',
   changeBikeColor: 'CHANGE_BIKE_COLOR',
-  toggleAccessorySelection: 'TOGGLE_ACCESSORY_SELECTION',
   startedFetchingLead: 'STARTED_FETCHING_LEAD',
   deliveryFetched: 'DELIVERY_FETCHED',
   startedFetchingDelivery: 'STARTED_FETCHING_DELIVERY',
@@ -18,4 +17,10 @@ export default {
   financingChanged: 'FINANCING_CHANGED',
   startedFetchingFinancing: 'STARTED_FETCHING_FINANCING',
   changePlateRegistrationData: 'CHANGE_PLATE_REGISTRATION_DATA',
+  startedFetchingAllAccessories: 'STARTED_FETCHING_ALL_ACCESSORIES',
+  allAccessoriesFetched: 'ALL_ACCESSORIES_FETCHED',
+  startedFetchingChosenAccessories: 'STARTED_FETCHING_CHOSEN_ACCESSORIES',
+  chosenAccessoriesFetched: 'CHOSEN_ACCESSORIES_FETCHED',
+  addAccessoryToChosens: 'ADD_ACCESSORY_TO_CHOSENS',
+  deleteAccessoryFromChosens: 'DELETE_ACCESSORY_FROM_CHOSENS',
 };

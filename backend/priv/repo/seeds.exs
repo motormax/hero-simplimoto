@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias HeroDigital.PlateRegistration
+alias HeroDigital.Product
 
 hunk = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "HUNK", price: 22222})
 ignitor = HeroDigital.Repo.insert!(%HeroDigital.Product.Motorcycle{name: "IGNITOR", price: 22222})
@@ -90,3 +91,21 @@ HeroDigital.Repo.insert!(second_mapfre_policy)
 
 {:ok, personal_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "personalPlateRegistration", "price" => Decimal.new(1500)})
 {:ok, hero_plate_registration_type} = PlateRegistration.create_plate_registration_type(%{"name" => "heroPlateRegistration", "price" => Decimal.new(3800)})
+
+
+Product.create_accessory(%{
+  description: "<b>CASCO</b><ul><li>Marca: Hawk</li><li>Modelo: RS11</li><li>Tipo: Integral</li></ul>",
+  logo_url: "https://www.tiendamotorista.com/8037-large_default/integrales-casco-moto-bell-race-star-negro-mate.jpg",
+  name: "Casco",
+  price: "2000"})
+Product.create_accessory(%{
+  description: "<b>Baul</b><ul><li>Marca: VC</li><li>Modelo: VAM45</li><li>Capacidad: 42 L</li><li>Cantidad de cascos: 2</li></ul>",
+  logo_url: "https://www.topracingatv.com.ar/image/cache/catalog/bycap/e33nt-500x500.png",
+  name: "Baul",
+  price: "1500"})
+Product.create_accessory(%{
+  description: "<b>HELD OVERGLOVES</b><br/>Guantes exteriores para lluvia. <ul><li>Material: Nylon</li><li>Propiedades: Puño elástico</li></ul>",
+  logo_url: "https://www.aktmotos.com/sites/default/files/styles/accesory_share_fb/public/guantes-kontrol-005.png?itok=hqqKM6KU",
+  name: "Guantes",
+  price: "700"})
+

@@ -270,10 +270,16 @@ class InsurancePage extends Component {
             </Form.Group>
             <div className="txt-center">
               <Button size="large" primary type="submit" >Cotizar</Button>
-              <Button onClick={() => {
-                        this.props.backToDashboard();
-                      }}
-              >Volver
+              <Button
+                size="medium"
+                secondary
+                className="btn-outline"
+                onClick={() => {
+                  this.props.backToDashboard();
+                }}
+              >
+                <Icon name="chevron left" />
+                Cancelar y Volver
               </Button>
             </div>
           </Form>
@@ -287,12 +293,23 @@ class InsurancePage extends Component {
       heroQuery = (
         <Segment attached="bottom" className="txt-center">
           <Button
-            size="large"
+            size="big"
             primary
             onClick={() => {
               this.props.selectMyOwnInsurance(this.props.lead);
             }}
-          >Continuar
+          >Confirmar
+          </Button>
+          <Button
+            size="large"
+            secondary
+            className="btn-outline"
+            onClick={() => {
+              this.props.backToDashboard();
+            }}
+          >
+            <Icon name="chevron left" />
+            Cancelar y Volver
           </Button>
         </Segment>
       );
