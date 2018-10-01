@@ -16,7 +16,7 @@ import { changePlateRegistrationData } from '../../actions/plateRegistration';
 const plateRegistrationMethods = [
   {
     key: HERO_PLATE_REGISTRATION,
-    text: 'Quiero que Hero patente mi moto',
+    text: 'Quiero que me patenten mi moto',
     value: HERO_PLATE_REGISTRATION,
   },
   {

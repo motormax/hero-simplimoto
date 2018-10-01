@@ -11,9 +11,17 @@ const availableMotorcycles = {
   HUNK: {
     id: 1,
     displayName: 'Hunk',
+    monthlyPrice: 4300,
     defaultImageUrl: hunkImgUrl,
     videoId: 'ksVob1Jc0E0',
     specsTitle: 'Hunk',
+
+    miniSpecs: [
+      'Tecnología I3S',
+      'Motor 150cm3',
+      'Amortiguadores con gas, regulables',
+      'Potente faro delantero',
+    ],
 
     bikeImages: [
       'http://www.heromotos.com.ar/medios/files/images/hunk/hunk frente.jpg',
@@ -99,9 +107,18 @@ const availableMotorcycles = {
   IGNITOR: {
     id: 2,
     displayName: 'Ignitor',
+    monthlyPrice: 3900,
     defaultImageUrl: ignitorImgUrl,
     videoId: 'xFCnbwFHn7E',
     specsTitle: 'Ignitor',
+
+    miniSpecs: [
+      'Tecnología I3S',
+      'Motor 125cm3',
+      'Cebador manual a cable',
+      'Stop trasero con luces led',
+    ],
+
     bikeImages: [
       'http://www.heromotos.com.ar/medios/files/images/ignitor/ignitor-blue-34.jpg',
       'http://www.heromotos.com.ar/medios/files/images/ignitor/ignitor azul e cuartos atras.jpg',
@@ -181,9 +198,17 @@ const availableMotorcycles = {
   HUNK_SPORT: {
     id: 3,
     displayName: 'Hunk Sport',
+    monthlyPrice: 4100,
     defaultImageUrl: hunkSportImgUrl,
     videoId: 'xJ9Rfd9q_qc',
     specsTitle: 'Hunk Sport',
+
+    miniSpecs: [
+      '15.2 BHP de potencia',
+      'Caja de 5 velocidades',
+      'Freno a disco',
+      'Cubiertas radiales',
+    ],
 
     bikeImages: [
       'http://www.heromotos.com.ar/medios/files/images/hunk%20sports/hunksp-red-34t.jpeg',
@@ -260,9 +285,17 @@ const availableMotorcycles = {
   DASH: {
     id: 4,
     displayName: 'Dash',
+    monthlyPrice: 3000,
     defaultImageUrl: dashImgUrl,
     videoId: 'E7Quvpn_EIw',
     specsTitle: 'Dash',
+
+    miniSpecs: [
+      'Sistema de llave antirrobo',
+      'Velocimetro analogico digital',
+      'Tomas USB',
+      'Frenos combinados',
+    ],
 
     bikeImages: [
       'http://www.heromotos.com.ar/medios/files/images/dash/dash 3 cuartos frente.jpg',

@@ -1,7 +1,8 @@
+/* eslint react/no-danger: 0 */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Checkbox, Grid, Icon, Segment } from 'semantic-ui-react';
+import { Checkbox, Grid, Icon, Segment, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import humps from 'humps';
@@ -64,6 +65,9 @@ class AccessoriesSection extends Component {
   isAccessoryChosen = accessory =>
     this.props.chosenAccessories.some(chosenAccessory => chosenAccessory.id === accessory.id);
 
+  dangerousHTMLQuoteDetails = content =>
+    <div dangerouslySetInnerHTML={{ __html: content }} />
+
   render() {
     const {
       t, totalPrice, toggleAccessoryStatus,
@@ -78,6 +82,7 @@ class AccessoriesSection extends Component {
       .map((accessory) => {
         const {
           name,
+          description,
           price,
           logoUrl,
           id,
@@ -96,7 +101,12 @@ class AccessoriesSection extends Component {
               height="60px"
             />
             <div className="accessory_item_details">
-              <p className="fw-bold txt-med-gray">{name}</p>
+              <p className="fw-bold txt-med-gray">
+                {name} &nbsp;
+                <Popup trigger={<Icon name="info circle" />}>
+                  <Popup.Content>{this.dangerousHTMLQuoteDetails(description)}</Popup.Content>
+                </Popup>
+              </p>
               <p className="txt-med-gray">{t('currency_sign')}
                 <span className="fw-bold">{moneyFormatter.format(price)}</span>
               </p>

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { Card, Icon } from 'semantic-ui-react';
 import classNames from 'classnames';
 import MercadoPagoFinancingForm from './MercadoPagoFinancingForm';
+import BankTransferForm from './BankTransferForm';
+import CrediCuotasForm from './CrediCuotasForm';
 
 export const MERCADO_PAGO_PAYMENT_METHOD = 'mercadoPago';
 export const TRANSFERENCIA_PAYMENT_METHOD = 'bankTransfer';
@@ -34,9 +36,9 @@ class FinancingPage extends Component {
       case MERCADO_PAGO_PAYMENT_METHOD:
         return <MercadoPagoFinancingForm />;
       case TRANSFERENCIA_PAYMENT_METHOD:
-        return false;
+        return <BankTransferForm />;
       case CREDICUOTAS_PAYMENT_METHOD:
-        return false;
+        return <CrediCuotasForm />;
       case null:
         return false;
       default:

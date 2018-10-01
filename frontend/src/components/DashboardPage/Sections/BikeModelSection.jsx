@@ -37,10 +37,11 @@ class BikeModelSection extends Component {
                 </span>
               </h3>
               <ul className="txt-med-gray fs-medium italic">
-                <li>Tecnología I3S</li>
-                <li>149.2 cc</li>
-                <li>5 velocidades</li>
-                <li>15.2 BHP de potencia</li>
+                {
+                  availableMotorcycles[motorcycle.name].miniSpecs.map(bikeSpec => (
+                    <li>{bikeSpec}</li>
+                  ))
+                }
               </ul>
             </Grid.Column>
             <Grid.Column width={5}>

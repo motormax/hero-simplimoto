@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Card, Image, Divider, List, Icon } from 'semantic-ui-react';
+import { Button, Card, Image, Divider } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+
+export const moneyFormatter = new Intl.NumberFormat('es-AR', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
 
 class CarrouselItem extends Component {
   static propTypes = {
     t: propTypes.func.isRequired,
     bikeImageUrl: propTypes.string.isRequired,
     bikeName: propTypes.string.isRequired,
+    bikeMonthlyPrice: propTypes.number.isRequired,
     onBuy: propTypes.func.isRequired,
     allAccessories: propTypes.arrayOf({
       id: propTypes.number.isRequired,
@@ -42,7 +48,7 @@ class CarrouselItem extends Component {
 
   render() {
     const {
-      bikeImageUrl, bikeName, onBuy, t,
+      bikeImageUrl, bikeName, bikeMonthlyPrice, onBuy, t,
     } = this.props;
 
     return (
@@ -54,19 +60,9 @@ class CarrouselItem extends Component {
         </div>
         <Card.Content>
           <Divider />
-          <p className="price">{t('currency_sign')}<span className="price-number">1.200</span>/ {t('month')} </p>
+          <p className="price">Desde {t('currency_sign')}<span className="price-number">{moneyFormatter.format(bikeMonthlyPrice)}</span>/ {t('month')} </p>
           <Button size="big" primary onClick={() => { onBuy(bikeName); }}>{t('buy')}</Button>
         </Card.Content>
-        <List className="bottom-links" horizontal link>
-          <List.Item as="a">
-            <Icon disabled name="play circle" />
-            {t('live_tour')}
-          </List.Item>
-          <List.Item as="a">
-            <Icon disabled name="heart" />
-            {t('appointment')}
-          </List.Item>
-        </List>
       </Card>
     );
   }
