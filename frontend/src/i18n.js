@@ -29,7 +29,9 @@ export default i18next.init({
         company_name: 'Hero Motors Argentina S.A',
         company_address: 'Av. del Libertador 1150, Vicente López. Buenos Aires, Argentina',
         showroom: 'Showroom',
+        whatsapp: 'Whatsapp',
         showroom_phone_number: '011 4796-5514 / 2729',
+        whatsapp_phone_number: '+5491147965514',
         email: 'Email',
         email_adress: 'showroom@heromotos.com.ar',
 
