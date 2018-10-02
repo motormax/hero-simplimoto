@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { push } from 'react-router-redux';
+import { connect } from 'react-redux';
 
 class TradeInSection extends Component {
   render() {
@@ -16,7 +18,7 @@ class TradeInSection extends Component {
               </h3>
             </Grid.Column>
             <Grid.Column width={6}>
-              <Button fluid primary>
+              <Button fluid primary onClick={() => this.props.goToTradeIn()}>
                 Quiero vender mi moto
               </Button>
             </Grid.Column>
@@ -33,4 +35,15 @@ class TradeInSection extends Component {
   }
 }
 
-export default TradeInSection;
+const mapStateToProps = state => ({
+  lead: state.main.lead,
+  tradeIn: state.main.tradeIn,
+});
+
+const mapDispatchToProps = dispatch => ({
+  goToTradeIn: () => {
+    dispatch(push('/trade-in'));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TradeInSection);

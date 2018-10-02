@@ -52,6 +52,9 @@ defmodule HeroDigitalWeb.Router do
       post "/date_appointment", DateAppointmentController, :create
       get "/date_appointment", DateAppointmentController, :show
 
+      post "/trade_in", TradeInController, :create
+      get "/trade_in", TradeInController, :show
+
       get "/purcharse_order", PurchaseOrderController, :show
       post "/purcharse_order", PurchaseOrderController, :create
 

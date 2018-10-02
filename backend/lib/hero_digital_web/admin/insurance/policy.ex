@@ -2,6 +2,7 @@ defmodule HeroDigital.ExAdmin.Insurance.Policy do
   use ExAdmin.Register
 
   register_resource HeroDigital.Insurance.Policy do
+    menu label: "Polizas de Seguro"
     index do
       selectable_column()
 

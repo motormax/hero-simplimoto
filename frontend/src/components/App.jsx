@@ -19,6 +19,7 @@ import PurchaseSummaryPage from './PurchaseSummaryPage';
 import LiveTourPage from './LiveTourPage';
 import SuccessPage from './SuccessPage';
 import BikeSpecs from './Specs/BikeSpecs';
+import TradeInPage from './TradeInPage';
 
 import logoUrl from './hero-logo.png';
 import PrivacyPolicy from './legal/privacyPolicy';
@@ -47,6 +48,7 @@ class App extends React.Component {
             <Route path="/tour/:bikeName" component={LiveTourPage} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/responsibility-disclaimer" component={ResponsibilityDisclaimer} />
+            <Route path="/trade-in" component={TradeInPage} />
           </Switch>
         </Container>
         <Footer />

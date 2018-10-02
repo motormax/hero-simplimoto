@@ -2,6 +2,8 @@ defmodule HeroDigital.ExAdmin.Payment.Payment do
   use ExAdmin.Register
 
   register_resource HeroDigital.Payment.Payment do
+    menu label: "Pagos", priority: 2
+
     index do
       selectable_column
 
