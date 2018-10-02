@@ -23,6 +23,10 @@ config :logger, :console,
   metadata: [:user_id]
 
 config :ex_admin,
+  theme_selector: [
+    {"AdminLte",  ExAdmin.Theme.AdminLte2},
+    {"ActiveAdmin", ExAdmin.Theme.ActiveAdmin}
+  ],
   repo: HeroDigital.Repo,
   module: HeroDigitalWeb,    # MyProject.Web for phoenix >= 1.3.0-rc
   modules: [
@@ -34,6 +38,7 @@ config :ex_admin,
     HeroDigital.ExAdmin.UserData.PersonalData,
     HeroDigital.ExAdmin.PlateRegistration.PlateRegistrationData,
     HeroDigital.ExAdmin.DateYourBike.DateAppointment,
+    HeroDigital.ExAdmin.TradeIn.TradeInData,
     HeroDigital.ExAdmin.UserData.Address,
     HeroDigital.ExAdmin.UserData.Image,
     HeroDigital.ExAdmin.Insurance.Broker,

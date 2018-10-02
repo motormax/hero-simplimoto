@@ -2,6 +2,8 @@ defmodule HeroDigital.ExAdmin.Insurance.InsuranceChoice do
   use ExAdmin.Register
 
   register_resource HeroDigital.Insurance.InsuranceChoice do
+    menu label: "Solicitudes de Seguro"
+
     index do
       selectable_column()
 

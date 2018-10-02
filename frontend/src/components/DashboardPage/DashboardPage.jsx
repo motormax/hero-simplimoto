@@ -13,6 +13,7 @@ import BikeColorSection from './Sections/BikeColorSection';
 import AccessoriesSection from './Sections/AccessoriesSection';
 import PlateRegistrationSection from './Sections/PlateRegistrationSection';
 import availableColors from '../motorcycles/availableColors';
+import TradeInSection from './Sections/TradeInSection';
 
 class DashboardPage extends Component {
   static propTypes = {
@@ -50,6 +51,11 @@ class DashboardPage extends Component {
                 <PlateRegistrationSection />
                 <DeliverySection />
               </Segment.Group>
+
+              <Segment.Group>
+                <TradeInSection />
+              </Segment.Group>
+
             </Grid.Column>
             <Grid.Column width={6}>
               <div>
