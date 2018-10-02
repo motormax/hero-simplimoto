@@ -113,7 +113,7 @@ const availableMotorcycles = {
     specsTitle: 'Ignitor',
 
     miniSpecs: [
-      'Tecnología I3S',
+      'Tecnología I3S Wow',
       'Motor 125cm3',
       'Cebador manual a cable',
       'Stop trasero con luces led',
