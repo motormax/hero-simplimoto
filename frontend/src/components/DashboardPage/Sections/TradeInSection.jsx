@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import propTypes from 'prop-types';
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
 class TradeInSection extends Component {
+  static propTypes = {
+    goToTradeIn: propTypes.func.isRequired,
+  };
+
   render() {
     return (
       <Segment className="dashboard-card" inverted>
