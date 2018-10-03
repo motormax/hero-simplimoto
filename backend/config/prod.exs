@@ -15,13 +15,13 @@ use Mix.Config
 # which you typically run after static files are built.
 config :hero_digital, HeroDigitalWeb.Endpoint,
   load_from_system_env: true,
-  url: [host: "heromotodigital.com", scheme: "https", port: 443],
+  url: [host: "heromotodigital.com", scheme: "https", sport: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: String.to_atom(Map.get(System.get_env(), "LOG_LEVEL", "info"))
 
 # ## SSL Support
 #
