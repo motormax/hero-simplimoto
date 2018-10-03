@@ -60,7 +60,7 @@ class CarrouselItem extends Component {
         </div>
         <Card.Content>
           <Divider />
-          <p className="price">Desde {t('currency_sign')}<span className="price-number">{moneyFormatter.format(bikeMonthlyPrice)}</span>/ {t('month')} </p>
+          <p className="price">Desde {t('currency_sign')}<span className="price-number">{moneyFormatter.format(bikeMonthlyPrice)}</span> </p>
           <Button size="big" primary onClick={() => { onBuy(bikeName); }}>{t('buy')}</Button>
         </Card.Content>
       </Card>
