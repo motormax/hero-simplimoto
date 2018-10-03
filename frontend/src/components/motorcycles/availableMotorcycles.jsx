@@ -11,7 +11,7 @@ const availableMotorcycles = {
   HUNK: {
     id: 1,
     displayName: 'Hunk',
-    monthlyPrice: 4300,
+    monthlyPrice: 6000,
     defaultImageUrl: hunkImgUrl,
     videoId: 'ksVob1Jc0E0',
     specsTitle: 'Hunk',
@@ -113,7 +113,7 @@ const availableMotorcycles = {
     specsTitle: 'Ignitor',
 
     miniSpecs: [
-      'Tecnología I3S - NEW',
+      'Tecnología I3S',
       'Motor 125cm3',
       'Cebador manual a cable',
       'Stop trasero con luces led',
