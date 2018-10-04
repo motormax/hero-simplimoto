@@ -77,7 +77,7 @@ defmodule HeroDigitalWeb.Router do
   end
 
   defp accept_https_only(conn, _) do
-    if conn.scheme == :http do
+    if conn.scheme == :http && Mix.env == :prod do
       conn |> put_status(:bad_request) |> json(%{ error: "Only https is supported" }) |> halt()
     else
       conn
