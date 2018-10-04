@@ -75,12 +75,4 @@ defmodule HeroDigitalWeb.Router do
     get "/*path", StaticFilesController, :static
   end
 
-  defp accept_https_only(conn, _) do
-    if conn.scheme != :https && Mix.env == :prod do
-      conn |> put_status(:bad_request) |> json(%{ error: "Only https is supported" }) |> halt()
-    else
-      conn
-    end
-  end
-
 end
