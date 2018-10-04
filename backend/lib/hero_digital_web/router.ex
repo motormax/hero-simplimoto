@@ -17,7 +17,6 @@ defmodule HeroDigitalWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :accept_https_only
   end
 
   if Mix.env == :dev do
@@ -77,7 +76,7 @@ defmodule HeroDigitalWeb.Router do
   end
 
   defp accept_https_only(conn, _) do
-    if conn.scheme == :http && Mix.env == :prod do
+    if conn.scheme != :https && Mix.env == :prod do
       conn |> put_status(:bad_request) |> json(%{ error: "Only https is supported" }) |> halt()
     else
       conn
