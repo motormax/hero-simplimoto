@@ -6,7 +6,7 @@ defmodule HeroDigital.Mailer do
   def send_successful_purcharse_mail(purchase_order) do
     lead = purchase_order.lead
     new_email()
-    |> from("Hero Digital <hero@hero.com.ar>")
+    |> from("Hero Moto Digital <ventas@heromotodigital.com>")
     |> to(purchase_order.email)
 
     |> subject("Compraste una moto en Hero Digital!")

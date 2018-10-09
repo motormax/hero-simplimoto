@@ -2,10 +2,10 @@
 
 const pickupLocationsData = [
   {
-    value: 'FS Motos, Hipolito Irigoyen 566, Entre Ríos, Victoria, 03436-425197', title: 'FS Motos', latitude: -32.623430, longitude: -60.151828,
+    value: 'Showroom Hero Vicente Lopez, Av Del Libertador 1150, Buenos Aires, Vicente Lopez, 4796-5514', title: 'Showroom Hero Vicente Lopez', latitude: -34.5232709, longitude: -58.473125,
   },
   {
-    value: 'Cacace Moto, Hipolito Yrigoyen 24100, Buenos Aires, Guernica, 02224-490320', title: 'Cacace Moto', latitude: -34.917955, longitude: -58.384476,
+    value: 'Showroom Hero Lanus, Eva Perón 38, Buenos Aires, Lanus Oeste, 21218018', title: 'Showroom Hero Lanus', latitude: -34.698525, longitude: -58.3917687,
   },
 // Add title , latitude and longitude
 //   {"value": 'MotoZuni, Av. Enrique Santamarina 202, Buenos Aires, Monte Grande, 011 4119-6686'},
@@ -23,7 +23,7 @@ const pickupLocationsData = [
 // {"value": 'Ruggeri Motos, Av. Don Bosco 705, Buenos Aires, Haedo, 4460-5791'},
 // {"value": 'El Garage Motos (Lijo Fernando), Camino Moron 701, Buenos Aires, Boulogne, 4710-4593'},
 // {"value": 'Rolling Motors, Pres. Juan Domingo Perón 3244, Buenos Aires, San Justo, 4441-3481'},
-// {"value": 'Showroom Hero Vicente Lopez, Av Del Libertador 1150, Buenos Aires, Vicente Lopez, 4796-5514'},
+
 // {"value": 'Mototeam, Presidente Peron 2136, Buenos Aires, San Miguel, 4664-8990'},
 // {"value": 'Automotolanus, Av.25 de Mayo 1600, Buenos Aires, Lanus, 011 4247-8687'},
 // {"value": 'Moto Vega, Av Lope de Vega 2402, Buenos Aires, Ciudad de Buenos Aires, 011 4648-2935'},

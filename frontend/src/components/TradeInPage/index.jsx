@@ -25,6 +25,8 @@ class TradeInPage extends Component {
       model: '',
       year: '',
       description: '',
+      location: '',
+      license_plate: '',
       errors: {
         name: false,
         email: false,
@@ -32,6 +34,8 @@ class TradeInPage extends Component {
         brand: false,
         model: false,
         year: false,
+        license_plate: false,
+        location: false,
         description: false,
         errorMessage: false,
       },
@@ -59,6 +63,8 @@ class TradeInPage extends Component {
       model: this.state.model,
       brand: this.state.brand,
       year: this.state.year,
+      license_plate: this.state.license_plate,
+      location: this.state.location,
       description: this.state.description,
     };
     try {
@@ -83,18 +89,18 @@ class TradeInPage extends Component {
 
     return (
       <div>
-        <h2 className="fs-massive fw-bold txt-center">Vende tu moto</h2>
+        <h2 className="fs-massive fw-bold txt-center">Vende tu moto usada</h2>
         <p className="fs-huge txt-med-gray txt-center">¡Cargá los datos de tu moto y te ayudamos a venderla!</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
             <Segment className="not-border-bottom" attached>
-              <p className="txt-dark-gray fw-bold fs-huge">Como te contactamos</p>
+              <p className="txt-dark-gray fw-bold fs-huge">¿Cómo te contactamos?</p>
 
               <Form.Group widths="equal">
                 <Form.Input
                   fluid
                   required
-                  label="Nombre"
+                  label="Nombre completo"
                   type="text"
                   name="name"
                   value={this.state.name}
@@ -121,10 +127,20 @@ class TradeInPage extends Component {
                   error={this.state.errors.telephoneNumber}
                   onChange={this.handleChange}
                 />
+                <Form.Input
+                  fluid
+                  required
+                  label="Localidad"
+                  type="text"
+                  name="location"
+                  value={this.state.location}
+                  error={this.state.errors.location}
+                  onChange={this.handleChange}
+                />
               </Form.Group>
             </Segment>
             <Segment attached>
-              <p className="txt-dark-gray fw-bold fs-huge">Que moto queres vender</p>
+              <p className="txt-dark-gray fw-bold fs-huge">¿Qué moto queres vender?</p>
 
               <Form.Group widths="equal">
                 <Form.Input
@@ -157,10 +173,18 @@ class TradeInPage extends Component {
                   error={this.state.errors.year}
                   onChange={this.handleChange}
                 />
+                <Form.Input
+                  fluid
+                  label="Patente"
+                  type="text"
+                  name="license_plate"
+                  value={this.state.license_plate}
+                  error={this.state.errors.license_plate}
+                  onChange={this.handleChange}
+                />
               </Form.Group>
               <Form.TextArea
                 fluid
-                required
                 label="Descripción"
                 placeholder="Contamos más del estado de tu moto..."
                 type="text"

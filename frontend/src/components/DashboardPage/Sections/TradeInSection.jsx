@@ -19,7 +19,7 @@ class TradeInSection extends Component {
             </Grid.Column>
             <Grid.Column width={9}>
               <h3 className="fw-bold fs-big">
-                Vender tu moto en Hero
+                Vender tu moto usada
               </h3>
             </Grid.Column>
             <Grid.Column width={6}>

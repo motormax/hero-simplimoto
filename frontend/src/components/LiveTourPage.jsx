@@ -20,7 +20,7 @@ class LiveTourPage extends Component {
     return (
       <div>
         <h2 className="fs-massive fw-bold txt-center">Tour en vivo</h2>
-        <p className="fs-huge txt-med-gray txt-center">Próximamente podrás realizar un tour en vivo, <br /> mientras tanto disfrutá del siguiente video:</p>
+        <p className="fs-huge txt-med-gray txt-center">Próximamente podrás desde tu casa visitar el showroom y que te atienda en vivo un asesor especializado y te muestre todo lo que querés ver de la moto.</p>
         <div className="page-column-card txt-center">
           <Youtube
             videoId={bike.videoId}

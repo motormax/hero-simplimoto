@@ -7,9 +7,9 @@ defmodule HeroDigitalWeb.TradeInControllerTest do
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
 
-  @create_attrs %{brand: "some brand", description: "some description", email: "some email", model: "some model", name: "some name", telephone: "some telephone", year: "some year"}
-  @update_attrs %{brand: "some updated brand", description: "some updated description", email: "some updated email", model: "some updated model", name: "some updated name", telephone: "some updated telephone", year: "some updated year"}
-  @invalid_attrs %{brand: nil, description: nil, email: nil, model: nil, name: nil, telephone: nil, year: nil}
+  @create_attrs %{brand: "some brand", description: "some description", email: "some email", model: "some model", name: "some name", telephone: "some telephone", year: "some year", location: "some location", license_plate: "some license plate"}
+  @update_attrs %{brand: "some updated brand", description: "some updated description", email: "some updated email", model: "some updated model", name: "some updated name", telephone: "some updated telephone", year: "some updated year", location: "some updated location", license_plate: "some updated license plate"}
+  @invalid_attrs %{brand: nil, description: nil, email: nil, model: nil, name: nil, telephone: nil, year: nil, location: nil}
 
   def fixture(:trade_in_data) do
     {:ok, trade_in_data} = TradeIn.create_trade_in_data(@create_attrs)

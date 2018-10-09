@@ -6,6 +6,8 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { leadFetched } from '../../actions/beginning';
+import availableMotorcycles from '../motorcycles/availableMotorcycles';
+import { parse } from 'query-string';
 
 import {
   allAccessoriesFetched,
@@ -31,6 +33,10 @@ class MainPage extends Component {
   componentDidMount() {
     if (!this.props.accessories.hasFetchedAllAccessories) {
       this.props.fetchAllAccessories();
+    }
+    const query = parse(this.props.location.search);
+    if (query.buyMoto && availableMotorcycles[query.buyMoto]) {      
+      this.props.pickBike(availableMotorcycles[query.buyMoto].id);
     }
   }
 

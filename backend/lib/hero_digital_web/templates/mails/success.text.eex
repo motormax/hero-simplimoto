@@ -1,1 +1,4 @@
-SUCCESS
+Compraste una moto en Hero Digital
+Felicitaciones
+
+Compraste una: <%= @purchase_order.lead.motorcycle.name %>
