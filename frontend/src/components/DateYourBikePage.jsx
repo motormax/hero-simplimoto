@@ -27,11 +27,6 @@ export const shiftOptions = [
     text: 'Por la tarde (12 a 18)',
     value: AFTERNOON,
   },
-  {
-    key: EVENING,
-    text: 'Por la noche (18 a 22)',
-    value: EVENING,
-  },
 ];
 
 class DateYourBikePage extends Component {
@@ -173,7 +168,7 @@ class DateYourBikePage extends Component {
 
     const addressFormGroup = (
       <Segment attached>
-        <p className="txt-dark-gray fw-bold fs-huge">Dónde se van a encontrar</p>
+        <p className="txt-dark-gray fw-bold fs-huge">¿Dónde se van a encontrar?</p>
 
         <Form.Group>
           <AddressSearchInput
@@ -220,7 +215,7 @@ class DateYourBikePage extends Component {
 
     const leadDataFormGroup = (
       <Segment className="not-border-bottom" attached>
-        <p className="txt-dark-gray fw-bold fs-huge">Quién la va a recibir</p>
+        <p className="txt-dark-gray fw-bold fs-huge">¿Quién la va a recibir?</p>
 
         <Form.Group widths="equal">
           <Form.Input
@@ -251,6 +246,7 @@ class DateYourBikePage extends Component {
       <div>
         <h2 className="fs-massive fw-bold txt-center">Arreglá una cita</h2>
         <p className="fs-huge txt-med-gray txt-center">¡Conocé la moto que querés en donde quieras!</p>
+        <p className="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br /><b>PROXIMAMENTE</b> en otras ciudades del país</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
             {dateFormGroup}

@@ -5,7 +5,9 @@ import humps from 'humps';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { parse } from 'query-string';
 import { leadFetched } from '../../actions/beginning';
+import availableMotorcycles from '../motorcycles/availableMotorcycles';
 
 import {
   allAccessoriesFetched,
@@ -26,11 +28,16 @@ class MainPage extends Component {
       hasFetchedChosenAccessories: propTypes.bool.isRequired,
     }).isRequired,
     isLoading: propTypes.bool,
+    location: propTypes.string.isRequired,
   };
 
   componentDidMount() {
     if (!this.props.accessories.hasFetchedAllAccessories) {
       this.props.fetchAllAccessories();
+    }
+    const query = parse(this.props.location.search);
+    if (query.buyMoto && availableMotorcycles[query.buyMoto]) {
+      this.props.pickBike(availableMotorcycles[query.buyMoto].id);
     }
   }
 
