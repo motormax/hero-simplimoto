@@ -11,6 +11,7 @@ import Analytics from 'react-router-ga';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/es';
+import { toast } from 'react-toastify';
 
 import './index.css';
 import App from './components/App';
@@ -30,6 +31,15 @@ if (leadId) {
     store.dispatch(leadFetched(response.data.data));
   });
 }
+axios.interceptors.response.use(response => response, (error) => {
+  // Do something with response error
+  if (error.response.status === 500) {
+    toast.error("Lo sentimos! Se produjo un error, por favor reintente nuevamente en unos segundos", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  }
+  return Promise.reject(error);
+});
 
 const render = () => {
   ReactDOM.render(
