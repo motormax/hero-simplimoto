@@ -28,7 +28,7 @@ class MainPage extends Component {
       hasFetchedChosenAccessories: propTypes.bool.isRequired,
     }).isRequired,
     isLoading: propTypes.bool,
-    location: React.PropTypes.string.isRequired,
+    location: propTypes.string.isRequired,
   };
 
   componentDidMount() {
