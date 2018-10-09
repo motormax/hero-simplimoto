@@ -205,7 +205,7 @@ class DeliveryPage extends Component {
       <div>
         <h2 className="fs-massive fw-bold txt-center">Entrega a domicilio</h2>
         <p className="fs-huge txt-med-gray txt-center">Con la compra de tu moto Hero tenés el envío <br /> a domicilio totalmente bonificado</p>
-        <p class="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br/><b>PROXIMAMENTE</b> en otras ciudades del país</p>
+        <p className="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br /><b>PROXIMAMENTE</b> en otras ciudades del país</p>
 
         <Card className="page-column-card">
           <Card.Content>

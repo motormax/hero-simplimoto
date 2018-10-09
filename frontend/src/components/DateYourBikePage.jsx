@@ -246,7 +246,7 @@ class DateYourBikePage extends Component {
       <div>
         <h2 className="fs-massive fw-bold txt-center">Arreglá una cita</h2>
         <p className="fs-huge txt-med-gray txt-center">¡Conocé la moto que querés en donde quieras!</p>
-        <p class="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br/><b>PROXIMAMENTE</b> en otras ciudades del país</p>
+        <p className="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br /><b>PROXIMAMENTE</b> en otras ciudades del país</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
             {dateFormGroup}
