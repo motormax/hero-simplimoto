@@ -126,7 +126,7 @@ class FinancingPage extends Component {
 
             >
               <div>
-                <Icon name="motorcycle" size="huge"/>
+                <Icon name="motorcycle" size="huge" />
                 <span className="fs-big fw-bold">Alquilá tu moto</span>
               </div>
 
@@ -138,7 +138,7 @@ class FinancingPage extends Component {
 
             >
               <div>
-                <Icon name="motorcycle" size="huge"/>
+                <Icon name="motorcycle" size="huge" />
                 <span className="fs-huge fw-bold">Leasing</span>
               </div>
 
@@ -150,7 +150,7 @@ class FinancingPage extends Component {
 
             >
               <div>
-                <Icon name="university" size="huge"/>
+                <Icon name="university" size="huge" />
                 <span className="fs-large fw-bold">Buscá la oferta con tu banco</span>
               </div>
             </Card>

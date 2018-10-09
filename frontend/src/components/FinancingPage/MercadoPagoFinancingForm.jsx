@@ -84,8 +84,8 @@ class MercadoPagoFinancingForm extends Component {
     console.log(`Failed ${callbackName}`); // eslint-disable-line no-console
     console.log(status); // eslint-disable-line no-console
     console.log(response); // eslint-disable-line no-console
-    toast.error("Lo sentimos! Se produjo un error, por favor reintente nuevamente en unos segundos", {
-      position: toast.POSITION.TOP_RIGHT
+    toast.error('Lo sentimos! Se produjo un error, por favor reintente nuevamente en unos segundos', {
+      position: toast.POSITION.TOP_RIGHT,
     });
     throw new Error(`Error [${status}] in call ${callbackName}`);
   };

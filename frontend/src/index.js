@@ -34,8 +34,8 @@ if (leadId) {
 axios.interceptors.response.use(response => response, (error) => {
   // Do something with response error
   if (error.response.status === 500) {
-    toast.error("Lo sentimos! Se produjo un error, por favor reintente nuevamente en unos segundos", {
-      position: toast.POSITION.TOP_RIGHT
+    toast.error('Lo sentimos! Se produjo un error, por favor reintente nuevamente en unos segundos', {
+      position: toast.POSITION.TOP_RIGHT,
     });
   }
   return Promise.reject(error);
