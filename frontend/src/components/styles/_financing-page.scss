@@ -42,7 +42,9 @@
   }
 }
 
-.link.card.financing-option{
+.link.card.financing-option,
+.ui.card.financing-option,
+.ui.cards>.card.financing-option{
   height: 100px;
   display: flex;
   justify-content: center;
@@ -50,12 +52,22 @@
   width: 240px;
   img{
     max-height: 50px;
+    max-width: 85%;
     margin: 0 1em;
   }
   div{
     display: inline-flex;
     align-items: center;
     width: 87%;
+    & > .icon{
+      margin-right: .3em;
+    }
+    & > .icons{
+      margin-right: .1em;
+    }
+    &.corner-ribon{
+      width: auto;
+    }
   }
   &.selected,
   &.selected:hover{

@@ -5,6 +5,8 @@ import { Switch } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import 'semantic-ui-css/semantic.min.css';
 import { Container } from 'semantic-ui-react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
 import DashboardPage from './DashboardPage/DashboardPage';
@@ -32,6 +34,7 @@ class App extends React.Component {
       <div className="App">
         <header>
           <img className="logo" alt="Hero digital" src={logoUrl} />
+          <ToastContainer />
         </header>
         <Container className="main-container">
           <Switch>
