@@ -5,16 +5,17 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { translate } from 'react-i18next';
 
-class CrediCuotasForm extends Component {
+class SoonAvailableForm extends Component {
   static propTypes = {
     cancelFinancing: propTypes.func.isRequired,
+    comingSoonText: propTypes.string.isRequired,
   };
 
   render() {
     return (
       <Card className="page-column-card financing-page">
         <Segment attached className="txt-center">
-          <p className="fs-huge txt-med-gray txt-center">Próximamente podrás financiar tu compra con CrediCuotas.</p>
+          <p className="fs-huge txt-med-gray txt-center">{this.props.comingSoonText}</p>
         </Segment>
         <Segment attached="bottom" className="txt-center">
           <Button
@@ -41,4 +42,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default translate('bankTransferForm')(connect(mapStateToProps, mapDispatchToProps)(CrediCuotasForm));
+export default translate('bankTransferForm')(connect(mapStateToProps, mapDispatchToProps)(SoonAvailableForm));
