@@ -73,7 +73,7 @@ defmodule HeroDigital.Payment.PaymentGateway do
 
   defp build_payment_data(purchase_order) do
     %{
-      "transaction_amount" => PurchaseOrder.total_amount(purchase_order),
+      "transaction_amount" => Decimal.to_float(PurchaseOrder.total_amount(purchase_order)), # MercadoPago requires floats
       "token" => purchase_order.payment_method_token,
       "description" => PurchaseOrder.description(purchase_order),
       "payer" => %{
