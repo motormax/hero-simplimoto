@@ -34,7 +34,7 @@
                 <table style="border:1px solid #BFBFBF;border-radius:10px;">
                   <tr>
                     <td align="center" height="100" style="position:relative;">
-                      <img src="<%= assets_path() %>/img/hunk-3-4-red.png" style="margin-top: 15px" alt="Hunk roja">
+                      <img src="<%= assets_path() %>/img/<%= String.downcase(@purchase_order.lead.motorcycle.name) %>.png" style="margin-top: 15px" alt="<%= @purchase_order.lead.motorcycle.name %>">
                     </td>
                   </tr>
                   <tr>
@@ -42,102 +42,81 @@
                       <p align="center" style="font-size:2em;margin:0;color:#4D4D4D;">Compraste una</p>
                       <h3 align="center" style="font-size:2.5em;margin:0;"><%= @purchase_order.lead.motorcycle.name %></h3>
                     </td>
-                  </tr>
+                  </tr>                  
                   <tr>
-                    <td style="font-size:1.3em;padding:10px;">
-                      <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Con Accesorios:</td>
+                    <%= if @plate_registration_data.opt_in_or_out == hero_plate_registration_type() do %>
+                      <td style="font-size:1.3em;padding:10px;">
+                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento con hero
+                      </td>
+                    <% else %>
+                      <td style="font-size:1.3em;padding:10px;">
+                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento por tu cuenta
+                      </td>
+                    <% end %>
+                  </tr>
+                  <%= if @insurance.opt_in_or_out == hero_insurance_type do %>
+                    <tr>
+                      <td style="font-size:1.3em;padding:10px;">
+                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Elegiste asegurarla con:
+                      </td>
                     </tr>
                     <tr>
-                      <td style="padding:10px;">
-                        <table>
+                      <td>
+                        <table style="background: #ffffff; padding:10px;border-top:1px solid #BFBFBF;border-bottom:1px solid #BFBFBF;">
                           <tr>
-                            <td align="center">
-                              <img src="<%= assets_path() %>/img/Guantes.png" alt="Guantes.png">
+                            <td style="padding:10px;">
+                              <img src="<%= @insurance.quote_broker_logo_url %>" width="50" alt="lock@2x.png">
                             </td>
-                            <td align="center">
-                              <img src="<%= assets_path() %>/img/Casco.png" alt="Casco.png">
+                            <td style="padding:10px;">
+                              <p style="font-size:1.3em;font-weight:bold;margin:5px;"> <%= @insurance.quote_broker_name %> - <%= @insurance.quote_policy %></p>
+                              <p style="margin:5px;"><strong>$ <%= @insurance.quote_price %></strong> por mes</p>
+                              <!-- <p style="font-size:.8em;margin:5px;">Te protegemos contra todo lo que te imagines</p> --> 
                             </td>
-                            <td align="center">
-                              <img src="<%= assets_path() %>/img/Baul.png" alt="Baul.png">
-                            </td>
-                          </tr>
-                          <tr style="font-size:.8em;">
-                            <td align="center">Gunates</td>
-                            <td align="center">Casco</td>
-                            <td align="center">Baúl</td>
                           </tr>
                         </table>
                       </td>
                     </tr>
+                  <% else %>
+                    <tr>
+                      <td>
+                        Te aseguras por tu cuenta
+                      </td>
+                    </tr>
+                  <% end %>
+                  <%= if @delivery.address do %>
                     <tr>
                       <td style="font-size:1.3em;padding:10px;">
-                        <%= if @plate_registration_data.opt_in_or_out == hero_plate_registration_type() do %>
-                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento con hero</td>
-                        <% else %>
-                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Patentamiento por tu cuenta</td>
-                        <% end %>
-                      </tr>
-                      <tr>
-                        <%= if @insurance.opt_in_or_out == hero_insurance_type do %>
-                        <td style="font-size:1.3em;padding:10px;">
-                          <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Elegiste asegurarla con:</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <table style="background: #ffffff; padding:10px;border-top:1px solid #BFBFBF;border-bottom:1px solid #BFBFBF;">
-                              <tr>
-                                <td style="padding:10px;">
-                                  <img src="<%= @insurance.quote_broker_logo_url %>" width="50" alt="lock@2x.png">
-                                </td>
-                                <td style="padding:10px;">
-                                  <p style="font-size:1.3em;font-weight:bold;margin:5px;"> <%= @insurance.quote_broker_name %> - <%= @insurance.quote_policy %></p>
-                                  <p style="margin:5px;"><strong>$ <%= @insurance.quote_price %></strong> por mes</p>
-                                  <!-- <p style="font-size:.8em;margin:5px;">Te protegemos contra todo lo que te imagines</p> --> 
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-                        <% else %>
-                        <tr>
-                          <td>
-                            Te aseguras por tu cuenta
-                          </td>
-                        </tr>
-                        <% end %>
-                        <%= if @delivery.address do %>
-                        <tr>
-                          <td style="font-size:1.3em;padding:10px;">
-                            <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Te la enviaremos a:</td>
-                          </tr>
-                          <tr>
-                            <td style="padding-left:65px;">
-                              <img src="<%= assets_path() %>/img/casa.png" style="margin-right: 5px;"/>
-                              <span><%= @delivery.address.street %></span>
-                             </td>
-                            </tr>
-                            <tr>
-                              <td height="25"></td>
-                            </tr>
-                          </table>
-                        </td>
-                        <% else %>
-                        <tr>
-                          <td>
-                            Venís a buscar la moto a <%= @delivery.pickup_location %>
-                          </td>
-                        </tr>
-                        <% end %>
-                        <td></td>
-                      </tr>
-                      <tr>
-                      	<td></td>
-                        <td height="50"></td>
-                        <td></td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-            </body>
+                        <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Te la enviaremos a:
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left:65px;">
+                        <img src="<%= assets_path() %>/img/casa.png" style="margin-right: 5px;"/>
+                        <span><%= @delivery.address.street %></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td height="25"></td>
+                    </tr>
+                  <% else %>
+                    <tr>
+                      <td>
+                        Venís a buscar la moto a <%= @delivery.pickup_location %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td height="50"></td>
+              <td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>

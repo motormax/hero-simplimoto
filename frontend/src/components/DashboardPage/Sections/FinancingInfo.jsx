@@ -12,10 +12,10 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 
 class FinancingInfo extends Component {
     static propTypes = {
-      financingSelected: propTypes.bool.isRequired,
+      financingSelected: propTypes.bool,
       accessoriesPrice: propTypes.number.isRequired,
       motorcycle: propTypes.shape({
-        price: propTypes.string.isRequired,
+        price: propTypes.number.isRequired,
       }).isRequired,
       financingForm: propTypes.shape({
         message: propTypes.string.isRequired,
@@ -26,7 +26,7 @@ class FinancingInfo extends Component {
         paymentMethodName: propTypes.string.isRequired,
         paymentMethodLogo: propTypes.string.isRequired,
         installments: propTypes.number,
-      }).isRequired,
+      }),
       plateRegistrationPrice: propTypes.number.isRequired,
     };
 

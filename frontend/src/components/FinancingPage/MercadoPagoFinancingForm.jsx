@@ -229,7 +229,7 @@ class MercadoPagoFinancingForm extends Component {
     if (this.state.installmentOptions.length > 0) {
       const installmentItems =
         this.state.installmentOptions.map(installment => (
-          <Form.Field>
+          <Form.Field key={installment.installments}>
             <Radio
               label={installment.message}
               name="installment_id"
@@ -332,8 +332,8 @@ class MercadoPagoFinancingForm extends Component {
           <Segment attached className="txt-center">
             <a href="https://www.mercadopago.com.ar/cuotas" target="_blanck">
               <Icon.Group size="large">
-                <Icon name="shield alternate" />
-                <Icon corner name="check circle" />
+                <Icon className="shield alternate" />
+                <Icon corner className="check circle" />
               </Icon.Group>
               Estamos financiando tu compra a través de <strong>mercadopago</strong>
             </a>

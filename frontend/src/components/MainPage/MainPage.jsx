@@ -28,7 +28,7 @@ class MainPage extends Component {
       hasFetchedChosenAccessories: propTypes.bool.isRequired,
     }).isRequired,
     isLoading: propTypes.bool,
-    location: propTypes.string.isRequired,
+    location: propTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   componentDidMount() {

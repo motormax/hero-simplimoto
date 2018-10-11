@@ -90,7 +90,7 @@ class FinancingPage extends Component {
               <div>
                 <Icon.Group size="huge">
                   <Icon name="comment" />
-                  <Icon inverted color="white" size="tiny" name="dollar sign" />
+                  <Icon inverted size="tiny" className="dollar sign" />
                 </Icon.Group>
                 <span className="fs-big fw-bold">Transferencia Bancaria</span>
               </div>

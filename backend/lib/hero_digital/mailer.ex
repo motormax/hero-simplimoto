@@ -12,6 +12,7 @@ defmodule HeroDigital.Mailer do
     |> subject("Compraste una moto en Hero Digital!")
     |> assign(:purchase_order, purchase_order)
     |> assign(:lead, lead)
+    |> assign(:accessories, lead.accessories)
     |> assign(:plate_registration_data, lead.plate_registration_data)
     |> assign(:insurance, lead.insurance_choice)
     |> assign(:delivery, lead.delivery_choice)
