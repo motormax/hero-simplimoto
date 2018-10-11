@@ -425,8 +425,8 @@ const mapDispatchToProps = dispatch => ({
       },
     );
     console.log(response); // eslint-disable-line no-console
-    dispatch(cancelPurchase());
     dispatch(push('/success'));
+    dispatch(cancelPurchase());
   },
 });
 
