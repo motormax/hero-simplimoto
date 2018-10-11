@@ -17,6 +17,26 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
         row :motorcycle, label: "Modelo de moto"
       end
 
+      panel "Orden de Compra" do
+        markup_contents do
+          case HeroDigital.Fulfillment.get_purchase_order_for_lead(lead.id) do
+            nil -> text "el usuario no finalizó la compra"
+            purchase_order_data ->
+              attributes_table_for(purchase_order_data) do
+                row :email, label: "Email"
+                row :payment_method, label: "Método de pago"
+                if purchase_order_data.payment != nil do
+                  attributes_table_for(purchase_order_data) do
+                    row "Status", fn(po) -> po.payment.status end
+                    row "Detalle", fn(po) -> po.payment.status_detail end
+                    row "Mensaje al usuario", fn(po) -> po.payment.user_message end
+                    row "ID de transacción de MercadoPago", fn(po) -> po.payment.transaction_id end
+                  end
+                end
+              end
+          end
+        end
+      end
       panel "Financiamiento" do
         markup_contents do
           case HeroDigital.Financing.get_financing_data_by_lead_id(lead.id) do

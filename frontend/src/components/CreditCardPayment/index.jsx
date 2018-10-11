@@ -183,7 +183,7 @@ class CreditCardPayment extends Component {
   render() {
     const cvvLabel = (
       <span>CVV&nbsp;
-        <Popup trigger={<span><Icon name="info circle" /></span>}>
+        <Popup trigger={<span><Icon className="info circle" /></span>}>
           <Popup.Header>Código de seguridad</Popup.Header>
           <Popup.Content>
                   El <b>CVV</b> en su tarjeta de crédito o débito es un número de
@@ -361,8 +361,8 @@ class CreditCardPayment extends Component {
             <div className="txt-center">
               <a href="https://www.mercadopago.com.ar/ayuda/costos-financiacion_621" target="_blanck">
                 <Icon.Group size="large">
-                  <Icon name="shield alternate" />
-                  <Icon corner name="check circle" />
+                  <Icon className="shield alternate" />
+                  <Icon corner className="check circle" />
                 </Icon.Group>
               Tu compra esta protegida por <strong>mercadopago</strong>
               </a>

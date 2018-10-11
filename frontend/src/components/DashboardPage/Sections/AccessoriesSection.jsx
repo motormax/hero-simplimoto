@@ -33,13 +33,13 @@ class AccessoriesSection extends Component {
       hasFetchedAllAccessories: propTypes.bool.isRequired,
       hasFetchedChosenAccessories: propTypes.bool.isRequired,
     }).isRequired,
-    allAccessories: propTypes.arrayOf({
+    allAccessories: propTypes.arrayOf(propTypes.shape({
       id: propTypes.number.isRequired,
       name: propTypes.string.isRequired,
-      price: propTypes.number.isRequired,
+      price: propTypes.string.isRequired,
       description: propTypes.string.isRequired,
       logoUrl: propTypes.string.isRequired,
-    }).isRequired,
+    })).isRequired,
     chosenAccessories: propTypes.arrayOf(propTypes.shape({
       id: propTypes.number,
       name: propTypes.string.isRequired,

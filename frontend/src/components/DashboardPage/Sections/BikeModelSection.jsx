@@ -39,7 +39,7 @@ class BikeModelSection extends Component {
               <ul className="txt-med-gray fs-medium italic">
                 {
                   availableMotorcycles[motorcycle.name].miniSpecs.map(bikeSpec => (
-                    <li>{bikeSpec}</li>
+                    <li key={bikeSpec}>{bikeSpec}</li>
                   ))
                 }
               </ul>

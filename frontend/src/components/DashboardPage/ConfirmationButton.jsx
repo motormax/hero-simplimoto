@@ -14,16 +14,16 @@ class ConfirmationButton extends Component {
 
   static propTypes = {
     financing: propTypes.shape({
-      financingSelected: propTypes.bool.isRequired,
+      financingSelected: propTypes.bool,
     }),
     delivery: propTypes.shape({
-      id: propTypes.number.isRequired,
+      id: propTypes.number,
     }),
     plateRegistration: propTypes.shape({
-      id: propTypes.number.isRequired,
+      id: propTypes.number,
     }),
     insuranceChoice: propTypes.shape({
-      selected: propTypes.bool.isRequired,
+      selected: propTypes.bool,
     }),
     goToCheckout: propTypes.func.isRequired,
   };

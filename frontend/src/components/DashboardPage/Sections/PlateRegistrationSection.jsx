@@ -32,7 +32,7 @@ class PlateRegistrationSection extends Component {
         price: propTypes.string,
         name: propTypes.string,
       }),
-    }).isRequired,
+    }),
   };
 
   componentDidMount() {

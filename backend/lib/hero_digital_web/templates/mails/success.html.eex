@@ -47,28 +47,32 @@
                     <td style="font-size:1.3em;padding:10px;">
                       <img src="<%= assets_path() %>/img/flecha.png" style="margin-left: 15px; margin-right: 5px;"/> Con Accesorios:</td>
                     </tr>
-                    <tr>
-                      <td style="padding:10px;">
-                        <table>
-                          <tr>
-                            <td align="center">
-                              <img src="<%= assets_path() %>/img/Guantes.png" alt="Guantes.png">
-                            </td>
-                            <td align="center">
-                              <img src="<%= assets_path() %>/img/Casco.png" alt="Casco.png">
-                            </td>
-                            <td align="center">
-                              <img src="<%= assets_path() %>/img/Baul.png" alt="Baul.png">
-                            </td>
-                          </tr>
-                          <tr style="font-size:.8em;">
-                            <td align="center">Gunates</td>
-                            <td align="center">Casco</td>
-                            <td align="center">Baúl</td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
+                    <% if length(@accessories) == 0 do %>
+                      <tr>
+                        <td>
+                          No elegiste ningún accesorio
+                        </td>
+                      </tr>
+                    <% else %>
+                      <tr>
+                        <td style="padding:10px;">
+                          <table>
+                            <tr>
+                              <% for accesory <- @accessories do %>
+                                <td align="center">
+                                  <img src="<%= accesory.logo_url %>" alt="<%= accesory.name %>">
+                                </td>
+                              <% end %>
+                            </tr>
+                            <tr style="font-size:.8em;">
+                              <% for accesory <- @accessories do %>
+                                <td align="center"><%= accesory.name %></td>
+                              <% end %>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    <% end %>
                     <tr>
                       <td style="font-size:1.3em;padding:10px;">
                         <%= if @plate_registration_data.opt_in_or_out == hero_plate_registration_type() do %>

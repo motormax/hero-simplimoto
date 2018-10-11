@@ -62,9 +62,10 @@ defmodule HeroDigital.Fulfillment do
            {:ok, payment} <- create_payment_for(purchase_order, mp_response),
            {:ok, lead} <- Identity.deactivate_lead(lead) do
             purcharse_order = load_purchase_order_with_payment(purchase_order)
-              |> Repo.preload(lead: [motorcycle: [], plate_registration_data: [], insurance_choice: [], delivery_choice: [address: []]])
+              |> load_purchase_order_with_lead_and_associations
 
             HeroDigital.Mailer.send_successful_purcharse_mail(purcharse_order)
+
             {:ok, purcharse_order}
       else
         {:payment_error, mp_response} ->
@@ -74,6 +75,10 @@ defmodule HeroDigital.Fulfillment do
     else
       {:error, changeset}
     end
+  end
+
+  def load_purchase_order_with_lead_and_associations(purchase_order) do
+    Repo.preload(purchase_order, lead: [accessories: [], motorcycle: [], plate_registration_data: [], insurance_choice: [], delivery_choice: [address: []]])
   end
 
   def load_purchase_order_with_payment(purchase_order) do
