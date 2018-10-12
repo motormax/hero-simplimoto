@@ -8,6 +8,7 @@ import axios from 'axios';
 import humps from 'humps';
 import { push } from 'react-router-redux';
 import { Button, Form, Card, Divider, Image, Segment, Icon, Search, Popup, Message } from 'semantic-ui-react';
+import MaskedInput from 'react-text-mask';
 import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
@@ -193,7 +194,8 @@ class InsurancePage extends Component {
   }
 
   render() {
-    const error = Object.values(this.state.errors).some(Boolean);
+    const errorValues = Object.keys(this.state.errors).map(key => this.state.errors[key]);
+    const error = errorValues.some(Boolean);
 
     const { isLoading, value, results } = this.state;
 
@@ -226,6 +228,7 @@ class InsurancePage extends Component {
     if (this.state.optInOrOut === HERO_INSURANCE) {
       heroQuery = (
         <Segment attached padded>
+          <p className="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br /><b>PROXIMAMENTE</b> en otras ciudades del país</p>
           <Form onSubmit={this.getQuote} error={error}>
             <Form.Group widths="equal">
               <Form.Select
@@ -240,20 +243,23 @@ class InsurancePage extends Component {
                 onChange={this.handleDropdownChange}
                 placeholder="Provincia"
               />
-              <Form.Field required>
-                <label>Código Postal</label>
-                <Search
-                  loading={isLoading}
-                  onResultSelect={this.handleResultSelect}
-                  onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
-                  minCharacters={3}
-                  required
-                  noResultsMessage="No se encuentran resultados"
-                  results={results}
-                  value={value}
+              <Form.Input
+                fluid
+                required
+                label="Código Postal"
+                width={20}
+              >
+                <MaskedInput
+                  type="text"
+                  length="4"
+                  name="queryPostalCode"
+                  value={this.state.insuranceChoice.queryPostalCode}
+                  error={this.state.errors.queryPostalCode}
+                  onChange={this.handleHeroInsuranceDataChange}                
+                  mask={[/\d/, /\d/, /\d/, /\d/]}
                   placeholder="Código Postal"
                 />
-              </Form.Field>
+              </Form.Input>              
               <Form.Input
                 fluid
                 required

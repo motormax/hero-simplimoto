@@ -3231,6 +3231,7 @@ const cabaInsuranceLocations = [
   'POMPEYA (CP: 1437)',
   'PUERTO MADERO (CP: 1107)',
   'RECOLETA (CP: 1024)',
+  'RECOLETA (CP: 1425)',
   'RETIRO (CP: 1104)',
   'SAN CRISTOBAL (CP: 1229)',
   'SAN TELMO (CP: 1099)',

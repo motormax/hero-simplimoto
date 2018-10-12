@@ -7,17 +7,13 @@ defmodule HeroDigital.Insurance.QuoteEngine do
 
   @postal_code_regex ~r/\(CP:\s(?<postalCode>\d+)/
 
-  def fetch_quotes_by(motorcycle_id, postal_code_str, age) do
-    captured_postal_code = Regex.named_captures(@postal_code_regex, postal_code_str)
-    postal_code = "%#{captured_postal_code["postalCode"]}%"
-
+  def fetch_quotes_by(motorcycle_id, age) do
     query = from p in Policy,
         join: b in assoc(p, :insurance_broker),
         select: %{policy: p.name, policyId: p.id, price: p.price, moreInfo: p.details, brokerName: b.name, brokerLogo: b.logo_url, brokerId: b.id},
         where: p.min_age <= ^age
         and  p.max_age >= ^age
         and  p.motorcycle_id == ^motorcycle_id
-        and like(p.postal_codes, ^postal_code)
 
     Repo.all(query)
   end
