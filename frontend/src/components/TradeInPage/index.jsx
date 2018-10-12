@@ -84,8 +84,8 @@ class TradeInPage extends Component {
   };
 
   render() {
-    const error = Object.values(this.state.errors)
-      .some(Boolean);
+    const errorValues = Object.keys(this.state.errors).map(key => this.state.errors[key]);
+    const error = errorValues.some(Boolean);
 
     return (
       <div>

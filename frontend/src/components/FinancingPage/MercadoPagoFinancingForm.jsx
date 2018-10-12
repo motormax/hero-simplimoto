@@ -222,8 +222,8 @@ class MercadoPagoFinancingForm extends Component {
       parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
   render() {
-    const error = Object.values(this.state.errors)
-      .some(Boolean);
+    const errorValues = Object.keys(this.state.errors).map(key => this.state.errors[key]);
+    const error = errorValues.some(Boolean);
 
     let installmentList;
     if (this.state.installmentOptions.length > 0) {

@@ -242,8 +242,8 @@ class PlateRegistrationPage extends Component {
   hasLoadedImage = image => image.data !== '' && image.type !== '' && image.name !== ''
 
   render() {
-    const error = Object.values(this.state.errors)
-      .some(Boolean);
+    const errorValues = Object.keys(this.state.errors).map(key => this.state.errors[key]);
+    const error = errorValues.some(Boolean);
 
     if (this.props.plateRegistrationTypes.length === 0) {
       return <h1>CARGANDO</h1>;

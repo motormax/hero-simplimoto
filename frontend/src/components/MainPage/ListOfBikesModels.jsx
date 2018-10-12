@@ -15,7 +15,8 @@ class ListOfBikesModels extends Component {
   render() {
     const { t } = this.props;
 
-    const bikesModels = Object.values(availableMotorcycles).map(bikeData => (
+    const bikes = Object.keys(availableMotorcycles).map(key => availableMotorcycles[key]);
+    const bikesModels = bikes.map(bikeData => (
       <Card key={bikeData.displayName} className="image-card" onClick={() => this.props.goToSpec(bikeData.displayName)} link>
         <Card.Content>
           <img src={bikeData.defaultImageUrl} alt={bikeData.displayName} />
