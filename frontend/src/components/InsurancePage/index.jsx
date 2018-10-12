@@ -1,17 +1,15 @@
 /* eslint react/no-danger: 0 */
 import React, { Component } from 'react';
-import _ from 'lodash';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import humps from 'humps';
 import { push } from 'react-router-redux';
-import { Button, Form, Card, Divider, Image, Segment, Icon, Search, Popup, Message } from 'semantic-ui-react';
+import { Button, Form, Card, Divider, Image, Segment, Icon, Popup, Message } from 'semantic-ui-react';
 import MaskedInput from 'react-text-mask';
 import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
 import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
-import { cabaInsuranceLocations, bsasInsuranceLocations } from './insuranceLocations';
 
 const optInOrOutOptions = [
   {
@@ -55,9 +53,6 @@ class InsurancePage extends Component {
         queryPostalCode: props.insuranceChoice.queryPostalCode || '',
         queryAge: props.insuranceChoice.queryAge || 18,
       },
-      isLoading: false,
-      value: props.insuranceChoice.queryPostalCode || '',
-      results: [],
       hasSearchedHeroInsurance: false,
       errors: {
         queryProvince: false,
@@ -90,8 +85,6 @@ class InsurancePage extends Component {
       });
   };
 
-  resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
-
   handleDropdownChange = (e, selectObj) => {
     const { name: inputName, value } = selectObj;
     const newData = this.state.insuranceChoice;
@@ -111,37 +104,6 @@ class InsurancePage extends Component {
     const newData = this.state.insuranceChoice;
     newData[inputName] = value;
     this.setState({ insuranceChoice: newData });
-  };
-
-  handleResultSelect = (e, { result }) => {
-    this.setState({
-      value: result.text,
-      insuranceChoice: {
-        ...this.state.insuranceChoice,
-        queryPostalCode: result.text,
-      },
-    });
-  }
-
-  handleSearchChange = (e, { value }) => {
-    this.setState({ isLoading: true, value });
-
-    setTimeout(() => {
-      if (this.state.value.length < 1) return this.resetComponent();
-
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
-      const isMatch = result => re.test(result.text);
-
-      const source = this.state.insuranceChoice.queryProvince === PROVINCE_CABA ?
-        cabaInsuranceLocations : bsasInsuranceLocations;
-
-      this.setState({
-        isLoading: false,
-        results: _.filter(source, isMatch),
-      });
-
-      return {}; // arrow function needs a return value
-    }, 300);
   };
 
   popUpMoreInfoCardTrigger = () => (
@@ -196,8 +158,6 @@ class InsurancePage extends Component {
   render() {
     const errorValues = Object.keys(this.state.errors).map(key => this.state.errors[key]);
     const error = errorValues.some(Boolean);
-
-    const { isLoading, value, results } = this.state;
 
     let quotesList;
     if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length > 0) {
@@ -255,11 +215,11 @@ class InsurancePage extends Component {
                   name="queryPostalCode"
                   value={this.state.insuranceChoice.queryPostalCode}
                   error={this.state.errors.queryPostalCode}
-                  onChange={this.handleHeroInsuranceDataChange}                
+                  onChange={this.handleHeroInsuranceDataChange}
                   mask={[/\d/, /\d/, /\d/, /\d/]}
                   placeholder="Código Postal"
                 />
-              </Form.Input>              
+              </Form.Input>
               <Form.Input
                 fluid
                 required
