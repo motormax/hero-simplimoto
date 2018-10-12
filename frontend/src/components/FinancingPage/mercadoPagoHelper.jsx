@@ -15,7 +15,7 @@ export async function loadSDK(callback) {
 }
 
 export function filterInstallmentLabels(labels) {
-  return labels.filter(l => l.startsWith('CFT')).join(' ');
+  return labels.filter(l => l.indexOf('CFT') === 0).join(' ');
 }
 
 export async function getPaymentMethod(creditCardNumber, callback) {

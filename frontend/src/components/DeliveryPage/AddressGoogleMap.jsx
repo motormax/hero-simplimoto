@@ -54,7 +54,7 @@ class AddressGoogleMap extends React.Component {
     }
 
     changePickupLocation = (newLocation) => {
-      const location = pickupLocations.find(loc => loc.value === newLocation);
+      const location = pickupLocations.filter(loc => loc.value === newLocation)[0];
       const position = {
         lat: location.latitude,
         lng: location.longitude,

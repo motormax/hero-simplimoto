@@ -163,7 +163,7 @@ class CreditCardPayment extends Component {
   handleGatewayError = (status, response) => {
     window.Mercadopago.clearSession();
     response.cause.forEach((errorCause) => {
-      const errorObj = gatewayErrorCodes.find(error => error.code === errorCause.code) ||
+      const errorObj = gatewayErrorCodes.filter(error => error.code === errorCause.code)[0] ||
         gatewayDefaultErrorCodes;
       const newErrors = this.state.errors;
       newErrors[errorObj.field] = true;

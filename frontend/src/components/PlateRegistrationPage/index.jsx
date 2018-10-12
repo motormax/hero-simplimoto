@@ -223,7 +223,7 @@ class PlateRegistrationPage extends Component {
   });
 
   plateRegistrationTypePriceByName = typeName => (
-    this.props.plateRegistrationTypes.find(type => type.name === typeName).price
+    this.props.plateRegistrationTypes.filter(type => type.name === typeName)[0].price
   );
 
   costInfoText = () => (

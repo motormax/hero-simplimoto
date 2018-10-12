@@ -176,7 +176,7 @@ class MercadoPagoFinancingForm extends Component {
     const newFinancingForm = newState.financingForm;
     newFinancingForm.paymentMethodId = value;
 
-    const paymentMethodOption = this.state.paymentMethodOptions.find(o => o.value === value);
+    const paymentMethodOption = this.state.paymentMethodOptions.filter(o => o.value === value)[0];
     newFinancingForm.paymentMethodName = paymentMethodOption.text;
     newFinancingForm.paymentMethodLogo = paymentMethodOption.image.src;
     this.setState(newState);
@@ -188,7 +188,7 @@ class MercadoPagoFinancingForm extends Component {
     const newState = this.clearStateObjWhenIssuerChanged(this.state.financingForm);
     const newFinancingForm = newState.financingForm;
     newFinancingForm.issuerId = value;
-    const issuerdOption = this.state.issuerOptions.find(o => o.value === value);
+    const issuerdOption = this.state.issuerOptions.filter(o => o.value === value)[0];
     newFinancingForm.issuerName = issuerdOption.text;
     newFinancingForm.issuerLogo = issuerdOption.image.src;
     this.setState(newState);
