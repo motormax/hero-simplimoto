@@ -19,7 +19,10 @@ defmodule HeroDigital.Product do
 
   """
   def list_accessories do
-    Repo.all(Accessory)
+    query = from a in Accessory,
+      order_by: [asc: :id]
+
+    Repo.all(query)
   end
 
   @doc """
