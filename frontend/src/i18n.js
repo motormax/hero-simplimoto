@@ -28,7 +28,7 @@ export default i18next.init({
       footer: {
         company_name: 'DISTRIBUIDORA ARGENTINA DE MOTOS S.A.',
         company_address: 'Esmeralda 1320 5° "A" Ciudad Autónoma de Buenos Aires',
-        showroom: 'Showroom',
+        showroom: 'Teléfono',
         whatsapp: 'Whatsapp',
         showroom_phone_number: '011 5368-6267',
         whatsapp_phone_number: '011 6734-1607',
