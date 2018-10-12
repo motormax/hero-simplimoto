@@ -40,6 +40,13 @@ class PurchaseSummary extends Component {
       description: propTypes.string.isRequired,
       logoUrl: propTypes.string.isRequired,
     })),
+    plateRegistrationData: propTypes.shape({
+      id: propTypes.number,
+      plateRegistrationType: propTypes.shape({
+        price: propTypes.string,
+        name: propTypes.string,
+      }),
+    }),
   };
 
   deliveryTitle = () => {
@@ -81,7 +88,7 @@ class PurchaseSummary extends Component {
 
   render() {
     const {
-      lead, accessories, insuranceChoice, chosenAccessories,
+      lead, accessories, insuranceChoice, chosenAccessories, plateRegistrationData,
     } = this.props;
 
     const insuranceOptOut = insuranceChoice.optInOrOut === PERSONAL_INSURANCE;
@@ -200,7 +207,7 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Patentamiento</h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>3.800</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{moneyFormatter.format(plateRegistrationData.plateRegistrationType.price)}</span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -246,7 +253,7 @@ const mapStateToProps = store => ({
   financing: store.main.financing,
   delivery: store.main.delivery,
   insuranceChoice: store.main.insuranceChoice,
-  plateRegistration: store.main.plateRegistrationData,
+  plateRegistrationData: store.main.plateRegistration.plateRegistrationData,
   customization: store.main.customization,
   accessories: store.main.accessories,
   chosenAccessories: store.main.accessories.chosenAccessories,
