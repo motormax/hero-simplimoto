@@ -165,7 +165,7 @@ class InsurancePage extends Component {
     return (
       <Card key={quote.policyId}>
         <Card.Content textAlign="center">
-          <Image src={quote.brokerLogo} width="150px" />
+          <Image src={quote.brokerLogo} width="150px" height="55px" />
           <Card.Description>{quote.policy}</Card.Description>
           <Card.Meta>{this.popUpMoreInfo(quote)}</Card.Meta>
         </Card.Content>

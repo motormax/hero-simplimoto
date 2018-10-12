@@ -38,17 +38,6 @@ defmodule HeroDigital.IdentityTest do
       assert length(lead_accessories) == 0
     end
 
-    test "create_lead/1 with valid data creates a lead and if the db has one or more accessories,
-    the new lead has all of them", %{motorcycle: motorcycle} do
-      an_accessory = Factory.new_accessory()
-      another_accessory = Factory.new_different_accessory()
-      {:ok, lead} = Identity.create_lead(%{motorcycle_id: motorcycle.id})
-
-      lead_accessories = Product.lead_accessories(lead.id)
-
-      assert lead_accessories == [an_accessory, another_accessory]
-    end
-
     test "create_lead/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Identity.create_lead(@invalid_attrs)
     end

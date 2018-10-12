@@ -59,8 +59,6 @@ defmodule HeroDigital.Identity do
   """
   def create_lead(attrs \\ %{}) do
     with {:ok, lead } <- (%Lead{} |> Lead.changeset(attrs) |> Repo.insert()) do
-      all_accessories = Product.list_accessories()
-      Product.add_accessories_to_lead(lead, all_accessories)
       {:ok, get_lead!(lead.id)}
     end
   end
