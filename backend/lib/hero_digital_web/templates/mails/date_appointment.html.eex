@@ -1,0 +1,58 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Nueva cita</title>
+
+  <style type="text/css">
+		body{
+			font-family:'Open Sans',sans-serif;
+            background: #EBEBEB;
+		}
+		table{
+			width:100%;
+		}
+</style></head>
+  <body>
+    <h1>Nueva Cita</h1>
+    <table>
+      <tr>
+        <td>Lead</td>
+        <td><%= @lead.id %></td>
+      </tr>
+      <tr>
+        <td>Fecha</td>
+        <td><%= @date_appointment.date %></td>
+      </tr>
+      <tr>
+        <td>Turno</td>
+        <td><%= @date_appointment.shift %></td>
+      </tr>
+      <tr>
+        <td>Quien la recibe</td>
+        <td><%= @date_appointment.name %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= @date_appointment.email %></td>
+      </tr>
+      <tr>
+        <td>Dirección</td>
+        <td><%= @date_appointment.address.street %></td>
+      </tr>
+      <tr>
+        <td>Piso/Depto</td>
+        <td><%= @date_appointment.address.complements %></td>
+      </tr>
+      <tr>
+        <td>Código Postal</td>
+        <td><%= @date_appointment.address.postal_code %></td>
+      </tr>
+      <tr>
+        <td>Teléfono</td>
+        <td><%= @date_appointment.address.telephone_number %></td>
+      </tr>
+    </table>
+  </body>
+</html>

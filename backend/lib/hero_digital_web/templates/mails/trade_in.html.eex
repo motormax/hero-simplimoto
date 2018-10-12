@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Nuevo Trade In</title>
+
+  <style type="text/css">
+		body{
+			font-family:'Open Sans',sans-serif;
+            background: #EBEBEB;
+		}
+		table{
+			width:100%;
+		}
+</style></head>
+  <body>
+    <h1>Nuevo Trade In</h1>
+    <table>
+      <tr>
+        <td>Lead</td>
+        <td><%= @lead.id %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= @trade_in.email %></td>
+      </tr>
+      <tr>
+        <td>Nombre</td>
+        <td><%= @trade_in.name %></td>
+      </tr>
+      <tr>
+        <td>Telefono</td>
+        <td><%= @trade_in.telephone %></td>
+      </tr>
+      <tr>
+        <td>Localidad</td>
+        <td><%= @trade_in.location %></td>
+      </tr>
+      <tr>
+        <td>Marca</td>
+        <td><%= @trade_in.brand %></td>
+      </tr>
+      <tr>
+        <td>Modelo</td>
+        <td><%= @trade_in.model %></td>
+      </tr>
+      <tr>
+        <td>Año</td>
+        <td><%= @trade_in.year %></td>
+      </tr>
+      <tr>
+        <td>Descripción</td>
+        <td><%= @trade_in.description %></td>
+      </tr>
+      <tr>
+        <td>Patente</td>
+        <td><%= @trade_in.license_plate %></td>
+      </tr>
+    </table>
+  </body>
+</html>

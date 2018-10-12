@@ -29,7 +29,8 @@ defmodule HeroDigital.Fulfillment do
 
   """
   def get_purchase_order_for_lead(lead_id) do
-    Repo.one(from p in PurchaseOrder, where: p.lead_id == ^lead_id, order_by: [desc: p.inserted_at], limit: 1)
+    purchase_order = Repo.one(from p in PurchaseOrder, where: p.lead_id == ^lead_id, order_by: [desc: p.inserted_at], limit: 1)
+    Repo.preload(purchase_order, [:payment])
   end
 
   @doc """

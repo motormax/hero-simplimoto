@@ -1,0 +1,10 @@
+NUEVA CITA \n
+Lead: <%= @lead.id %>\n
+Fecha: <%= @date_appointment.date %>\n
+Turno: <%= @date_appointment.shift %>\n
+Quien la recibe: <%= @date_appointment.name %>\n
+Email: <%= @date_appointment.email %>\n
+Dirección: <%= @date_appointment.address.street %>\n
+Piso/Depto: <%= @date_appointment.address.complements %>\n
+Código Postal: <%= @date_appointment.address.postal_code %>\n
+Teléfono: <%= @date_appointment.address.telephone_number %>\n
