@@ -3,12 +3,12 @@ import propTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Card, Icon, Segment, Button} from 'semantic-ui-react';
+import { Card, Icon, Segment, Button } from 'semantic-ui-react';
 
 const message = 'Tu pago ha sido procesado con éxito. Recibirás un mail con la confirmación en pocos minutos.';
 
 class SuccessPage extends Component {
-  static propTypes = {    
+  static propTypes = {
     backToHome: propTypes.func.isRequired,
   };
   render() {
@@ -38,8 +38,9 @@ class SuccessPage extends Component {
   }
 }
 
-const mapStateToProps = _ => ({
+const mapStateToProps = () => ({
 });
+
 const mapDispatchToProps = dispatch => ({
   backToHome: async () => {
     dispatch(push('/'));
