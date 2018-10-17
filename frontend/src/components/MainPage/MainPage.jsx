@@ -6,6 +6,8 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { parse } from 'query-string';
+import {isMobileOnly} from 'react-device-detect';
+
 import { leadFetched } from '../../actions/beginning';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
 
@@ -23,6 +25,7 @@ class MainPage extends Component {
     fetchAllAccessories: propTypes.func.isRequired,
     pickBike: propTypes.func.isRequired,
     goToSpec: propTypes.func.isRequired,
+    goToMobileOnly: propTypes.func.isRequired,
     accessories: propTypes.shape({
       hasFetchedAllAccessories: propTypes.bool.isRequired,
       hasFetchedChosenAccessories: propTypes.bool.isRequired,
@@ -32,6 +35,10 @@ class MainPage extends Component {
   };
 
   componentDidMount() {
+    if (isMobileOnly) {
+      this.props.goToMobileOnly();
+      return;
+    }
     if (!this.props.accessories.hasFetchedAllAccessories) {
       this.props.fetchAllAccessories();
     }
@@ -73,6 +80,9 @@ const mapDispatchToProps = dispatch => ({
   },
   goToSpec: (bikeName) => {
     dispatch(push(`/specs/${bikeName}`));
+  },
+  goToMobileOnly: () => {
+    dispatch(push('/mobile'));
   },
   fetchAllAccessories: async () => {
     dispatch(startedFetchingAllAccessories());
