@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Youtube from 'react-youtube';
+import { isMobileOnly } from 'react-device-detect';
 
 import { Icon, Button } from 'semantic-ui-react';
 import availableMotorcycles from './motorcycles/availableMotorcycles';
@@ -25,8 +26,8 @@ class LiveTourPage extends Component {
           <Youtube
             videoId={bike.videoId}
             opts={{
-              width: 560,
-              height: 315,
+              width: isMobileOnly ? 359 : 560,
+              height: isMobileOnly ? 202 : 315,
               playerVars: { // https://developers.google.com/youtube/player_parameters
                 color: 'white',
                 rel: 0,

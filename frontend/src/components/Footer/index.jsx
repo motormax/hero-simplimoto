@@ -25,7 +25,7 @@ class Footer extends Component {
       <footer className="footer">
         <Container>
           <img className="footer-img" alt="Hero digital" src={logoUrl} />
-          <Grid>
+          <Grid stackable columns={2}>
             <Grid.Row>
               <Grid.Column width={isMobileOnly ? 15 : 5}>
                 <List>

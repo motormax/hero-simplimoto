@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid, Icon, Image, Segment, Radio } from 'semantic-ui-react';
+import { Grid, Icon, Image, Segment, Radio, Responsive } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { changeBikeColor } from '../../../actions/beginning';
 
@@ -128,7 +128,7 @@ class BikeColorSection extends Component {
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: '#67CC4F' }}>
-        <Grid>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={1}>
               <Icon className="txt-green" size="large" name="check" />
@@ -141,7 +141,7 @@ class BikeColorSection extends Component {
               </div>
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row>
+          <Responsive as={Grid.Row} minWidth={768}>
             <Grid.Column width={1} />
             <Grid.Column width={8}>
               <div className="fw-bold txt-med-gray">Elegí los espejos <span className="fw-normal">(próximamente)</span></div>
@@ -151,7 +151,7 @@ class BikeColorSection extends Component {
               <div className="fw-bold txt-med-gray">Elegí el asiento <span className="fw-normal">(próximamente)</span></div>
               {seatOptions}
             </Grid.Column>
-          </Grid.Row>
+          </Responsive>
         </Grid>
       </Segment>
     );

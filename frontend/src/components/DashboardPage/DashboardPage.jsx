@@ -39,7 +39,7 @@ class DashboardPage extends Component {
     return (
       <React.Fragment>
         <div className="dashboard" ref={(ref) => { this.ref = ref; }}>
-          <Grid>
+          <Grid stackable columns={2}>
             <Grid.Column width={10}>
               <Header size="huge">{t('good_choice')} <span className="fs-tinny fw-normal txt-med-gray">{t('header_intro')}</span></Header>
               <Segment.Group>

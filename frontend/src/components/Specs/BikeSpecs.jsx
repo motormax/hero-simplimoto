@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { isMobileOnly } from 'react-device-detect';
 
 import { goBack, push } from 'react-router-redux';
 import { Tab, Table, Segment, Button } from 'semantic-ui-react';
@@ -70,7 +71,12 @@ class BikeSpecsPage extends Component {
 
         <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
 
-        <Tab panes={this.panes()} />
+        <Tab
+          menu={{
+ attached: true, tabular: true, fluid: true, vertical: isMobileOnly,
+}}
+          panes={this.panes()}
+        />
 
         <Segment className="white-segment">
           <Slider className="margin-bottom" {...settings}>

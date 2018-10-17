@@ -13,6 +13,7 @@
       top: 50%;
       transform: translateY(-50%);
       width: 100%;
+      max-width: 50px;
     }
     h3{
       margin: 0;
@@ -46,7 +47,12 @@
   }
   &.motorcycle-resume{
     img{
-      position: absolute;
+      @media screen and (max-width: $break-small) {
+        position: absolute;
+      }
+      @media screen and (min-width: $break-large) {
+        position: relative;
+      }      
       top: -2em;
     }
     h3{

@@ -79,7 +79,7 @@ class DateYourBikeSection extends Component {
 
     return (
       <Segment className={cardStyle} style={{ borderLeftColor: appointment.id ? '#67CC4F' : 'transparent' }}>
-        <Grid>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={1}>
               {appointment.id ? <Icon size="large" color="green" name="check" /> : <img src={dateYourBikeIcon} alt="Una cita a ciegas" />}

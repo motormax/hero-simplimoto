@@ -245,7 +245,7 @@ class InsurancePage extends Component {
                 }}
               >
                 <Icon name="chevron left" />
-                Cancelar y Volver
+                Volver
               </Button>
             </div>
           </Form>
@@ -259,7 +259,7 @@ class InsurancePage extends Component {
       heroQuery = (
         <Segment attached="bottom" className="txt-center">
           <Button
-            size="big"
+            size="large"
             primary
             onClick={() => {
               this.props.selectMyOwnInsurance(this.props.lead);
@@ -275,7 +275,7 @@ class InsurancePage extends Component {
             }}
           >
             <Icon name="chevron left" />
-            Cancelar y Volver
+            Volver
           </Button>
         </Segment>
       );

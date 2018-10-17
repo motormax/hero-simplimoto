@@ -116,7 +116,7 @@ class AccessoriesSection extends Component {
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: '#67CC4F' }}>
-        <Grid>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={1}>
               <Icon size="large" className="txt-green" name="check" />

@@ -23,7 +23,7 @@ class BikeModelSection extends Component {
 
     return (
       <Segment className="dashboard-card motorcycle-resume" style={{ borderLeftColor: '#21ba45' }}>
-        <Grid>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={5}>
               <img src={imgUrl} alt={motorcycle.name} />

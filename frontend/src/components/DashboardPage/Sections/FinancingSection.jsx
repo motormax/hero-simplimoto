@@ -53,7 +53,7 @@ class FinancingSection extends Component {
 
     return (
       <Segment className="dashboard-card" style={{ borderLeftColor: color }}>
-        <Grid>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={1}>
               {this.props.financingSelected ? <Icon size="large" className="txt-green" name="check" /> : <Icon size="large" color="red" name="arrow right" />}

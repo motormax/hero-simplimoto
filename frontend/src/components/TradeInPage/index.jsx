@@ -200,7 +200,7 @@ class TradeInPage extends Component {
               content={'Hubo un error al procesar la solicitud. '.concat(this.state.errors.errorMessage)}
             />
             <Segment className="txt-center" attached="bottom">
-              <Button size="big" type="submit" primary>Confirmar</Button>
+              <Button size="large" type="submit" primary>Confirmar</Button>
               <Button
                 size="large"
                 secondary
@@ -209,7 +209,7 @@ class TradeInPage extends Component {
                 onClick={this.props.goToDashboard}
               >
                 <Icon name="chevron left" />
-                Cancelar y Volver
+                Volver
               </Button>
             </Segment>
           </Form>

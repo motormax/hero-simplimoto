@@ -371,7 +371,7 @@ class PlateRegistrationPage extends Component {
               la cargues con el siguiente botón.
             </p>
 
-            <Grid>
+            <Grid stackable columns={2}>
               <Grid.Row centered>
                 <Grid.Column width={7}>
                   <img src={dniImage} alt="" />
@@ -411,7 +411,7 @@ class PlateRegistrationPage extends Component {
           </Segment>
           <Segment attached="bottom" className="txt-center">
             <Button
-              size="big"
+              size="large"
               primary
               type="submit"
             >Confirmar
@@ -424,16 +424,15 @@ class PlateRegistrationPage extends Component {
               onClick={this.props.goToDashboard}
             >
               <Icon name="chevron left" />
-                Cancelar y Volver
+                Volver
             </Button>
           </Segment>
-
         </React.Fragment>);
     } else {
       plateRegistrationForm = (
         <Segment attached="bottom" className="txt-center">
           <Button
-            size="big"
+            size="large"
             primary
             onClick={() => {
               this.props.selectMyOwnPlateRegistration(this.props.lead.id);
@@ -448,7 +447,7 @@ class PlateRegistrationPage extends Component {
             onClick={this.props.goToDashboard}
           >
             <Icon name="chevron left" />
-            Cancelar y Volver
+            Volver
           </Button>
         </Segment>
       );

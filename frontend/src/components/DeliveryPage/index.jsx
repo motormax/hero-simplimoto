@@ -235,7 +235,7 @@ class DeliveryPage extends Component {
             />
 
             <Segment attached="bottom" className="txt-center">
-              <Button type="submit" size="big" primary>Confirmar</Button>
+              <Button type="submit" size="large" primary>Confirmar</Button>
               <Button
                 size="large"
                 secondary
@@ -244,7 +244,7 @@ class DeliveryPage extends Component {
                 onClick={this.props.goToDashboard}
               >
                 <Icon name="chevron left" />
-                Cancelar y Volver
+                Volver
               </Button>
             </Segment>
 

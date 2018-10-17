@@ -12,7 +12,7 @@ class TradeInSection extends Component {
   render() {
     return (
       <Segment className="dashboard-card" inverted>
-        <Grid>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={1}>
               <Icon size="large" name="arrow right" />
