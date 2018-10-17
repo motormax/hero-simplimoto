@@ -54,7 +54,7 @@ class Footer extends Component {
                   <List.Item>
                     <Icon className="txt-med-gray" name="mail" />
                     <List.Content>
-                      {t('email')}: <a href="mailto:{t('email_adress')}">{t('email_adress')}</a>
+                      {t('email')}: <a href={`mailto:${t('email_adress')}`}>{t('email_adress')}</a>
                     </List.Content>
                   </List.Item>
                 </List>
