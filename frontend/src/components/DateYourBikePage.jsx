@@ -262,7 +262,7 @@ class DateYourBikePage extends Component {
               onPickupLocationChange={this.handlePickupLocationChange}
             />
             <Segment className="txt-center" attached="bottom">
-              <Button size="big" type="submit" primary>Confirmar</Button>
+              <Button size="large" type="submit" primary>Confirmar</Button>
               <Button
                 size="large"
                 secondary
@@ -271,7 +271,7 @@ class DateYourBikePage extends Component {
                 onClick={this.props.goToDashboard}
               >
                 <Icon name="chevron left" />
-                Cancelar y Volver
+                Volver
               </Button>
             </Segment>
           </Form>
