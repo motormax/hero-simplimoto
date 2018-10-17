@@ -4,7 +4,7 @@ import { Container, Divider, Grid, Icon, List } from 'semantic-ui-react';
 import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import {CustomView, isMobileOnly} from 'react-device-detect';
+import { isMobileOnly } from 'react-device-detect';
 
 import logoUrl from '../hero-logo.png';
 import FooterBike from './FooterBike';
@@ -59,7 +59,7 @@ class Footer extends Component {
                   </List.Item>
                 </List>
               </Grid.Column>
-              <Grid.Column width={3} style={isMobileOnly ? {display: 'none'} : {}}>
+              <Grid.Column width={3} style={isMobileOnly ? { display: 'none' } : {}}>
                 <List>
                   <List.Item>
                     <List.Header>{t('know_our_bikes')}</List.Header>
@@ -70,7 +70,7 @@ class Footer extends Component {
                   <List.Item><a href="http://heromotos.com.ar/modelos/dash" target="_blank" rel="noopener noreferrer">{t('dash')}</a></List.Item>
                 </List>
               </Grid.Column>
-              <Grid.Column width={3} style={isMobileOnly ? {display: 'none'} : {}}>
+              <Grid.Column width={3} style={isMobileOnly ? { display: 'none' } : {}}>
                 <List>
                   <List.Item>
                     <List.Header>{t('support')}</List.Header>

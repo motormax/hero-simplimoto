@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Icon } from 'semantic-ui-react';
+
 class MobilePage extends Component {
-
   render() {
-
     return (
       <div>
         <h2 className="fs-huge fw-bold txt-center">Próximamente disponible en iPhone <Icon className="apple" /> y Android <Icon className="android" /></h2>

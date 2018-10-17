@@ -6,7 +6,7 @@ import { translate } from 'react-i18next';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { parse } from 'query-string';
-import {isMobileOnly} from 'react-device-detect';
+import { isMobileOnly } from 'react-device-detect';
 
 import { leadFetched } from '../../actions/beginning';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
