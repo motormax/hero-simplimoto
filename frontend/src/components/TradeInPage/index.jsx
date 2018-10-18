@@ -89,7 +89,7 @@ class TradeInPage extends Component {
 
     return (
       <div>
-        <h2 className="fs-massive fw-bold txt-center">Vende tu moto usada</h2>
+        <h2 className="fs-massive fw-bold txt-center">Vendé tu moto usada</h2>
         <p className="fs-huge txt-med-gray txt-center">¡Cargá los datos de tu moto y te ayudamos a venderla!</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
@@ -140,7 +140,7 @@ class TradeInPage extends Component {
               </Form.Group>
             </Segment>
             <Segment attached>
-              <p className="txt-dark-gray fw-bold fs-huge">¿Qué moto queres vender?</p>
+              <p className="txt-dark-gray fw-bold fs-huge">¿Qué moto querés vender?</p>
 
               <Form.Group widths="equal">
                 <Form.Input
