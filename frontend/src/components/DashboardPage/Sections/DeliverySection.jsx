@@ -63,7 +63,7 @@ class DeliverySection extends Component {
             </Grid.Column>
             <Grid.Column width={9}>
               <h3 className="fw-bold fs-big">
-                ¿Cómo queres recibirla? <span className="fw-bold uppercase txt-green fs-tinny" > ¡gratis! </span>
+                ¿Cómo querés recibirla? <span className="fw-bold uppercase txt-green fs-tinny" > ¡gratis! </span>
               </h3>
             </Grid.Column>
             <Grid.Column width={6}>
