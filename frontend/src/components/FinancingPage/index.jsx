@@ -59,7 +59,7 @@ class FinancingPage extends Component {
       case LEASING_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás obtener tu moto mediante un Leasing." />;
       case DEBIN_PAYMENT_METHOD:
-        return <SoonAvailableForm comingSoonText="Próximamente podrás pagar tu compra directamente desde tu cuenta bancaria." />;
+        return <SoonAvailableForm comingSoonText="Próximamente podrás ver las ofertas de distintos bancos para elegir cómo financiar tu moto." />;
       default:
         return false;
     }
