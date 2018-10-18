@@ -230,12 +230,11 @@ class PlateRegistrationPage extends Component {
     <React.Fragment>
       <p className="fs-big txt-dark-gray txt-center">
         El patentamiento por cuenta de Hero tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(this.plateRegistrationTypePriceByName(HERO_PLATE_REGISTRATION))} </span>
-        y éste se gestionará <span className="fw-bold">integramente</span> solo se requerirá una
+        y éste se gestionará <span className="fw-bold">íntegramente,</span> sólo se requerirá una
         <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto. <br />
         El patentamiento por cuenta propia tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(this.plateRegistrationTypePriceByName(PERSONAL_PLATE_REGISTRATION))} </span>
         por gastos de documentación. <br />
-        Estos se incorporan a la financiación.
-      </p>
+        </p>
     </React.Fragment>
   );
 
