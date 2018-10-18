@@ -15,32 +15,32 @@ class PrivacyPolicy extends Component {
         <h2 className="fs-massive txt-dark-gray fw-bold">POLÍTICA DE PRIVACIDAD</h2>
         <p className="fs-large txt-dark-gray">
           <b>Fecha de actualización</b><br />
-          Gracias por visitar www.heromotocorp.com. Respetamos mucho su privacidad y consideramos
+          Gracias por visitar www.heromotodigital.com. Respetamos mucho su privacidad y consideramos
           que es un elemento pertinente para nuestros negocios. Esta declaración de política de
-          privacidad sólo se aplica a www.heromotocorp.com. No se aplica a la información
+          privacidad sólo se aplica a www.heromotodigital.com. No se aplica a la información
           recolectada y almacenada con otros objetivos más que para el sitio Web.
         </p>
         <p className="fs-large txt-dark-gray">
           <b>Privacidad de información personal</b><br />
-          Con el debido respeto a la privacidad de sus usuarios, el Sitio Web de Hero MotoCorp
-          (http://www.heromotocorp.com) se abstiene de obtener información pesonal de sus usuarios
-           sin su debido consentimiento. Hero MotoCorp no distribuye, vende o alquila ningún
+          Con el debido respeto a la privacidad de sus usuarios, el Sitio Web de Distribuidora Argentina de Motos S.A.
+          (http://www.heromotodigital.com) se abstiene de obtener información pesonal de sus usuarios
+           sin su debido consentimiento. Distribuidora Argentina de Motos S.A. no distribuye, vende o alquila ningún
            información personal recolectada en este sitio Web. Esto también se aplica para la
            información personal (direcciones de correo electrónico, direcciones postales, etc.)
            enviadas a nuestras direcciones y memoria de contactos de correo electrónico del sitio
-           Web. Hero MotoCorp no envía correos electrónicos no solicitados a los usuarios del sitio
+           Web. Distribuidora Argentina de Motos S.A. no envía correos electrónicos no solicitados a los usuarios del sitio
            y la información personal ingredasa por medio de los formularios de registración del
            sitio, como el formulario de comentarios, formulario de quejas, etc., está protegido por
             funciones de seguridad.
         </p>
         <p className="fs-large txt-dark-gray">
           <b>Política sobre Cookies</b><br />
-          El sitio Web de Hero MotoCorp estudia los datos de uso total para saber con qué
+          El sitio Web de Distribuidora Argentina de Motos S.A. estudia los datos de uso total para saber con qué
           frecuencia y cuándo se solicita o visita el contenido del sitio. No utiliza cookies
           persistentes (cookies de texto) o cookies de sesión con el propósito de controlar el
           uso del sitio. Una cookie persistente o de texto es un archivo que puede contener
-          información del usuario. Se almacena en la computadora del usuario. El sitio Web de Hero
-          MotoCorp utiliza cookies de sesión (éstas no se almacenan en la computadora del usuario).
+          información del usuario. Se almacena en la computadora del usuario. El sitio Web de Distribuidora Argentina
+          de Motos S.A. utiliza cookies de sesión (éstas no se almacenan en la computadora del usuario).
         </p>
         <p className="fs-large txt-dark-gray">
           <b>Encuestas en línea</b><br />
@@ -55,14 +55,14 @@ class PrivacyPolicy extends Component {
         </p>
         <p className="fs-large txt-dark-gray">
           <b>Enlaces a nuestros sitios Web</b><br />
-          El sitio Web de Hero MotoCorp puede contener enlaces a otros sitios y nosotros intentamos
+          El sitio Web de Distribuidora Argentina de Motos S.A. puede contener enlaces a otros sitios y nosotros intentamos
           conectar sólo los sitios que compartimos nuestros altos estándares y respetamos la
           privacidad. No somos responsables del contenido o las prácticas de privacidad
           utlizadas por otros sitios.
         </p>
         <p className="fs-large txt-dark-gray">
           <b>Cambios en la &quot;Declaración de privacidad&quot;</b><br />
-          Con efecto en el futuro, Hero MotoCorp se reserva el derecho a cambiar esta declaración
+          Con efecto en el futuro, Distribuidora Argentina de Motos S.A. se reserva el derecho a cambiar esta declaración
           de privacidad de vez en cuando. Cuando lo hacemos, también revisaremos la fecha de
           &quot;Fecha de actualización&quot; en la parte superior de la declaración de privacidad.
           Para cambios materiales sobre esta declaración de privacidad, notificaremos colocando un
@@ -70,7 +70,7 @@ class PrivacyPolicy extends Component {
         </p>
         <p className="fs-large txt-dark-gray">
           <b>Seguridad</b><br />
-          Hero MotoCorp intenta tomar medidas razonables y adecuadas para proteger su información
+          Distribuidora Argentina de Motos S.A. intenta tomar medidas razonables y adecuadas para proteger su información
           personal del acceso o revelación no autorizados. No obstante, no garantizamos o
           representamos que su información personal esté totalmente segura de piratas informáticos
           y otras amenazas de seguridad.
