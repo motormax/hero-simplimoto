@@ -300,7 +300,7 @@ class MercadoPagoFinancingForm extends Component {
       });
     const creditCardOptions = (
       <Segment className="not-border-bottom" attached>
-        <p className="txt-dark-gray fw-bold fs-huge">Elegí tu tarjeta de credito</p>
+        <p className="txt-dark-gray fw-bold fs-huge">Elegí tu tarjeta de crédito</p>
         <Form.Field className="square-btn-container">
           {creditCardList}
         </Form.Field>
