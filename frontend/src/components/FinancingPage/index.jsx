@@ -68,7 +68,7 @@ class FinancingPage extends Component {
   render() {
     return (
       <div>
-        <h2 className="fs-massive fw-bold txt-center">¿Como queres financiarte?</h2>
+        <h2 className="fs-massive fw-bold txt-center">¿Cómo querés financiarte?</h2>
         <p className="fs-huge txt-med-gray txt-center">Elegí el metodo de financiación más conveniente.</p>
         <div className="page-column-card margin-bottom">
           <Card.Group centered>
