@@ -234,7 +234,7 @@ class PlateRegistrationPage extends Component {
         <span className="fw-bold"> firma</span> del propietario al momento de recibir la moto. <br />
         El patentamiento por cuenta propia tiene un costo de $ <span className="fw-bold">{moneyFormatter.format(this.plateRegistrationTypePriceByName(PERSONAL_PLATE_REGISTRATION))} </span>
         por gastos de documentación. <br />
-        </p>
+      </p>
     </React.Fragment>
   );
 
