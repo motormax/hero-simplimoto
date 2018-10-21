@@ -7,6 +7,8 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
 
   schema "purchase_orders" do
     field :email, :string
+    field :full_name, :string
+    field :phone, :string
     field :payment_method, :string
     field :payment_method_token, :string
     belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
@@ -18,7 +20,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   @doc false
   def changeset(purchase_order, lead, attrs) do
     purchase_order
-    |> cast(attrs, [:payment_method, :payment_method_token, :email])
+    |> cast(attrs, [:payment_method, :payment_method_token, :email, :full_name, :phone])
     |> validate_required([:payment_method, :email])
     |> put_change(:lead_id, lead.id)
   end

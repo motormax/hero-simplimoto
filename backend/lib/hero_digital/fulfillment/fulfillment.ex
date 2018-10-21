@@ -99,6 +99,8 @@ defmodule HeroDigital.Fulfillment do
 
     purchase_order_data = %{
       email: payment_params["email"],
+      full_name: payment_params["full_name"],
+      phone: payment_params["phone"],
       payment_method: "credit_card",
       payment_method_token: payment_params["credit_card_token"],
     }

@@ -85,6 +85,17 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
                "user_message" => "El pago fue procesado con éxito."} = json_response(conn, 201)["data"]
     end
 
+    test "takes phone and full_name as params", %{conn: conn, lead: lead} do
+      conn = post conn, lead_purchase_order_path(conn, :create, lead.id), Map.merge(@create_attrs, %{phone: "1234-5678", full_name: "Pepe Argento"})
+
+      lead_id = lead.id
+      assert %{"id" => _id,
+               "lead_id" => ^lead_id,
+               "status" => "approved",
+               "status_detail" => "accredited",
+               "user_message" => "El pago fue procesado con éxito."} = json_response(conn, 201)["data"]
+    end
+
     test "renders errors when data is invalid", %{conn: conn, lead: lead} do
       conn = post conn, lead_purchase_order_path(conn, :create, lead.id), @invalid_attrs
       assert json_response(conn, 422)["errors"] != %{}
