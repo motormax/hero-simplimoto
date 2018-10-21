@@ -91,6 +91,13 @@ class DeliveryPage extends Component {
     }
 
     if (this.state.chosenDeliveryMethod === PICKUP) {
+      if (!this.state.chosenPickupLocation) {
+        const newErrors = this.state.errors;
+        newErrors.general = true;
+        newErrors.description = 'Seleccioná una concesionaria.';
+        this.setState({ errors: newErrors });
+        return;
+      }
       deliveryChoice = {
         pickup_location: this.state.chosenPickupLocation,
       };
