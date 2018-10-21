@@ -51,6 +51,8 @@ class CreditCardPayment extends Component {
     this.state = {
       docTypes: [],
       paymentMethod: {
+        fullName: '',
+        phone: '',
         cardNumber: '',
         email: '',
         securityCode: '',
@@ -64,6 +66,8 @@ class CreditCardPayment extends Component {
       binMatchFinance: false,
       submitInProgress: false,
       errors: {
+        fullName: false,
+        phone: false,
         cardNumber: false,
         securityCode: false,
         email: false,
@@ -146,6 +150,8 @@ class CreditCardPayment extends Component {
         await this.props.createPurchaseOrder(
           this.props.lead.id, creditCardToken,
           this.state.paymentMethod.email,
+          this.state.paymentMethod.fullName,
+          this.state.paymentMethod.phone
         );
       } catch (error) {
         this.setState({ submitInProgress: false });
@@ -334,6 +340,28 @@ class CreditCardPayment extends Component {
             <Form.Input
               fluid
               required
+              label="Nombre completo"
+              type="text"
+              name="fullName"
+              placeholder="Tu nombre completo"
+              value={this.state.paymentMethod.fullName}
+              error={this.state.errors.fullName}
+              onChange={this.handleFormDataChange}
+            />
+            <Form.Input
+              fluid
+              required
+              label="Teléfono"
+              type="tel"
+              name="phone"
+              placeholder="Teléfono de linea o celular"
+              value={this.state.paymentMethod.phone}
+              error={this.state.errors.phone}
+              onChange={this.handleFormDataChange}
+            />
+            <Form.Input
+              fluid
+              required
               label="Email"
               type="email"
               name="email"
@@ -416,12 +444,14 @@ const mapDispatchToProps = dispatch => ({
   backToDashboard: async () => {
     dispatch(push('/dashboard'));
   },
-  createPurchaseOrder: async (leadId, creditCardToken, email) => {
+  createPurchaseOrder: async (leadId, creditCardToken, email, fullName, phone) => {
     const response = await axios.post(
       `/api/leads/${leadId}/purcharse_order`,
       {
         credit_card_token: creditCardToken,
         email,
+        full_name: fullName,
+        phone: phone
       },
     );
     console.log(response); // eslint-disable-line no-console
