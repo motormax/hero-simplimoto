@@ -151,7 +151,7 @@ class CreditCardPayment extends Component {
           this.props.lead.id, creditCardToken,
           this.state.paymentMethod.email,
           this.state.paymentMethod.fullName,
-          this.state.paymentMethod.phone
+          this.state.paymentMethod.phone,
         );
       } catch (error) {
         this.setState({ submitInProgress: false });
@@ -451,7 +451,7 @@ const mapDispatchToProps = dispatch => ({
         credit_card_token: creditCardToken,
         email,
         full_name: fullName,
-        phone: phone
+        phone,
       },
     );
     console.log(response); // eslint-disable-line no-console
