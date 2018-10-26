@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Card, Icon } from 'semantic-ui-react';
 import classNames from 'classnames';
 import MercadoPagoFinancingForm from './MercadoPagoFinancingForm';
+import CredicuotasFinancingForm from './CredicuotasFinancingForm';
 import SoonAvailableForm from './SoonAvailableForm';
 
 import afluentaImg from '../images/afluenta.png';
@@ -47,7 +48,7 @@ class FinancingPage extends Component {
       case TRANSFERENCIA_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás pagar por medio de una transferencia bancaria." />;
       case CREDICUOTAS_PAYMENT_METHOD:
-        return <SoonAvailableForm comingSoonText="Próximamente podrás financiar tu compra con CrediCuotas." />;
+        return <CredicuotasFinancingForm />;
       case AFLUENTA_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás financiar tu compra con Afluenta." />;
       case HERO_FINANCIAL_PAYMENT_METHOD:
