@@ -4,4 +4,5 @@ defmodule Http.Behaviour do
   @typep options :: Keyword.t()
 
   @callback post(url, body, options) :: {:ok, map()} | {:error, binary() | map()}
+  @callback get(url, options) :: {:ok, map()} | {:error, binary() | map()}
 end
