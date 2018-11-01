@@ -204,7 +204,7 @@ const availableMotorcycles = {
     specsTitle: 'Hunk Sport',
 
     miniSpecs: [
-      '15.2 BHP de potencia',
+      '15,6 BHP de potencia',
       'Caja de 5 velocidades',
       'Freno a disco',
       'Cubiertas radiales',
@@ -222,7 +222,7 @@ const availableMotorcycles = {
         paneItems: [
           { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
           { itemTitle: 'Desplazamiento', description: '149.2 cc' },
-          { itemTitle: 'Potencia Max.', description: '11.33 kW (15.2 BHP) @ 8500 rpm' },
+          { itemTitle: 'Potencia Max.', description: '11.33 kW (15,6 BHP) @ 8500 rpm' },
           { itemTitle: 'Torque Max.', description: '13.50 Nm @ 7000 rpm' },
           { itemTitle: 'Diámetro x Carrera', description: '57.3 x 57.8 mm' },
           { itemTitle: 'Carburador', description: 'CV Type with Carburettor Controlled Variable Ignition' },
