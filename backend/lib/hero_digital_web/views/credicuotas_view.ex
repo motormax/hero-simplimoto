@@ -13,6 +13,6 @@ defmodule HeroDigitalWeb.CredicuotasView do
   defp installment_message(%{"amount" => amount, "installments" => installments}) do
     formatted_amount = Float.to_string(amount, decimals: 2)
     formatted_total = Float.to_string(installments * amount, decimals: 2)
-    "#{installments} #{installments == 1 && "cuota" || "cuotas"} de $#{formatted_amount} (#{formatted_total})"
+    "#{installments} #{installments == 1 && "cuota" || "cuotas"} de $#{formatted_amount} ($#{formatted_total})"
   end
 end
