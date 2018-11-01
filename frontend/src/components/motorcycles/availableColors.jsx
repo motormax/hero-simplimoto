@@ -43,7 +43,7 @@ const availableColors = {
   ],
   HUNK_SPORT: [
     {
-      name: 'Rojo Fiery',
+      name: 'Rojo Sport',
       imageURL: 'https://dummyimage.com/50/ff0000/ff0000',
       bikeImageURL: hunkSportRedImgUrl,
     },
