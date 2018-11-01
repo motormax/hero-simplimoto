@@ -1,37 +1,56 @@
+import axios from 'axios';
+import propTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button, Card, Form, Icon, Label, Radio, Segment } from 'semantic-ui-react';
+import { startedFetchingCredicuotasInstallments, credicuotasInstallmentsFetched } from '../../actions/credicuotas';
+import PurchaseCalculator from '../calculator';
 
 class CredicuotasFinancingForm extends Component {
+  static propTypes = {
+    motorcyclePrice: propTypes.number.isRequired,
+    accessoriesPrice: propTypes.number.isRequired,
+    plateRegistrationData: propTypes.shape({
+      plateRegistrationType: propTypes.shape({
+        price: propTypes.string,
+      }),
+    }),
+    fetchInstallments: propTypes.func.isRequired,
+    installments: propTypes.arrayOf(propTypes.shape({
+      installments: propTypes.number.isRequired,
+      message: propTypes.string.isRequired,
+      label: propTypes.string,
+    })),
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      installmentOptions: [
-        {
-          installments: 1,
-          message: '1 cuotas',
-          label: '1 cuotas',
-        },
-        {
-          installments: 3,
-          message: '3 cuotas',
-          label: '3 cuotas',
-        },
-        {
-          installments: 6,
-          message: '6 cuotas',
-          label: '6 cuotas',
-        },
-        {
-          installments: 12,
-          message: '12 cuotas',
-          label: '12 cuotas',
-        }, // TODO: fetch data from the backend
-      ],
       financingForm: {
         installments: undefined,
       },
     };
   }
+
+  componentDidMount() {
+    this.getInstallments();
+  }
+
+  getInstallments() {
+    this.props.fetchInstallments(this.calculator().totalAmount());
+  }
+
+  calculator = () => {
+    const { motorcyclePrice, accessoriesPrice } = this.props;
+    return new PurchaseCalculator(motorcyclePrice, accessoriesPrice, this.plateRegistrationPrice());
+  };
+
+  isPlateRegistrationDataValid = () =>
+    this.props.plateRegistrationData && this.props.plateRegistrationData.plateRegistrationType;
+
+  plateRegistrationPrice = () =>
+    (this.isPlateRegistrationDataValid() ?
+      parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
   handleSubmit() {
     return this.state; // TODO
@@ -59,7 +78,7 @@ class CredicuotasFinancingForm extends Component {
             <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
             <div className="txt-center">
               <span className="dp-inline-block txt-left">
-                {this.state.installmentOptions.map(installment => (
+                {this.props.installments && this.props.installments.map(installment => (
                   <Form.Field key={installment.installments}>
                     <Radio
                       label={installment.message}
@@ -109,4 +128,22 @@ class CredicuotasFinancingForm extends Component {
   }
 }
 
-export default CredicuotasFinancingForm;
+const mapStateToProps = state => ({
+  // financingSelected: state.main.financing.financingSelected,
+  // financingForm: state.main.financing.financingForm,
+  motorcyclePrice: state.main.lead.motorcycle.price,
+  // lead: state.main.lead,
+  accessoriesPrice: state.main.accessories.totalPrice,
+  plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
+  installments: state.main.credicuotas.installments,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchInstallments: async (amount) => {
+    dispatch(startedFetchingCredicuotasInstallments());
+    const { data: { data } } = await axios.get(`/api/credicuotas/installments?amount=${amount}`);
+    dispatch(credicuotasInstallmentsFetched(data));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CredicuotasFinancingForm);

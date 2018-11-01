@@ -23,4 +23,6 @@ export default {
   chosenAccessoriesFetched: 'CHOSEN_ACCESSORIES_FETCHED',
   addAccessoryToChosens: 'ADD_ACCESSORY_TO_CHOSENS',
   deleteAccessoryFromChosens: 'DELETE_ACCESSORY_FROM_CHOSENS',
+  startedFetchingCredicuotasInstallments: 'STARTED_FETCHING_CREDICUOTAS_INSTALLMENTS',
+  credicuotasInstallmentsFetched: 'CREDICUOTAS_INSTALLMENTS_FETCHED',
 };
