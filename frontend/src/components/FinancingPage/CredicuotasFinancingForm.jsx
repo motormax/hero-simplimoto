@@ -103,16 +103,6 @@ class CredicuotasFinancingForm extends Component {
     return this.state.financingForm.canSubmit;
   }
 
-  handleInstallmentSelected(installment) {
-    const newData = this.state.financingForm;
-    newData.installments = installment.installments;
-    newData.message = installment.message;
-    newData.costs = installment.label;
-    newData.monthlyAmount = installment.monthlyAmount;
-    newData.canSubmit = true;
-    this.setState({ financingForm: newData });
-  }
-
   isDniValid = () => {
     const { financingForm: { dni } } = this.state;
     return dni && dni.length > 7 && /\d*/.test(dni);
@@ -143,6 +133,16 @@ class CredicuotasFinancingForm extends Component {
 
     this.setState({ financingForm: newFinancingFormData });
   };
+
+  handleInstallmentSelected(installment) {
+    const newData = this.state.financingForm;
+    newData.installments = installment.installments;
+    newData.message = installment.message;
+    newData.costs = installment.label;
+    newData.monthlyAmount = installment.monthlyAmount;
+    newData.canSubmit = true;
+    this.setState({ financingForm: newData });
+  }
 
   render() {
     return (
