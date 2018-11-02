@@ -12,6 +12,12 @@ defmodule HeroDigitalWeb.CredicuotasController do
     end
   end
 
+  def send_code(conn, %{"phone_number" => phone_number}) do
+    with {:ok, verification} <- CredicuotasClient.request_verification_code(phone_number) do
+      conn |> render("show.json", verification: verification)
+    end
+  end
+
   defp validate_amount(amount) do
     case Integer.parse(amount) do
       {valid_amount, _} -> {:ok, valid_amount}

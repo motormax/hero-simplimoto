@@ -6,6 +6,10 @@ defmodule HeroDigitalWeb.CredicuotasView do
     %{data: render_many(installments, CredicuotasView, "installment.json")}
   end
 
+  def render("show.json", %{verification: %{"verificationId" => verification_id}}) do
+    %{data: %{verification_id: verification_id}}
+  end
+
   def render("installment.json", %{credicuotas: installment}) do
     %{amount: installment["amount"], installments: installment["installments"], message: installment_message(installment)}
   end
