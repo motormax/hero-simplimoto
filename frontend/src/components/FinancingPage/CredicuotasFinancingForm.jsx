@@ -6,6 +6,8 @@ import { Button, Card, Form, Icon, Label, Radio, Segment } from 'semantic-ui-rea
 import { startedFetchingCredicuotasInstallments, credicuotasInstallmentsFetched } from '../../actions/credicuotas';
 import PurchaseCalculator from '../calculator';
 
+const STEPS = ['DNI_AND_PHONE', 'PHONE_VERIFICATION', 'INSTALLMENTS'];
+
 class CredicuotasFinancingForm extends Component {
   static propTypes = {
     motorcyclePrice: propTypes.number.isRequired,
@@ -27,7 +29,16 @@ class CredicuotasFinancingForm extends Component {
     super(props);
     this.state = {
       financingForm: {
+        step: STEPS[0],
         installments: undefined,
+        dni: '',
+        phone: '', // TODO: Maybe we can extract these from the state
+        verification: '',
+        canSubmit: false,
+      },
+      errors: {
+        dni: undefined,
+        phone: undefined,
       },
     };
   }
@@ -52,12 +63,44 @@ class CredicuotasFinancingForm extends Component {
     (this.isPlateRegistrationDataValid() ?
       parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
-  handleSubmit() {
-    return this.state; // TODO
-  }
+  handleSubmit = () => {
+    if (this.state.financingForm.step === STEPS[0]) {
+      if (!this.isDniValid()) {
+        this.setState({ errors: { dni: true } });
+        return;
+      }
+      if (!this.isPhoneValid()) {
+        this.setState({ errors: { phone: true } });
+      }
+      this.setState({
+        financingForm: {
+          ...this.state.financingForm,
+          step: STEPS[1],
+          canSubmit: false,
+        },
+      });
+      return;
+    }
+
+    if (this.state.financingForm.step === STEPS[1]) {
+      if (!this.isVerificationValid()) {
+        this.setState({ errors: { verification: true } });
+        return;
+      }
+      // TODO: Here we fetch installments?
+      this.setState({
+        financingForm: {
+          ...this.state.financingForm,
+          step: STEPS[2],
+          canSubmit: false,
+        },
+      });
+    }
+    console.log(this.state);
+  };
 
   enableContinueButton() {
-    return this.state.financingForm.installments;
+    return this.state.financingForm.canSubmit;
   }
 
   handleInstallmentSelected(installment) {
@@ -66,32 +109,121 @@ class CredicuotasFinancingForm extends Component {
     newData.message = installment.message;
     newData.costs = installment.label;
     newData.monthlyAmount = installment.monthlyAmount;
+    newData.canSubmit = true;
     this.setState({ financingForm: newData });
   }
+
+  isDniValid = () => {
+    const { financingForm: { dni } } = this.state;
+    return dni && dni.length > 7 && /\d*/.test(dni);
+  };
+
+  isPhoneValid = () => {
+    const { financingForm: { phone } } = this.state;
+    return phone && phone.length > 8;
+  };
+
+  isVerificationValid = () => {
+    const { financingForm: { verification } } = this.state;
+    return verification && verification.length > 4 && /\d*/.test(verification);
+  };
+
+  handleFinancingFormDataChange = (event) => {
+    const { name: inputName, value } = event.target;
+    const newFinancingFormData = this.state.financingForm;
+    newFinancingFormData[inputName] = value;
+
+    if (newFinancingFormData.step === STEPS[0] && this.isDniValid() && this.isPhoneValid()) {
+      newFinancingFormData.canSubmit = true;
+    }
+
+    if (newFinancingFormData.step === STEPS[1] && this.isVerificationValid()) {
+      newFinancingFormData.canSubmit = true;
+    }
+
+    this.setState({ financingForm: newFinancingFormData });
+  };
 
   render() {
     return (
       <Card className="page-column-card financing-page">
         <Form onSubmit={this.handleSubmit}>
-
-          <Segment attached>
-            <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
-            <div className="txt-center">
-              <span className="dp-inline-block txt-left">
-                {this.props.installments && this.props.installments.map(installment => (
-                  <Form.Field key={installment.installments}>
-                    <Radio
-                      label={installment.message}
-                      name="installment_id"
-                      checked={this.state.financingForm.installments === installment.installments}
-                      onChange={() => this.handleInstallmentSelected(installment)}
-                    /><Label size="small">{installment.label}</Label>
-                  </Form.Field>
-              ))
-              }
-              </span>
-            </div>
+          <Segment attached padded>
+            <p className="txt-dark-gray fw-bold fs-huge">Completá tus datos!</p>
+            <Form.Group widths="equal">
+              <Form.Input
+                fluid
+                required
+                label="DNI (Sin puntos ni espacios)"
+                type="text"
+                name="dni"
+                minLength={7}
+                maxLength={8}
+                value={this.state.financingForm.dni}
+                error={this.state.errors.dni}
+                onChange={this.handleFinancingFormDataChange}
+                placeholder="23456789"
+                readOnly={this.state.financingForm.step !== STEPS[0]}
+              />
+              <Form.Input
+                fluid
+                required
+                label="Teléfono Celular"
+                type="text"
+                minLength={8}
+                maxLength={14}
+                name="phone"
+                value={this.state.financingForm.phone}
+                error={this.state.errors.phone}
+                onChange={this.handleFinancingFormDataChange}
+                placeholder="1199999999"
+                readOnly={this.state.financingForm.step !== STEPS[0]}
+              />
+            </Form.Group>
           </Segment>
+
+          {
+            this.state.financingForm.step !== STEPS[0] &&
+            <Segment attached padded>
+              <p className="txt-dark-gray fw-bold fs-huge">Enviamos un código de verificación a tu celular</p>
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  required
+                  label="Ingresá el código de verificación que recibiste"
+                  type="number"
+                  name="verification"
+                  value={this.state.financingForm.verification}
+                  error={this.state.errors.verification}
+                  onChange={this.handleFinancingFormDataChange}
+                  placeholder="1234"
+                  readOnly={this.state.financingForm.step === STEPS[2]}
+                />
+              </Form.Group>
+            </Segment>
+          }
+
+          {
+            this.state.financingForm.step === STEPS[2] &&
+            <Segment attached>
+              <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
+              <div className="txt-center">
+                <span className="dp-inline-block txt-left">
+                  {this.props.installments && this.props.installments.map(installment => (
+                    <Form.Field key={installment.installments}>
+                      <Radio
+                        label={installment.message}
+                        name="installment_id"
+                        checked={this.state.financingForm.installments === installment.installments}
+                        onChange={() => this.handleInstallmentSelected(installment)}
+                      /><Label size="small">{installment.label}</Label>
+                    </Form.Field>
+                  ))
+                  }
+                </span>
+              </div>
+            </Segment>
+          }
 
           <Segment attached className="txt-center">
             <a href="https://clientes.credicuotas.com.ar" target="_blanck">
