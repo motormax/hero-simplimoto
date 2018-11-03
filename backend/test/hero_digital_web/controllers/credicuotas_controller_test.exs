@@ -44,19 +44,33 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
                      }
                    ])
 
+    @valid_params (%{
+                     amount: "100000",
+                     dni: "11234234",
+                     verification_id: "1112341234",
+                     verification_code: "1984"
+                   })
+
+    @invalid_params (%{
+                       amount: "some invalid value",
+                       dni: "11234234",
+                       verification_id: "1112341234",
+                       verification_code: "1984"
+                     })
+
     test "render installments", %{conn: conn} do
       Mock
       |> expect(:get, 1, fn _, _ ->
            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body}}
          end)
 
-      conn = get conn, credicuotas_path(conn, :installments), %{amount: "10000"}
+      conn = get conn, credicuotas_path(conn, :installments), @valid_params
 
       assert json_response(conn, 200)["data"] == @success_body
     end
 
     test "renders an error when the amount is invalid", %{conn: conn} do
-      conn = get conn, credicuotas_path(conn, :installments), %{amount: "some invalid value"}
+      conn = get conn, credicuotas_path(conn, :installments), @invalid_params
 
       assert json_response(conn, 422)["error"] == "Invalid amount given"
     end
@@ -67,7 +81,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
-      conn = get conn, credicuotas_path(conn, :installments), %{amount: "10000"}
+      conn = get conn, credicuotas_path(conn, :installments), @valid_params
 
       assert json_response(conn, 500)["error"] == "Unexpected reply from server"
     end

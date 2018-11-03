@@ -5,15 +5,27 @@ defmodule HeroDigital.CredicuotasClient do
 
   require Logger
 
-  def get_installments(amount) do
-    "#{@base_url}/v1/apirest/calculator/installments/#{amount}"
+  def request_verification_code(phone_number) do
+    "#{@base_url}/v1/apirest/sendcode/#{phone_number}"
+    |> post_url(%{})
+    |> handle_response
+  end
+
+  def get_installments(dni, verification_id, verification_code, amount) do
+    with {:ok, %{"hashKey" => hash}} <- offer_by_dni(dni, verification_id, verification_code) do
+      installments_by_hash(hash, amount)
+    end
+  end
+
+  def offer_by_dni(dni, verification_id, verification_code) do
+    "#{@base_url}/v1/apirest/offer/#{dni}/max?verificationId=#{verification_id}&verificationCode=#{verification_code}"
     |> get_url
     |> handle_response
   end
 
-  def request_verification_code(phone_number) do
-    "#{@base_url}/v1/apirest/sendcode/#{phone_number}"
-    |> post_url(%{})
+  def installments_by_hash(hash, amount) do
+    "#{@base_url}/v1/apirest/loanRequest/#{hash}/getinstallments/#{amount}"
+    |> get_url
     |> handle_response
   end
 
@@ -26,12 +38,12 @@ defmodule HeroDigital.CredicuotasClient do
   end
 
   defp post_url(url, body) do
-    Logger.debug "Credicuotas POST, url: #{url}, body #{inspect(body)}"
+    Logger.debug "[Credicuotas] POST, url: #{url}, body #{inspect(body)}"
     @http_adapter.post(url, Poison.encode!(body), headers())
   end
 
   defp get_url(url) do
-    Logger.debug "Credicuotas GET, url: #{url}"
+    Logger.debug "[Credicuotas] GET, url: #{url}"
     @http_adapter.get(url, headers())
   end
 

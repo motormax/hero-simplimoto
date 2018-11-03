@@ -5,9 +5,17 @@ defmodule HeroDigitalWeb.CredicuotasController do
 
   action_fallback HeroDigitalWeb.FallbackController
 
-  def installments(conn, %{"amount" => amount}) do
+  def installments(
+        conn,
+        %{
+          "dni" => dni,
+          "verification_id" => verification_id,
+          "verification_code" => verification_code,
+          "amount" => amount
+        }
+      ) do
     with {:ok, valid_amount} <- validate_amount(amount),
-         {:ok, installments} <- CredicuotasClient.get_installments(valid_amount) do
+         {:ok, installments} <- CredicuotasClient.get_installments(dni, verification_id, verification_code, valid_amount) do
       conn |> render("show.json", installments: installments)
     end
   end
