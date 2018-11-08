@@ -1,10 +1,13 @@
 import axios from 'axios';
+import humps from 'humps';
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { Button, Card, Form, Icon, Label, Radio, Segment } from 'semantic-ui-react';
 import { startedFetchingCredicuotasInstallments, credicuotasInstallmentsFetched } from '../../actions/credicuotas';
 import PurchaseCalculator from '../calculator';
+import { financingSelected } from '../../actions/financingChoices';
 
 class CredicuotasFinancingForm extends Component {
   static propTypes = {
@@ -15,7 +18,20 @@ class CredicuotasFinancingForm extends Component {
         price: propTypes.string,
       }),
     }),
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
+    financingForm: propTypes.shape({
+      paymentMethodId: propTypes.string.isRequired,
+      issuerId: propTypes.string,
+      message: propTypes.string.isRequired,
+      costs: propTypes.string.isRequired,
+      installments: propTypes.number,
+      monthlyAmount: propTypes.number.isRequired,
+    }).isRequired,
     fetchInstallments: propTypes.func.isRequired,
+    selectFinancing: propTypes.func.isRequired,
+    cancelFinancing: propTypes.func.isRequired,
     installments: propTypes.arrayOf(propTypes.shape({
       installments: propTypes.number.isRequired,
       message: propTypes.string.isRequired,
@@ -27,7 +43,13 @@ class CredicuotasFinancingForm extends Component {
     super(props);
     this.state = {
       financingForm: {
-        installments: undefined,
+        ...props.financingForm,
+        paymentMethodId: 'CREDICUOTAS',
+        paymentMethodLogo: 'https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png',
+        paymentMethodName: 'CREDICUOTAS',
+        issuerId: '',
+        issuerName: '',
+        issuearLogo: '',
       },
     };
   }
@@ -64,8 +86,8 @@ class CredicuotasFinancingForm extends Component {
     const newData = this.state.financingForm;
     newData.installments = installment.installments;
     newData.message = installment.message;
-    newData.costs = installment.label;
-    newData.monthlyAmount = installment.monthlyAmount;
+    newData.costs = 'CREDICUOTAS';
+    newData.monthlyAmount = installment.amount;
     this.setState({ financingForm: newData });
   }
 
@@ -109,7 +131,7 @@ class CredicuotasFinancingForm extends Component {
               primary
               disabled={!this.enableContinueButton()}
               onClick={() => {
-                // this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
+                this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
               }}
             >Continuar
             </Button>
@@ -117,7 +139,7 @@ class CredicuotasFinancingForm extends Component {
               size="large"
               secondary
               onClick={() => {
-                // this.props.cancelFinancing();
+                this.props.cancelFinancing();
               }}
             >Volver
             </Button>
@@ -130,9 +152,9 @@ class CredicuotasFinancingForm extends Component {
 
 const mapStateToProps = state => ({
   // financingSelected: state.main.financing.financingSelected,
-  // financingForm: state.main.financing.financingForm,
+  financingForm: state.main.financing.financingForm,
   motorcyclePrice: state.main.lead.motorcycle.price,
-  // lead: state.main.lead,
+  lead: state.main.lead,
   accessoriesPrice: state.main.accessories.totalPrice,
   plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
   installments: state.main.credicuotas.installments,
@@ -143,6 +165,19 @@ const mapDispatchToProps = dispatch => ({
     dispatch(startedFetchingCredicuotasInstallments());
     const { data: { data } } = await axios.get(`/api/credicuotas/installments?amount=${amount}`);
     dispatch(credicuotasInstallmentsFetched(data));
+  },
+  selectFinancing: async (leadId, financingForm) => {
+    await axios.post(
+      `/api/leads/${leadId}/financing_data`,
+      {
+        financing_data: humps.decamelizeKeys(financingForm),
+      },
+    );
+    dispatch(financingSelected(financingForm));
+    dispatch(push('/dashboard'));
+  },
+  cancelFinancing: async () => {
+    dispatch(push('/dashboard'));
   },
 });
 

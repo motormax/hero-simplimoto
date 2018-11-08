@@ -36,6 +36,18 @@ class FinancingSection extends Component {
     }
   }
 
+  financingMessage() {
+    if (!this.props.financingSelected) {
+      return 'Elegí el financiamiento más conveniente';
+    }
+
+    if (this.props.financingForm.paymentMethodName === 'CREDICUOTAS') {
+      return `Elegiste pagar en ${this.props.financingForm.message} con Credicuotas`;
+    }
+
+    return `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName}, ${this.props.financingForm.issuerName}`;
+  }
+
   render() {
     const { t, isLoading } = this.props;
 
@@ -44,7 +56,7 @@ class FinancingSection extends Component {
     }
     const color = this.props.financingSelected ? '#67CC4F' : 'red';
 
-    const message = this.props.financingSelected ? `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName}, ${this.props.financingForm.issuerName}` : 'Elegí el financiamiento más conveniente';
+    const message = this.financingMessage();
 
     const buttonActionLabel = this.props.financingSelected ? 'Cambiar' : 'Seleccionar';
 
