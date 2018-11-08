@@ -53,10 +53,11 @@ class FinancingInfo extends Component {
               src={this.props.financingForm.paymentMethodLogo}
               alt={this.props.financingForm.paymentMethodName}
             />
+            {this.props.financingForm.issuerLogo &&
             <img
               src={this.props.financingForm.issuerLogo}
               alt={this.props.financingForm.issuerName}
-            />
+            />}
             <div>
               <p className="fs-small">{this.props.financingForm.message}</p>
               <p className="fs-tinny">{this.props.financingForm.costs}</p>
