@@ -17,7 +17,8 @@ class CredicuotasFinancingForm extends Component {
         price: propTypes.string,
       }),
     }),
-    fetchInstallments: propTypes.func.isRequired,
+    requestVerification: propTypes.func.isRequired,
+    fetchInstallmentsWithDNI: propTypes.func.isRequired,
     installments: propTypes.arrayOf(propTypes.shape({
       installments: propTypes.number.isRequired,
       message: propTypes.string.isRequired,
@@ -35,6 +36,7 @@ class CredicuotasFinancingForm extends Component {
         phone: '', // TODO: Maybe we can extract these from the state
         verification: '',
         canSubmit: false,
+        verificationId: '',
       },
       errors: {
         dni: undefined,
@@ -44,12 +46,12 @@ class CredicuotasFinancingForm extends Component {
   }
 
   componentDidMount() {
-    this.getInstallments();
+    // this.getInstallments();
   }
 
-  getInstallments() {
-    this.props.fetchInstallments(this.calculator().totalAmount());
-  }
+  // getInstallments() {
+  //   this.props.fetchInstallments(this.calculator().totalAmount());
+  // }
 
   calculator = () => {
     const { motorcyclePrice, accessoriesPrice } = this.props;
@@ -72,12 +74,15 @@ class CredicuotasFinancingForm extends Component {
       if (!this.isPhoneValid()) {
         this.setState({ errors: { phone: true } });
       }
-      this.setState({
-        financingForm: {
-          ...this.state.financingForm,
-          step: STEPS[1],
-          canSubmit: false,
-        },
+      this.props.requestVerification(this.state.financingForm.phone, (verificationId) => {
+        this.setState({
+          financingForm: {
+            ...this.state.financingForm,
+            step: STEPS[1],
+            canSubmit: false,
+            verificationId,
+          },
+        });
       });
       return;
     }
@@ -87,7 +92,7 @@ class CredicuotasFinancingForm extends Component {
         this.setState({ errors: { verification: true } });
         return;
       }
-      // TODO: Here we fetch installments?
+
       this.setState({
         financingForm: {
           ...this.state.financingForm,
@@ -95,6 +100,12 @@ class CredicuotasFinancingForm extends Component {
           canSubmit: false,
         },
       });
+      this.props.fetchInstallmentsWithDNI(
+        this.state.financingForm.dni,
+        this.state.financingForm.verificationId,
+        this.state.financingForm.verification,
+        this.calculator().totalAmount(),
+      );
     }
     console.log(this.state);
   };
@@ -105,17 +116,17 @@ class CredicuotasFinancingForm extends Component {
 
   isDniValid = () => {
     const { financingForm: { dni } } = this.state;
-    return dni && dni.length > 7 && /\d*/.test(dni);
+    return dni && dni.length > 6 && /\d*/.test(dni);
   };
 
   isPhoneValid = () => {
     const { financingForm: { phone } } = this.state;
-    return phone && phone.length > 8;
+    return phone && phone.length > 9;
   };
 
   isVerificationValid = () => {
     const { financingForm: { verification } } = this.state;
-    return verification && verification.length > 4 && /\d*/.test(verification);
+    return verification && verification.length > 3 && /\d*/.test(verification);
   };
 
   handleFinancingFormDataChange = (event) => {
@@ -125,10 +136,14 @@ class CredicuotasFinancingForm extends Component {
 
     if (newFinancingFormData.step === STEPS[0] && this.isDniValid() && this.isPhoneValid()) {
       newFinancingFormData.canSubmit = true;
+    } else {
+      // newFinancingFormData.canSubmit = false;
     }
 
     if (newFinancingFormData.step === STEPS[1] && this.isVerificationValid()) {
       newFinancingFormData.canSubmit = true;
+    } else {
+      // newFinancingFormData.canSubmit = false;
     }
 
     this.setState({ financingForm: newFinancingFormData });
@@ -271,9 +286,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchInstallments: async (amount) => {
+  requestVerification: async (phoneNumber, callback) => {
+    const { data: { data: { verification_id: verificationId } } } = await axios.post(`api/credicuotas/send_code?phone_number=${phoneNumber}`);
+    // console.log(response);
+    callback(verificationId);
+  },
+  fetchInstallmentsWithDNI: async (dni, verificationId, verificationCode, amount) => {
     dispatch(startedFetchingCredicuotasInstallments());
-    const { data: { data } } = await axios.get(`/api/credicuotas/installments?amount=${amount}`);
+    const { data: { data } } = await axios.get(`/api/credicuotas/installments?dni=${dni}&verification_id=${verificationId}&verification_code=${verificationCode}&amount=${amount}`)
     dispatch(credicuotasInstallmentsFetched(data));
   },
 });
