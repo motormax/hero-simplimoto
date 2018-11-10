@@ -37,6 +37,7 @@ defmodule HeroDigitalWeb.Router do
     get "/plate_registration_types", PlateRegistrationTypeController, :index
 
     get "/credicuotas/installments", CredicuotasController, :installments
+    get "/credicuotas/personal_installments", CredicuotasController, :personal_installments
     post "/credicuotas/send_code", CredicuotasController, :send_code
 
     get "/accessories", AccessoryController, :index

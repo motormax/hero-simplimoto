@@ -5,13 +5,19 @@ defmodule HeroDigital.CredicuotasClient do
 
   require Logger
 
+  def get_installments(amount) do
+    "#{@base_url}/v1/apirest/calculator/installments/#{amount}"
+    |> get_url
+    |> handle_response
+  end
+
   def request_verification_code(phone_number) do
     "#{@base_url}/v1/apirest/sendcode/#{phone_number}"
     |> post_url(%{})
     |> handle_response
   end
 
-  def get_installments(dni, verification_id, verification_code, amount) do
+  def get_personal_installments(dni, verification_id, verification_code, amount) do
     with {:ok, %{"hashKey" => hash}} <- offer_by_dni(dni, verification_id, verification_code) do
       installments_by_hash(hash, amount)
     end
