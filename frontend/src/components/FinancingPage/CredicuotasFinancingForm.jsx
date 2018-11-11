@@ -1,5 +1,4 @@
 import axios from 'axios';
-import humps from 'humps';
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -7,7 +6,6 @@ import { push } from 'react-router-redux';
 import { Button, Card, Form, Icon, Label, Radio, Segment } from 'semantic-ui-react';
 import { startedFetchingCredicuotasInstallments, credicuotasInstallmentsFetched } from '../../actions/credicuotas';
 import PurchaseCalculator from '../calculator';
-import { financingSelected } from '../../actions/financingChoices';
 
 class CredicuotasFinancingForm extends Component {
   static propTypes = {
@@ -18,9 +16,6 @@ class CredicuotasFinancingForm extends Component {
         price: propTypes.string,
       }),
     }),
-    lead: propTypes.shape({
-      id: propTypes.string.isRequired,
-    }).isRequired,
     financingForm: propTypes.shape({
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string,
@@ -30,7 +25,7 @@ class CredicuotasFinancingForm extends Component {
       monthlyAmount: propTypes.number.isRequired,
     }).isRequired,
     fetchInstallments: propTypes.func.isRequired,
-    selectFinancing: propTypes.func.isRequired,
+    goToRealFinancing: propTypes.func.isRequired,
     cancelFinancing: propTypes.func.isRequired,
     installments: propTypes.arrayOf(propTypes.shape({
       installments: propTypes.number.isRequired,
@@ -74,10 +69,6 @@ class CredicuotasFinancingForm extends Component {
     (this.isPlateRegistrationDataValid() ?
       parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
-  handleSubmit() {
-    return this.state; // TODO
-  }
-
   enableContinueButton() {
     return this.state.financingForm.installments;
   }
@@ -94,7 +85,7 @@ class CredicuotasFinancingForm extends Component {
   render() {
     return (
       <Card className="page-column-card financing-page">
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
 
           <Segment attached>
             <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
@@ -131,7 +122,7 @@ class CredicuotasFinancingForm extends Component {
               primary
               disabled={!this.enableContinueButton()}
               onClick={() => {
-                this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
+                this.props.goToRealFinancing();
               }}
             >Continuar
             </Button>
@@ -151,10 +142,8 @@ class CredicuotasFinancingForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  // financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
   motorcyclePrice: state.main.lead.motorcycle.price,
-  lead: state.main.lead,
   accessoriesPrice: state.main.accessories.totalPrice,
   plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
   installments: state.main.credicuotas.installments,
@@ -166,15 +155,8 @@ const mapDispatchToProps = dispatch => ({
     const { data: { data } } = await axios.get(`/api/credicuotas/installments?amount=${amount}`);
     dispatch(credicuotasInstallmentsFetched(data));
   },
-  selectFinancing: async (leadId, financingForm) => {
-    await axios.post(
-      `/api/leads/${leadId}/financing_data`,
-      {
-        financing_data: humps.decamelizeKeys(financingForm),
-      },
-    );
-    dispatch(financingSelected(financingForm));
-    dispatch(push('/dashboard'));
+  goToRealFinancing: async () => {
+    dispatch(push('/credicuotas'));
   },
   cancelFinancing: async () => {
     dispatch(push('/dashboard'));
