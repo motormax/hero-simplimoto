@@ -24,7 +24,7 @@ class CredicuotasFinancingPage extends Component {
     accessoriesPrice: propTypes.number.isRequired,
     fetchInstallments: propTypes.func.isRequired,
     requestVerificationCode: propTypes.func.isRequired,
-    verificationId: propTypes.string.isRequired,
+    verificationId: propTypes.string,
     cancelFinancing: propTypes.func.isRequired,
     selectFinancing: propTypes.func.isRequired,
     installments: propTypes.arrayOf(propTypes.shape({
@@ -32,6 +32,9 @@ class CredicuotasFinancingPage extends Component {
       message: propTypes.string.isRequired,
       label: propTypes.string,
     })),
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
     plateRegistrationData: propTypes.shape({
       plateRegistrationType: propTypes.shape({
         price: propTypes.string,
@@ -122,7 +125,6 @@ class CredicuotasFinancingPage extends Component {
         this.setState({ errors: { verification: true } });
         return;
       }
-      // TODO: Here we fetch installments?
       this.props.fetchInstallments(
         this.state.financingForm.dni,
         this.props.verificationId,
@@ -137,7 +139,6 @@ class CredicuotasFinancingPage extends Component {
         },
       });
     }
-    console.log(this.state);
   };
 
   isDniValid = () => {
