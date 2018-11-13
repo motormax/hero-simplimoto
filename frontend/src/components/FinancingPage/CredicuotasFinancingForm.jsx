@@ -146,7 +146,7 @@ const mapStateToProps = state => ({
   motorcyclePrice: state.main.lead.motorcycle.price,
   accessoriesPrice: state.main.accessories.totalPrice,
   plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
-  installments: state.main.credicuotas.installments,
+  installments: state.main.credicuotas.installments.installments,
 });
 
 const mapDispatchToProps = dispatch => ({

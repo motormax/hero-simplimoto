@@ -9,6 +9,12 @@ import { push } from 'react-router-redux';
 import { Button, Card, Form, Icon, Label, Radio, Segment } from 'semantic-ui-react';
 import PurchaseCalculator from '../calculator';
 import { financingSelected } from '../../actions/financingChoices';
+import {
+  startedFetchingCredicuotasPersonalInstallments,
+  startedFetchingCredicuotasVerificationCode,
+  credicuotasPersonalInstallmentsFetched,
+  credicuotasVerificationCodeFetched,
+} from '../../actions/credicuotas';
 
 const STEPS = ['DNI_AND_PHONE', 'PHONE_VERIFICATION', 'INSTALLMENTS'];
 
@@ -16,7 +22,9 @@ class CredicuotasFinancingPage extends Component {
   static propTypes = {
     motorcyclePrice: propTypes.number.isRequired,
     accessoriesPrice: propTypes.number.isRequired,
-    // fetchInstallments: propTypes.func.isRequired,
+    fetchInstallments: propTypes.func.isRequired,
+    requestVerificationCode: propTypes.func.isRequired,
+    verificationId: propTypes.string.isRequired,
     cancelFinancing: propTypes.func.isRequired,
     selectFinancing: propTypes.func.isRequired,
     installments: propTypes.arrayOf(propTypes.shape({
@@ -24,6 +32,11 @@ class CredicuotasFinancingPage extends Component {
       message: propTypes.string.isRequired,
       label: propTypes.string,
     })),
+    plateRegistrationData: propTypes.shape({
+      plateRegistrationType: propTypes.shape({
+        price: propTypes.string,
+      }),
+    }),
     financingForm: propTypes.shape({
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string,
@@ -78,6 +91,13 @@ class CredicuotasFinancingPage extends Component {
     return new PurchaseCalculator(motorcyclePrice, accessoriesPrice, this.plateRegistrationPrice());
   };
 
+  isPlateRegistrationDataValid = () =>
+    this.props.plateRegistrationData && this.props.plateRegistrationData.plateRegistrationType;
+
+  plateRegistrationPrice = () =>
+    (this.isPlateRegistrationDataValid() ?
+      parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
+
   handleSubmit = () => {
     if (this.state.financingForm.step === STEPS[0]) {
       if (!this.isDniValid()) {
@@ -87,6 +107,7 @@ class CredicuotasFinancingPage extends Component {
       if (!this.isPhoneValid()) {
         this.setState({ errors: { phone: true } });
       }
+      this.props.requestVerificationCode(this.state.financingForm.phone);
       this.setState({
         financingForm: {
           ...this.state.financingForm,
@@ -102,6 +123,12 @@ class CredicuotasFinancingPage extends Component {
         return;
       }
       // TODO: Here we fetch installments?
+      this.props.fetchInstallments(
+        this.state.financingForm.dni,
+        this.props.verificationId,
+        this.state.financingForm.verification,
+        this.calculator().totalAmount(),
+      );
       this.setState({
         financingForm: {
           ...this.state.financingForm,
@@ -272,7 +299,8 @@ const mapStateToProps = state => ({
   lead: state.main.lead,
   accessoriesPrice: state.main.accessories.totalPrice,
   plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
-  installments: state.main.credicuotas.installments,
+  installments: state.main.credicuotas.personalInstallments.installments,
+  verificationId: state.main.credicuotas.verificationCode.verificationId,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -285,6 +313,16 @@ const mapDispatchToProps = dispatch => ({
     );
     dispatch(financingSelected(financingForm));
     dispatch(push('/dashboard'));
+  },
+  fetchInstallments: async (dni, verificationId, verificationCode, amount) => {
+    dispatch(startedFetchingCredicuotasPersonalInstallments());
+    const { data: { data } } = await axios.get(`/api/credicuotas/personal_installments?dni=${dni}&verification_id=${verificationId}&verification_code=${verificationCode}&amount=${amount}`);
+    dispatch(credicuotasPersonalInstallmentsFetched(data));
+  },
+  requestVerificationCode: async (phoneNumber) => {
+    dispatch(startedFetchingCredicuotasVerificationCode());
+    const { data: { data } } = await axios.post(`/api/credicuotas/send_code?phone_number=${phoneNumber}`);
+    dispatch(credicuotasVerificationCodeFetched(data));
   },
   cancelFinancing: async () => {
     dispatch(push('/dashboard'));

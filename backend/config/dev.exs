@@ -56,3 +56,8 @@ config :hero_digital, HeroDigital.Repo,
   database: "hero_digital_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :hero_digital, HeroDigital.CredicuotasClient,
+  base_url: "https://uat-origination-sandbox.credicuotas.com.ar",
+  default_hash: "hashdeprueba",
+  http_adapter: HTTPoison

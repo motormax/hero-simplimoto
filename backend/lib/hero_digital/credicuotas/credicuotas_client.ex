@@ -2,6 +2,7 @@ defmodule HeroDigital.CredicuotasClient do
 
   @http_adapter Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:http_adapter]
   @base_url Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:base_url]
+  @hardcoded_hash Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:default_hash]
 
   require Logger
 
@@ -30,10 +31,9 @@ defmodule HeroDigital.CredicuotasClient do
   end
 
   def installments_by_hash(hash, amount) do
-    "#{@base_url}/v1/apirest/loanRequest/#{hash}/getinstallments/#{amount}"
+    "#{@base_url}/v1/apirest/loanRequest/#{@hardcoded_hash || hash}/getinstallments/#{amount}"
     |> get_url
     |> handle_response
-#    mock_installments_response
   end
 
   defp handle_response(response) do
@@ -52,33 +52,6 @@ defmodule HeroDigital.CredicuotasClient do
   defp get_url(url) do
     Logger.debug "[Credicuotas] GET, url: #{url}"
     @http_adapter.get(url, headers())
-  end
-
-  # Credicuotas sandbox environment seems to be broken
-  defp mock_installments_response do
-    mock_body = [
-      %{
-        "installments" => 9,
-        "amount" => 1058.71,
-        "idLinea"=> 729
-      },
-      %{
-        "installments" => 12,
-        "amount" => 880.09,
-        "idLinea" => 729
-      },
-      %{
-        "installments" => 18,
-        "amount" => 710.37,
-        "idLinea" => 729
-      },
-      %{
-        "installments" => 24,
-        "amount" => 640.84,
-        "idLinea" => 729
-      }
-    ]
-    {:ok, mock_body}
   end
 
   defp headers do
