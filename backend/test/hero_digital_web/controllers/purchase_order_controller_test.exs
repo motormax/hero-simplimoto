@@ -17,7 +17,7 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
   @create_attrs %{email: "some email", credit_card_token: "some token"}
   @invalid_attrs %{email: nil, lead_id: nil, phone: nil, price: nil}
 
-  @financing_data_params %{costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
+  @financing_data_params %{provider: "MERCADOPAGO", costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
 
   def purchase_order(attrs \\ %{}) do
     attrs |> Enum.into(@create_attrs)

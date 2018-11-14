@@ -61,12 +61,7 @@ class CredicuotasFinancingPage extends Component {
         phone: '', // TODO: Maybe we can extract these from the state
         verification: '',
         canSubmit: false,
-        paymentMethodId: 'CREDICUOTAS',
-        paymentMethodLogo: 'https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png',
-        paymentMethodName: 'CREDICUOTAS',
-        issuerId: '',
-        issuerName: '',
-        issuearLogo: '',
+        provider: 'CREDICUOTAS',
       },
       errors: {
         dni: undefined,
@@ -83,7 +78,6 @@ class CredicuotasFinancingPage extends Component {
     const newData = this.state.financingForm;
     newData.installments = installment.installments;
     newData.message = installment.message;
-    newData.costs = 'CREDICUOTAS';
     newData.monthlyAmount = installment.amount;
     newData.canSubmit = true;
     this.setState({ financingForm: newData });

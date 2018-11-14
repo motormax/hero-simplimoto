@@ -46,7 +46,7 @@ class MercadoPagoFinancingForm extends Component {
       paymentMethodOptions: [],
       issuerOptions: [],
       installmentOptions: [],
-      financingForm: Object.assign({}, props.financingForm),
+      financingForm: Object.assign({ provider: 'MERCADOPAGO' }, props.financingForm),
       errors: {
         paymentMethodId: false,
       },
