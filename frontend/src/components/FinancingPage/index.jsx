@@ -181,7 +181,16 @@ class FinancingPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  paymentMethod: state.main.financing.financingSelected ? MERCADO_PAGO_PAYMENT_METHOD : null,
+  paymentMethod: (() => {
+    const provider = state.main.financing.financingForm
+      && state.main.financing.financingForm.provider;
+    if (provider === 'MERCADOPAGO') {
+      return MERCADO_PAGO_PAYMENT_METHOD;
+    } else if (provider === 'CREDICUOTAS') {
+      return CREDICUOTAS_PAYMENT_METHOD;
+    }
+    return null;
+  })(),
 });
 
 export default translate('financing')(connect(mapStateToProps)(FinancingPage));
