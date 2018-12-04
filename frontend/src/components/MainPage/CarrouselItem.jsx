@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
