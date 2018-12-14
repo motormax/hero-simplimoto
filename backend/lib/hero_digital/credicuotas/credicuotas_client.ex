@@ -3,6 +3,8 @@ defmodule HeroDigital.CredicuotasClient do
   @http_adapter Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:http_adapter]
   @base_url Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:base_url]
   @hardcoded_hash Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:default_hash]
+  @user Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:user]
+  @password Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:password]
 
   require Logger
 
@@ -55,9 +57,18 @@ defmodule HeroDigital.CredicuotasClient do
   end
 
   defp headers do
-    [
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    ]
+    if @user && @password do
+      authorization = "#{@user}:#{@password}"
+      [
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Basic #{Base.encode64(authorization)}"
+      ]
+    else
+      [
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      ]
+    end
   end
 end
