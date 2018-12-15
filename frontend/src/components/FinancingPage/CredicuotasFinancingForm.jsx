@@ -37,8 +37,7 @@ class CredicuotasFinancingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      financingForm: {
-        ...props.financingForm,
+      financingForm: Object.assign({}, props.financingForm, {
         paymentMethodId: 'CREDICUOTAS',
         paymentMethodLogo: 'https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png',
         paymentMethodName: 'CREDICUOTAS',
