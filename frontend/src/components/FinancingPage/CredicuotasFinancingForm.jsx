@@ -37,14 +37,7 @@ class CredicuotasFinancingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      financingForm: Object.assign({}, props.financingForm, {
-        paymentMethodId: 'CREDICUOTAS',
-        paymentMethodLogo: 'https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png',
-        paymentMethodName: 'CREDICUOTAS',
-        issuerId: '',
-        issuerName: '',
-        issuerLogo: '',
-      }),
+      financingForm: Object.assign({}, props.financingForm, { provider: 'CREDICUOTAS' }),
     };
   }
 
@@ -76,7 +69,6 @@ class CredicuotasFinancingForm extends Component {
     const newData = this.state.financingForm;
     newData.installments = installment.installments;
     newData.message = installment.message;
-    newData.costs = 'CREDICUOTAS';
     newData.monthlyAmount = installment.amount;
     this.setState({ financingForm: newData });
   }
