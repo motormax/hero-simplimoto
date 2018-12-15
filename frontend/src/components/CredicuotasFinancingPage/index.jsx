@@ -53,16 +53,12 @@ class CredicuotasFinancingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      financingForm: {
-        ...props.financingForm,
-        step: STEPS[0],
-        installments: undefined,
-        dni: '',
-        phone: '', // TODO: Maybe we can extract these from the state
-        verification: '',
-        canSubmit: false,
-        provider: 'CREDICUOTAS',
-      },
+      step: STEPS[0],
+      dni: '',
+      phone: '', // TODO: Maybe we can extract these from the state
+      verification: '',
+      canSubmit: false,
+      financingForm: Object.assign({}, props.financingForm, { provider: 'CREDICUOTAS' }),
       errors: {
         dni: undefined,
         phone: undefined,
@@ -71,16 +67,16 @@ class CredicuotasFinancingPage extends Component {
   }
 
   enableContinueButton() {
-    return this.state.financingForm.canSubmit;
+    return this.state.canSubmit;
   }
 
   handleInstallmentSelected(installment) {
-    const newData = this.state.financingForm;
-    newData.installments = installment.installments;
-    newData.message = installment.message;
-    newData.monthlyAmount = installment.amount;
+    const newData = this.state;
+    newData.financingForm.installments = installment.installments;
+    newData.financingForm.message = installment.message;
+    newData.financingForm.monthlyAmount = installment.amount;
     newData.canSubmit = true;
-    this.setState({ financingForm: newData });
+    this.setState(newData);
   }
 
   calculator = () => {
@@ -96,7 +92,7 @@ class CredicuotasFinancingPage extends Component {
       parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
   handleSubmit = () => {
-    if (this.state.financingForm.step === STEPS[0]) {
+    if (this.state.step === STEPS[0]) {
       if (!this.isDniValid()) {
         this.setState({ errors: { dni: true } });
         return;
@@ -104,63 +100,60 @@ class CredicuotasFinancingPage extends Component {
       if (!this.isPhoneValid()) {
         this.setState({ errors: { phone: true } });
       }
-      this.props.requestVerificationCode(this.state.financingForm.phone);
+      this.props.requestVerificationCode(this.state.phone);
       this.setState({
-        financingForm: {
-          ...this.state.financingForm,
-          step: STEPS[1],
-          canSubmit: false,
-        },
+        step: STEPS[1],
+        canSubmit: false,
       });
       return;
     }
-    if (this.state.financingForm.step === STEPS[1]) {
+    if (this.state.step === STEPS[1]) {
       if (!this.isVerificationValid()) {
         this.setState({ errors: { verification: true } });
         return;
       }
       this.props.fetchInstallments(
-        this.state.financingForm.dni,
+        this.state.dni,
         this.props.verificationId,
-        this.state.financingForm.verification,
+        this.state.verification,
         this.calculator().totalAmount(),
       );
       this.setState({
-        financingForm: {
-          ...this.state.financingForm,
-          step: STEPS[2],
-          canSubmit: false,
-        },
+        step: STEPS[2],
+        canSubmit: false,
       });
+    }
+    if (this.state.step === STEPS[2]) {
+      this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
     }
   };
 
   isDniValid = () => {
-    const { financingForm: { dni } } = this.state;
+    const { dni } = this.state;
     return dni && dni.length > 6 && dni.length < 9 && /\d*/.test(dni);
   };
 
   isPhoneValid = () => {
-    const { financingForm: { phone } } = this.state;
+    const { phone } = this.state;
     return phone && phone.length > 9;
   };
 
   isVerificationValid = () => {
-    const { financingForm: { verification } } = this.state;
+    const { verification } = this.state;
     return verification && verification.length > 3 && /\d*/.test(verification);
   };
 
   handleFinancingFormDataChange = (event) => {
     const { name: inputName, value } = event.target;
-    const newFinancingFormData = this.state.financingForm;
-    newFinancingFormData[inputName] = value;
-    if (newFinancingFormData.step === STEPS[0] && this.isDniValid() && this.isPhoneValid()) {
-      newFinancingFormData.canSubmit = true;
+    const newState = this.state;
+    newState[inputName] = value;
+    if (newState.step === STEPS[0] && this.isDniValid() && this.isPhoneValid()) {
+      newState.canSubmit = true;
     }
-    if (newFinancingFormData.step === STEPS[1] && this.isVerificationValid()) {
-      newFinancingFormData.canSubmit = true;
+    if (newState.step === STEPS[1] && this.isVerificationValid()) {
+      newState.canSubmit = true;
     }
-    this.setState({ financingForm: newFinancingFormData });
+    this.setState(newState);
   };
 
   render() {
@@ -186,11 +179,11 @@ class CredicuotasFinancingPage extends Component {
                   name="dni"
                   minLength={7}
                   maxLength={8}
-                  value={this.state.financingForm.dni}
+                  value={this.state.dni}
                   error={this.state.errors.dni}
                   onChange={this.handleFinancingFormDataChange}
                   placeholder="23456789"
-                  readOnly={this.state.financingForm.step !== STEPS[0]}
+                  readOnly={this.state.step !== STEPS[0]}
                 />
                 <Form.Input
                   fluid
@@ -200,17 +193,17 @@ class CredicuotasFinancingPage extends Component {
                   minLength={8}
                   maxLength={14}
                   name="phone"
-                  value={this.state.financingForm.phone}
+                  value={this.state.phone}
                   error={this.state.errors.phone}
                   onChange={this.handleFinancingFormDataChange}
                   placeholder="1199999999"
-                  readOnly={this.state.financingForm.step !== STEPS[0]}
+                  readOnly={this.state.step !== STEPS[0]}
                 />
               </Form.Group>
             </Segment>
 
             {
-              this.state.financingForm.step !== STEPS[0] &&
+              this.state.step !== STEPS[0] &&
               <Segment attached padded>
                 <p className="txt-dark-gray fw-bold fs-huge">Revisá tu Celular</p>
                 <Form.Group widths="equal">
@@ -220,18 +213,18 @@ class CredicuotasFinancingPage extends Component {
                     label="Ingresá el código de verificación que recibiste"
                     type="number"
                     name="verification"
-                    value={this.state.financingForm.verification}
+                    value={this.state.verification}
                     error={this.state.errors.verification}
                     onChange={this.handleFinancingFormDataChange}
                     placeholder="1234"
-                    readOnly={this.state.financingForm.step === STEPS[2]}
+                    readOnly={this.state.step === STEPS[2]}
                   />
                 </Form.Group>
               </Segment>
             }
 
             {
-              this.state.financingForm.step === STEPS[2] &&
+              this.state.step === STEPS[2] &&
               <Segment attached>
                 <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
                 <div className="txt-center">
@@ -260,9 +253,6 @@ class CredicuotasFinancingPage extends Component {
                 size="large"
                 primary
                 disabled={!this.enableContinueButton()}
-                onClick={() => {
-                  this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
-                }}
               >
                 Confirmar
               </Button>
@@ -288,7 +278,6 @@ class CredicuotasFinancingPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  // financingSelected: state.main.financing.financingSelected,
   financingForm: state.main.financing.financingForm,
   motorcyclePrice: state.main.lead.motorcycle.price,
   lead: state.main.lead,
