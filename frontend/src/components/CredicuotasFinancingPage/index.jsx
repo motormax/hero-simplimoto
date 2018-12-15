@@ -55,7 +55,7 @@ class CredicuotasFinancingPage extends Component {
     this.state = {
       step: STEPS[0],
       dni: '',
-      phone: '', // TODO: Maybe we can extract these from the state
+      phone: '',
       verification: '',
       canSubmit: false,
       financingForm: Object.assign({}, props.financingForm, { provider: 'CREDICUOTAS' }),
