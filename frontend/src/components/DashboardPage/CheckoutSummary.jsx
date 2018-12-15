@@ -50,6 +50,7 @@ class CheckoutSummary extends Component {
     }).isRequired,
     financingSelected: propTypes.bool,
     financingForm: propTypes.shape({
+      provider: propTypes.string.isRequired,
       message: propTypes.string.isRequired,
       costs: propTypes.string.isRequired,
       monthlyAmount: propTypes.number.isRequired,
@@ -65,7 +66,7 @@ class CheckoutSummary extends Component {
 
   componentDidMount() {
     loadSDK(() => {
-      this.fetchInstallments();
+      this.fetchInstallmentsIfNeeded();
     });
     if (!this.props.insuranceChoice.optInOrOut) {
       this.props.fetchInsuranceChoice(this.props.lead.id);
@@ -79,7 +80,7 @@ class CheckoutSummary extends Component {
       this.props.accessoriesPrice !== accessoriesPrice;
 
     if (hasAccessoriesPriceChanged || hasPlateRegistrationChanged) {
-      this.fetchInstallments();
+      this.fetchInstallmentsIfNeeded();
     }
   }
 
@@ -132,8 +133,9 @@ class CheckoutSummary extends Component {
     return null;
   };
 
-  fetchInstallments = () => {
-    if (this.props.financingSelected) {
+  fetchInstallmentsIfNeeded = () => {
+    if (this.props.financingSelected &&
+      this.props.financingForm.provider === 'MERCADOPAGO') {
       getInstallments(
         this.props.financingForm.paymentMethodId,
         this.props.financingForm.issuerId,

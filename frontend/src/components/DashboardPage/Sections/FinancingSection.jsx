@@ -24,6 +24,7 @@ class FinancingSection extends Component {
     isLoading: propTypes.bool,
     financingSelected: propTypes.bool,
     financingForm: propTypes.shape({
+      provider: propTypes.string.isRequired,
       message: propTypes.string.isRequired,
       issuerName: propTypes.string.isRequired,
       paymentMethodName: propTypes.string.isRequired,
@@ -41,7 +42,7 @@ class FinancingSection extends Component {
       return 'Elegí el financiamiento más conveniente';
     }
 
-    if (this.props.financingForm.paymentMethodName === 'CREDICUOTAS') {
+    if (this.props.financingForm.provider === 'CREDICUOTAS') {
       return `Elegiste pagar en ${this.props.financingForm.message} con Credicuotas`;
     }
 
