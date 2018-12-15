@@ -43,8 +43,8 @@ class CredicuotasFinancingForm extends Component {
         paymentMethodName: 'CREDICUOTAS',
         issuerId: '',
         issuerName: '',
-        issuearLogo: '',
-      },
+        issuerLogo: '',
+      }),
     };
   }
 
