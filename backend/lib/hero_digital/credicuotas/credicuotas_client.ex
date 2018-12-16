@@ -48,12 +48,12 @@ defmodule HeroDigital.CredicuotasClient do
 
   defp post_url(url, body) do
     Logger.debug "[Credicuotas] POST, url: #{url}, body #{inspect(body)}"
-    @http_adapter.post(url, Poison.encode!(body), headers())
+    @http_adapter.post(url, Poison.encode!(body), headers(), [timeout: 10_000, recv_timeout: 10_0000])
   end
 
   defp get_url(url) do
     Logger.debug "[Credicuotas] GET, url: #{url}"
-    @http_adapter.get(url, headers())
+    @http_adapter.get(url, headers(), [timeout: 10_000, recv_timeout: 10_0000])
   end
 
   defp headers do
