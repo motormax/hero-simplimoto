@@ -21,7 +21,7 @@ defmodule HeroDigital.CredicuotasClientTest do
 
     test "successful 200"  do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body}}
       end)
 
@@ -32,7 +32,7 @@ defmodule HeroDigital.CredicuotasClientTest do
 
     test "error 5xx" do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
@@ -47,7 +47,7 @@ defmodule HeroDigital.CredicuotasClientTest do
 
     test "handles successful 200" do
       Mock
-      |> expect(:post, 1, fn _, _, _ ->
+      |> expect(:post, 1, fn _, _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body}}
       end)
 
@@ -58,7 +58,7 @@ defmodule HeroDigital.CredicuotasClientTest do
 
     test "handles error 500" do
       Mock
-      |> expect(:post, 1, fn _, _, _ ->
+      |> expect(:post, 1, fn _, _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
@@ -102,7 +102,7 @@ defmodule HeroDigital.CredicuotasClientTest do
   describe "offer by dni" do
     test "handles successful 200" do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body.offer_by_dni}}
       end)
 
@@ -113,7 +113,7 @@ defmodule HeroDigital.CredicuotasClientTest do
 
     test "handles error 500" do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
@@ -126,7 +126,7 @@ defmodule HeroDigital.CredicuotasClientTest do
   describe "installments by hash" do
     test "handles successful 200" do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body.installments_by_hash}}
       end)
 
@@ -137,7 +137,7 @@ defmodule HeroDigital.CredicuotasClientTest do
 
     test "handles error 500" do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
@@ -150,7 +150,7 @@ defmodule HeroDigital.CredicuotasClientTest do
   describe "installments by dni" do
     test "handles successful 200" do
       Mock
-      |> expect(:get, 2, fn url, _ ->
+      |> expect(:get, 2, fn url, _, _ ->
         case url do
           "https://uat-origination-sandbox.credicuotas.com.ar/v1/apirest/offer/11234234/max?verificationId=1112341234&verificationCode=1984" ->
             {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body.offer_by_dni}}

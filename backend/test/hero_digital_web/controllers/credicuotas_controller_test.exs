@@ -46,7 +46,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
   describe "installments" do
     test "render installments", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
       end)
 
@@ -62,7 +62,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "renders an error when the remote server fails", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
@@ -89,7 +89,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "render installments", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
          end)
 
@@ -106,7 +106,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "renders an error when the remote server fails", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _ ->
+      |> expect(:get, 1, fn _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
@@ -121,7 +121,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "renders verification_id when everything is ok", %{conn: conn} do
       Mock
-      |> expect(:post, 1, fn _, _, _ ->
+      |> expect(:post, 1, fn _, _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @success_body}}
       end)
 
@@ -132,7 +132,7 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "renders an error when the remote server fails", %{conn: conn} do
       Mock
-      |> expect(:post, 1, fn _, _, _ ->
+      |> expect(:post, 1, fn _, _, _, _ ->
         {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
       end)
 
