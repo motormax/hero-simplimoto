@@ -135,7 +135,7 @@ class BikeColorSection extends Component {
             </Grid.Column>
             <Grid.Column width={15}>
               <h3 className="fw-bold fs-big">¡Podés personalizarla! <span className="txt-green fs-tinny uppercase">¡gratis!</span></h3>
-              <div className="fw-bold txt-med-gray">Elegí el color que más te guste</div>
+              <div className="fw-bold txt-med-gray">Elegí el color que más te guste (sujeto a disponibilidad de stock)</div>
               <div className="dashboard-card_items-container">
                 {colorOptions}
               </div>

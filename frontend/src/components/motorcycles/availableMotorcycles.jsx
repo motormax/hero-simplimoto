@@ -11,7 +11,7 @@ const availableMotorcycles = {
   HUNK: {
     id: 1,
     displayName: 'Hunk',
-    monthlyPrice: 49800,
+    monthlyPrice: 50900,
     defaultImageUrl: hunkImgUrl,
     videoId: 'ksVob1Jc0E0',
     specsTitle: 'Hunk',
@@ -37,7 +37,7 @@ const availableMotorcycles = {
         paneItems: [
           { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
           { itemTitle: 'Desplazamiento', description: '124.7 cc' },
-          { itemTitle: 'Potencia Max.', description: '6.72 KW (9.1 Ps) @ 7000 rpm' },
+          { itemTitle: 'Potencia Max.', description: '6.72 KW (11,1 BHP) @ 7000 rpm' },
           { itemTitle: 'Torque Max.', description: '13.50 Nm @ 7000 rpm' },
           { itemTitle: 'Diámetro x Carrera', description: '57.3 x 57.8 mm' },
           { itemTitle: 'Carburador', description: 'Carburador con control variable de ignicion' },
@@ -107,7 +107,7 @@ const availableMotorcycles = {
   IGNITOR: {
     id: 2,
     displayName: 'Ignitor',
-    monthlyPrice: 44000,
+    monthlyPrice: 44800,
     defaultImageUrl: ignitorImgUrl,
     videoId: 'xFCnbwFHn7E',
     specsTitle: 'Ignitor',
@@ -130,7 +130,7 @@ const availableMotorcycles = {
         paneItems: [
           { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
           { itemTitle: 'Desplazamiento', description: '124.7 cc' },
-          { itemTitle: 'Potencia Max.', description: '6.72 KW (9.1 Ps) @ 7000 rpm' },
+          { itemTitle: 'Potencia Max.', description: '6.72 KW (11,1 BHP) @ 7000 rpm' },
           { itemTitle: 'Torque Max.', description: '10.35 Nm @ 4000 rpm' },
           { itemTitle: 'Diámetro x Carrera', description: '52.4 x 57.8 mm' },
           { itemTitle: 'Carburador', description: 'Carburador con control variable de ignicion' },
@@ -198,13 +198,13 @@ const availableMotorcycles = {
   HUNK_SPORT: {
     id: 3,
     displayName: 'Hunk Sport',
-    monthlyPrice: 42900,
+    monthlyPrice: 43300,
     defaultImageUrl: hunkSportImgUrl,
     videoId: 'xJ9Rfd9q_qc',
     specsTitle: 'Hunk Sport',
 
     miniSpecs: [
-      '15.2 BHP de potencia',
+      '15,6 BHP de potencia',
       'Caja de 5 velocidades',
       'Freno a disco',
       'Cubiertas radiales',
@@ -222,7 +222,7 @@ const availableMotorcycles = {
         paneItems: [
           { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4 tiempos 1 cilindro' },
           { itemTitle: 'Desplazamiento', description: '149.2 cc' },
-          { itemTitle: 'Potencia Max.', description: '11.33 kW (15.2 BHP) @ 8500 rpm' },
+          { itemTitle: 'Potencia Max.', description: '11.33 kW (15,6 BHP) @ 8500 rpm' },
           { itemTitle: 'Torque Max.', description: '13.50 Nm @ 7000 rpm' },
           { itemTitle: 'Diámetro x Carrera', description: '57.3 x 57.8 mm' },
           { itemTitle: 'Carburador', description: 'CV Type with Carburettor Controlled Variable Ignition' },
@@ -285,7 +285,7 @@ const availableMotorcycles = {
   DASH: {
     id: 4,
     displayName: 'Dash',
-    monthlyPrice: 46800,
+    monthlyPrice: 47500,
     defaultImageUrl: dashImgUrl,
     videoId: 'E7Quvpn_EIw',
     specsTitle: 'Dash',
@@ -313,7 +313,7 @@ const availableMotorcycles = {
         paneItems: [
           { itemTitle: 'Motor Tipo', description: 'Refrigeracion por aire, 4-tiempos' },
           { itemTitle: 'Desplazamiento', description: '110.9 cc' },
-          { itemTitle: 'Potencia Max.', description: '6.2 kW @ 8000 RPM' },
+          { itemTitle: 'Potencia Max.', description: '6.2 kW (8,0 BHP) @ 8000 RPM' },
           { itemTitle: 'Torque Max.', description: '8.30 Nm @ 6500 RPM' },
           { itemTitle: 'Arranque', description: 'Automatico / patada' },
         ],

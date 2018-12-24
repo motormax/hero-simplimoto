@@ -21,7 +21,7 @@ import dashGreenImgUrl from '../images/bikes/dash-3-4-green.png';
 const availableColors = {
   HUNK: [
     {
-      name: 'Rojo',
+      name: 'Rojo Candy Blazing',
       imageURL: 'https://dummyimage.com/50/ff0000/ff0000',
       bikeImageURL: hunkRedImgUrl,
     },
@@ -43,7 +43,7 @@ const availableColors = {
   ],
   HUNK_SPORT: [
     {
-      name: 'Rojo Fiery',
+      name: 'Rojo Sport',
       imageURL: 'https://dummyimage.com/50/ff0000/ff0000',
       bikeImageURL: hunkSportRedImgUrl,
     },
