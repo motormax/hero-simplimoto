@@ -8,6 +8,7 @@ defmodule HeroDigital.Fulfillment do
 
   alias HeroDigital.Identity.Lead
   alias HeroDigital.Identity
+  alias HeroDigital.Financing
   alias HeroDigital.Fulfillment.PurchaseOrder
   alias HeroDigital.Payment.PaymentGateway
   alias HeroDigital.Payment.Payment
@@ -96,6 +97,7 @@ defmodule HeroDigital.Fulfillment do
 
   defp build_purchase_order_changeset(lead, payment_params) do
     Logger.info "Creating Purchase Order"
+    financing_data = Financing.get_financing_data_by_lead_id(lead.id)
 
     purchase_order_data = %{
       email: payment_params["email"],
@@ -103,6 +105,7 @@ defmodule HeroDigital.Fulfillment do
       phone: payment_params["phone"],
       payment_method: "credit_card",
       payment_method_token: payment_params["credit_card_token"],
+      provider: financing_data.provider
     }
 
     changeset = %PurchaseOrder{}

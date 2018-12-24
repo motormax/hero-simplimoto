@@ -15,9 +15,11 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
   @transaction_approved_body Poison.encode!(%{"id" => 123, "status" => "approved", "status_detail" => "accredited"})
 
   @create_attrs %{email: "some email", credit_card_token: "some token"}
+  @create_credicuotas_attrs %{email: "some email", full_name: "Pepe Argento", phone: "1112341234"}
   @invalid_attrs %{email: nil, lead_id: nil, phone: nil, price: nil}
 
   @financing_data_params %{provider: "MERCADOPAGO", costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
+  @credicuotas_financing_params %{provider: "CREDICUOTAS", costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
 
   def purchase_order(attrs \\ %{}) do
     attrs |> Enum.into(@create_attrs)
@@ -38,9 +40,9 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
     end
   end
 
-  setup %{lead: lead} do
-    with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params) do
-      %{financing_data: financing_data}
+  setup %{motorcycle: motorcycle} do
+    with {:ok, lead} <- HeroDigital.Identity.create_lead(%{motorcycle_id: motorcycle.id}) do
+      {:ok, %{credicuotas_lead: lead}}
     end
   end
 
@@ -48,13 +50,27 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
     with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @financing_data_params),
          {:ok, delivery_choice} <- Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id}),
          {:ok, delivery_choice} <- PlateRegistration.create_plate_registration_data(
-            Map.put(HeroDigital.PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
+           Map.put(HeroDigital.PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
          {:ok, delivery_choice} <- Insurance.create_insurance_choice(%{
            opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
            lead_id: lead.id,
            motorcycle_id: motorcycle.id,
          }) do
       %{financing_data: financing_data}
+    end
+  end
+
+  setup %{credicuotas_lead: lead, motorcycle: motorcycle} do
+    with {:ok, financing_data} <- Financing.set_financing_data(lead.id, @credicuotas_financing_params),
+         {:ok, delivery_choice} <- Delivery.create_delivery_choice(%{pickup_location: "some pickup_location", lead_id: lead.id}),
+         {:ok, delivery_choice} <- PlateRegistration.create_plate_registration_data(
+           Map.put(HeroDigital.PlateRegistrationTest.personal_plate_registration, "lead_id", lead.id)),
+         {:ok, delivery_choice} <- Insurance.create_insurance_choice(%{
+           opt_in_or_out: Insurance.InsuranceChoice.personal_insurance_type,
+           lead_id: lead.id,
+           motorcycle_id: motorcycle.id,
+         }) do
+      %{credicuotas_financing_data: financing_data}
     end
   end
 
@@ -72,6 +88,16 @@ defmodule HeroDigitalWeb.PurchaseOrderControllerTest do
                "status" => "approved",
                "status_detail" => "accredited",
                "user_message" => "El pago fue procesado con éxito."} = json_response(conn, 201)["data"]
+    end
+
+    test "works for credicuotas purchase orders", %{conn: conn, credicuotas_lead: lead} do
+      conn = post conn, lead_purchase_order_path(conn, :create, lead.id), @create_credicuotas_attrs
+
+      lead_id = lead.id
+      assert %{
+        "id" => _id,
+        "lead_id" => ^lead_id
+      } = json_response(conn, 201)["data"]
     end
 
     test "renders purchase_order when payment gateway failed", %{conn: conn, lead: lead} do
