@@ -29,7 +29,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   def validate_provider_data(changeset) do
     required_fields = case get_field(changeset, :provider) do
       "MERCADOPAGO" -> [:payment_method, :email]
-      _ -> [:email, :phone, :full_name]
+      _ -> []
     end
 
     validate_required(changeset, required_fields)

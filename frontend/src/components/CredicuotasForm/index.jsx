@@ -44,10 +44,7 @@ class CredicuotasForm extends Component {
     super(props);
     this.paymentMethodForm = React.createRef();
     this.state = {
-      fullName: '',
-      phone: '',
       email: '',
-      docNumber: '',
       submitInProgress: false,
       canSubmit: false,
     };
@@ -61,36 +58,14 @@ class CredicuotasForm extends Component {
     return value;
   };
 
-  canSubmit = () => {
-    if (!this.state.email || !this.state.email.includes('@')) {
-      return false;
-    }
-
-    if (!this.state.fullName || !(this.state.fullName.length > 5)) {
-      return false;
-    }
-
-    if (!this.state.docNumber || !(this.state.docNumber.length > 7)) {
-      return false;
-    }
-
-    if (!this.state.phone || !(this.state.phone.length > 6)) {
-      return false;
-    }
-
-    return true;
-  }
+  canSubmit = () => this.state.email && this.state.email.includes('@')
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ submitInProgress: true });
 
-    const {
-      email, fullName, docNumber, phone,
-    } = this.state;
-
     this.props
-      .createPurchaseOrder(this.props.lead.id, email, fullName, docNumber, phone)
+      .createPurchaseOrder(this.props.lead.id, this.state.email)
       .catch(() => {
         this.setState({ submitInProgress: false });
       });
@@ -122,37 +97,6 @@ class CredicuotasForm extends Component {
               value={this.state.email}
               onChange={this.handleFormDataChange}
             />
-            <Form.Input
-              fluid
-              required
-              label="Nombre completo"
-              type="text"
-              name="fullName"
-              placeholder="Tu nombre completo"
-              value={this.state.fullName}
-              onChange={this.handleFormDataChange}
-            />
-            <Form.Input
-              fluid
-              required
-              label="Nro de documento"
-              type="text"
-              data-checkout="docNumber"
-              name="docNumber"
-              placeholder="5123456"
-              value={this.state.docNumber}
-              onChange={this.handleFormDataChange}
-            />
-            <Form.Input
-              fluid
-              required
-              label="Teléfono"
-              type="tel"
-              name="phone"
-              placeholder="Teléfono de linea o celular"
-              value={this.state.phone}
-              onChange={this.handleFormDataChange}
-            />
           </Segment>
           <Segment attached className="txt-center">
             <Button
@@ -182,16 +126,8 @@ const mapDispatchToProps = dispatch => ({
   backToDashboard: async () => {
     dispatch(push('/dashboard'));
   },
-  createPurchaseOrder: async (leadId, email, fullName, docNumber, phone) => {
-    const response = await axios.post(
-      `/api/leads/${leadId}/purcharse_order`,
-      {
-        email,
-        full_name: fullName,
-        doc_number: docNumber,
-        phone,
-      },
-    );
+  createPurchaseOrder: async (leadId, email) => {
+    const response = await axios.post(`/api/leads/${leadId}/purcharse_order`, { email });
     console.log(response); // eslint-disable-line no-console
     dispatch(push('/success'));
     dispatch(cancelPurchase());
