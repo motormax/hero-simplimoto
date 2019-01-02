@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
@@ -61,7 +63,11 @@ class CarrouselItem extends Component {
         <Card.Content>
           <Divider />
           <p className="price">Desde {t('currency_sign')}<span className="price-number">{moneyFormatter.format(bikeMonthlyPrice)}</span> </p>
-          <Button size="big" primary onClick={() => { onBuy(bikeName); }}>{t('buy')}</Button>
+          <Button size="big" primary onClick={() => { window.location = 'http://www.heromotos.com.ar/contactenos'; }}>
+            {t('ask')}
+          </Button>
+          <div style={{ height: 12 }} />
+          <Button size="medium" primary onClick={() => { onBuy(bikeName); }}>{t('buy')}</Button>
         </Card.Content>
       </Card>
     );
