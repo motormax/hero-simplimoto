@@ -19,7 +19,7 @@ export default i18next.init({
         gloves: 'Guantes',
         helmet: 'Casco',
         trunks: 'Baúl',
-        buy: 'Comprar',
+        buy: 'Reservar',
         ask: 'Preguntar',
         live_tour: 'Tour en vivo',
         appointment: 'Arreglá una cita',
