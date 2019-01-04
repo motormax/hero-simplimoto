@@ -63,7 +63,7 @@ config :hero_digital, HeroDigital.Repo,
 #  http_adapter: HTTPoison
 
 config :hero_digital, HeroDigital.CredicuotasClient,
- base_url: "http://INT-cc-origination-api.zg4yhpqwwm.sa-east-1.elasticbeanstalk.com",
- user: "api.hero.uat",
- password: "hero.uat",
+ base_url: "https://api-origination.credicuotas.com.ar",
+ user: "api.hero",
+ password: "ccH3r0M0t0s",
  http_adapter: HTTPoison
