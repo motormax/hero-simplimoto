@@ -20,6 +20,7 @@ export default i18next.init({
         helmet: 'Casco',
         trunks: 'Baúl',
         buy: 'Comprar',
+        ask: 'Preguntar',
         live_tour: 'Tour en vivo',
         appointment: 'Arreglá una cita',
         currency_sign: '$',
