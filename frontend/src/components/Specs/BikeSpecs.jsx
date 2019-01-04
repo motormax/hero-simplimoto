@@ -9,14 +9,16 @@ import { Tab, Table, Segment, Button } from 'semantic-ui-react';
 import Slider from 'react-slick';
 import { leadFetched } from '../../actions/beginning';
 import availableMotorcycles from '../motorcycles/availableMotorcycles';
+import Details from './Details/index';
 
 class BikeSpecsPage extends Component {
   static propTypes = {
     bike: propTypes.shape().isRequired,
+    bikeName: propTypes.string.isRequired,
     hasPickedBike: propTypes.bool.isRequired,
     pickBike: propTypes.func.isRequired,
     goBack: propTypes.func.isRequired,
-  };
+  }
 
   panes = () => this.props.bike.bikeInfo.map(pane => ({
     menuItem: pane.paneTitle,
@@ -36,13 +38,18 @@ class BikeSpecsPage extends Component {
         </Table>
       </Tab.Pane>
     ),
-  }));
+  }))
+
+  details() {
+    const Detail = Details[this.props.bikeName];
+    return <Detail />;
+  }
 
   sliderImages = () => this.props.bike.bikeImages.map(url => (
     <div key={url}>
       <img src={url} className="carrousel-default-images" alt="Foto de Ignitor" />
     </div>
-  ));
+  ))
 
   render() {
     const { hasPickedBike } = this.props;
@@ -71,12 +78,16 @@ class BikeSpecsPage extends Component {
 
         <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
 
-        <Tab
-          menu={{
- attached: true, tabular: true, fluid: true, vertical: isMobileOnly,
-}}
-          panes={this.panes()}
-        />
+        {
+          this.props.bikeName === 'HUNK'
+            ? this.details()
+            : (<Tab
+              menu={{
+                attached: true, tabular: true, fluid: true, vertical: isMobileOnly,
+              }}
+              panes={this.panes()}
+            />)
+        }
 
         <Segment className="white-segment">
           <Slider className="margin-bottom" {...settings}>
@@ -106,9 +117,13 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const mapStateToProps = (state, ownProps) => ({
-  hasPickedBike: !!state.main.lead,
-  bike: availableMotorcycles[ownProps.match.params.bikeName.toUpperCase().replace(/ /g, '_')],
-});
+const mapStateToProps = (state, ownProps) => {
+  const bikeName = ownProps.match.params.bikeName.toUpperCase().replace(/ /g, '_');
+  return {
+    hasPickedBike: !!state.main.lead,
+    bike: availableMotorcycles[bikeName],
+    bikeName,
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BikeSpecsPage);
