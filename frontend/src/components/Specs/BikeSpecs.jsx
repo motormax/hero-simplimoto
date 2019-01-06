@@ -76,17 +76,21 @@ class BikeSpecsPage extends Component {
           </Button> : null}
         <h2 className="txt-center fs-massive">{this.props.bike.specsTitle}</h2>
 
-        <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
-
         {
           this.props.bikeName === 'HUNK'
             ? this.details()
-            : (<Tab
-              menu={{
-                attached: true, tabular: true, fluid: true, vertical: isMobileOnly,
-              }}
-              panes={this.panes()}
-            />)
+            : (
+              <div>
+                <p className="fs-huge txt-med-gray txt-center">Especificaciones técnicas</p>
+
+                <Tab
+                  menu={{
+                    attached: true, tabular: true, fluid: true, vertical: isMobileOnly,
+                  }}
+                  panes={this.panes()}
+                />
+              </div>
+            )
         }
 
         <Segment className="white-segment">
