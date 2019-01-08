@@ -7,6 +7,7 @@ import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
 import availableColors from './motorcycles/availableColors';
 import CreditCardPayment from './CreditCardPayment';
+import CredicuotasForm from './CredicuotasForm';
 import { PERSONAL_INSURANCE } from './InsurancePage/constants';
 
 class PurchaseSummary extends Component {
@@ -46,6 +47,9 @@ class PurchaseSummary extends Component {
         price: propTypes.string,
         name: propTypes.string,
       }),
+    }),
+    financingForm: propTypes.shape({
+      provider: propTypes.string.isRequired,
     }),
   };
 
@@ -239,8 +243,11 @@ class PurchaseSummary extends Component {
             {insuranceSection}
           </Segment>
 
-          <CreditCardPayment />
-
+          {
+            (this.props.financingForm.provider === 'MERCADOPAGO') ?
+              <CreditCardPayment /> :
+              <CredicuotasForm />
+          }
         </Card>
       </div>
     );
@@ -251,6 +258,7 @@ const mapDispatchToProps = undefined;
 const mapStateToProps = store => ({
   lead: store.main.lead,
   financing: store.main.financing,
+  financingForm: store.main.financing.financingForm,
   delivery: store.main.delivery,
   insuranceChoice: store.main.insuranceChoice,
   plateRegistrationData: store.main.plateRegistration.plateRegistrationData,

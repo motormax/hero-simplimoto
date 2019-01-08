@@ -3,13 +3,14 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
   financingSelected: false,
   financingForm: {
+    provider: '',
     paymentMethodId: '',
-    issuerId: '',
-    installments: null,
     paymentMethodName: '',
     paymentMethodLogo: '',
+    issuerId: '',
     issuerLogo: '',
     issuerName: '',
+    installments: null,
     message: '',
     costs: '',
     monthlyAmount: 0,

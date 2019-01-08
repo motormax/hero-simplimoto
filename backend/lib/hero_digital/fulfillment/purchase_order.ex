@@ -11,6 +11,7 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
     field :phone, :string
     field :payment_method, :string
     field :payment_method_token, :string
+    field :provider, :string
     belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
     has_one :payment, HeroDigital.Payment.Payment
 
@@ -20,9 +21,18 @@ defmodule HeroDigital.Fulfillment.PurchaseOrder do
   @doc false
   def changeset(purchase_order, lead, attrs) do
     purchase_order
-    |> cast(attrs, [:payment_method, :payment_method_token, :email, :full_name, :phone])
-    |> validate_required([:payment_method, :email])
+    |> cast(attrs, [:payment_method, :payment_method_token, :email, :full_name, :phone, :provider])
+    |> validate_provider_data
     |> put_change(:lead_id, lead.id)
+  end
+
+  def validate_provider_data(changeset) do
+    required_fields = case get_field(changeset, :provider) do
+      "MERCADOPAGO" -> [:payment_method, :email]
+      _ -> []
+    end
+
+    validate_required(changeset, required_fields)
   end
 
   def description(purchase_order) do

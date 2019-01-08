@@ -27,4 +27,9 @@ defmodule HeroDigitalWeb.FallbackController do
     |> render(HeroDigitalWeb.ErrorView, :"404")
   end
 
+  def call(conn, {:error, status_code, message}) do
+    conn
+    |> put_status(status_code)
+    |> json(%{error: message})
+  end
 end

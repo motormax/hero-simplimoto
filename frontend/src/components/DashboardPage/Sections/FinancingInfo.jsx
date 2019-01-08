@@ -18,6 +18,7 @@ class FinancingInfo extends Component {
         price: propTypes.number.isRequired,
       }).isRequired,
       financingForm: propTypes.shape({
+        provider: propTypes.string.isRequired,
         message: propTypes.string.isRequired,
         costs: propTypes.string.isRequired,
         monthlyAmount: propTypes.number.isRequired,
@@ -36,44 +37,61 @@ class FinancingInfo extends Component {
       this.props.plateRegistrationPrice,
     );
 
-    render() {
-      const financingAmount = this.props.financingSelected ?
-        this.props.financingForm.monthlyAmount :
-        this.calculator().totalAmount();
+    financingImages = () =>
+      ((this.props.financingForm.provider === 'CREDICUOTAS') ?
+        this.credicuotasImages() : this.mercadopagoImages())
 
-      const financingPeriod = this.props.financingSelected &&
-        (this.props.financingForm.installments > 1) ?
-        '/ mes' : '';
+  mercadopagoImages = () => (
+    <div>
+      <img
+        src={this.props.financingForm.paymentMethodLogo}
+        alt={this.props.financingForm.paymentMethodName}
+      />
+      <img
+        src={this.props.financingForm.issuerLogo}
+        alt={this.props.financingForm.issuerName}
+      />
+    </div>
+  )
 
-      let financingInfo;
-      if (this.props.financingSelected) {
-        financingInfo = (
-          <div className="finnancial-bank">
-            <img
-              src={this.props.financingForm.paymentMethodLogo}
-              alt={this.props.financingForm.paymentMethodName}
-            />
-            <img
-              src={this.props.financingForm.issuerLogo}
-              alt={this.props.financingForm.issuerName}
-            />
-            <div>
-              <p className="fs-small">{this.props.financingForm.message}</p>
-              <p className="fs-tinny">{this.props.financingForm.costs}</p>
-            </div>
+  credicuotasImages = () => (
+    <img
+      src="https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png"
+      alt="CREDICUOTAS"
+    />
+  )
+
+  render() {
+    const financingAmount = this.props.financingSelected ?
+      this.props.financingForm.monthlyAmount :
+      this.calculator().totalAmount();
+
+    const financingPeriod = this.props.financingSelected &&
+      (this.props.financingForm.installments > 1) ?
+      '/ mes' : '';
+
+    let financingInfo;
+    if (this.props.financingSelected) {
+      financingInfo = (
+        <div className="finnancial-bank">
+          {this.financingImages()}
+          <div>
+            <p className="fs-small">{this.props.financingForm.message}</p>
+            <p className="fs-tinny">{this.props.financingForm.costs}</p>
           </div>
-        );
-      }
-      return (
-        <div>
-          <p className="final-price">
-                $<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
-            {financingPeriod}
-          </p>
-          {financingInfo}
         </div>
       );
     }
+    return (
+      <div>
+        <p className="final-price">
+              $<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
+          {financingPeriod}
+        </p>
+        {financingInfo}
+      </div>
+    );
+  }
 }
 
 export default translate('financingInfo')(FinancingInfo);
