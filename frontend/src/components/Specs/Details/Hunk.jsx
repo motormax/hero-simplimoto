@@ -26,6 +26,65 @@ export default class Detail extends React.Component {
     const className = index => (this.state.activeIndex === index ? 'active' : '');
     return (
       <div>
+        <section id className="special-row">
+          <div className="divider">
+            {/* divider */}
+            <i className="rounded fa fa-paint-brush" />
+          </div>
+          <h1 className="text-center">
+            <span className="tituloheroh3">Colores</span>
+            <span className="subtitle">ELEGI EL COLOR DE TU NUEVA HERO!</span>
+            <div
+              style={{
+              margin: '0 auto',
+              width: '20%',
+              borderBottom: '2px solid #ff0000',
+            }}
+            />
+          </h1>
+          <div className="container">
+            <div className="row">
+              {/* <div className="col-md-offset-2 col-md-2"> */}
+              <div className="col-md-2">
+                {/* item 3 */}
+                <div className="item-box">
+                  <div style={{ height: 60, background: '#333333' }} />
+                  <div className="item-box-desc">
+                    <h4>Negro Mate</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-2">
+                {/* item 3 */}
+                <div className="item-box">
+                  <div style={{ height: 60, background: '#111111' }} />
+                  <div className="item-box-desc">
+                    <h4>Negro Phanter</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-2">
+                {/* item 5 */}
+                <div className="item-box">
+                  <div style={{ height: 60, background: '#e50a0a' }} />
+                  <div className="item-box-desc">
+                    <h4>Rojo</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-2">
+                {/* item 3 */}
+                <div className="item-box">
+                  <div style={{ height: 60, background: '#ffffff' }} />
+                  <div className="item-box-desc">
+                    <h4>Blanco</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <h3 className="page-header margin-bottom40">
           Especificaciones <strong className="styleColor">técnicas</strong>
         </h3>
