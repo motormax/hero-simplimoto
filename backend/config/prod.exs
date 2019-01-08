@@ -103,3 +103,9 @@ config :hero_digital, HeroDigitalWeb.MailsView,
 config :hero_digital, HeroDigital.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: {:system, "SENDGRID_API_KEY"}
+
+config :hero_digital, HeroDigital.CredicuotasClient,
+       base_url: "https://api-origination.credicuotas.com.ar",
+       user: "api.hero",
+       password: "ccH3r0M0t0s",
+       http_adapter: HTTPoison
