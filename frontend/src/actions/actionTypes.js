@@ -23,4 +23,10 @@ export default {
   chosenAccessoriesFetched: 'CHOSEN_ACCESSORIES_FETCHED',
   addAccessoryToChosens: 'ADD_ACCESSORY_TO_CHOSENS',
   deleteAccessoryFromChosens: 'DELETE_ACCESSORY_FROM_CHOSENS',
+  startedFetchingCredicuotasInstallments: 'STARTED_FETCHING_CREDICUOTAS_INSTALLMENTS',
+  credicuotasInstallmentsFetched: 'CREDICUOTAS_INSTALLMENTS_FETCHED',
+  startedFetchingCredicuotasPersonalInstallments: 'STARTED_FETCHING_CREDICUOTAS_PERSONAL_INSTALLMENTS',
+  credicuotasPersonalInstallmentsFetched: 'CREDICUOTAS_PERSONAL_INSTALLMENTS_FETCHED',
+  startedFetchingCredicuotasVerificationCode: 'STARTED_FETCHING_CREDICUOTAS_VERIFICATION_CODE',
+  credicuotasVerificationCodeFetched: 'CREDICUOTAS_VERIFICATION_CODE_FETCHED',
 };

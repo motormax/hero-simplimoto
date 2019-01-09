@@ -25,6 +25,7 @@ class MercadoPagoFinancingForm extends Component {
       id: propTypes.string.isRequired,
     }).isRequired,
     financingForm: propTypes.shape({
+      provider: propTypes.string.isRequired,
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string,
       message: propTypes.string.isRequired,
@@ -32,7 +33,6 @@ class MercadoPagoFinancingForm extends Component {
       installments: propTypes.number,
       monthlyAmount: propTypes.number.isRequired,
     }).isRequired,
-
     plateRegistrationData: propTypes.shape({
       plateRegistrationType: propTypes.shape({
         price: propTypes.string,
@@ -46,7 +46,7 @@ class MercadoPagoFinancingForm extends Component {
       paymentMethodOptions: [],
       issuerOptions: [],
       installmentOptions: [],
-      financingForm: Object.assign({}, props.financingForm),
+      financingForm: Object.assign({}, props.financingForm, { provider: 'MERCADOPAGO' }),
       errors: {
         paymentMethodId: false,
       },
@@ -65,7 +65,7 @@ class MercadoPagoFinancingForm extends Component {
   handleSDKLoaded = () => {
     window.Mercadopago.getAllPaymentMethods((status, response) => {
       this.fetchPaymentMethodsCallback(status, response);
-      if (this.props.financingSelected) {
+      if (this.props.financingSelected && this.props.financingForm.provider === 'MERCADOPAGO') {
         window.Mercadopago.getIssuers(
           this.state.financingForm.paymentMethodId,
           this.fetchIssuerCallback,

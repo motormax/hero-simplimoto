@@ -6,9 +6,9 @@ defmodule HeroDigitalWeb.FinancingDataControllerTest do
   alias HeroDigital.Identity
   alias HeroDigital.Product.Motorcycle
 
-  @create_attrs %{costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
+  @create_attrs %{provider: "MERCADOPAGO", costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
   @update_attrs %{costs: "some updated costs", installments: 43, issuer_id: "some updated issuer_id", issuer_logo: "some updated issuer_logo", issuer_name: "some updated issuer_name", message: "some updated message", monthly_amount: 456.7, payment_method_id: "some updated payment_method_id", payment_method_logo: "some updated payment_method_logo", payment_method_name: "some updated payment_method_name", price: 43}
-  @invalid_attrs %{costs: nil, installments: nil, issuer_id: nil, issuer_logo: nil, issuer_name: nil, message: nil, monthly_amount: nil, payment_method_id: nil, payment_method_logo: nil, payment_method_name: nil, price: nil}
+  @invalid_attrs %{provider: "MERCADOPAGO", costs: nil, installments: nil, issuer_id: nil, issuer_logo: nil, issuer_name: nil, message: nil, monthly_amount: nil, payment_method_id: nil, payment_method_logo: nil, payment_method_name: nil, price: nil}
 
   def fixture(%{lead: lead}, :financing_data) do
     {:ok, financing_data} = Financing.set_financing_data(lead.id, @create_attrs)

@@ -43,6 +43,7 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
             nil -> text "el usuario no ingresó datos"
             financing_data ->
               attributes_table_for(financing_data) do
+                row :provider, label: "Proveedor"
                 row "Issuer", fn(f) ->
                   div do
                     text f.issuer_name

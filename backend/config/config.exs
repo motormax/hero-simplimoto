@@ -67,6 +67,10 @@ config :hero_digital, HeroDigital.Payment.PaymentGateway,
 config :hero_digital, HeroDigital.Payment.PaymentGateway,
     http_adapter: HTTPoison
 
+config :hero_digital, HeroDigital.CredicuotasClient,
+    base_url: "https://uat-origination-sandbox.credicuotas.com.ar",
+    http_adapter: HTTPoison
+
 config :hero_digital, HeroDigitalWeb.MailsView,
   assets_path: "http://localhost:4000/mails/"
 

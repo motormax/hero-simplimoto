@@ -8,6 +8,7 @@ defmodule HeroDigital.Fulfillment do
 
   alias HeroDigital.Identity.Lead
   alias HeroDigital.Identity
+  alias HeroDigital.Financing
   alias HeroDigital.Fulfillment.PurchaseOrder
   alias HeroDigital.Payment.PaymentGateway
   alias HeroDigital.Payment.Payment
@@ -46,32 +47,14 @@ defmodule HeroDigital.Fulfillment do
 
   """
   def create_purchase_order_from_lead(%Lead{} = lead, payment_params) do
-
     changeset = build_purchase_order_changeset(lead, payment_params)
 
     if changeset.valid? do
       purchase_order = create_purchase_order(changeset)
 
-      # case PaymentGateway.process_payment(purchase_order) do
-      #   {:payment_error, response} ->
-      #     #  crear un payment con la response fallido
-      #   {:ok, mp_response} ->
-      #     # crear un payment success
-      #   {:payment_error, }
-      # end
-      with {:ok, mp_response} <- PaymentGateway.process_payment(purchase_order),
-           {:ok, payment} <- create_payment_for(purchase_order, mp_response),
-           {:ok, lead} <- Identity.deactivate_lead(lead) do
-            purcharse_order = load_purchase_order_with_payment(purchase_order)
-              |> load_purchase_order_with_lead_and_associations
-
-            HeroDigital.Mailer.send_successful_purcharse_mail(purcharse_order)
-
-            {:ok, purcharse_order}
-      else
-        {:payment_error, mp_response} ->
-           create_failed_payment_for(purchase_order, mp_response)
-          {:payment_error, load_purchase_order_with_payment(purchase_order)}
+      case purchase_order.provider do
+        "MERCADOPAGO" -> handle_payment(lead, purchase_order)
+        _ -> send_confirmation_email(purchase_order)
       end
     else
       {:error, changeset}
@@ -83,9 +66,13 @@ defmodule HeroDigital.Fulfillment do
   end
 
   def load_purchase_order_with_payment(purchase_order) do
-    po = Repo.preload(purchase_order, :payment)
-    Logger.debug "purchase order to return #{inspect(po.payment.status)}"
-    po
+    if purchase_order.provider == "MERCADOPAGO" do
+      po = Repo.preload(purchase_order, :payment)
+      Logger.debug "purchase order to return #{inspect(po.payment.status)}"
+      po
+    else
+      purchase_order
+    end
   end
 
   def create_purchase_order(changeset) do
@@ -94,8 +81,30 @@ defmodule HeroDigital.Fulfillment do
     purchase_order |> Repo.preload(lead: :motorcycle)
   end
 
+  defp send_confirmation_email(purchase_order) do
+    order_with_associations = load_purchase_order_with_payment(purchase_order)
+    |> load_purchase_order_with_lead_and_associations
+
+    HeroDigital.Mailer.send_successful_purcharse_mail(order_with_associations)
+
+    {:ok, order_with_associations}
+  end
+
+  defp handle_payment(lead, purchase_order) do
+    with {:ok, mp_response} <- PaymentGateway.process_payment(purchase_order),
+         {:ok, payment} <- create_payment_for(purchase_order, mp_response),
+         {:ok, lead} <- Identity.deactivate_lead(lead) do
+      send_confirmation_email(purchase_order)
+    else
+      {:payment_error, mp_response} ->
+        create_failed_payment_for(purchase_order, mp_response)
+        {:payment_error, load_purchase_order_with_payment(purchase_order)}
+    end
+  end
+
   defp build_purchase_order_changeset(lead, payment_params) do
     Logger.info "Creating Purchase Order"
+    financing_data = Financing.get_financing_data_by_lead_id(lead.id)
 
     purchase_order_data = %{
       email: payment_params["email"],
@@ -103,6 +112,7 @@ defmodule HeroDigital.Fulfillment do
       phone: payment_params["phone"],
       payment_method: "credit_card",
       payment_method_token: payment_params["credit_card_token"],
+      provider: financing_data.provider
     }
 
     changeset = %PurchaseOrder{}

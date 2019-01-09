@@ -22,7 +22,7 @@ defmodule HeroDigital.FulfillmentTest do
     alias HeroDigital.Fulfillment.PurchaseOrder
 
     @transaction_approved_body Poison.encode!(%{"id" => 123, "status" => "approved", "status_detail" => "accredited"})
-    @financing_data_params %{costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
+    @financing_data_params %{provider: "MERCADOPAGO", costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
 
     @valid_attrs %{"email" => "some email", "credit_card_token" => "a cc token"}
     @invalid_attrs %{"email" => nil}

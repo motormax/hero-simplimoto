@@ -9,6 +9,7 @@ import accessoriesReducer from './accessoriesReducer';
 import financingReducer from './financingReducer';
 import actionTypes from '../actions/actionTypes';
 import customizationsReducer from './customizationsReducer';
+import credicuotasReducer from './credicuotasReducer';
 
 const defaultState = {};
 
@@ -31,6 +32,7 @@ const reducer = (state = defaultState, action) => {
         insuranceChoice: insuranceChoiceReducer(undefined, action),
         accessories: accessoriesReducer(state.accessories, action),
         financing: financingReducer(undefined, action),
+        credicuotas: credicuotasReducer(undefined, action),
       };
     case actionTypes.startedFetchingLead:
       return {
@@ -48,6 +50,7 @@ const reducer = (state = defaultState, action) => {
         insuranceChoice: insuranceChoiceReducer(state.insuranceChoice, action),
         accessories: accessoriesReducer(state.accessories, action),
         financing: financingReducer(state.financing, action),
+        credicuotas: credicuotasReducer(state.credicuotas, action),
       });
   }
 };

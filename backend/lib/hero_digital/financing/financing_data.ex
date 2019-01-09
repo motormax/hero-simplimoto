@@ -14,6 +14,7 @@ defmodule HeroDigital.Financing.FinancingData do
     field :payment_method_id, :string
     field :payment_method_logo, :string
     field :payment_method_name, :string
+    field :provider, :string
     belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
 
     timestamps()
@@ -22,8 +23,30 @@ defmodule HeroDigital.Financing.FinancingData do
   @doc false
   def changeset(financing_data, attrs, lead_id) do
     financing_data
-    |> cast(attrs, [:payment_method_id, :issuer_id, :installments, :payment_method_name, :payment_method_logo, :issuer_logo, :issuer_name, :message, :costs, :monthly_amount])
+    |> cast(attrs, [
+      :provider,
+      :payment_method_id,
+      :issuer_id,
+      :installments,
+      :payment_method_name,
+      :payment_method_logo,
+      :issuer_logo,
+      :issuer_name,
+      :message,
+      :costs,
+      :monthly_amount
+    ])
     |> put_change(:lead_id, lead_id)
-    |> validate_required([:lead_id, :payment_method_id, :installments, :payment_method_name, :payment_method_logo, :message, :costs, :monthly_amount])
+    |> validate_provider_data
+  end
+
+  def validate_provider_data(changeset) do
+    common_fields = [:provider, :lead_id, :installments, :monthly_amount]
+    required_fields = case get_field(changeset, :provider) do
+      "MERCADOPAGO" -> common_fields ++ [:payment_method_id, :payment_method_name, :payment_method_logo, :message, :costs]
+      _ -> common_fields
+    end
+
+    validate_required(changeset, required_fields)
   end
 end

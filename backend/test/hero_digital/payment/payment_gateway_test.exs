@@ -21,9 +21,9 @@ defmodule HeroDigital.Payment.PaymentGatewayTest do
   @transaction_failed_500_body %{"cause" => [%{"code" => 4084, "data" => nil, "description" => "issuer_id must be integer"}], "error" => "bad_request", "message" => "issuer_id must be integer", "status" => 400}
   @transaction_failed_timeout_body (%{"status" => :timeout })
 
-  @purchase_order_attrs %{email: "some email", payment_method: "credit_card", payment_method_token: "a cc token"}
+  @purchase_order_attrs %{provider: "MERCADOPAGO", email: "some email", payment_method: "credit_card", payment_method_token: "a cc token"}
 
-  @financing_data_params %{costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
+  @financing_data_params %{provider: "MERCADOPAGO", costs: "some costs", installments: 42, issuer_id: "some issuer_id", issuer_logo: "some issuer_logo", issuer_name: "some issuer_name", message: "some message", monthly_amount: 120.5, payment_method_id: "some payment_method_id", payment_method_logo: "some payment_method_logo", payment_method_name: "some payment_method_name", price: 42}
 
   setup do
     motorcycle = HeroDigital.Repo.insert!(%Motorcycle{name: "DASH", price: 50000})
