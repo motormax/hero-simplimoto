@@ -1,0 +1,112 @@
+.container {
+  position: relative;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+
+  .page-column-card {
+    width: 100%;
+    max-width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+
+  .page-column-card {
+    width: 100%;
+    max-width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+
+  .page-column-card {
+    width: 100%;
+    max-width: 1170px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+section {
+  display: block;
+}
+
+h1 span.subtitle, h2 span.subtitle, h3 span.subtitle {
+  display: block;
+  font-size: 15px;
+  padding: 0;
+  margin: 10px 0 10px 0;
+  line-height: 24px;
+}
+
+h1 {
+  font-size: 3em;
+  line-height: 44px;
+  margin: 0 0 24px 0;
+}
+
+h1:last-child {
+  margin: 0 0 24px 0;
+}
+
+.col-md-3 {
+  width: 25%;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.textoheroh4 {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 25px;
+  color: #303030;
+  text-transform: none;
+  padding: 5px 0 20px 20px;
+  background: url('../../images/hero-arrow.png') no-repeat left top;
+  line-height: 30px;
+  display: block;
+}
+
+p {
+  margin: 0 0 20px;
+}
+
+b, strong {
+  font-weight: 700;
+}
+
+.margin-bottom20 {
+  margin-bottom: 20px;
+}
+
+.img-circle {
+  border-radius: 50%;
+}
+
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+audio, canvas, img, video {
+  vertical-align: middle;
+}
