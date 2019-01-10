@@ -28,7 +28,7 @@ export default class Hunk extends React.Component {
           </h1>
         </section>
 
-        <section id="portfolio">
+        <section id="portfolio" style={{ display: 'table' }}>
           <div className="container">
             <div className="col-md-3">
               <p className="textoheroh4">
