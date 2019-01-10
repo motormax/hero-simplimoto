@@ -72,6 +72,15 @@ h1:last-child {
   padding-left: 15px;
 }
 
+.col-md-6 {
+  width: 50%;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 .textoheroh4 {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 25px;
@@ -153,4 +162,46 @@ i.fa {
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.btn, .btn:hover {
+  padding: 8px 18px;
+  border: rgba(255,255,255,0) 2px solid;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.btn-xs, .btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+.btn-xs, .btn-xs:hover {
+  padding: 3px 13px;
+}
+
+.btn-primary {
+  background-color: #ee3939 !important;
+}
+
+.btn i.fa {
+  padding-right: 10px;
+}
+
+h4 {
+  font-size: 1.4em;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 27px;
+  margin: 0 0 14px;
 }
