@@ -103,6 +103,10 @@ export default class Hunk extends React.Component {
           </div>
         </section>
 
+        <div className="divider">
+          <i className="rounded fa fa-cogs" />
+        </div>
+
       </div>
     );
   }
