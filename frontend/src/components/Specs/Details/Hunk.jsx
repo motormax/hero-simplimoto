@@ -247,37 +247,37 @@ export default class Hunk extends React.Component {
 
               <div className="tabs nomargin-top">
                 <ul className="nav nav-tabs">
-                  <li className="active">
+                  <li className={classForIdx(0)}>
                     <a href="#tab1" data-toggle="tab" onClick={this.handleTabClick(0)}>
                       <img src={engine} /> MOTOR
                     </a>
                   </li>
-                  <li>
+                  <li className={classForIdx(1)}>
                     <a href="#tab2" data-toggle="tab" onClick={this.handleTabClick(1)}>
                       <img src={chasis} /> TRANSMISIÓN
                     </a>
                   </li>
-                  <li>
+                  <li className={classForIdx(2)}>
                     <a href="#tab3" data-toggle="tab" onClick={this.handleTabClick(2)}>
                       <img src={suspension} /> SUSPENSIÓN
                     </a>
                   </li>
-                  <li>
+                  <li className={classForIdx(6)}>
                     <a href="#tab7" data-toggle="tab" onClick={this.handleTabClick(6)}>
                       <img src={brakes} /> FRENOS
                     </a>
                   </li>
-                  <li>
+                  <li className={classForIdx(3)}>
                     <a href="#tab4" data-toggle="tab" onClick={this.handleTabClick(3)}>
                       <img src={wheels} /> RUEDAS
                     </a>
                   </li>
-                  <li>
+                  <li className={classForIdx(4)}>
                     <a href="#tab5" data-toggle="tab" onClick={this.handleTabClick(4)}>
                       <img src={electrical} /> ELÉCTRICO
                     </a>
                   </li>
-                  <li>
+                  <li className={classForIdx(5)}>
                     <a href="#tab6" data-toggle="tab" onClick={this.handleTabClick(5)}>
                       <img src={dimensions} /> DIMENSIONES
                     </a>
