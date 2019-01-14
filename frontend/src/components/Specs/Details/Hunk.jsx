@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text,max-len,react/jsx-no-target-blank */
+/* eslint-disable jsx-a11y/alt-text,max-len,react/jsx-no-target-blank,jsx-a11y/mouse-events-have-key-events */
 import React from 'react';
 import './specs.css';
 import hunkOnOff from '../../images/hunki3s-onoff.jpg';
@@ -14,24 +14,47 @@ import brakes from '../../images/brakes-icon.gif';
 import wheels from '../../images/wheels-icon.gif';
 import electrical from '../../images/electrical-icon.gif';
 import dimensions from '../../images/dimension-icon.gif';
+import image1 from '../../images/1.jpg';
+import image2 from '../../images/2.jpg';
+import image3 from '../../images/3.jpg';
+import image4 from '../../images/4.jpg';
+import image5 from '../../images/5.jpg';
+import image6 from '../../images/6.jpg';
+import image7 from '../../images/7.jpg';
+import image8 from '../../images/8.jpg';
 
 export default class Hunk extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedIdx: 0,
+      selectedTabIdx: 0,
+      currentPhotoIdx: 0,
     };
+    this.photoRotation = React.createRef();
   }
 
   handleTabClick = idx => (e) => {
     e.preventDefault();
-    this.setState({ selectedIdx: idx });
+    this.setState({ selectedTabIdx: idx });
   };
 
+  handleMouseMove = (e) => {
+    const currentLeft = this.photoRotation.current.getBoundingClientRect().left;
+    const currentWidth = this.photoRotation.current.clientWidth;
+
+    const pieceWidth = currentWidth / 9;
+
+    const currentPiece = Math.floor((e.pageX - currentLeft) / pieceWidth);
+
+    this.setState({ currentPhotoIdx: currentPiece });
+  }
+
   render() {
-    const classForIdx = idx =>
-      (idx === this.state.selectedIdx ? ' active' : '');
+    const classForTabIndex = idx =>
+      (idx === this.state.selectedTabIdx ? ' active' : '');
+    const styleForPhotoIndex = idx =>
+      (idx === this.state.currentPhotoIdx ? { display: 'list-item' } : { display: 'none' });
 
     return (
       <div>
@@ -139,18 +162,21 @@ export default class Hunk extends React.Component {
                 <div style={{ margin: '0 auto', width: '20%', borderBottom: '2px solid #ff0000' }} />
               </h1>
 
-              <div className="menu_rotation">
+              <div
+                className="menu_rotation"
+                onMouseMove={this.handleMouseMove}
+                ref={this.photoRotation}
+              >
                 <ul className="list_rotation">
-                  <li><img src="images/1.jpg" /></li>
-                  <li><img src="images/2.jpg" /></li>
-                  <li><img src="images/3.jpg" /></li>
-                  <li><img src="images/4.jpg" /></li>
-                  <li><img src="images/5.jpg" /></li>
-                  <li><img src="images/6.jpg" /></li>
-                  <li><img src="images/7.jpg" /></li>
-                  <li><img src="images/8.jpg" /></li>
-                  <li><img src="images/1.jpg" /></li>
-
+                  <li style={styleForPhotoIndex(0)}><img src={image1} /></li>
+                  <li style={styleForPhotoIndex(1)}><img src={image2} /></li>
+                  <li style={styleForPhotoIndex(2)}><img src={image3} /></li>
+                  <li style={styleForPhotoIndex(3)}><img src={image4} /></li>
+                  <li style={styleForPhotoIndex(4)}><img src={image5} /></li>
+                  <li style={styleForPhotoIndex(5)}><img src={image6} /></li>
+                  <li style={styleForPhotoIndex(6)}><img src={image7} /></li>
+                  <li style={styleForPhotoIndex(7)}><img src={image8} /></li>
+                  <li style={styleForPhotoIndex(8)}><img src={image1} /></li>
                 </ul>
               </div>
               <h4 className="text-center margin-top20">Querés una <strong>Hunk</strong>? <a
@@ -247,37 +273,37 @@ export default class Hunk extends React.Component {
 
               <div className="tabs nomargin-top">
                 <ul className="nav nav-tabs">
-                  <li className={classForIdx(0)}>
+                  <li className={classForTabIndex(0)}>
                     <a href="#tab1" data-toggle="tab" onClick={this.handleTabClick(0)}>
                       <img src={engine} /> MOTOR
                     </a>
                   </li>
-                  <li className={classForIdx(1)}>
+                  <li className={classForTabIndex(1)}>
                     <a href="#tab2" data-toggle="tab" onClick={this.handleTabClick(1)}>
                       <img src={chasis} /> TRANSMISIÓN
                     </a>
                   </li>
-                  <li className={classForIdx(2)}>
+                  <li className={classForTabIndex(2)}>
                     <a href="#tab3" data-toggle="tab" onClick={this.handleTabClick(2)}>
                       <img src={suspension} /> SUSPENSIÓN
                     </a>
                   </li>
-                  <li className={classForIdx(6)}>
+                  <li className={classForTabIndex(6)}>
                     <a href="#tab7" data-toggle="tab" onClick={this.handleTabClick(6)}>
                       <img src={brakes} /> FRENOS
                     </a>
                   </li>
-                  <li className={classForIdx(3)}>
+                  <li className={classForTabIndex(3)}>
                     <a href="#tab4" data-toggle="tab" onClick={this.handleTabClick(3)}>
                       <img src={wheels} /> RUEDAS
                     </a>
                   </li>
-                  <li className={classForIdx(4)}>
+                  <li className={classForTabIndex(4)}>
                     <a href="#tab5" data-toggle="tab" onClick={this.handleTabClick(4)}>
                       <img src={electrical} /> ELÉCTRICO
                     </a>
                   </li>
-                  <li className={classForIdx(5)}>
+                  <li className={classForTabIndex(5)}>
                     <a href="#tab6" data-toggle="tab" onClick={this.handleTabClick(5)}>
                       <img src={dimensions} /> DIMENSIONES
                     </a>
@@ -285,7 +311,7 @@ export default class Hunk extends React.Component {
                 </ul>
 
                 <div className="tab-content">
-                  <div id="tab1" className={`textOpenSans tab-pane${classForIdx(0)}`}>
+                  <div id="tab1" className={`textOpenSans tab-pane${classForTabIndex(0)}`}>
                     <div className="table-responsive">
 
 
@@ -332,7 +358,7 @@ export default class Hunk extends React.Component {
                       </table>
                     </div>
                   </div>
-                  <div id="tab2" className={`textOpenSans tab-pane${classForIdx(1)}`}>
+                  <div id="tab2" className={`textOpenSans tab-pane${classForTabIndex(1)}`}>
                     <div className="table-responsive">
                       <table className="table table-hover" width="500" border="0" cellSpacing="0" cellPadding="0">
                         <tbody>
@@ -352,7 +378,7 @@ export default class Hunk extends React.Component {
                       </table>
                     </div>
                   </div>
-                  <div id="tab3" className={`textOpenSans tab-pane${classForIdx(2)}`}>
+                  <div id="tab3" className={`textOpenSans tab-pane${classForTabIndex(2)}`}>
                     <div className="table-responsive">
                       <table className="table table-hover" width="500" border="0" cellSpacing="0" cellPadding="0">
                         <tbody>
@@ -368,7 +394,7 @@ export default class Hunk extends React.Component {
                       </table>
                     </div>
                   </div>
-                  <div id="tab7" className={`textOpenSans tab-pane${classForIdx(6)}`}>
+                  <div id="tab7" className={`textOpenSans tab-pane${classForTabIndex(6)}`}>
                     <div className="table-responsive">
                       <table className="table table-hover" width="500" border="0" cellSpacing="0" cellPadding="0">
                         <tbody>
@@ -384,7 +410,7 @@ export default class Hunk extends React.Component {
                       </table>
                     </div>
                   </div>
-                  <div id="tab4" className={`textOpenSans tab-pane${classForIdx(3)}`}>
+                  <div id="tab4" className={`textOpenSans tab-pane${classForTabIndex(3)}`}>
                     <div className="table-responsive">
                       <table className="table table-hover" width="500" border="0" cellSpacing="0" cellPadding="0">
                         <tbody>
@@ -408,7 +434,7 @@ export default class Hunk extends React.Component {
                       </table>
                     </div>
                   </div>
-                  <div id="tab5" className={`textOpenSans tab-pane${classForIdx(4)}`}>
+                  <div id="tab5" className={`textOpenSans tab-pane${classForTabIndex(4)}`}>
                     <div className="table-responsive">
                       <table className="table table-hover" width="500" border="0" cellSpacing="0" cellPadding="0">
                         <tbody>
@@ -432,7 +458,7 @@ export default class Hunk extends React.Component {
                       </table>
                     </div>
                   </div>
-                  <div id="tab6" className={`textOpenSans tab-pane${classForIdx(5)}`}>
+                  <div id="tab6" className={`textOpenSans tab-pane${classForTabIndex(5)}`}>
                     <div className="table-responsive">
                       <table className="table table-hover" width="500" border="0" cellSpacing="0" cellPadding="0">
                         <tbody>
