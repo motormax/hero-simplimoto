@@ -90,8 +90,8 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
     test "render installments", %{conn: conn} do
       Mock
       |> expect(:get, 1, fn _, _, _ ->
-           {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
-         end)
+        {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+      end)
 
       conn = get conn, credicuotas_path(conn, :personal_installments), @valid_params
 
@@ -122,6 +122,50 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
       end)
 
       conn = get conn, credicuotas_path(conn, :personal_installments), @valid_params
+
+      assert json_response(conn, 500)["error"] == "Unexpected reply from server"
+    end
+  end
+
+  describe "personal installments - cuit" do
+    @valid_params (%{
+                     amount: "100000",
+                     cuit: "20112342340",
+                     verification_id: "1112341234",
+                     verification_code: "1984"
+                   })
+
+    @invalid_params (%{
+                       amount: "some invalid value",
+                       cuit: "20112342340",
+                       verification_id: "1112341234",
+                       verification_code: "1984"
+                     })
+
+    test "render installments", %{conn: conn} do
+      Mock
+      |> expect(:get, 1, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+      end)
+
+      conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @valid_params
+
+      assert json_response(conn, 200)["data"] == @installments_body
+    end
+
+    test "renders an error when the amount is invalid", %{conn: conn} do
+      conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @invalid_params
+
+      assert json_response(conn, 422)["error"] == "Invalid amount given"
+    end
+
+    test "renders an error when the remote server fails", %{conn: conn} do
+      Mock
+      |> expect(:get, 1, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
+      end)
+
+      conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @valid_params
 
       assert json_response(conn, 500)["error"] == "Unexpected reply from server"
     end

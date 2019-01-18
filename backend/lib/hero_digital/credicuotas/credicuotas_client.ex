@@ -21,16 +21,13 @@ defmodule HeroDigital.CredicuotasClient do
     |> handle_response
   end
 
-  def get_personal_installments(dni, verification_id, verification_code, amount) do
+  def get_installments_by_dni(dni, verification_id, verification_code, amount) do
     case offer_by_dni(dni, verification_id, verification_code) do
       {:ok, %{"hashKey" => hash}} -> installments_by_hash(hash, amount)
       {
         :ok,
         %{
-          "httpStatusCode" => "CONFLICT",
           "code" => "ONE_OR_MORE_CUSTOMERS_WHIT_THE_SAME_ID",
-          "errorCode" => _,
-          "cause" => _,
           "properties" => response
         }
       } -> {:error, 409, response}
@@ -38,8 +35,20 @@ defmodule HeroDigital.CredicuotasClient do
     end
   end
 
+  def get_installments_by_cuit(cuit, verification_id, verification_code, amount) do
+    with {:ok, %{"hashKey" => hash}} <- offer_by_cuit(cuit, verification_id, verification_code) do
+      installments_by_hash(hash, amount)
+    end
+  end
+
   def offer_by_dni(dni, verification_id, verification_code) do
     "#{@base_url}/v1/apirest/offer/#{dni}/max?verificationId=#{verification_id}&verificationCode=#{verification_code}"
+    |> get_url
+    |> handle_response
+  end
+
+  def offer_by_cuit(cuit, verification_id, verification_code) do
+    "#{@base_url}/v1/apirest/offer/taxid/#{cuit}/max?verificationId=#{verification_id}&verificationCode=#{verification_code}"
     |> get_url
     |> handle_response
   end
