@@ -5,6 +5,13 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
   import Mox
 
+  @hash_body %{
+    "hashKey" => "orig_bbf3de90-169e-4a55-a814-cd560facb58d",
+    "maxAmount" => 50000,
+    "maxInstallments" => 24,
+    "installmentAmount" => 24140
+  }
+
   @installments_body ([
                    %{
                      "amount" => 3087.34,
@@ -89,8 +96,13 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "render installments", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _, _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+      |> expect(:get, 2, fn url, _, _ ->
+        case url do
+          "https://uat-origination-sandbox.credicuotas.com.ar/v1/apirest/offer/11234234/max?verificationId=1112341234&verificationCode=1984" ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @hash_body}}
+          _ ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+        end
       end)
 
       conn = get conn, credicuotas_path(conn, :personal_installments), @valid_params
@@ -144,8 +156,13 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "render installments", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _, _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+      |> expect(:get, 2, fn url, _, _ ->
+        case url do
+          "https://uat-origination-sandbox.credicuotas.com.ar/v1/apirest/offer/taxid/20112342340/max?verificationId=1112341234&verificationCode=1984" ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @hash_body}}
+          _ ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+        end
       end)
 
       conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @valid_params
