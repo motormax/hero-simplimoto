@@ -5,6 +5,7 @@ defmodule HeroDigital.CredicuotasClient do
   @hardcoded_hash Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:default_hash]
   @user Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:user]
   @password Application.get_env(:hero_digital, HeroDigital.CredicuotasClient)[:password]
+  @generic_error_response {:error, 500, "Unexpected reply from server"}
 
   require Logger
 
@@ -21,8 +22,19 @@ defmodule HeroDigital.CredicuotasClient do
   end
 
   def get_personal_installments(dni, verification_id, verification_code, amount) do
-    with {:ok, %{"hashKey" => hash}} <- offer_by_dni(dni, verification_id, verification_code) do
-      installments_by_hash(hash, amount)
+    case offer_by_dni(dni, verification_id, verification_code) do
+      {:ok, %{"hashKey" => hash}} -> installments_by_hash(hash, amount)
+      {
+        :ok,
+        %{
+          "httpStatusCode" => "CONFLICT",
+          "code" => "ONE_OR_MORE_CUSTOMERS_WHIT_THE_SAME_ID",
+          "errorCode" => _,
+          "cause" => _,
+          "properties" => response
+        }
+      } -> {:error, 409, response}
+      _ -> @generic_error_response
     end
   end
 
@@ -42,7 +54,8 @@ defmodule HeroDigital.CredicuotasClient do
     Logger.debug "[Credicuotas] Response from server: #{inspect(response)}"
     case response do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, Poison.decode!(body)}
-      _ -> {:error, 500, "Unexpected reply from server"}
+      {:ok, %HTTPoison.Response{status_code: 409, body: body}} -> {:ok, Poison.decode!(body)}
+      _ -> @generic_error_response
     end
   end
 
