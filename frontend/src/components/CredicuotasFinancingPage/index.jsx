@@ -158,6 +158,54 @@ class CredicuotasFinancingPage extends Component {
     this.setState(newState);
   };
 
+  personalInstallments() {
+    if (this.props.personalInstallmentsLoading) {
+      return 'Cargando...';
+    }
+
+    return (
+      <span className="dp-inline-block txt-left">
+        {this.props.installments && this.props.installments.map(installment => (
+          <Form.Field key={installment.installments}>
+            <Radio
+              label={installment.message}
+              name="installment_id"
+              checked={
+                                  this.state.financingForm.installments === installment.installments
+                                }
+              onChange={() => this.handleInstallmentSelected(installment)}
+            />
+            <Label size="small">{installment.label}</Label>
+          </Form.Field>
+                          ))
+                          }
+      </span>
+    );
+  }
+
+  verificationCode() {
+    if (this.props.verificationCodeLoading) {
+      return 'Cargando...';
+    }
+
+    return (
+      <Form.Group widths="equal">
+        <Form.Input
+          fluid
+          required
+          label="Ingresá el código de verificación que recibiste"
+          type="number"
+          name="verification"
+          value={this.state.verification}
+          error={this.state.errors.verification}
+          onChange={this.handleFinancingFormDataChange}
+          placeholder="1234"
+          readOnly={this.state.step === STEPS[2]}
+        />
+      </Form.Group>
+    );
+  }
+
   render() {
     return (
       <div>
@@ -208,25 +256,7 @@ class CredicuotasFinancingPage extends Component {
               this.state.step !== STEPS[0] &&
               <Segment attached padded>
                 <p className="txt-dark-gray fw-bold fs-huge">Revisá tu Celular</p>
-                {
-                  this.props.verificationCodeLoading ? 'Cargando...'
-                  : (
-                    <Form.Group widths="equal">
-                      <Form.Input
-                        fluid
-                        required
-                        label="Ingresá el código de verificación que recibiste"
-                        type="number"
-                        name="verification"
-                        value={this.state.verification}
-                        error={this.state.errors.verification}
-                        onChange={this.handleFinancingFormDataChange}
-                        placeholder="1234"
-                        readOnly={this.state.step === STEPS[2]}
-                      />
-                    </Form.Group>
-                    )
-                }
+                { this.verificationCode() }
               </Segment>
             }
 
@@ -235,27 +265,7 @@ class CredicuotasFinancingPage extends Component {
               <Segment attached>
                 <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
                 <div className="txt-center">
-                  {
-                    this.props.personalInstallmentsLoading ? 'Cargando...' :
-                      (
-                        <span className="dp-inline-block txt-left">
-                          {this.props.installments && this.props.installments.map(installment => (
-                            <Form.Field key={installment.installments}>
-                              <Radio
-                                label={installment.message}
-                                name="installment_id"
-                                checked={
-                                this.state.financingForm.installments === installment.installments
-                              }
-                                onChange={() => this.handleInstallmentSelected(installment)}
-                              />
-                              <Label size="small">{installment.label}</Label>
-                            </Form.Field>
-                        ))
-                        }
-                        </span>
-                      )
-                  }
+                  { this.personalInstallments() }
                 </div>
               </Segment>
             }
