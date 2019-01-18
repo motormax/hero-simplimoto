@@ -48,6 +48,8 @@ class CredicuotasFinancingPage extends Component {
       installments: propTypes.number,
       monthlyAmount: propTypes.number.isRequired,
     }).isRequired,
+    verificationCodeLoading: propTypes.bool.isRequired,
+    personalInstallmentsLoading: propTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -206,20 +208,25 @@ class CredicuotasFinancingPage extends Component {
               this.state.step !== STEPS[0] &&
               <Segment attached padded>
                 <p className="txt-dark-gray fw-bold fs-huge">Revisá tu Celular</p>
-                <Form.Group widths="equal">
-                  <Form.Input
-                    fluid
-                    required
-                    label="Ingresá el código de verificación que recibiste"
-                    type="number"
-                    name="verification"
-                    value={this.state.verification}
-                    error={this.state.errors.verification}
-                    onChange={this.handleFinancingFormDataChange}
-                    placeholder="1234"
-                    readOnly={this.state.step === STEPS[2]}
-                  />
-                </Form.Group>
+                {
+                  this.props.verificationCodeLoading ? 'Cargando...'
+                  : (
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        fluid
+                        required
+                        label="Ingresá el código de verificación que recibiste"
+                        type="number"
+                        name="verification"
+                        value={this.state.verification}
+                        error={this.state.errors.verification}
+                        onChange={this.handleFinancingFormDataChange}
+                        placeholder="1234"
+                        readOnly={this.state.step === STEPS[2]}
+                      />
+                    </Form.Group>
+                    )
+                }
               </Segment>
             }
 
@@ -228,22 +235,27 @@ class CredicuotasFinancingPage extends Component {
               <Segment attached>
                 <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
                 <div className="txt-center">
-                  <span className="dp-inline-block txt-left">
-                    {this.props.installments && this.props.installments.map(installment => (
-                      <Form.Field key={installment.installments}>
-                        <Radio
-                          label={installment.message}
-                          name="installment_id"
-                          checked={
-                            this.state.financingForm.installments === installment.installments
-                          }
-                          onChange={() => this.handleInstallmentSelected(installment)}
-                        />
-                        <Label size="small">{installment.label}</Label>
-                      </Form.Field>
-                    ))
-                    }
-                  </span>
+                  {
+                    this.props.personalInstallmentsLoading ? 'Cargando...' :
+                      (
+                        <span className="dp-inline-block txt-left">
+                          {this.props.installments && this.props.installments.map(installment => (
+                            <Form.Field key={installment.installments}>
+                              <Radio
+                                label={installment.message}
+                                name="installment_id"
+                                checked={
+                                this.state.financingForm.installments === installment.installments
+                              }
+                                onChange={() => this.handleInstallmentSelected(installment)}
+                              />
+                              <Label size="small">{installment.label}</Label>
+                            </Form.Field>
+                        ))
+                        }
+                        </span>
+                      )
+                  }
                 </div>
               </Segment>
             }
@@ -285,6 +297,8 @@ const mapStateToProps = state => ({
   plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
   installments: state.main.credicuotas.personalInstallments.installments,
   verificationId: state.main.credicuotas.verificationCode.verificationId,
+  verificationCodeLoading: state.main.credicuotas.verificationCode.loading,
+  personalInstallmentsLoading: state.main.credicuotas.personalInstallments.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
