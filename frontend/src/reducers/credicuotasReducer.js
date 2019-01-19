@@ -25,7 +25,10 @@ export default function credicuotasReducer(state = initialState, action) {
     case actionTypes.credicuotasInstallmentsFetched:
       return {
         ...state,
-        installments: { installments: action.installments },
+        installments: {
+          loading: false,
+          installments: action.installments,
+        },
       };
     case actionTypes.startedFetchingCredicuotasPersonalInstallments:
       return {
@@ -35,7 +38,10 @@ export default function credicuotasReducer(state = initialState, action) {
     case actionTypes.credicuotasPersonalInstallmentsFetched:
       return {
         ...state,
-        personalInstallments: { installments: action.installments },
+        personalInstallments: {
+          loading: false,
+          installments: action.installments,
+        },
       };
     case actionTypes.startedFetchingCredicuotasVerificationCode:
       return {
@@ -45,7 +51,10 @@ export default function credicuotasReducer(state = initialState, action) {
     case actionTypes.credicuotasVerificationCodeFetched:
       return {
         ...state,
-        verificationCode: { verificationId: action.verificationId },
+        verificationCode: {
+          loading: false,
+          verificationId: action.verificationId,
+        },
       };
     default:
       return state;
