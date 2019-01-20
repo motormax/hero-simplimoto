@@ -16,13 +16,17 @@ import {
   credicuotasVerificationCodeFetched,
 } from '../../actions/credicuotas';
 
-const STEPS = ['DNI_AND_PHONE', 'PHONE_VERIFICATION', 'INSTALLMENTS'];
+const DNI_AND_PHONE = 'DNI_AND_PHONE';
+const PHONE_VERIFICATION = 'PHONE_VERIFICATION';
+const SELECT_CUIT = 'SELECT_CUIT';
+const INSTALLMENTS = 'INSTALLMENTS';
 
 class CredicuotasFinancingPage extends Component {
   static propTypes = {
     motorcyclePrice: propTypes.number.isRequired,
     accessoriesPrice: propTypes.number.isRequired,
     fetchInstallments: propTypes.func.isRequired,
+    fetchCuitInstallments: propTypes.func.isRequired,
     requestVerificationCode: propTypes.func.isRequired,
     verificationId: propTypes.string,
     cancelFinancing: propTypes.func.isRequired,
@@ -55,7 +59,7 @@ class CredicuotasFinancingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: STEPS[0],
+      step: DNI_AND_PHONE,
       dni: '',
       phone: '',
       verification: '',
@@ -65,6 +69,7 @@ class CredicuotasFinancingPage extends Component {
         dni: undefined,
         phone: undefined,
       },
+      cuitAlternatives: undefined,
     };
   }
 
@@ -77,6 +82,13 @@ class CredicuotasFinancingPage extends Component {
     newData.financingForm.installments = installment.installments;
     newData.financingForm.message = installment.message;
     newData.financingForm.monthlyAmount = installment.amount;
+    newData.canSubmit = true;
+    this.setState(newData);
+  }
+
+  handleCuitAlternativeSelected(cuit) {
+    const newData = this.state;
+    newData.currentCuitAlternative = cuit;
     newData.canSubmit = true;
     this.setState(newData);
   }
@@ -94,7 +106,7 @@ class CredicuotasFinancingPage extends Component {
       parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
 
   handleSubmit = () => {
-    if (this.state.step === STEPS[0]) {
+    if (this.state.step === DNI_AND_PHONE) {
       if (!this.isDniValid()) {
         this.setState({ errors: { dni: true } });
         return;
@@ -104,28 +116,55 @@ class CredicuotasFinancingPage extends Component {
       }
       this.props.requestVerificationCode(this.state.phone);
       this.setState({
-        step: STEPS[1],
+        step: PHONE_VERIFICATION,
         canSubmit: false,
       });
       return;
     }
-    if (this.state.step === STEPS[1]) {
+
+    if (this.state.step === PHONE_VERIFICATION) {
       if (!this.isVerificationValid()) {
         this.setState({ errors: { verification: true } });
         return;
       }
+
+      this.setState({
+        step: INSTALLMENTS,
+        canSubmit: false,
+      });
+
       this.props.fetchInstallments(
         this.state.dni,
         this.props.verificationId,
         this.state.verification,
         this.calculator().totalAmount(),
-      );
+      ).catch(({ response }) => {
+        if (response.status === 409) {
+          const { data: { error: { customerList } } } = response;
+          if (customerList) {
+            this.setState({ step: SELECT_CUIT, cuitAlternatives: customerList });
+          }
+        }
+      });
+      return;
+    }
+
+    if (this.state.step === SELECT_CUIT) {
       this.setState({
-        step: STEPS[2],
+        step: INSTALLMENTS,
         canSubmit: false,
       });
+
+      this.props.fetchCuitInstallments(
+        this.state.currentCuitAlternative,
+        this.props.verificationId,
+        this.state.verification,
+        this.calculator().totalAmount(),
+      );
+      return;
     }
-    if (this.state.step === STEPS[2]) {
+
+    if (this.state.step === INSTALLMENTS) {
       this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
     }
   };
@@ -149,14 +188,62 @@ class CredicuotasFinancingPage extends Component {
     const { name: inputName, value } = event.target;
     const newState = this.state;
     newState[inputName] = value;
-    if (newState.step === STEPS[0] && this.isDniValid() && this.isPhoneValid()) {
-      newState.canSubmit = true;
+    if (newState.step === DNI_AND_PHONE) {
+      if (this.isDniValid() && this.isPhoneValid()) {
+        newState.canSubmit = true;
+      }
     }
-    if (newState.step === STEPS[1] && this.isVerificationValid()) {
-      newState.canSubmit = true;
+    if (newState.step === PHONE_VERIFICATION) {
+      if (this.isVerificationValid()) {
+        newState.canSubmit = true;
+      }
     }
     this.setState(newState);
   };
+
+  personalInstallments() {
+    if (this.props.personalInstallmentsLoading) {
+      return 'Cargando...';
+    }
+
+    return (
+      <span className="dp-inline-block txt-left">
+        {this.props.installments && this.props.installments.map(installment => (
+          <Form.Field key={installment.installments}>
+            <Radio
+              label={installment.message}
+              name="installment_id"
+              checked={this.state.financingForm.installments === installment.installments}
+              onChange={() => this.handleInstallmentSelected(installment)}
+            />
+            <Label size="small">{installment.label}</Label>
+          </Form.Field>))}
+      </span>
+    );
+  }
+
+  verificationCode() {
+    if (this.props.verificationCodeLoading) {
+      return 'Cargando...';
+    }
+
+    return (
+      <Form.Group widths="equal">
+        <Form.Input
+          fluid
+          required
+          label="Ingresá el código de verificación que recibiste"
+          type="number"
+          name="verification"
+          value={this.state.verification}
+          error={this.state.errors.verification}
+          onChange={this.handleFinancingFormDataChange}
+          placeholder="1234"
+          readOnly={this.state.step === INSTALLMENTS}
+        />
+      </Form.Group>
+    );
+  }
 
   render() {
     return (
@@ -185,7 +272,7 @@ class CredicuotasFinancingPage extends Component {
                   error={this.state.errors.dni}
                   onChange={this.handleFinancingFormDataChange}
                   placeholder="23456789"
-                  readOnly={this.state.step !== STEPS[0]}
+                  readOnly={this.state.step !== DNI_AND_PHONE}
                 />
                 <Form.Input
                   fluid
@@ -199,63 +286,47 @@ class CredicuotasFinancingPage extends Component {
                   error={this.state.errors.phone}
                   onChange={this.handleFinancingFormDataChange}
                   placeholder="1199999999"
-                  readOnly={this.state.step !== STEPS[0]}
+                  readOnly={this.state.step !== DNI_AND_PHONE}
                 />
               </Form.Group>
             </Segment>
 
             {
-              this.state.step !== STEPS[0] &&
+              [PHONE_VERIFICATION, SELECT_CUIT, INSTALLMENTS].includes(this.state.step) &&
               <Segment attached padded>
                 <p className="txt-dark-gray fw-bold fs-huge">Revisá tu Celular</p>
-                {
-                  this.props.verificationCodeLoading ? 'Cargando...'
-                  : (
-                    <Form.Group widths="equal">
-                      <Form.Input
-                        fluid
-                        required
-                        label="Ingresá el código de verificación que recibiste"
-                        type="number"
-                        name="verification"
-                        value={this.state.verification}
-                        error={this.state.errors.verification}
-                        onChange={this.handleFinancingFormDataChange}
-                        placeholder="1234"
-                        readOnly={this.state.step === STEPS[2]}
-                      />
-                    </Form.Group>
-                    )
-                }
+                { this.verificationCode() }
               </Segment>
             }
 
             {
-              this.state.step === STEPS[2] &&
+              this.state.cuitAlternatives &&
+              [SELECT_CUIT, INSTALLMENTS].includes(this.state.step) &&
+              <Segment attached padded>
+                <p className="txt-dark-gray fw-bold fs-huge">Elegí tu CUIL/CUIT</p>
+                <div className="txt-center">
+                  <span className="dp-inline-block txt-left">
+                    {this.state.cuitAlternatives.map(alternative => (
+                      <Form.Field key={alternative.cuit}>
+                        <Radio
+                          label={alternative.cuit}
+                          name="alternative_id"
+                          checked={this.state.currentCuitAlternative === alternative.cuit}
+                          onChange={() => this.handleCuitAlternativeSelected(alternative.cuit)}
+                        />
+                        <Label size="small">{alternative.nombrecompleto}</Label>
+                      </Form.Field>))}
+                  </span>
+                </div>
+              </Segment>
+            }
+
+            {
+              this.state.step === INSTALLMENTS &&
               <Segment attached>
                 <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
                 <div className="txt-center">
-                  {
-                    this.props.personalInstallmentsLoading ? 'Cargando...' :
-                      (
-                        <span className="dp-inline-block txt-left">
-                          {this.props.installments && this.props.installments.map(installment => (
-                            <Form.Field key={installment.installments}>
-                              <Radio
-                                label={installment.message}
-                                name="installment_id"
-                                checked={
-                                this.state.financingForm.installments === installment.installments
-                              }
-                                onChange={() => this.handleInstallmentSelected(installment)}
-                              />
-                              <Label size="small">{installment.label}</Label>
-                            </Form.Field>
-                        ))
-                        }
-                        </span>
-                      )
-                  }
+                  {this.personalInstallments()}
                 </div>
               </Segment>
             }
@@ -315,6 +386,11 @@ const mapDispatchToProps = dispatch => ({
   fetchInstallments: async (dni, verificationId, verificationCode, amount) => {
     dispatch(startedFetchingCredicuotasPersonalInstallments());
     const { data: { data } } = await axios.get(`/api/credicuotas/personal_installments?dni=${dni}&verification_id=${verificationId}&verification_code=${verificationCode}&amount=${amount}`);
+    dispatch(credicuotasPersonalInstallmentsFetched(data));
+  },
+  fetchCuitInstallments: async (cuit, verificationId, verificationCode, amount) => {
+    dispatch(startedFetchingCredicuotasPersonalInstallments());
+    const { data: { data } } = await axios.get(`/api/credicuotas/personal_installments_cuit?cuit=${cuit}&verification_id=${verificationId}&verification_code=${verificationCode}&amount=${amount}`);
     dispatch(credicuotasPersonalInstallmentsFetched(data));
   },
   requestVerificationCode: async (phoneNumber) => {

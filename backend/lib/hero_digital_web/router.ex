@@ -38,6 +38,7 @@ defmodule HeroDigitalWeb.Router do
 
     get "/credicuotas/installments", CredicuotasController, :installments
     get "/credicuotas/personal_installments", CredicuotasController, :personal_installments
+    get "/credicuotas/personal_installments_cuit", CredicuotasController, :personal_installments_cuit
     post "/credicuotas/send_code", CredicuotasController, :send_code
 
     get "/accessories", AccessoryController, :index

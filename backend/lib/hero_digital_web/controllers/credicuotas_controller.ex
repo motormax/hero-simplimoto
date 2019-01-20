@@ -22,7 +22,22 @@ defmodule HeroDigitalWeb.CredicuotasController do
         }
       ) do
     with {:ok, valid_amount} <- validate_amount(amount),
-         {:ok, installments} <- CredicuotasClient.get_personal_installments(dni, verification_id, verification_code, valid_amount) do
+         {:ok, installments} <- CredicuotasClient.get_installments_by_dni(dni, verification_id, verification_code, valid_amount) do
+      conn |> render("show.json", installments: installments)
+    end
+  end
+
+  def personal_installments_cuit(
+        conn,
+        %{
+          "cuit" => cuit,
+          "verification_id" => verification_id,
+          "verification_code" => verification_code,
+          "amount" => amount
+        }
+      ) do
+    with {:ok, valid_amount} <- validate_amount(amount),
+         {:ok, installments} <- CredicuotasClient.get_installments_by_cuit(cuit, verification_id, verification_code, valid_amount) do
       conn |> render("show.json", installments: installments)
     end
   end

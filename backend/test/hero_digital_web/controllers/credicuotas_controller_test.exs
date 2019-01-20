@@ -5,6 +5,13 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
   import Mox
 
+  @hash_body %{
+    "hashKey" => "orig_bbf3de90-169e-4a55-a814-cd560facb58d",
+    "maxAmount" => 50000,
+    "maxInstallments" => 24,
+    "installmentAmount" => 24140
+  }
+
   @installments_body ([
                    %{
                      "amount" => 3087.34,
@@ -89,13 +96,29 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
 
     test "render installments", %{conn: conn} do
       Mock
-      |> expect(:get, 1, fn _, _, _ ->
-           {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
-         end)
+      |> expect(:get, 2, fn url, _, _ ->
+        case url do
+          "https://uat-origination-sandbox.credicuotas.com.ar/v1/apirest/offer/11234234/max?verificationId=1112341234&verificationCode=1984" ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @hash_body}}
+          _ ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+        end
+      end)
 
       conn = get conn, credicuotas_path(conn, :personal_installments), @valid_params
 
       assert json_response(conn, 200)["data"] == @installments_body
+    end
+
+    test "renders an appropiate error when there is more than one customer with the same dni", %{conn: conn} do
+      Mock
+      |> expect(:get, 1, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{body: "{\"httpStatusCode\":\"CONFLICT\",\"code\":\"ONE_OR_MORE_CUSTOMERS_WHIT_THE_SAME_ID\",\"errorCode\":\"ONE_OR_MORE_CUSTOMERS_WHIT_THE_SAME_ID\",\"cause\":\"ONE_OR_MORE_CUSTOMERS_WHIT_THE_SAME_ID\",\"properties\":{\"customerList\":[{\"cuit\":\"27628729595\",\"nombrecompleto\":\"LOPEZ ROJO MARIA ANGELES\",\"dni\":\"38067869\",\"fechanacimiento\":\"1960-10-02\",\"sexo\":\"F\",\"dni_calculado\":\"62872959\"},{\"cuit\":\"20380678692\",\"nombrecompleto\":\"BERNAL LUCIANO\",\"dni\":\"38067869\",\"fechanacimiento\":\"1994-03-04\",\"sexo\":\"M\",\"dni_calculado\":\"38067869\"}]},\"validationErrors\":[]}", headers: [{"Date", "Fri, 18 Jan 2019 02:27:12 GMT"}, {"Server", "Apache-Coyote/1.1"}, {"Access-Control-Allow-Origin", "https://uat-origination-selfie.credicuotas.com.ar"}, {"Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"}, {"Access-Control-Allow-Headers", "Content-Type, Authorization, x-requested-with"}, {"Access-Control-Allow-Credentials", "true"}, {"Access-Control-Max-Age", "3600"}, {"X-Content-Type-Options", "nosniff"}, {"X-XSS-Protection", "1; mode=block"}, {"Cache-Control", "no-cache, no-store, max-age=0, must-revalidate"}, {"Pragma", "no-cache"}, {"Expires", "0"}, {"X-Frame-Options", "DENY"}, {"X-Frame-Options", "ALLOW-FROM DENY"}, {"X-RateLimit-Limit", "100"}, {"X-RateLimit-Remaining", "99"}, {"X-RateLimit-Reset", "1547864827"}, {"Cache-Control", "no-store"}, {"Pragma", "no-cache"}, {"Content-Type", "application/json;charset=UTF-8"}, {"Set-Cookie", "JSESSIONID=F00836F6C2E032A8F8593D98FD131FD4; Path=/; HttpOnly"}, {"Transfer-Encoding", "chunked"}], request_url: "http://INT-cc-origination-api.zg4yhpqwwm.sa-east-1.elasticbeanstalk.com/v1/apirest/offer/38067869/max?verificationId=1168915184&verificationCode=2430", status_code: 409}}
+      end)
+
+      conn = get conn, credicuotas_path(conn, :personal_installments), @valid_params
+
+      assert json_response(conn, 409)["error"] == %{"customerList" => [%{"sexo" => "F","nombrecompleto" => "LOPEZ ROJO MARIA ANGELES","fechanacimiento" => "1960-10-02","dni_calculado" => "62872959","dni" => "38067869","cuit" => "27628729595"},%{"sexo" => "M","nombrecompleto" => "BERNAL LUCIANO","fechanacimiento" => "1994-03-04","dni_calculado" => "38067869","dni" => "38067869","cuit" => "20380678692"}]}
     end
 
     test "renders an error when the amount is invalid", %{conn: conn} do
@@ -111,6 +134,55 @@ defmodule HeroDigitalWeb.CredicuotasControllerTest do
       end)
 
       conn = get conn, credicuotas_path(conn, :personal_installments), @valid_params
+
+      assert json_response(conn, 500)["error"] == "Unexpected reply from server"
+    end
+  end
+
+  describe "personal installments - cuit" do
+    @valid_params (%{
+                     amount: "100000",
+                     cuit: "20112342340",
+                     verification_id: "1112341234",
+                     verification_code: "1984"
+                   })
+
+    @invalid_params (%{
+                       amount: "some invalid value",
+                       cuit: "20112342340",
+                       verification_id: "1112341234",
+                       verification_code: "1984"
+                     })
+
+    test "render installments", %{conn: conn} do
+      Mock
+      |> expect(:get, 2, fn url, _, _ ->
+        case url do
+          "https://uat-origination-sandbox.credicuotas.com.ar/v1/apirest/offer/taxid/20112342340/max?verificationId=1112341234&verificationCode=1984" ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @hash_body}}
+          _ ->
+            {:ok, %HTTPoison.Response{status_code: 200, body: Poison.encode! @installments_body}}
+        end
+      end)
+
+      conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @valid_params
+
+      assert json_response(conn, 200)["data"] == @installments_body
+    end
+
+    test "renders an error when the amount is invalid", %{conn: conn} do
+      conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @invalid_params
+
+      assert json_response(conn, 422)["error"] == "Invalid amount given"
+    end
+
+    test "renders an error when the remote server fails", %{conn: conn} do
+      Mock
+      |> expect(:get, 1, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 500, body: Poison.encode! %{}}}
+      end)
+
+      conn = get conn, credicuotas_path(conn, :personal_installments_cuit), @valid_params
 
       assert json_response(conn, 500)["error"] == "Unexpected reply from server"
     end
