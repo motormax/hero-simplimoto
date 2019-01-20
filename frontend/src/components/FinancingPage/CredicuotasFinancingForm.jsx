@@ -32,7 +32,8 @@ class CredicuotasFinancingForm extends Component {
       message: propTypes.string.isRequired,
       label: propTypes.string,
     })),
-  };
+    installmentsLoading: propTypes.bool.isRequired,
+  }
 
   constructor(props) {
     super(props);
@@ -52,14 +53,14 @@ class CredicuotasFinancingForm extends Component {
   calculator = () => {
     const { motorcyclePrice, accessoriesPrice } = this.props;
     return new PurchaseCalculator(motorcyclePrice, accessoriesPrice, this.plateRegistrationPrice());
-  };
+  }
 
   isPlateRegistrationDataValid = () =>
-    this.props.plateRegistrationData && this.props.plateRegistrationData.plateRegistrationType;
+    this.props.plateRegistrationData && this.props.plateRegistrationData.plateRegistrationType
 
   plateRegistrationPrice = () =>
     (this.isPlateRegistrationDataValid() ?
-      parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0);
+      parseFloat(this.props.plateRegistrationData.plateRegistrationType.price) : 0.0)
 
   enableContinueButton() {
     return this.state.financingForm.installments;
@@ -82,17 +83,19 @@ class CredicuotasFinancingForm extends Component {
             <p className="txt-dark-gray fw-bold fs-huge">¿En cuantas cuotas?</p>
             <div className="txt-center">
               <span className="dp-inline-block txt-left">
-                {this.props.installments && this.props.installments.map(installment => (
-                  <Form.Field key={installment.installments}>
-                    <Radio
-                      label={installment.message}
-                      name="installment_id"
-                      checked={this.state.financingForm.installments === installment.installments}
-                      onChange={() => this.handleInstallmentSelected(installment)}
-                    /><Label size="small">{installment.label}</Label>
-                  </Form.Field>
-              ))
-              }
+                { this.props.installmentsLoading && 'Cargando...' }
+                {
+                  this.props.installments && this.props.installments.map(installment => (
+                    <Form.Field key={installment.installments}>
+                      <Radio
+                        label={installment.message}
+                        name="installment_id"
+                        checked={this.state.financingForm.installments === installment.installments}
+                        onChange={() => this.handleInstallmentSelected(installment)}
+                      /><Label size="small">{installment.label}</Label>
+                    </Form.Field>
+                  ))
+                }
               </span>
             </div>
           </Segment>
@@ -138,6 +141,7 @@ const mapStateToProps = state => ({
   accessoriesPrice: state.main.accessories.totalPrice,
   plateRegistrationData: state.main.plateRegistration.plateRegistrationData,
   installments: state.main.credicuotas.installments.installments,
+  installmentsLoading: state.main.credicuotas.installments.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
