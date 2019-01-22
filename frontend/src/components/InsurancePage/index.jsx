@@ -9,14 +9,9 @@ import { push } from 'react-router-redux';
 import { Button, Form, Card, Divider, Image, Segment, Icon, Popup, Message } from 'semantic-ui-react';
 import MaskedInput from 'react-text-mask';
 import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
-import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE, UN23_INSURANCE } from './constants';
+import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
 
 const optInOrOutOptions = [
-  {
-    key: UN23_INSURANCE,
-    text: 'Quiero cotizar mi seguro con 123 Seguros',
-    value: UN23_INSURANCE,
-  },
   {
     key: HERO_INSURANCE,
     text: 'Quiero cotizar mi seguro con Hero',
@@ -52,7 +47,7 @@ class InsurancePage extends Component {
     super(props);
     this.state = {
       insuranceQuotes: [],
-      optInOrOut: props.insuranceChoice.optInOrOut || UN23_INSURANCE,
+      optInOrOut: props.insuranceChoice.optInOrOut || HERO_INSURANCE,
       insuranceChoice: {
         queryProvince: props.insuranceChoice.queryProvince || PROVINCE_CABA,
         queryPostalCode: props.insuranceChoice.queryPostalCode || '',
@@ -95,14 +90,14 @@ class InsurancePage extends Component {
     const newData = this.state.insuranceChoice;
     newData[inputName] = value;
     this.setState({ insuranceChoice: newData });
-  };
+  }
 
   handleDropdownOptInOrOutChange = (e, selectObj) => {
     this.setState({
       optInOrOut: selectObj.value,
       hasSearchedHeroInsurance: false,
     });
-  };
+  }
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
@@ -116,7 +111,7 @@ class InsurancePage extends Component {
   );
 
   dangerousHTMLQuoteDetails = moreInfo =>
-    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />;
+    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />
 
   popUpMoreInfo(quote) {
     return (
@@ -160,106 +155,6 @@ class InsurancePage extends Component {
     );
   }
 
-  noInsuranceForm() {
-    return (
-      <Segment attached="bottom" className="txt-center">
-        <Button
-          size="large"
-          primary
-          onClick={() => {
-                this.props.selectMyOwnInsurance(this.props.lead);
-              }}
-        >Confirmar
-        </Button>
-        <Button
-          size="large"
-          secondary
-          className="btn-outline"
-          onClick={() => {
-                this.props.backToDashboard();
-              }}
-        >
-          <Icon name="chevron left" />
-            Volver
-        </Button>
-      </Segment>
-    );
-  }
-
-  heroInsuranceForm(error, quotesList) {
-    return (
-      <Segment attached padded>
-        <p className="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos
-            Aires.<br /><b>PROXIMAMENTE</b> en otras ciudades del país
-        </p>
-        <Form onSubmit={this.getQuote} error={error}>
-          <Form.Group widths="equal">
-            <Form.Select
-              search
-              required
-              label="Provincia"
-              name="queryProvince"
-              options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
-                    { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
-              value={this.state.insuranceChoice.queryProvince}
-              error={this.state.errors.queryProvince}
-              onChange={this.handleDropdownChange}
-              placeholder="Provincia"
-            />
-            <Form.Input
-              fluid
-              required
-              label="Código Postal"
-              width={20}
-            >
-              <MaskedInput
-                type="text"
-                length="4"
-                name="queryPostalCode"
-                value={this.state.insuranceChoice.queryPostalCode}
-                error={this.state.errors.queryPostalCode}
-                onChange={this.handleHeroInsuranceDataChange}
-                mask={[/\d/, /\d/, /\d/, /\d/]}
-                placeholder="Código Postal"
-              />
-            </Form.Input>
-            <Form.Input
-              fluid
-              required
-              label="Edad"
-              type="number"
-              min={18}
-              max={99}
-              name="queryAge"
-              value={this.state.insuranceChoice.queryAge}
-              error={this.state.errors.queryAge}
-              onChange={this.handleHeroInsuranceDataChange}
-              placeholder="Edad"
-            />
-          </Form.Group>
-          <div className="txt-center">
-            <Button size="large" primary type="submit">Cotizar</Button>
-            <Button
-              size="medium"
-              secondary
-              className="btn-outline"
-              onClick={() => {
-                    this.props.backToDashboard();
-                  }}
-            >
-              <Icon name="chevron left" />
-                Volver
-            </Button>
-          </div>
-        </Form>
-        {quotesList}
-        <Divider />
-        <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para
-            completar el seguro de tu moto
-        </p>
-      </Segment>);
-  }
-
   render() {
     const errorValues = Object.keys(this.state.errors).map(key => this.state.errors[key]);
     const error = errorValues.some(Boolean);
@@ -291,11 +186,99 @@ class InsurancePage extends Component {
 
     let heroQuery;
     if (this.state.optInOrOut === HERO_INSURANCE) {
-      heroQuery = this.heroInsuranceForm(error, quotesList);
-    } else if (this.state.optInOrOut === UN23_INSURANCE) {
-      heroQuery = <div>Este es el cool form de 123seguros</div>;
+      heroQuery = (
+        <Segment attached padded>
+          <p className="fs-big txt-med-gray txt-center"><b>YA ESTAMOS</b> en Capital Federal y Gran Buenos Aires.<br /><b>PROXIMAMENTE</b> en otras ciudades del país</p>
+          <Form onSubmit={this.getQuote} error={error}>
+            <Form.Group widths="equal">
+              <Form.Select
+                search
+                required
+                label="Provincia"
+                name="queryProvince"
+                options={[{ value: PROVINCE_CABA, text: PROVINCE_CABA },
+                  { value: PROVINCE_BSAS, text: PROVINCE_BSAS }]}
+                value={this.state.insuranceChoice.queryProvince}
+                error={this.state.errors.queryProvince}
+                onChange={this.handleDropdownChange}
+                placeholder="Provincia"
+              />
+              <Form.Input
+                fluid
+                required
+                label="Código Postal"
+                width={20}
+              >
+                <MaskedInput
+                  type="text"
+                  length="4"
+                  name="queryPostalCode"
+                  value={this.state.insuranceChoice.queryPostalCode}
+                  error={this.state.errors.queryPostalCode}
+                  onChange={this.handleHeroInsuranceDataChange}
+                  mask={[/\d/, /\d/, /\d/, /\d/]}
+                  placeholder="Código Postal"
+                />
+              </Form.Input>
+              <Form.Input
+                fluid
+                required
+                label="Edad"
+                type="number"
+                min={18}
+                max={99}
+                name="queryAge"
+                value={this.state.insuranceChoice.queryAge}
+                error={this.state.errors.queryAge}
+                onChange={this.handleHeroInsuranceDataChange}
+                placeholder="Edad"
+              />
+            </Form.Group>
+            <div className="txt-center">
+              <Button size="large" primary type="submit" >Cotizar</Button>
+              <Button
+                size="medium"
+                secondary
+                className="btn-outline"
+                onClick={() => {
+                  this.props.backToDashboard();
+                }}
+              >
+                <Icon name="chevron left" />
+                Volver
+              </Button>
+            </div>
+          </Form>
+          {quotesList}
+          <Divider />
+          <p className="txt-med-gray txt-center fs-large">Al momento de concretar la compra te pediremos más datos para
+            completar el seguro de tu moto
+          </p>
+        </Segment>);
     } else {
-      heroQuery = this.noInsuranceForm();
+      heroQuery = (
+        <Segment attached="bottom" className="txt-center">
+          <Button
+            size="large"
+            primary
+            onClick={() => {
+              this.props.selectMyOwnInsurance(this.props.lead);
+            }}
+          >Confirmar
+          </Button>
+          <Button
+            size="large"
+            secondary
+            className="btn-outline"
+            onClick={() => {
+              this.props.backToDashboard();
+            }}
+          >
+            <Icon name="chevron left" />
+            Volver
+          </Button>
+        </Segment>
+      );
     }
 
     return (
