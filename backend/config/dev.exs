@@ -61,3 +61,7 @@ config :hero_digital, HeroDigital.CredicuotasClient,
   base_url: "https://uat-origination-sandbox.credicuotas.com.ar",
   default_hash: "hashdeprueba",
   http_adapter: HTTPoison
+
+config :hero_digital, HeroDigital.Un23SeguroClient,
+  base_url: "https://virtserver.swaggerhub.com/123seguro/123MotosB2B/1.0.0",
+  http_adapter: HTTPoison
