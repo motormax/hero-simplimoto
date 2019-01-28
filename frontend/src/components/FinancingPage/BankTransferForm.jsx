@@ -15,9 +15,9 @@ class BankTransferForm extends Component {
         <Segment attached className="txt-center">
           <p className="txt-dark-gray fw-bold fs-big">1- Hacé un depósito o una transferencia bancaria a nuestra cuenta.</p>
           <p className="fs-large txt-med-gray txt-center"><b>Alias: </b>HEROMOTO</p>
-          <p className="fs-large txt-med-gray txt-center">
+          <p className="fs-large txt-med-gray txt-center"/>
           <p className="fs-large txt-med-gray txt-center">O</p>
-          <p className="fs-large txt-med-gray txt-center">
+          <p className="fs-large txt-med-gray txt-center"/>
           <p className="fs-large txt-med-gray txt-center"><b>Banco: </b>Banco Galicia</p>
           <p className="fs-large txt-med-gray txt-center"><b>Tipo de cuenta: </b>Cuenta corriente en Pesos</p>
           <p className="fs-large txt-med-gray txt-center"><b>Número de cuenta: </b>035-005198/5</p>
