@@ -7,6 +7,7 @@ import { Card, Icon } from 'semantic-ui-react';
 import classNames from 'classnames';
 import MercadoPagoFinancingForm from './MercadoPagoFinancingForm';
 import CredicuotasFinancingForm from './CredicuotasFinancingForm';
+import BankTransferForm from './BankTransferForm';
 import SoonAvailableForm from './SoonAvailableForm';
 
 import afluentaImg from '../images/afluenta.png';
@@ -46,7 +47,7 @@ class FinancingPage extends Component {
       case MERCADO_PAGO_PAYMENT_METHOD:
         return <MercadoPagoFinancingForm />;
       case TRANSFERENCIA_PAYMENT_METHOD:
-        return <SoonAvailableForm comingSoonText="Próximamente podrás pagar por medio de una transferencia bancaria." />;
+        return <BankTransferForm />;
       case CREDICUOTAS_PAYMENT_METHOD:
         return <CredicuotasFinancingForm />;
       case AFLUENTA_PAYMENT_METHOD:
