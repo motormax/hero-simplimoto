@@ -15,9 +15,9 @@ class BankTransferForm extends Component {
         <Segment attached className="txt-center">
           <p className="txt-dark-gray fw-bold fs-big">1- Hacé un depósito o una transferencia bancaria a nuestra cuenta.</p>
           <p className="fs-large txt-med-gray txt-center"><b>Alias: </b>HEROMOTO</p>
-          <p className="fs-large txt-med-gray txt-center"> </p>
+          <p className="fs-large txt-med-gray txt-center">
           <p className="fs-large txt-med-gray txt-center">O</p>
-          <p className="fs-large txt-med-gray txt-center"> </p>
+          <p className="fs-large txt-med-gray txt-center">
           <p className="fs-large txt-med-gray txt-center"><b>Banco: </b>Banco Galicia</p>
           <p className="fs-large txt-med-gray txt-center"><b>Tipo de cuenta: </b>Cuenta corriente en Pesos</p>
           <p className="fs-large txt-med-gray txt-center"><b>Número de cuenta: </b>035-005198/5</p>
@@ -28,13 +28,14 @@ class BankTransferForm extends Component {
           <p className="fs-large txt-med-gray txt-center">Email: ventas@heromotodigital.com</p>
           <p className="fs-large txt-med-gray txt-center">Asunto: comprobante</p>
         </Segment>
-        <Segment attached className="txt-center txt-blue">  
+        <Segment attached className="txt-center txt-blue">
           <Icon.Group size="large">
             <Icon className="shield alternate" />
             <Icon corner className="check circle" />
           </Icon.Group>
-          <strong>IMPORTANTE!</strong> Recordá enviarnos un email con el comprobante de la transferencia adjunto.
-          </Segment>
+          <strong>IMPORTANTE!</strong> 
+          Recordá enviarnos un email con el comprobante de la transferencia adjunto.
+        </Segment>
         <Segment attached="bottom" className="txt-center">
           <Button
             size="large"
