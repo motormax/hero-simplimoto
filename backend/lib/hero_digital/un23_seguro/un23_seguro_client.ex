@@ -2,6 +2,7 @@ defmodule HeroDigital.Un23SeguroClient do
 
   @http_adapter Application.get_env(:hero_digital, HeroDigital.Un23SeguroClient)[:http_adapter]
   @base_url Application.get_env(:hero_digital, HeroDigital.Un23SeguroClient)[:base_url]
+  @authorization Application.get_env(:hero_digital, HeroDigital.Un23SeguroClient)[:authorization]
   @generic_error_response {:error, 500, "Unexpected reply from server"}
 
   require Logger
@@ -23,7 +24,7 @@ defmodule HeroDigital.Un23SeguroClient do
   # Que cosa es un infomoto?
   # 2019 hardcodeado?
   def cotizar(cp, edad, infomoto) do
-    "#{@base_url}/cotizar?cp=#{cp}&edad=#{edad}&infomoto=#{infomoto}&anio=2019&es_0km=1&canal_id=123"
+    "#{@base_url}/cotizar?cp=#{cp}&edad=#{edad}&infomoto=#{infomoto}&anio=2019&es_0km=1&canal_id=249"
     |> get_url
     |> handle_response
   end
@@ -47,9 +48,17 @@ defmodule HeroDigital.Un23SeguroClient do
   end
 
   defp headers do
-    [
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    ]
+    if @authorization do
+      [
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": @authorization
+      ]
+    else
+      [
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      ]
+    end
   end
 end

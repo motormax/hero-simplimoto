@@ -64,6 +64,7 @@ defmodule HeroDigitalWeb.Router do
       post "/purcharse_order", PurchaseOrderController, :create
 
       get "/insurance_quotes", InsuranceController, :quote
+      get "/insurance_quotes_v2", InsuranceController, :quote_v2
       get "/insurance", InsuranceChoiceController, :show
       post "/insurance", InsuranceChoiceController, :create
 
