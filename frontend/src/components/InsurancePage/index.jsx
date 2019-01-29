@@ -46,7 +46,8 @@ class InsurancePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      insuranceQuotes: [],
+      // insuranceQuotes: [],
+      options: [],
       optInOrOut: props.insuranceChoice.optInOrOut || HERO_INSURANCE,
       insuranceChoice: {
         queryProvince: props.insuranceChoice.queryProvince || PROVINCE_CABA,
@@ -64,16 +65,20 @@ class InsurancePage extends Component {
 
   getQuote = (event) => {
     event.preventDefault();
-    axios.get(`api/leads/${this.props.lead.id}/insurance_quotes`, {
+    axios.get(`api/leads/${this.props.lead.id}/insurance_quotes_v2`, {
       params: {
-        motorcycle_id: this.props.lead.motorcycle.id,
+        // motorcycle_id: this.props.lead.motorcycle.id,
+        motorcycle_id: 2443, // TODO: Apparently a Hunk 150 is a 2443, how should we know this?
         ...humps.decamelizeKeys(this.state.insuranceChoice),
       },
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
+        const options = Object.keys(response.data.data)
+          .map(insuranceName => ({ name: insuranceName, ...response.data.data[insuranceName] }));
         this.setState({
-          insuranceQuotes: response.data.data,
+          // insuranceQuotes: response.data.data,
+          options,
           hasSearchedHeroInsurance: true,
         });
       })
@@ -160,16 +165,21 @@ class InsurancePage extends Component {
     const error = errorValues.some(Boolean);
 
     let quotesList;
-    if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length > 0) {
-      const quoteItems =
-            this.state.insuranceQuotes.map(quote => (this.cardInsuranceQuote(quote)));
+    if (this.state.hasSearchedHeroInsurance && this.state.options.length > 0) {
+      // const quoteItems =
+      //       this.state.insuranceQuotes.map(quote => (this.cardInsuranceQuote(quote)));
+      // quotesList = (
+      //   <div className="margin-bottom">
+      //     <Divider />
+      //     <Card.Group centered>
+      //       {quoteItems}
+      //     </Card.Group>
+      //   </div>
+      // );
       quotesList = (
-        <div className="margin-bottom">
-          <Divider />
-          <Card.Group centered>
-            {quoteItems}
-          </Card.Group>
-        </div>
+        <ol>
+          {this.state.options.map(opt => <li>{opt.name}</li>)}
+        </ol>
       );
     } else if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length === 0) {
       quotesList = (
