@@ -15,7 +15,7 @@ defmodule HeroDigital.Financing.FinancingData do
     field :payment_method_logo, :string
     field :payment_method_name, :string
     field :provider, :string
-    field :cash_amount, :integer
+    field :cash_amount, :decimal
     belongs_to :lead, HeroDigital.Identity.Lead, type: Ecto.UUID
 
     timestamps()
