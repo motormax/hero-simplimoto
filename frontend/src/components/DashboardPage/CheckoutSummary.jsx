@@ -159,8 +159,9 @@ class CheckoutSummary extends Component {
       motorcycle,
       changeToSelectInsurance,
       accessoriesPrice,
-      financingForm: { cashAmount },
     } = this.props;
+
+    const cashAmount = this.props.financingForm && this.props.financingForm.cashAmount;
     const insuranceSelected = !!optInOrOut;
     const insuranceOptOut = optInOrOut === PERSONAL_INSURANCE;
 
