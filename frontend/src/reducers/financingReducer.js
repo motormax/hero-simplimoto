@@ -14,6 +14,7 @@ const initialState = {
     message: '',
     costs: '',
     monthlyAmount: 0,
+    cashAmount: 0,
   },
 };
 
