@@ -77,25 +77,23 @@ class FinancingPage extends Component {
   formForPaymentMethod = () => {
     switch (this.state.paymentMethod) {
       case MERCADO_PAGO_PAYMENT_METHOD:
-        return <MercadoPagoFinancingForm />;
+        return <MercadoPagoFinancingForm cashAmount={this.state.cashAmount} />;
       case TRANSFERENCIA_PAYMENT_METHOD:
         return <BankTransferForm />;
       case CREDICUOTAS_PAYMENT_METHOD:
-        return <CredicuotasFinancingForm />;
+        return <CredicuotasFinancingForm cashAmount={this.state.cashAmount} />;
       case AFLUENTA_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás financiar tu compra con Afluenta." />;
       case HERO_FINANCIAL_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás financiar tu compra con Hero Financials." />;
       case BITCOIN_PAYMENT_METHOD:
-        return (<SoonAvailableForm
-          comingSoonText="Próximamente podrás pagar utilizando tu billetera virtual de Bitcoins." />);
+        return <SoonAvailableForm comingSoonText="Próximamente podrás pagar utilizando tu billetera virtual de Bitcoins." />;
       case RENTAL_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás alquilar tu moto." />;
       case LEASING_PAYMENT_METHOD:
         return <SoonAvailableForm comingSoonText="Próximamente podrás obtener tu moto mediante un Leasing." />;
       case DEBIN_PAYMENT_METHOD:
-        return (<SoonAvailableForm
-          comingSoonText="Próximamente podrás ver las ofertas de distintos bancos para elegir cómo financiar tu moto." />);
+        return <SoonAvailableForm comingSoonText="Próximamente podrás ver las ofertas de distintos bancos para elegir cómo financiar tu moto." />;
       default:
         return false;
     }

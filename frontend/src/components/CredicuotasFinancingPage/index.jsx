@@ -54,6 +54,7 @@ class CredicuotasFinancingPage extends Component {
     }).isRequired,
     verificationCodeLoading: propTypes.bool.isRequired,
     personalInstallmentsLoading: propTypes.bool.isRequired,
+    cashAmount: propTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -64,7 +65,7 @@ class CredicuotasFinancingPage extends Component {
       phone: '',
       verification: '',
       canSubmit: false,
-      financingForm: Object.assign({}, props.financingForm, { provider: 'CREDICUOTAS' }),
+      financingForm: Object.assign({}, props.financingForm, { cashAmount: props.cashAmount, provider: 'CREDICUOTAS' }),
       errors: {
         dni: undefined,
         phone: undefined,
@@ -137,7 +138,7 @@ class CredicuotasFinancingPage extends Component {
         this.state.dni,
         this.props.verificationId,
         this.state.verification,
-        this.calculator().totalAmount(),
+        this.effectiveAmount(),
       ).catch(({ response }) => {
         if (response.status === 409) {
           const { data: { error: { customerList } } } = response;
@@ -159,7 +160,7 @@ class CredicuotasFinancingPage extends Component {
         this.state.currentCuitAlternative,
         this.props.verificationId,
         this.state.verification,
-        this.calculator().totalAmount(),
+        this.effectiveAmount(),
       );
       return;
     }
@@ -168,6 +169,10 @@ class CredicuotasFinancingPage extends Component {
       this.props.selectFinancing(this.props.lead.id, this.state.financingForm);
     }
   };
+
+  effectiveAmount() {
+    return this.calculator().totalAmount() - this.props.cashAmount;
+  }
 
   isDniValid = () => {
     const { dni } = this.state;
