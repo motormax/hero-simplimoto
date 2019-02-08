@@ -66,7 +66,10 @@ class FinancingPage extends Component {
 
   classNameFor = paymentMethod => classNames('financing-option', { selected: paymentMethod === this.state.paymentMethod });
 
-  choosingPaymentOption = (paymentMethod) => {
+  choosingPaymentOption = (paymentMethod, clearCashAmount = true) => {
+    if (clearCashAmount) {
+      this.setState({ cashAmount: 0 });
+    }
     this.setState({ paymentMethod });
   };
 
@@ -107,7 +110,7 @@ class FinancingPage extends Component {
             <Card
               link
               className={this.classNameFor(MERCADO_PAGO_PAYMENT_METHOD)}
-              onClick={() => this.choosingPaymentOption(MERCADO_PAGO_PAYMENT_METHOD)}
+              onClick={() => this.choosingPaymentOption(MERCADO_PAGO_PAYMENT_METHOD, false)}
             >
               <img
                 src="https://www.mercadopago.com/org-img/Manual/ManualMP/imgs/isologoHorizontal.png"
@@ -117,7 +120,7 @@ class FinancingPage extends Component {
             <Card
 
               className={this.classNameFor(CREDICUOTAS_PAYMENT_METHOD)}
-              onClick={() => this.choosingPaymentOption(CREDICUOTAS_PAYMENT_METHOD)}
+              onClick={() => this.choosingPaymentOption(CREDICUOTAS_PAYMENT_METHOD, false)}
             >
               <img src="https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png" alt="Credicuotas" />
 
