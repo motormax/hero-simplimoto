@@ -150,9 +150,16 @@ class CheckoutSummary extends Component {
   render() {
     const {
       insuranceChoice: {
-        quotePrice, quotePolicy, quoteBrokerLogoUrl,
-        quoteBrokerName, optInOrOut,
-      }, motorcycle, changeToSelectInsurance, accessoriesPrice,
+        quotePrice,
+        quotePolicy,
+        quoteBrokerLogoUrl,
+        quoteBrokerName,
+        optInOrOut,
+      },
+      motorcycle,
+      changeToSelectInsurance,
+      accessoriesPrice,
+      financingForm: { cashAmount },
     } = this.props;
     const insuranceSelected = !!optInOrOut;
     const insuranceOptOut = optInOrOut === PERSONAL_INSURANCE;
@@ -249,6 +256,19 @@ class CheckoutSummary extends Component {
                 </List.Content>
                 <Icon name="arrow right" />
                 <List.Content>Entrega a domicilio</List.Content>
+              </List.Item>
+            </List>
+
+            <Divider />
+
+            <List className="summary-list" verticalAlign="middle">
+              <List.Item>
+                <List.Content className="price-column" floated="right">
+                  <span>{moneyFormatter.format(cashAmount)}</span>
+                  <span className="fw-normal fs-small txt-med-gray">$</span>
+                </List.Content>
+                <Icon name="arrow right" />
+                <List.Content>Pago en efectivo</List.Content>
               </List.Item>
             </List>
 
