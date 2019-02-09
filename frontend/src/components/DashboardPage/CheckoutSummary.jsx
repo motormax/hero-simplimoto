@@ -260,18 +260,24 @@ class CheckoutSummary extends Component {
               </List.Item>
             </List>
 
-            <Divider />
+            {
+              cashAmount > 0 && (
+                <div>
+                  <Divider />
 
-            <List className="summary-list" verticalAlign="middle">
-              <List.Item>
-                <List.Content className="price-column" floated="right">
-                  <span>{moneyFormatter.format(cashAmount)}</span>
-                  <span className="fw-normal fs-small txt-med-gray">$</span>
-                </List.Content>
-                <Icon name="arrow right" />
-                <List.Content>Pago en efectivo</List.Content>
-              </List.Item>
-            </List>
+                  <List className="summary-list" verticalAlign="middle">
+                    <List.Item>
+                      <List.Content className="price-column" floated="right">
+                        <span>{moneyFormatter.format(cashAmount)}</span>
+                        <span className="fw-normal fs-small txt-med-gray">$</span>
+                      </List.Content>
+                      <Icon name="arrow right" />
+                      <List.Content>Pago en efectivo</List.Content>
+                    </List.Item>
+                  </List>
+                </div>
+              )
+            }
 
             <Divider />
 
