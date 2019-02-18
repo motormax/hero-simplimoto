@@ -303,6 +303,9 @@ class FinancingPage extends Component {
                   />
                 </div>
                 <div>
+                  <p className="fs-big txt-med-gray txt-center">|     |</p>
+                </div>
+                <div>
                   <p className="fs-big txt-med-gray txt-center">Valor financiado</p>
                   <input
                     type="text"
