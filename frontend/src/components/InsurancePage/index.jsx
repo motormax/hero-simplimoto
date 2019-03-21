@@ -27,39 +27,115 @@ const optInOrOutOptions = [
 const InsuranceOption = ({ option, issuerOptions }) => {
   const currentOption = issuerOptions.find(opt => opt.cobertura_id === option.id);
   if (currentOption) {
-    return <td>${currentOption.premio}</td>;
+    return (
+      <td
+        style={
+          {
+            border: '1px solid #ddd',
+            width: '20%',
+            fontSize: '19px',
+            fontWeight: 500,
+            verticalAlign: 'middle',
+          }
+        }
+      >
+        ${currentOption.premio}
+      </td>
+    );
   }
-  return <td>X</td>;
+  return (
+    <td
+      style={
+        {
+          border: '1px solid #ddd',
+          width: '20%',
+          fontSize: '19px',
+          fontWeight: 500,
+          verticalAlign: 'middle',
+        }
+      }
+    >
+      X
+    </td>
+  );
 };
 
 const InsurancesGrid = ({ options: issuers }) => {
   // XXX: Let's assume there's five of them
   const knownOptions = [
-    { id: 338, title: 'Seguro Básico' },
     { id: 339, title: 'Responsabilidad Civil' },
-    { id: 340, title: 'Seguro Avanzado' },
-    { id: 341, title: 'Seguro RE Avanzado' },
-    { id: 342, title: 'Seguro REQUETE Avanzado' },
+    { id: 340, title: 'Robo Clasico' },
+    { id: 341, title: 'Robo Premium' },
   ];
 
+  const images = {
+    mapfre: 'https://www.123seguro.com/images/front/table/mapfre.png',
+    libra: 'https://4.bp.blogspot.com/-EbhruQjEDLo/WnRQeldOIaI/AAAAAAAABiE/zDmWBehmIOY7NzyL_kd25IgUHdYTqYSbQCLcBGAs/s400/libra.png',
+    atm: 'https://www.atmseguros.com.ar/newsitedev/wp-content/uploads/2018/06/logo-atm-.png',
+  };
+
   return (
-    <table>
+    <table
+      style={
+        {
+          border: '1px solid #ddd',
+          borderCollapse: 'collapse',
+          borderSpacing: 0,
+          width: '100%',
+          verticalAlign: 'middle',
+          lineHeight: 1,
+          textAlign: 'center',
+        }
+      }
+      cellPadding={0}
+      cellSpacing={0}
+    >
       <thead>
-        <tr>
-          <td />
-          {knownOptions.map((option, idx) => <td key={idx}>{option.title}</td>)}
+        <tr style={{ height: 60 }}>
+          <th
+            style={
+              {
+                background: '#f4f4f4',
+                verticalAlign: 'middle',
+                borderTop: '1px solid #ddd',
+              }
+            }
+          />
+          {knownOptions.map((option, idx) =>
+            (
+              <td
+                key={idx}
+                style={
+                  {
+                    border: '1px solid #ddd',
+                    width: '20%',
+                    // fontSize: "19px",
+                    // fontWeight: 500,
+                    verticalAlign: 'middle',
+                    color: '#333',
+                    fontWeight: '400',
+                    fontSize: '13px',
+                    minHeight: '70px',
+                    padding: '0 5px',
+                  }
+                }
+              >
+                {option.title}
+              </td>
+            ))}
         </tr>
       </thead>
       <tbody>
         {
           issuers.map((issuer, idx) =>
             (
-              <tr key={idx}>
-                <td>{issuer.name}</td>
+              <tr key={idx} style={{ height: 60 }}>
+                <th style={{ border: '1px solid #ddd', height: 60, backgroundColor: '#f6f6f6' }}>
+                  <img src={images[issuer.name]} alt={issuer.name} style={{ height: 60 }} />
+                </th>
                 {
                   knownOptions.map((option, idx) =>
-                    <InsuranceOption key={idx} option={option} issuerOptions={issuer.coberturas} />
-                  )
+                    <InsuranceOption key={idx} option={option} issuerOptions={issuer.coberturas} />)
                 }
               </tr>
             ))
