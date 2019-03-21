@@ -24,6 +24,51 @@ const optInOrOutOptions = [
   },
 ];
 
+const InsuranceOption = ({ option, issuerOptions }) => {
+  const currentOption = issuerOptions.find(opt => opt.cobertura_id === option.id);
+  if (currentOption) {
+    return <td>${currentOption.premio}</td>;
+  }
+  return <td>X</td>;
+};
+
+const InsurancesGrid = ({ options: issuers }) => {
+  // XXX: Let's assume there's five of them
+  const knownOptions = [
+    { id: 338, title: 'Seguro Básico' },
+    { id: 339, title: 'Responsabilidad Civil' },
+    { id: 340, title: 'Seguro Avanzado' },
+    { id: 341, title: 'Seguro RE Avanzado' },
+    { id: 342, title: 'Seguro REQUETE Avanzado' },
+  ];
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <td />
+          {knownOptions.map((option, idx) => <td key={idx}>{option.title}</td>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          issuers.map((issuer, idx) =>
+            (
+              <tr key={idx}>
+                <td>{issuer.name}</td>
+                {
+                  knownOptions.map((option, idx) =>
+                    <InsuranceOption key={idx} option={option} issuerOptions={issuer.coberturas} />
+                  )
+                }
+              </tr>
+            ))
+        }
+      </tbody>
+    </table>
+  );
+};
+
 class InsurancePage extends Component {
   static propTypes = {
     selectInsurance: propTypes.func.isRequired,
@@ -166,20 +211,13 @@ class InsurancePage extends Component {
 
     let quotesList;
     if (this.state.hasSearchedHeroInsurance && this.state.options.length > 0) {
-      // const quoteItems =
-      //       this.state.insuranceQuotes.map(quote => (this.cardInsuranceQuote(quote)));
-      // quotesList = (
-      //   <div className="margin-bottom">
-      //     <Divider />
-      //     <Card.Group centered>
-      //       {quoteItems}
-      //     </Card.Group>
-      //   </div>
-      // );
       quotesList = (
-        <ol>
-          {this.state.options.map(opt => <li>{opt.name}</li>)}
-        </ol>
+        <div className="margin-bottom">
+          <Divider />
+          <Card.Group centered>
+            <InsurancesGrid options={this.state.options} />
+          </Card.Group>
+        </div>
       );
     } else if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length === 0) {
       quotesList = (
