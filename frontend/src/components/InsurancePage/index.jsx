@@ -60,6 +60,11 @@ const InsuranceOption = ({ option, issuerOptions }) => {
   );
 };
 
+InsuranceOption.propTypes = {
+  option: propTypes.arrayOf(propTypes.object).isRequired,
+  issuerOptions: propTypes.arrayOf(propTypes.object).isRequired,
+};
+
 const InsurancesGrid = ({ options: issuers }) => {
   // XXX: Let's assume there's five of them
   const knownOptions = [
@@ -101,10 +106,10 @@ const InsurancesGrid = ({ options: issuers }) => {
               }
             }
           />
-          {knownOptions.map((option, idx) =>
+          {knownOptions.map(option =>
             (
               <td
-                key={idx}
+                key={option.title}
                 style={
                   {
                     border: '1px solid #ddd',
@@ -127,15 +132,19 @@ const InsurancesGrid = ({ options: issuers }) => {
       </thead>
       <tbody>
         {
-          issuers.map((issuer, idx) =>
+          issuers.map(issuer =>
             (
-              <tr key={idx} style={{ height: 60 }}>
+              <tr key={issuer.name} style={{ height: 60 }}>
                 <th style={{ border: '1px solid #ddd', height: 60, backgroundColor: '#f6f6f6' }}>
                   <img src={images[issuer.name]} alt={issuer.name} style={{ height: 60 }} />
                 </th>
                 {
-                  knownOptions.map((option, idx) =>
-                    <InsuranceOption key={idx} option={option} issuerOptions={issuer.coberturas} />)
+                  knownOptions.map(option =>
+                    (<InsuranceOption
+                      key={option.title}
+                      option={option}
+                      issuerOptions={issuer.coberturas}
+                    />))
                 }
               </tr>
             ))
@@ -143,6 +152,10 @@ const InsurancesGrid = ({ options: issuers }) => {
       </tbody>
     </table>
   );
+};
+
+InsurancesGrid.propTypes = {
+  options: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
 class InsurancePage extends Component {
@@ -216,14 +229,14 @@ class InsurancePage extends Component {
     const newData = this.state.insuranceChoice;
     newData[inputName] = value;
     this.setState({ insuranceChoice: newData });
-  }
+  };
 
   handleDropdownOptInOrOutChange = (e, selectObj) => {
     this.setState({
       optInOrOut: selectObj.value,
       hasSearchedHeroInsurance: false,
     });
-  }
+  };
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
@@ -237,7 +250,7 @@ class InsurancePage extends Component {
   );
 
   dangerousHTMLQuoteDetails = moreInfo =>
-    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />
+    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />;
 
   popUpMoreInfo(quote) {
     return (
