@@ -89,8 +89,8 @@ class TradeInPage extends Component {
 
     return (
       <div>
-        <h2 className="fs-massive fw-bold txt-center">Vendé tu moto usada</h2>
-        <p className="fs-huge txt-med-gray txt-center">¡Cargá los datos de tu moto y te ayudamos a venderla!</p>
+        <h2 className="fs-massive fw-bold txt-center">VENDÉ TU MOTO USADA</h2>
+        <p className="fs-huge txt-med-gray txt-center">¡Carga los datos de tu moto y te ayudamos a venderla para que puedas acceder a tu nueva HERO!</p>
         <Card className="page-column-card">
           <Form onSubmit={this.handleSubmit} error={error}>
             <Segment className="not-border-bottom" attached>
