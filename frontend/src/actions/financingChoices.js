@@ -9,6 +9,11 @@ export const financingSelected = financingForm => ({
   financingForm,
 });
 
+export const cashAmountConfirmed = cashAmount => ({
+  type: actionTypes.cashAmountConfirmed,
+  cashAmount,
+});
+
 export const financingChanged = financingForm => ({
   type: actionTypes.financingChanged,
   financingForm,

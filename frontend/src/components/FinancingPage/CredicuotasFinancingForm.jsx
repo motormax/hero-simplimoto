@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import { Button, Card, Form, Icon, Label, Radio, Segment } from 'semantic-ui-react';
 import { startedFetchingCredicuotasInstallments, credicuotasInstallmentsFetched } from '../../actions/credicuotas';
 import PurchaseCalculator from '../calculator';
+import { cashAmountConfirmed } from '../../actions/financingChoices';
 
 class CredicuotasFinancingForm extends Component {
   static propTypes = {
@@ -33,7 +34,8 @@ class CredicuotasFinancingForm extends Component {
       label: propTypes.string,
     })),
     installmentsLoading: propTypes.bool.isRequired,
-  }
+    cashAmount: propTypes.number.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -116,7 +118,7 @@ class CredicuotasFinancingForm extends Component {
               primary
               disabled={!this.enableContinueButton()}
               onClick={() => {
-                this.props.goToRealFinancing();
+                this.props.goToRealFinancing(this.props.cashAmount);
               }}
             >Continuar
             </Button>
@@ -150,7 +152,8 @@ const mapDispatchToProps = dispatch => ({
     const { data: { data } } = await axios.get(`/api/credicuotas/installments?amount=${amount}`);
     dispatch(credicuotasInstallmentsFetched(data));
   },
-  goToRealFinancing: async () => {
+  goToRealFinancing: async (cashAmount) => {
+    dispatch(cashAmountConfirmed(cashAmount));
     dispatch(push('/credicuotas'));
   },
   cancelFinancing: async () => {
