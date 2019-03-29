@@ -21,6 +21,7 @@ defmodule HeroDigitalWeb.FinancingDataView do
       issuer_name: financing_data.issuer_name,
       message: financing_data.message,
       costs: financing_data.costs,
-      monthly_amount: financing_data.monthly_amount}
+      monthly_amount: financing_data.monthly_amount,
+      cash_amount: financing_data.cash_amount}
   end
 end

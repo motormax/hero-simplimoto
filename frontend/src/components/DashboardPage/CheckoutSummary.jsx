@@ -61,6 +61,7 @@ class CheckoutSummary extends Component {
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string.isRequired,
       installments: propTypes.number,
+      cashAmount: propTypes.number.isRequired,
     }),
   };
 
@@ -133,25 +134,34 @@ class CheckoutSummary extends Component {
     return null;
   };
 
+  // XXX: This method may hit mercadopago too many times, sign of a bad design
   fetchInstallmentsIfNeeded = () => {
     if (this.props.financingSelected &&
       this.props.financingForm.provider === 'MERCADOPAGO') {
       getInstallments(
         this.props.financingForm.paymentMethodId,
         this.props.financingForm.issuerId,
-        this.calculator().totalAmount(),
+        this.calculator().totalAmount() - this.props.financingForm.cashAmount,
         this.fetchInstallmentsCallback,
       );
     }
-  }
+  };
 
   render() {
     const {
       insuranceChoice: {
-        quotePrice, quotePolicy, quoteBrokerLogoUrl,
-        quoteBrokerName, optInOrOut,
-      }, motorcycle, changeToSelectInsurance, accessoriesPrice,
+        quotePrice,
+        quotePolicy,
+        quoteBrokerLogoUrl,
+        quoteBrokerName,
+        optInOrOut,
+      },
+      motorcycle,
+      changeToSelectInsurance,
+      accessoriesPrice,
     } = this.props;
+
+    const cashAmount = this.props.financingForm && this.props.financingForm.cashAmount;
     const insuranceSelected = !!optInOrOut;
     const insuranceOptOut = optInOrOut === PERSONAL_INSURANCE;
 
@@ -249,6 +259,25 @@ class CheckoutSummary extends Component {
                 <List.Content>Entrega a domicilio</List.Content>
               </List.Item>
             </List>
+
+            {
+              cashAmount > 0 && (
+                <div>
+                  <Divider />
+
+                  <List className="summary-list" verticalAlign="middle">
+                    <List.Item>
+                      <List.Content className="price-column" floated="right">
+                        <span>{moneyFormatter.format(cashAmount)}</span>
+                        <span className="fw-normal fs-small txt-med-gray">$</span>
+                      </List.Content>
+                      <Icon name="arrow right" />
+                      <List.Content>Pago en efectivo</List.Content>
+                    </List.Item>
+                  </List>
+                </div>
+              )
+            }
 
             <Divider />
 

@@ -13,7 +13,8 @@ import { financingSelected, startedFetchingFinancing } from '../../../actions/fi
 class FinancingSection extends Component {
   static defaultProps = {
     isLoading: false,
-  }
+  };
+
   static propTypes = {
     t: propTypes.func.isRequired,
     lead: propTypes.shape({
@@ -28,6 +29,7 @@ class FinancingSection extends Component {
       message: propTypes.string.isRequired,
       issuerName: propTypes.string.isRequired,
       paymentMethodName: propTypes.string.isRequired,
+      cashAmount: propTypes.number.isRequired,
     }),
   };
 
@@ -38,15 +40,27 @@ class FinancingSection extends Component {
   }
 
   financingMessage() {
+    const {
+      financingForm: {
+        provider, cashAmount, message, paymentMethodName, issuerName,
+      },
+    } = this.props;
+
     if (!this.props.financingSelected) {
       return 'Elegí el financiamiento más conveniente';
     }
 
-    if (this.props.financingForm.provider === 'CREDICUOTAS') {
-      return `Elegiste pagar en ${this.props.financingForm.message} con Credicuotas`;
+    if (provider === 'CREDICUOTAS') {
+      if (cashAmount > 0) {
+        return `Elegiste pagar con $${cashAmount} en efectivo y en ${message} con Credicuotas`;
+      }
+      return `Elegiste pagar en ${message} con Credicuotas`;
     }
 
-    return `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName}, ${this.props.financingForm.issuerName}`;
+    if (cashAmount > 0) {
+      return `Elegiste pagar con $${cashAmount} en efectivo y en ${message} con tu ${paymentMethodName}, ${issuerName}`;
+    }
+    return `Elegiste pagar en ${message} con tu ${paymentMethodName}, ${issuerName}`;
   }
 
   render() {
