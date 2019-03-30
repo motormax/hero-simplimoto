@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { translate } from 'react-i18next';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form, Icon, Grid, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -36,6 +36,7 @@ class CredicuotasForm extends Component {
       paymentMethodId: propTypes.string.isRequired,
       issuerId: propTypes.string.isRequired,
       installments: propTypes.number.isRequired,
+      provider: propTypes.string.isRequired,
     }).isRequired,
     accessoriesPrice: propTypes.number.isRequired,
   };
@@ -58,7 +59,7 @@ class CredicuotasForm extends Component {
     return value;
   };
 
-  canSubmit = () => this.state.email && this.state.email.includes('@')
+  canSubmit = () => this.state.email && this.state.email.includes('@');
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -73,18 +74,59 @@ class CredicuotasForm extends Component {
     return false;
   };
 
+  paymentDetails() {
+    if (this.props.financingForm.provider === 'BANK_TRANSFER') {
+      return (
+        <Segment attached>
+          <Grid verticalAlign="middle">
+            <Grid.Column width={2}>
+              <Icon className="txt-dark-gray" size="large" name="arrow right" />
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <h3 className="fw-bold fs-big">Forma de pago</h3>
+            </Grid.Column>
+            <Grid.Column width={5}>
+              <span className="fs-large fw-bold">Transferencia bancaria</span>
+            </Grid.Column>
+          </Grid>
+          <Grid>
+            <Grid.Column width={2} />
+            <Grid.Column className="details-container" width={14}>
+              <p className="txt-dark-gray"><b>Banco: </b>Banco Galicia</p>
+              <p className="txt-dark-gray"><b>Tipo de cuenta: </b>Cuenta corriente en Pesos</p>
+              <p className="txt-dark-gray"><b>Número de cuenta: </b>6001-3 019-1</p>
+              <p className="txt-dark-gray"><b>CBU: </b>00700191-20000006001315</p>
+              <p className="txt-dark-gray">O</p>
+              <p className="txt-dark-gray"><b>Banco: </b>Banco Santander Río</p>
+              <p className="txt-dark-gray"><b>Tipo de cuenta: </b>Cuenta corriente en Pesos</p>
+              <p className="txt-dark-gray"><b>Número de cuenta: </b>039-004592/4</p>
+              <p className="txt-dark-gray"><b>CBU: </b>00700191-20000006001315</p>
+              <p className="txt-dark-gray">Empresa</p>
+              <p className="txt-dark-gray"><b>A nombre de: </b>MARWEN S.A.</p>
+              <p className="txt-dark-gray"><b>CUIT: </b>0720039720000000459240</p>
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      );
+    }
+
+    return (
+      <Segment attached>
+        <FinancingInfo
+          financingSelected={this.props.financingSelected}
+          financingForm={this.props.financingForm}
+          accessoriesPrice={this.props.accessoriesPrice}
+          motorcycle={this.props.motorcycle}
+        />
+      </Segment>
+    );
+  }
+
   render() {
     return (
       <div>
         <Form id="pay" onSubmit={this.handleSubmit} ref={this.paymentMethodForm}>
-          <Segment attached>
-            <FinancingInfo
-              financingSelected={this.props.financingSelected}
-              financingForm={this.props.financingForm}
-              accessoriesPrice={this.props.accessoriesPrice}
-              motorcycle={this.props.motorcycle}
-            />
-          </Segment>
+          {this.paymentDetails()}
 
           <Segment attached>
             <Form.Input
