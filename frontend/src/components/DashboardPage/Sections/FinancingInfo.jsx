@@ -11,35 +11,35 @@ const moneyFormatter = new Intl.NumberFormat('es-AR', {
 
 
 class FinancingInfo extends Component {
-    static propTypes = {
-      financingSelected: propTypes.bool,
-      accessoriesPrice: propTypes.number.isRequired,
-      motorcycle: propTypes.shape({
-        price: propTypes.number.isRequired,
-      }).isRequired,
-      financingForm: propTypes.shape({
-        provider: propTypes.string.isRequired,
-        message: propTypes.string.isRequired,
-        costs: propTypes.string.isRequired,
-        monthlyAmount: propTypes.number.isRequired,
-        issuerLogo: propTypes.string.isRequired,
-        issuerName: propTypes.string.isRequired,
-        paymentMethodName: propTypes.string.isRequired,
-        paymentMethodLogo: propTypes.string.isRequired,
-        installments: propTypes.number,
-      }),
-      plateRegistrationPrice: propTypes.number.isRequired,
-    };
+  static propTypes = {
+    financingSelected: propTypes.bool,
+    accessoriesPrice: propTypes.number.isRequired,
+    motorcycle: propTypes.shape({
+      price: propTypes.number.isRequired,
+    }).isRequired,
+    financingForm: propTypes.shape({
+      provider: propTypes.string.isRequired,
+      message: propTypes.string.isRequired,
+      costs: propTypes.string.isRequired,
+      monthlyAmount: propTypes.number.isRequired,
+      issuerLogo: propTypes.string.isRequired,
+      issuerName: propTypes.string.isRequired,
+      paymentMethodName: propTypes.string.isRequired,
+      paymentMethodLogo: propTypes.string.isRequired,
+      installments: propTypes.number,
+    }),
+    plateRegistrationPrice: propTypes.number.isRequired,
+  };
 
-    calculator = () => new PurchaseCalculator(
-      this.props.motorcycle.price,
-      this.props.accessoriesPrice,
-      this.props.plateRegistrationPrice,
-    );
+  calculator = () => new PurchaseCalculator(
+    this.props.motorcycle.price,
+    this.props.accessoriesPrice,
+    this.props.plateRegistrationPrice,
+  );
 
-    financingImages = () =>
-      ((this.props.financingForm.provider === 'CREDICUOTAS') ?
-        this.credicuotasImages() : this.mercadopagoImages())
+  financingImages = () =>
+    ((this.props.financingForm.provider === 'CREDICUOTAS') ?
+      this.credicuotasImages() : this.mercadopagoImages());
 
   mercadopagoImages = () => (
     <div>
@@ -52,22 +52,23 @@ class FinancingInfo extends Component {
         alt={this.props.financingForm.issuerName}
       />
     </div>
-  )
+  );
 
   credicuotasImages = () => (
     <img
       src="https://www.prestamosfrescos.com/ar/assets/design/Credicuotas-logo.png"
       alt="CREDICUOTAS"
     />
-  )
+  );
 
   render() {
     const financingAmount = this.props.financingSelected ?
       this.props.financingForm.monthlyAmount :
-      this.calculator().totalAmount();
+      this.calculator()
+        .totalAmount();
 
     const financingPeriod = this.props.financingSelected &&
-      (this.props.financingForm.installments > 1) ?
+    (this.props.financingForm.installments > 1) ?
       '/ mes' : '';
 
     let financingInfo;
@@ -85,7 +86,7 @@ class FinancingInfo extends Component {
     return (
       <div>
         <p className="final-price">
-              $<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
+          $<span className="final-price-number">{moneyFormatter.format(financingAmount)}</span>
           {financingPeriod}
         </p>
         {financingInfo}

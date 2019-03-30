@@ -46,6 +46,10 @@ class FinancingSection extends Component {
       return `Elegiste pagar en ${this.props.financingForm.message} con Credicuotas`;
     }
 
+    if (this.props.financingForm.provider === 'BANK_TRANSFER') {
+      return 'Elegiste pagar con transferencia bancaria';
+    }
+
     return `Elegiste pagar en ${this.props.financingForm.message} con tu ${this.props.financingForm.paymentMethodName}, ${this.props.financingForm.issuerName}`;
   }
 
