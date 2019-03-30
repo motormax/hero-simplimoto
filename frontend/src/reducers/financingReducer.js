@@ -21,6 +21,7 @@ export default function financingReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.startedFetchingFinancing:
       return {
+        ...state,
         isLoading: true,
       };
     case actionTypes.financingSelected:
