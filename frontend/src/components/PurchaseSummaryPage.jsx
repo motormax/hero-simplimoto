@@ -7,7 +7,7 @@ import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
 import availableColors from './motorcycles/availableColors';
 import CreditCardPayment from './CreditCardPayment';
-import CredicuotasForm from './EmailOnlyForm';
+import EmailOnlyForm from './EmailOnlyForm';
 import { PERSONAL_INSURANCE } from './InsurancePage/constants';
 
 class PurchaseSummary extends Component {
@@ -99,10 +99,10 @@ class PurchaseSummary extends Component {
     }
 
     if (provider === 'CREDICUOTAS') {
-      return <CredicuotasForm />;
+      return <EmailOnlyForm />;
     }
 
-    return <CredicuotasForm />;
+    return <EmailOnlyForm />;
   }
 
   render() {
