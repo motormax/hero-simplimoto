@@ -14,6 +14,7 @@ export default {
   insuranceChoiceFetched: 'INSURANCE_CHOICE_FETCHED',
   startedFetchingInsuranceChoice: 'STARTED_FETCHING_INSURANCE_CHOICE',
   financingSelected: 'FINANCING_SELECTED',
+  cashAmountConfirmed: 'CASH_AMOUNT_CONFIRMED',
   financingChanged: 'FINANCING_CHANGED',
   startedFetchingFinancing: 'STARTED_FETCHING_FINANCING',
   changePlateRegistrationData: 'CHANGE_PLATE_REGISTRATION_DATA',
