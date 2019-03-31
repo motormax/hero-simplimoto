@@ -50,6 +50,10 @@ class FinancingSection extends Component {
       return 'Elegí el financiamiento más conveniente';
     }
 
+    if (this.props.financingForm.provider === 'BANK_TRANSFER') {
+      return 'Elegiste pagar con transferencia bancaria';
+    }
+
     if (provider === 'CREDICUOTAS') {
       if (cashAmount > 0) {
         return `Elegiste pagar con $${cashAmount} en efectivo y en ${message} con Credicuotas`;

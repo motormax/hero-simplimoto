@@ -1,12 +1,18 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { Button, Card, Segment, Icon } from 'semantic-ui-react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
+import { financingSelected } from '../../actions/financingChoices';
 
 class BankTransferForm extends Component {
   static propTypes = {
     cancelFinancing: propTypes.func.isRequired,
+    selectFinancing: propTypes.func.isRequired,
+    lead: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }).isRequired,
   };
 
   render() {
@@ -41,6 +47,14 @@ class BankTransferForm extends Component {
         <Segment attached="bottom" className="txt-center">
           <Button
             size="large"
+            primary
+            onClick={() => {
+              this.props.selectFinancing(this.props.lead.id);
+            }}
+          >Continuar
+          </Button>
+          <Button
+            size="large"
             secondary
             onClick={() => {
                 this.props.cancelFinancing();
@@ -53,12 +67,24 @@ class BankTransferForm extends Component {
   }
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+  lead: state.main.lead,
 });
 
 
 const mapDispatchToProps = dispatch => ({
-  cancelFinancing: async () => {
+  selectFinancing: async (leadId) => {
+    const form = { provider: 'BANK_TRANSFER' };
+    await axios.post(
+      `/api/leads/${leadId}/financing_data`,
+      {
+        financing_data: form,
+      },
+    );
+    dispatch(financingSelected(form));
+    dispatch(push('/dashboard'));
+  },
+  cancelFinancing: () => {
     dispatch(push('/dashboard'));
   },
 });
