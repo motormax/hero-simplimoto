@@ -147,6 +147,14 @@ class CheckoutSummary extends Component {
     }
   };
 
+  shouldShowFinancingSummary() {
+    if (!this.props.financingForm) {
+      return true;
+    }
+
+    return this.props.financingForm.provider !== 'BANK_TRANSFER';
+  }
+
   render() {
     const {
       insuranceChoice: {
@@ -279,22 +287,27 @@ class CheckoutSummary extends Component {
               )
             }
 
-            <Divider />
+            {
+              this.shouldShowFinancingSummary() &&
+              <React.Fragment>
+                <Divider />
 
-            <List className="summary-list">
-              <List.Item>
-                <Icon name="arrow right" />
-                <List.Content>Financiación</List.Content>
-              </List.Item>
-            </List>
+                <List className="summary-list">
+                  <List.Item>
+                    <Icon name="arrow right" />
+                    <List.Content>Financiación</List.Content>
+                  </List.Item>
+                </List>
 
-            <FinancingInfo
-              financingSelected={this.props.financingSelected}
-              financingForm={this.props.financingForm}
-              accessoriesPrice={this.props.accessoriesPrice}
-              motorcycle={this.props.motorcycle}
-              plateRegistrationPrice={this.plateRegistrationPrice()}
-            />
+                <FinancingInfo
+                  financingSelected={this.props.financingSelected}
+                  financingForm={this.props.financingForm}
+                  accessoriesPrice={this.props.accessoriesPrice}
+                  motorcycle={this.props.motorcycle}
+                  plateRegistrationPrice={this.plateRegistrationPrice()}
+                />
+              </React.Fragment>
+            }
 
           </Card.Content>
 

@@ -43,9 +43,10 @@ defmodule HeroDigital.Financing.FinancingData do
   end
 
   def validate_provider_data(changeset) do
-    common_fields = [:provider, :lead_id, :installments, :monthly_amount]
+    common_fields = [:provider, :lead_id]
     required_fields = case get_field(changeset, :provider) do
-      "MERCADOPAGO" -> common_fields ++ [:payment_method_id, :payment_method_name, :payment_method_logo, :message, :costs]
+      "MERCADOPAGO" -> common_fields ++ [:payment_method_id, :payment_method_name, :payment_method_logo, :message, :costs, :installments, :monthly_amount]
+      "CREDICUOTAS" -> common_fields ++ [:installments, :monthly_amount]
       _ -> common_fields
     end
 

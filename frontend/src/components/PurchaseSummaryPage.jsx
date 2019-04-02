@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card, Segment, Grid, Icon } from 'semantic-ui-react';
+import { Card, Grid, Icon, Segment } from 'semantic-ui-react';
 import { moneyFormatter } from './DashboardPage/CheckoutSummary';
 
 import availableColors from './motorcycles/availableColors';
 import CreditCardPayment from './CreditCardPayment';
-import CredicuotasForm from './CredicuotasForm';
+import EmailOnlyForm from './EmailOnlyForm';
 import { PERSONAL_INSURANCE } from './InsurancePage/constants';
 
 class PurchaseSummary extends Component {
@@ -91,6 +91,20 @@ class PurchaseSummary extends Component {
     return availableColors[lead.motorcycle.name][customization.color].bikeImageURL;
   };
 
+  checkoutForm() {
+    const { financingForm: { provider } } = this.props;
+
+    if (provider === 'MERCADOPAGO') {
+      return <CreditCardPayment />;
+    }
+
+    if (provider === 'CREDICUOTAS') {
+      return <EmailOnlyForm />;
+    }
+
+    return <EmailOnlyForm />;
+  }
+
   render() {
     const {
       lead, accessories, insuranceChoice, chosenAccessories, plateRegistrationData,
@@ -119,9 +133,13 @@ class PurchaseSummary extends Component {
             <img width="100%" src={insuranceChoice.quoteBrokerLogoUrl} alt="un seguro" />
           </Grid.Column>
           <Grid.Column width={9}>
-            <h3 className="fw-bold fs-big">{insuranceChoice.quoteBrokerName} - {insuranceChoice.quotePolicy}</h3>
+            <h3 className="fw-bold fs-big">
+              {insuranceChoice.quoteBrokerName} - {insuranceChoice.quotePolicy}
+            </h3>
             <div className="fs-large fs-medium txt-dark-gray">
-              <span className="fw-bold">$ {moneyFormatter.format(insuranceChoice.quotePrice)}</span> por mes
+              <span className="fw-bold">
+                $ {moneyFormatter.format(insuranceChoice.quotePrice)}
+              </span> por mes
             </div>
           </Grid.Column>
         </Grid>
@@ -155,8 +173,8 @@ class PurchaseSummary extends Component {
           <Grid>
             <Grid.Column width={2} />
             <Grid.Column className="details-container" width={9}>
-              { chosenAccessories.map(accessory =>
-                <img src={accessory.logoUrl} alt={accessory.name} />) }
+              {chosenAccessories.map(accessory =>
+                <img src={accessory.logoUrl} alt={accessory.name} />)}
             </Grid.Column>
           </Grid>
         </Segment>
@@ -212,7 +230,10 @@ class PurchaseSummary extends Component {
                 <h3 className="fw-bold fs-big">Patentamiento</h3>
               </Grid.Column>
               <Grid.Column width={5}>
-                <span className="fw-bold fs-large fs-medium txt-dark-gray"><span className="fw-normal">$ </span>{moneyFormatter.format(plateRegistrationData.plateRegistrationType.price)}</span>
+                <span className="fw-bold fs-large fs-medium txt-dark-gray">
+                  <span className="fw-normal">$ </span>
+                  {moneyFormatter.format(plateRegistrationData.plateRegistrationType.price)}
+                </span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -263,16 +284,13 @@ class PurchaseSummary extends Component {
               </Grid>
             </Segment>
           }
-          {
-            (this.props.financingForm.provider === 'MERCADOPAGO') ?
-              <CreditCardPayment /> :
-              <CredicuotasForm />
-          }
+          {this.checkoutForm()}
         </Card>
       </div>
     );
   }
 }
+
 const mapDispatchToProps = undefined;
 
 const mapStateToProps = store => ({
