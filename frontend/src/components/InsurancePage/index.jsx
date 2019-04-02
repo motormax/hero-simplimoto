@@ -165,6 +165,15 @@ InsurancesGrid.propTypes = {
   options: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
+function un23IdFromMotorcycleId(motorcycleId) {
+  return ({
+    1: 9610002, // Hunk
+    2: 9610003, // Ignitor
+    3: 9610001, // Hunk Sport
+    4: 9610004, // Dash
+  })[motorcycleId];
+}
+
 class InsurancePage extends Component {
   static propTypes = {
     selectInsurance: propTypes.func.isRequired,
@@ -208,8 +217,7 @@ class InsurancePage extends Component {
     event.preventDefault();
     axios.get(`api/leads/${this.props.lead.id}/insurance_quotes_v2`, {
       params: {
-        // motorcycle_id: this.props.lead.motorcycle.id,
-        motorcycle_id: 9610002,
+        motorcycle_id: un23IdFromMotorcycleId(this.props.lead.motorcycle.id),
         ...humps.decamelizeKeys(this.state.insuranceChoice),
       },
     })
