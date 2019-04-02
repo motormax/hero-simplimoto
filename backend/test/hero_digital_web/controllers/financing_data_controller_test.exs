@@ -46,7 +46,8 @@ defmodule HeroDigitalWeb.FinancingDataControllerTest do
         "monthly_amount" => 120.5,
         "payment_method_id" => "some payment_method_id",
         "payment_method_logo" => "some payment_method_logo",
-        "payment_method_name" => "some payment_method_name"}
+        "payment_method_name" => "some payment_method_name",
+        "cash_amount" => "0"}
     end
 
     test "renders errors when data is invalid", %{conn: conn, lead: lead} do
@@ -74,7 +75,8 @@ defmodule HeroDigitalWeb.FinancingDataControllerTest do
         "monthly_amount" => 456.7,
         "payment_method_id" => "some updated payment_method_id",
         "payment_method_logo" => "some updated payment_method_logo",
-        "payment_method_name" => "some updated payment_method_name"}
+        "payment_method_name" => "some updated payment_method_name",
+        "cash_amount" => "0" }
     end
 
     test "renders errors when data is invalid", %{conn: conn, lead: lead, financing_data: financing_data} do

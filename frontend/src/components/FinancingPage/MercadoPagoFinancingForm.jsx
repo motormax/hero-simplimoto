@@ -38,6 +38,7 @@ class MercadoPagoFinancingForm extends Component {
         price: propTypes.string,
       }),
     }),
+    cashAmount: propTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -46,7 +47,7 @@ class MercadoPagoFinancingForm extends Component {
       paymentMethodOptions: [],
       issuerOptions: [],
       installmentOptions: [],
-      financingForm: Object.assign({}, props.financingForm, { provider: 'MERCADOPAGO' }),
+      financingForm: Object.assign({}, props.financingForm, { cashAmount: props.cashAmount, provider: 'MERCADOPAGO' }),
       errors: {
         paymentMethodId: false,
       },
@@ -73,12 +74,16 @@ class MercadoPagoFinancingForm extends Component {
         getInstallments(
           this.state.financingForm.paymentMethodId,
           this.state.financingForm.issuerId,
-          this.calculator().totalAmount(),
+          this.effectiveAmount(),
           this.fetchInstallmentsCallback,
         );
       }
     });
   };
+
+  effectiveAmount() {
+    return this.calculator().totalAmount() - this.props.cashAmount;
+  }
 
   handleSdkError = (callbackName, status, response) => {
     console.log(`Failed ${callbackName}`); // eslint-disable-line no-console
@@ -117,7 +122,7 @@ class MercadoPagoFinancingForm extends Component {
         getInstallments(
           this.state.financingForm.paymentMethodId,
           this.state.financingForm.issuerId,
-          this.calculator().totalAmount(),
+          this.effectiveAmount(),
           this.fetchInstallmentsCallback,
         );
       }
@@ -196,7 +201,7 @@ class MercadoPagoFinancingForm extends Component {
     window.Mercadopago.getInstallments(
       {
         issuer_id: value,
-        amount: this.calculator().totalAmount(),
+        amount: this.effectiveAmount(),
         payment_method_id: this.state.financingForm.paymentMethodId,
       },
       this.fetchInstallmentsCallback,

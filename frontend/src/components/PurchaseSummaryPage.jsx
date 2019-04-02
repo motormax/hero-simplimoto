@@ -50,6 +50,7 @@ class PurchaseSummary extends Component {
     }),
     financingForm: propTypes.shape({
       provider: propTypes.string.isRequired,
+      cashAmount: propTypes.number.isRequired,
     }),
   };
 
@@ -60,7 +61,7 @@ class PurchaseSummary extends Component {
       return 'Retiro en concesionario';
     }
     return 'Llegando al domicilio';
-  }
+  };
 
   deliveryFree = () => {
     const { delivery } = this.props;
@@ -69,7 +70,7 @@ class PurchaseSummary extends Component {
       return '';
     }
     return '¡gratis!';
-  }
+  };
 
   addressText = () => {
     const { delivery } = this.props;
@@ -243,6 +244,25 @@ class PurchaseSummary extends Component {
             {insuranceSection}
           </Segment>
 
+          {
+            this.props.financingForm.cashAmount > 0 &&
+            <Segment attached>
+              <Grid verticalAlign="middle">
+                <Grid.Column width={2}>
+                  <Icon className="txt-dark-gray" size="large" name="arrow right" />
+                </Grid.Column>
+                <Grid.Column width={9}>
+                  <h3 className="fw-bold fs-big">Pago en efectivo</h3>
+                </Grid.Column>
+                <Grid.Column width={5}>
+                  <span className="fw-bold fs-large fs-medium txt-dark-gray">
+                    <span className="fw-normal">$ </span>
+                    {moneyFormatter.format(this.props.financingForm.cashAmount)}
+                  </span>
+                </Grid.Column>
+              </Grid>
+            </Segment>
+          }
           {
             (this.props.financingForm.provider === 'MERCADOPAGO') ?
               <CreditCardPayment /> :
