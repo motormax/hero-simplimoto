@@ -62,11 +62,11 @@ config :hero_digital, HeroDigital.CredicuotasClient,
   default_hash: "hashdeprueba",
   http_adapter: HTTPoison
 
-config :hero_digital, HeroDigital.Un23SeguroClient,
-  base_url: "https://virtserver.swaggerhub.com/123seguro/123MotosB2B/1.0.0",
-  http_adapter: HTTPoison
-
 #config :hero_digital, HeroDigital.Un23SeguroClient,
-#  base_url: "https://apigw-ci.123seguro.com/api/ar/motos",
-#  authorization: "1i8ysDzbc8I3e2RwoyQvoO:48phHGGIcBJ3ucY7gzjjUy",
+#  base_url: "https://virtserver.swaggerhub.com/123seguro/123MotosB2B/1.0.0",
 #  http_adapter: HTTPoison
+
+config :hero_digital, HeroDigital.Un23SeguroClient,
+  base_url: "https://apigw-ci.123seguro.com/api/ar/motos",
+  authorization: "1i8ysDzbc8I3e2RwoyQvoO:48phHGGIcBJ3ucY7gzjjUy",
+  http_adapter: HTTPoison

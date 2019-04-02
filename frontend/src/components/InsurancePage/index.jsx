@@ -65,13 +65,20 @@ InsuranceOption.propTypes = {
   issuerOptions: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
+const optionsFromIssuers = (issuers) => {
+  const map = new Map();
+
+  issuers.forEach((issuer) => {
+    issuer.cotizaciones.forEach((cot) => {
+      map.set(cot.cobertura_id, { id: cot.cobertura_id, title: cot.cobertura });
+    });
+  });
+
+  return Array.from(map.values());
+};
+
 const InsurancesGrid = ({ options: issuers }) => {
-  // XXX: Let's assume there's five of them
-  const knownOptions = [
-    { id: 339, title: 'Responsabilidad Civil' },
-    { id: 340, title: 'Robo Clasico' },
-    { id: 341, title: 'Robo Premium' },
-  ];
+  const knownOptions = optionsFromIssuers(issuers);
 
   const images = {
     mapfre: 'https://www.123seguro.com/images/front/table/mapfre.png',
@@ -143,7 +150,7 @@ const InsurancesGrid = ({ options: issuers }) => {
                     (<InsuranceOption
                       key={option.title}
                       option={option}
-                      issuerOptions={issuer.coberturas}
+                      issuerOptions={issuer.cotizaciones}
                     />))
                 }
               </tr>
@@ -202,13 +209,14 @@ class InsurancePage extends Component {
     axios.get(`api/leads/${this.props.lead.id}/insurance_quotes_v2`, {
       params: {
         // motorcycle_id: this.props.lead.motorcycle.id,
-        motorcycle_id: 2443, // TODO: Apparently a Hunk 150 is a 2443, how should we know this?
+        motorcycle_id: 9610002,
         ...humps.decamelizeKeys(this.state.insuranceChoice),
       },
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
         const options = Object.keys(response.data.data)
+          .filter(insuranceName => response.data.data[insuranceName].status === 200)
           .map(insuranceName => ({ name: insuranceName, ...response.data.data[insuranceName] }));
         this.setState({
           // insuranceQuotes: response.data.data,
