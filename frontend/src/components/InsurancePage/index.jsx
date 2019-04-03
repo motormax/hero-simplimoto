@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import humps from 'humps';
 import { push } from 'react-router-redux';
-import { Button, Form, Card, Divider, Image, Segment, Icon, Popup, Message } from 'semantic-ui-react';
+import { Button, Card, Divider, Form, Icon, Image, Message, Popup, Segment } from 'semantic-ui-react';
 import MaskedInput from 'react-text-mask';
 import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
-import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
+import { HERO_INSURANCE, PERSONAL_INSURANCE, PROVINCE_BSAS, PROVINCE_CABA } from './constants';
+import InsurancesGrid from './InsurancesGrid';
 
 const optInOrOutOptions = [
   {
@@ -23,147 +24,6 @@ const optInOrOutOptions = [
     value: PERSONAL_INSURANCE,
   },
 ];
-
-const InsuranceOption = ({ option, issuerOptions }) => {
-  const currentOption = issuerOptions.find(opt => opt.cobertura_id === option.id);
-  if (currentOption) {
-    return (
-      <td
-        style={
-          {
-            border: '1px solid #ddd',
-            width: '20%',
-            fontSize: '19px',
-            fontWeight: 500,
-            verticalAlign: 'middle',
-          }
-        }
-      >
-        ${currentOption.premio}
-      </td>
-    );
-  }
-  return (
-    <td
-      style={
-        {
-          border: '1px solid #ddd',
-          width: '20%',
-          fontSize: '19px',
-          fontWeight: 500,
-          verticalAlign: 'middle',
-        }
-      }
-    >
-      X
-    </td>
-  );
-};
-
-InsuranceOption.propTypes = {
-  option: propTypes.arrayOf(propTypes.object).isRequired,
-  issuerOptions: propTypes.arrayOf(propTypes.object).isRequired,
-};
-
-const optionsFromIssuers = (issuers) => {
-  const map = new Map();
-
-  issuers.forEach((issuer) => {
-    issuer.cotizaciones.forEach((cot) => {
-      map.set(cot.cobertura_id, { id: cot.cobertura_id, title: cot.cobertura });
-    });
-  });
-
-  return Array.from(map.values());
-};
-
-const InsurancesGrid = ({ options: issuers }) => {
-  const knownOptions = optionsFromIssuers(issuers);
-
-  const images = {
-    mapfre: 'https://www.123seguro.com/images/front/table/mapfre.png',
-    libra: 'https://4.bp.blogspot.com/-EbhruQjEDLo/WnRQeldOIaI/AAAAAAAABiE/zDmWBehmIOY7NzyL_kd25IgUHdYTqYSbQCLcBGAs/s400/libra.png',
-    atm: 'https://www.atmseguros.com.ar/newsitedev/wp-content/uploads/2018/06/logo-atm-.png',
-  };
-
-  return (
-    <table
-      style={
-        {
-          border: '1px solid #ddd',
-          borderCollapse: 'collapse',
-          borderSpacing: 0,
-          width: '100%',
-          verticalAlign: 'middle',
-          lineHeight: 1,
-          textAlign: 'center',
-        }
-      }
-      cellPadding={0}
-      cellSpacing={0}
-    >
-      <thead>
-        <tr style={{ height: 60 }}>
-          <th
-            style={
-              {
-                background: '#f4f4f4',
-                verticalAlign: 'middle',
-                borderTop: '1px solid #ddd',
-              }
-            }
-          />
-          {knownOptions.map(option =>
-            (
-              <td
-                key={option.title}
-                style={
-                  {
-                    border: '1px solid #ddd',
-                    width: '20%',
-                    // fontSize: "19px",
-                    // fontWeight: 500,
-                    verticalAlign: 'middle',
-                    color: '#333',
-                    fontWeight: '400',
-                    fontSize: '13px',
-                    minHeight: '70px',
-                    padding: '0 5px',
-                  }
-                }
-              >
-                {option.title}
-              </td>
-            ))}
-        </tr>
-      </thead>
-      <tbody>
-        {
-          issuers.map(issuer =>
-            (
-              <tr key={issuer.name} style={{ height: 60 }}>
-                <th style={{ border: '1px solid #ddd', height: 60, backgroundColor: '#f6f6f6' }}>
-                  <img src={images[issuer.name]} alt={issuer.name} style={{ height: 60 }} />
-                </th>
-                {
-                  knownOptions.map(option =>
-                    (<InsuranceOption
-                      key={option.title}
-                      option={option}
-                      issuerOptions={issuer.cotizaciones}
-                    />))
-                }
-              </tr>
-            ))
-        }
-      </tbody>
-    </table>
-  );
-};
-
-InsurancesGrid.propTypes = {
-  options: propTypes.arrayOf(propTypes.object).isRequired,
-};
 
 function un23IdFromMotorcycleId(motorcycleId) {
   return ({
@@ -196,7 +56,6 @@ class InsurancePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // insuranceQuotes: [],
       options: [],
       optInOrOut: props.insuranceChoice.optInOrOut || HERO_INSURANCE,
       insuranceChoice: {
@@ -210,11 +69,16 @@ class InsurancePage extends Component {
         queryPostalCode: false,
         queryAge: false,
       },
+      loadingQuotes: false,
+      selected: undefined,
     };
   }
 
+  onOptionSelected = (issuer, option) => this.setState({ selected: { issuer, option } });
+
   getQuote = (event) => {
     event.preventDefault();
+    this.setState({ loadingQuotes: true });
     axios.get(`api/leads/${this.props.lead.id}/insurance_quotes_v2`, {
       params: {
         motorcycle_id: un23IdFromMotorcycleId(this.props.lead.motorcycle.id),
@@ -227,7 +91,6 @@ class InsurancePage extends Component {
           .filter(insuranceName => response.data.data[insuranceName].status === 200)
           .map(insuranceName => ({ name: insuranceName, ...response.data.data[insuranceName] }));
         this.setState({
-          // insuranceQuotes: response.data.data,
           options,
           hasSearchedHeroInsurance: true,
         });
@@ -235,8 +98,8 @@ class InsurancePage extends Component {
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
       })
-      .then(() => {
-        // always executed
+      .finally(() => {
+        this.setState({ loadingQuotes: false });
       });
   };
 
@@ -317,12 +180,39 @@ class InsurancePage extends Component {
     let quotesList;
     if (this.state.hasSearchedHeroInsurance && this.state.options.length > 0) {
       quotesList = (
-        <div className="margin-bottom">
-          <Divider />
-          <Card.Group centered>
-            <InsurancesGrid options={this.state.options} />
-          </Card.Group>
-        </div>
+        <React.Fragment>
+          <div className="margin-bottom">
+            <Divider />
+            <Card.Group centered>
+              <InsurancesGrid
+                options={this.state.options}
+                selected={this.state.selected}
+                onOptionSelected={this.onOptionSelected}
+              />
+            </Card.Group>
+          </div>
+          <div className="txt-center">
+            <Button
+              size="large"
+              primary
+              type="submit"
+              disabled={!this.state.selected}
+            >
+              Confirmar
+            </Button>
+            <Button
+              size="medium"
+              secondary
+              className="btn-outline"
+              onClick={() => {
+                this.props.backToDashboard();
+              }}
+            >
+              <Icon name="chevron left" />
+              Volver
+            </Button>
+          </div>
+        </React.Fragment>
       );
     } else if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length === 0) {
       quotesList = (
@@ -387,20 +277,24 @@ class InsurancePage extends Component {
                 placeholder="Edad"
               />
             </Form.Group>
-            <div className="txt-center">
-              <Button size="large" primary type="submit" >Cotizar</Button>
-              <Button
-                size="medium"
-                secondary
-                className="btn-outline"
-                onClick={() => {
-                  this.props.backToDashboard();
-                }}
-              >
-                <Icon name="chevron left" />
-                Volver
-              </Button>
-            </div>
+            {
+              !this.state.loadingQuotes && !this.state.hasSearchedHeroInsurance &&
+              <div className="txt-center">
+                <Button size="large" primary type="submit" >Cotizar</Button>
+                <Button
+                  size="medium"
+                  secondary
+                  className="btn-outline"
+                  onClick={() => {
+                    this.props.backToDashboard();
+                  }}
+                >
+                  <Icon name="chevron left" />
+                  Volver
+                </Button>
+              </div>
+            }
+            {this.state.loadingQuotes && 'Cargando...'}
           </Form>
           {quotesList}
           <Divider />
