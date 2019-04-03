@@ -142,6 +142,7 @@ class InsurancePage extends Component {
     );
   }
 
+  // TODO: Delete this one the feature is implemented
   cardInsuranceQuote(quote) {
     return (
       <Card key={quote.policyId}>
@@ -197,6 +198,15 @@ class InsurancePage extends Component {
               primary
               type="submit"
               disabled={!this.state.selected}
+              onClick={() =>
+                this.props.selectInsurance(
+                  this.state.optInOrOut,
+                  this.state.insuranceChoice,
+                  this.props.lead,
+                  this.state.selected.issuer,
+                  this.state.selected.option,
+                )
+              }
             >
               Confirmar
             </Button>
@@ -381,18 +391,18 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, optInOrOut, insuranceChoice, lead) => {
+  selectInsurance: async (optInOrOut, insuranceChoice, lead, issuer, option) => {
     const body = {
-      insurance_choice: {
+      insurance_choice: { // TODO: Change remote endpoint or find these missing fields
         opt_in_or_out: optInOrOut,
         motorcycle_id: lead.motorcycle.id,
-        insurance_broker_id: quote.brokerId,
-        insurance_policy_id: quote.policyId,
-        quote_price: quote.price,
-        quote_broker_name: quote.brokerName,
-        quote_broker_logo_url: quote.brokerLogo,
-        quote_policy: quote.policy,
-        quote_more_info: quote.moreInfo,
+        insurance_broker_id: 1,
+        insurance_policy_id: 1,
+        quote_price: parseFloat(option.premio.replace(',', '.')),
+        quote_broker_name: issuer.name,
+        quote_broker_logo_url: 'https://www.123seguro.com/images/front/cotizar-auto/aseguradoras/orbis-seguros-de-autos.svg',
+        quote_policy: 'aaa',
+        quote_more_info: 'aaaa',
         query_postal_code: insuranceChoice.queryPostalCode,
         query_age: insuranceChoice.queryAge,
         query_province: insuranceChoice.queryProvince,

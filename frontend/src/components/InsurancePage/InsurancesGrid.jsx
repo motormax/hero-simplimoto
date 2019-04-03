@@ -38,7 +38,7 @@ const InsuranceOption = ({
             color: selected && 'white',
           }
         }
-        onClick={onClick}
+        onClick={() => onClick(currentOption)}
       >
         ${currentOption.premio}
       </td>
@@ -148,13 +148,15 @@ class InsurancesGrid extends Component {
                       const selected =
                         this.props.selected
                         && this.props.selected.issuer.name === issuer.name
-                        && this.props.selected.option.title === option.title;
+                        && this.props.selected.option.cobertura === option.title;
 
                       return (<InsuranceOption
                         key={option.title}
                         option={option}
                         issuerOptions={issuer.cotizaciones}
-                        onClick={() => this.props.onOptionSelected(issuer, option)}
+                        onClick={currentOption =>
+                          this.props.onOptionSelected(issuer, currentOption)
+                        }
                         selected={selected}
                       />);
                     })
