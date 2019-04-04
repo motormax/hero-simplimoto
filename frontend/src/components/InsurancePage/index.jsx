@@ -9,7 +9,7 @@ import { push } from 'react-router-redux';
 import { Button, Card, Divider, Form, Icon, Image, Message, Popup, Segment } from 'semantic-ui-react';
 import MaskedInput from 'react-text-mask';
 import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
-import { HERO_INSURANCE, PERSONAL_INSURANCE, PROVINCE_BSAS, PROVINCE_CABA } from './constants';
+import { HERO_INSURANCE, PERSONAL_INSURANCE, PROVINCE_BSAS, PROVINCE_CABA, ISSUER_IMAGE } from './constants';
 import InsurancesGrid from './InsurancesGrid';
 
 const optInOrOutOptions = [
@@ -24,6 +24,8 @@ const optInOrOutOptions = [
     value: PERSONAL_INSURANCE,
   },
 ];
+
+const capitalize = string => `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
 
 function un23IdFromMotorcycleId(motorcycleId) {
   return ({
@@ -304,7 +306,7 @@ class InsurancePage extends Component {
                 </Button>
               </div>
             }
-            {this.state.loadingQuotes && 'Cargando...'}
+            {this.state.loadingQuotes && <div className="txt-center">Cargando...</div>}
           </Form>
           {quotesList}
           <Divider />
@@ -399,10 +401,10 @@ const mapDispatchToProps = dispatch => ({
         insurance_broker_id: 1,
         insurance_policy_id: 1,
         quote_price: parseFloat(option.premio.replace(',', '.')),
-        quote_broker_name: issuer.name,
-        quote_broker_logo_url: 'https://www.123seguro.com/images/front/cotizar-auto/aseguradoras/orbis-seguros-de-autos.svg',
-        quote_policy: 'aaa',
-        quote_more_info: 'aaaa',
+        quote_broker_name: capitalize(issuer.name),
+        quote_broker_logo_url: ISSUER_IMAGE[issuer.name],
+        quote_policy: option.cobertura,
+        quote_more_info: option.cobertura,
         query_postal_code: insuranceChoice.queryPostalCode,
         query_age: insuranceChoice.queryAge,
         query_province: insuranceChoice.queryProvince,

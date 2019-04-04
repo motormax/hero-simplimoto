@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import { ISSUER_IMAGE } from './constants';
 
 const optionsFromIssuers = (issuers) => {
   const map = new Map();
@@ -73,13 +74,6 @@ class InsurancesGrid extends Component {
     const { options: issuers } = this.props;
     const knownOptions = optionsFromIssuers(issuers);
 
-    const images = {
-      mapfre: 'https://www.123seguro.com/images/front/table/mapfre.png',
-      libra: 'https://4.bp.blogspot.com/-EbhruQjEDLo/WnRQeldOIaI/AAAAAAAABiE/zDmWBehmIOY7NzyL_kd25IgUHdYTqYSbQCLcBGAs/s400/libra.png',
-      atm: 'https://www.atmseguros.com.ar/newsitedev/wp-content/uploads/2018/06/logo-atm-.png',
-      orbis: 'https://www.123seguro.com/images/front/cotizar-auto/aseguradoras/orbis-seguros-de-autos.svg',
-    };
-
     return (
       <table
         style={
@@ -141,7 +135,7 @@ class InsurancesGrid extends Component {
                       backgroundColor: '#f6f6f6',
                     }}
                   >
-                    <img src={images[issuer.name]} alt={issuer.name} style={{ height: 60 }} />
+                    <img src={ISSUER_IMAGE[issuer.name]} alt={issuer.name} style={{ height: 60 }} />
                   </th>
                   {
                     knownOptions.map((option) => {
