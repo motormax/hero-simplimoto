@@ -98,12 +98,12 @@ defmodule HeroDigital.ExAdmin.Identity.Lead do
                   row "Tipo", fn(_i) -> text "Me asegura hero" end
                   row "Aseguradora", fn(i) ->
                     div do
-                      text i.insurance_broker.name
-                      img(src: i.insurance_broker.logo_url, height: "50px")
+                      text i.quote_broker_name
+                      img(src: i.quote_broker_logo_url, height: "50px")
                     end
                   end
-                  row "Seguro", fn(i) -> text i.insurance_policy.name end
-                  row "Precio", fn(i) -> text i.insurance_policy.price end
+                  row "Seguro", fn(i) -> text i.quote_policy end
+                  row "Precio", fn(i) -> text i.quote_price end
                   row :query_province, label: "Provincia"
                   row :query_age, label: "Edad"
                   row :query_postal_code, label: "Código Postal"

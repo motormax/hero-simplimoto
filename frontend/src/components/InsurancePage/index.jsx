@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import humps from 'humps';
 import { push } from 'react-router-redux';
-import { Button, Form, Card, Divider, Image, Segment, Icon, Popup, Message } from 'semantic-ui-react';
+import { Button, Card, Divider, Form, Icon, Image, Message, Popup, Segment } from 'semantic-ui-react';
 import MaskedInput from 'react-text-mask';
 import { insuranceChoiceFetched } from '../../actions/insuranceChoices';
-import { PROVINCE_CABA, PROVINCE_BSAS, PERSONAL_INSURANCE, HERO_INSURANCE } from './constants';
+import { HERO_INSURANCE, PERSONAL_INSURANCE, PROVINCE_BSAS, PROVINCE_CABA, ISSUER_IMAGE } from './constants';
+import InsurancesGrid from './InsurancesGrid';
 
 const optInOrOutOptions = [
   {
@@ -23,6 +24,17 @@ const optInOrOutOptions = [
     value: PERSONAL_INSURANCE,
   },
 ];
+
+const capitalize = string => `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+
+function un23IdFromMotorcycleId(motorcycleId) {
+  return ({
+    1: 9610002, // Hunk
+    2: 9610003, // Ignitor
+    3: 9610001, // Hunk Sport
+    4: 9610004, // Dash
+  })[motorcycleId];
+}
 
 class InsurancePage extends Component {
   static propTypes = {
@@ -46,7 +58,6 @@ class InsurancePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // insuranceQuotes: [],
       options: [],
       optInOrOut: props.insuranceChoice.optInOrOut || HERO_INSURANCE,
       insuranceChoice: {
@@ -60,24 +71,28 @@ class InsurancePage extends Component {
         queryPostalCode: false,
         queryAge: false,
       },
+      loadingQuotes: false,
+      selected: undefined,
     };
   }
 
+  onOptionSelected = (issuer, option) => this.setState({ selected: { issuer, option } });
+
   getQuote = (event) => {
     event.preventDefault();
+    this.setState({ loadingQuotes: true });
     axios.get(`api/leads/${this.props.lead.id}/insurance_quotes_v2`, {
       params: {
-        // motorcycle_id: this.props.lead.motorcycle.id,
-        motorcycle_id: 2443, // TODO: Apparently a Hunk 150 is a 2443, how should we know this?
+        motorcycle_id: un23IdFromMotorcycleId(this.props.lead.motorcycle.id),
         ...humps.decamelizeKeys(this.state.insuranceChoice),
       },
     })
       .then((response) => {
         console.log(response.data.data); // eslint-disable-line no-console
         const options = Object.keys(response.data.data)
+          .filter(insuranceName => response.data.data[insuranceName].status === 200)
           .map(insuranceName => ({ name: insuranceName, ...response.data.data[insuranceName] }));
         this.setState({
-          // insuranceQuotes: response.data.data,
           options,
           hasSearchedHeroInsurance: true,
         });
@@ -85,8 +100,8 @@ class InsurancePage extends Component {
       .catch((error) => {
         console.log(error); // eslint-disable-line no-console
       })
-      .then(() => {
-        // always executed
+      .finally(() => {
+        this.setState({ loadingQuotes: false });
       });
   };
 
@@ -95,14 +110,14 @@ class InsurancePage extends Component {
     const newData = this.state.insuranceChoice;
     newData[inputName] = value;
     this.setState({ insuranceChoice: newData });
-  }
+  };
 
   handleDropdownOptInOrOutChange = (e, selectObj) => {
     this.setState({
       optInOrOut: selectObj.value,
       hasSearchedHeroInsurance: false,
     });
-  }
+  };
 
   handleHeroInsuranceDataChange = (event) => {
     const { name: inputName, value } = event.target;
@@ -116,7 +131,7 @@ class InsurancePage extends Component {
   );
 
   dangerousHTMLQuoteDetails = moreInfo =>
-    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />
+    <div dangerouslySetInnerHTML={{ __html: moreInfo }} />;
 
   popUpMoreInfo(quote) {
     return (
@@ -129,6 +144,7 @@ class InsurancePage extends Component {
     );
   }
 
+  // TODO: Delete this one the feature is implemented
   cardInsuranceQuote(quote) {
     return (
       <Card key={quote.policyId}>
@@ -166,20 +182,49 @@ class InsurancePage extends Component {
 
     let quotesList;
     if (this.state.hasSearchedHeroInsurance && this.state.options.length > 0) {
-      // const quoteItems =
-      //       this.state.insuranceQuotes.map(quote => (this.cardInsuranceQuote(quote)));
-      // quotesList = (
-      //   <div className="margin-bottom">
-      //     <Divider />
-      //     <Card.Group centered>
-      //       {quoteItems}
-      //     </Card.Group>
-      //   </div>
-      // );
       quotesList = (
-        <ol>
-          {this.state.options.map(opt => <li>{opt.name}</li>)}
-        </ol>
+        <React.Fragment>
+          <div className="margin-bottom">
+            <Divider />
+            <Card.Group centered>
+              <InsurancesGrid
+                options={this.state.options}
+                selected={this.state.selected}
+                onOptionSelected={this.onOptionSelected}
+              />
+            </Card.Group>
+          </div>
+          <div className="txt-center">
+            <Button
+              size="large"
+              primary
+              type="submit"
+              disabled={!this.state.selected}
+              onClick={() =>
+                this.props.selectInsurance(
+                  this.state.optInOrOut,
+                  this.state.insuranceChoice,
+                  this.props.lead,
+                  this.state.selected.issuer,
+                  this.state.selected.option,
+                )
+              }
+            >
+              Confirmar
+            </Button>
+            <Button
+              size="medium"
+              secondary
+              className="btn-outline"
+              onClick={() => {
+                this.props.backToDashboard();
+              }}
+            >
+              <Icon name="chevron left" />
+              Volver
+            </Button>
+          </div>
+        </React.Fragment>
       );
     } else if (this.state.hasSearchedHeroInsurance && this.state.insuranceQuotes.length === 0) {
       quotesList = (
@@ -244,20 +289,24 @@ class InsurancePage extends Component {
                 placeholder="Edad"
               />
             </Form.Group>
-            <div className="txt-center">
-              <Button size="large" primary type="submit" >Cotizar</Button>
-              <Button
-                size="medium"
-                secondary
-                className="btn-outline"
-                onClick={() => {
-                  this.props.backToDashboard();
-                }}
-              >
-                <Icon name="chevron left" />
-                Volver
-              </Button>
-            </div>
+            {
+              !this.state.loadingQuotes && !this.state.hasSearchedHeroInsurance &&
+              <div className="txt-center">
+                <Button size="large" primary type="submit" >Cotizar</Button>
+                <Button
+                  size="medium"
+                  secondary
+                  className="btn-outline"
+                  onClick={() => {
+                    this.props.backToDashboard();
+                  }}
+                >
+                  <Icon name="chevron left" />
+                  Volver
+                </Button>
+              </div>
+            }
+            {this.state.loadingQuotes && <div className="txt-center">Cargando...</div>}
           </Form>
           {quotesList}
           <Divider />
@@ -344,18 +393,18 @@ const mapDispatchToProps = dispatch => ({
         console.log(error); // eslint-disable-line no-console
       });
   },
-  selectInsurance: async (quote, optInOrOut, insuranceChoice, lead) => {
+  selectInsurance: async (optInOrOut, insuranceChoice, lead, issuer, option) => {
     const body = {
-      insurance_choice: {
+      insurance_choice: { // TODO: Change remote endpoint or find these missing fields
         opt_in_or_out: optInOrOut,
         motorcycle_id: lead.motorcycle.id,
-        insurance_broker_id: quote.brokerId,
-        insurance_policy_id: quote.policyId,
-        quote_price: quote.price,
-        quote_broker_name: quote.brokerName,
-        quote_broker_logo_url: quote.brokerLogo,
-        quote_policy: quote.policy,
-        quote_more_info: quote.moreInfo,
+        insurance_broker_id: 1,
+        insurance_policy_id: 1,
+        quote_price: parseFloat(option.premio.replace(',', '.')),
+        quote_broker_name: capitalize(issuer.name),
+        quote_broker_logo_url: ISSUER_IMAGE[issuer.name],
+        quote_policy: option.cobertura,
+        quote_more_info: option.cobertura,
         query_postal_code: insuranceChoice.queryPostalCode,
         query_age: insuranceChoice.queryAge,
         query_province: insuranceChoice.queryProvince,
