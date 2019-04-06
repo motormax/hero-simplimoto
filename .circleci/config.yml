@@ -41,12 +41,6 @@ jobs:
           command: yarn lint
           working_directory: ~/app/frontend/
 
-      - run:
-          name: run tests
-          command: yarn test
-          working_directory: ~/app/frontend/
-
-
   backend:
     docker:
       - image: circleci/elixir:1.5
