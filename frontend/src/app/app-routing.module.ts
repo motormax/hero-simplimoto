@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './home/home.component';
-import {DiscoverComponent} from './discover/discover.component';
-import {CustomizeComponent} from './customize/customize.component';
-import {FinanceComponent} from './finance/finance.component';
-import {UsedComponent} from './used/used.component';
-import {InsuranceComponent} from './insurance/insurance.component';
-import {PatenteComponent} from './patente/patente.component';
-import {AccessoriesComponent} from './accessories/accessories.component';
-import {DeliveryComponent} from './delivery/delivery.component';
-import {CheckoutComponent} from './checkout/checkout.component';
+import {HomeComponent} from './pages/home/home.component';
+import {DiscoverComponent} from './pages/discover/discover.component';
+import {CustomizeComponent} from './pages/customize/customize.component';
+import {FinanceComponent} from './pages/finance/finance.component';
+import {UsedComponent} from './pages/used/used.component';
+import {InsuranceComponent} from './pages/insurance/insurance.component';
+import {PatenteComponent} from './pages/patente/patente.component';
+import {AccessoriesComponent} from './pages/accessories/accessories.component';
+import {DeliveryComponent} from './pages/delivery/delivery.component';
+import {CheckoutComponent} from './pages/checkout/checkout.component';
 
 const routes: Routes = [
   {
