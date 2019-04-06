@@ -11,6 +11,8 @@ import { UsedComponent } from './used/used.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { PatenteComponent } from './patente/patente.component';
 import { AccessoriesComponent } from './accessories/accessories.component';
+import { DeliveryComponent } from './delivery/delivery.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { AccessoriesComponent } from './accessories/accessories.component';
     UsedComponent,
     InsuranceComponent,
     PatenteComponent,
-    AccessoriesComponent
+    AccessoriesComponent,
+    DeliveryComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
