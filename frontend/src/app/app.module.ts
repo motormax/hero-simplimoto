@@ -10,6 +10,7 @@ import { FinanceComponent } from './finance/finance.component';
 import { UsedComponent } from './used/used.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { PatenteComponent } from './patente/patente.component';
+import { AccessoriesComponent } from './accessories/accessories.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PatenteComponent } from './patente/patente.component';
     FinanceComponent,
     UsedComponent,
     InsuranceComponent,
-    PatenteComponent
+    PatenteComponent,
+    AccessoriesComponent
   ],
   imports: [
     BrowserModule,

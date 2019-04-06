@@ -7,6 +7,7 @@ import {FinanceComponent} from './finance/finance.component';
 import {UsedComponent} from './used/used.component';
 import {InsuranceComponent} from './insurance/insurance.component';
 import {PatenteComponent} from './patente/patente.component';
+import {AccessoriesComponent} from './accessories/accessories.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'seguro',
     component: InsuranceComponent
+  },
+  {
+    path: 'accesorios',
+    component: AccessoriesComponent
   },
   {
     path: 'patente',
