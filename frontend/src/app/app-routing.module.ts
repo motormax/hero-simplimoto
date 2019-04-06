@@ -1,62 +1,41 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {HomeComponent} from "./home/home.component";
-import {DiscoverComponent} from "./discover/discover.component";
-import {CustomizeComponent} from "./customize/customize.component";
-import {FinanceComponent} from "./finance/finance.component";
-import {UsedComponent} from "./used/used.component";
-import {InsuranceComponent} from "./insurance/insurance.component";
-import {PatenteComponent} from "./patente/patente.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './home/home.component';
+import {DiscoverComponent} from './discover/discover.component';
+import {CustomizeComponent} from './customize/customize.component';
+import {FinanceComponent} from './finance/finance.component';
+import {UsedComponent} from './used/used.component';
+import {InsuranceComponent} from './insurance/insurance.component';
+import {PatenteComponent} from './patente/patente.component';
 
 const routes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent,
-    data: {
-      title: 'Holis'
-    }
+    path: '',
+    component: HomeComponent
   },
   {
     path: 'descubri',
-    component: DiscoverComponent,
-    data: {
-      title: 'Holis'
-    }
+    component: DiscoverComponent
   },
   {
     path: 'personaliza',
-    component: CustomizeComponent,
-    data: {
-      title: 'Holis'
-    }
+    component: CustomizeComponent
   },
   {
     path: 'financia',
-    component: FinanceComponent,
-    data: {
-      title: 'Holis'
-    }
+    component: FinanceComponent
   },
   {
     path: 'vende',
-    component: UsedComponent,
-    data: {
-      title: 'Holis'
-    }
+    component: UsedComponent
   },
   {
     path: 'seguro',
-    component: InsuranceComponent,
-    data: {
-      title: 'Holis'
-    }
+    component: InsuranceComponent
   },
   {
     path: 'patente',
-    component: PatenteComponent,
-    data: {
-      title: 'Holis'
-    }
+    component: PatenteComponent
   }
 ];
 
@@ -64,4 +43,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
