@@ -33,45 +33,15 @@
 
     <div id="carouselModels" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item px-2 active text-center">
+        <div *ngFor="let key of keys; let i = index" class="carousel-item px-2 text-center {{i === 0 ? 'active' : ''}}">
           <div class="card col-8 offset-2 shadow-lg py-5 mb-3">
             <div class="card-body ">
-              <img class="img-fluid" src="assets/img/Hunk-Sports-Argentina-.png" alt="Hunk Sports">
+              <img class="img-fluid" src="{{photos[key]}}" alt="{{key}}">
             </div>
           </div>
-          <h3>HUNK SPORTS</h3>
+          <h3>{{key}}</h3>
 
-          <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(3)">Reservar</button>
-        </div>
-        <div class="carousel-item  px-2 text-center">
-          <div class="card col-8 offset-2 shadow-lg py-5 mb-3 ">
-            <div class="card-body ">
-              <img class="img-fluid" src="assets/img/Hunk-Clasica-150-Argentina.png" alt="Hunk 150">
-            </div>
-          </div>
-          <h3>HUNK 150</h3>
-
-          <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(1)">Reservar</button>
-        </div>
-        <div class="carousel-item  px-2 text-center">
-          <div class="card col-8 offset-2 shadow-lg py-5 mb-3 ">
-            <div class="card-body  ">
-              <img class="img-fluid" src="assets/img/hero-ignitor-125.png" alt="Ignitor">
-            </div>
-          </div>
-          <h3>IGNITOR</h3>
-
-          <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(2)">Reservar</button>
-        </div>
-        <div class="carousel-item  px-2 text-center">
-          <div class="card col-8 offset-2 shadow-lg py-5 mb-3 ">
-            <div class="card-body ">
-              <img class="img-fluid" src="assets/img/hero-dash-110-.png" alt="Dash">
-            </div>
-          </div>
-          <h3>DASH</h3>
-
-          <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(4)">Reservar</button>
+          <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(ids[key])">Reservar</button>
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselModels" role="button" data-slide="prev">
@@ -91,68 +61,17 @@
 
   <!--Model Deck for all devices except Mobile-->
   <div class="card-deck d-none d-sm-inline-flex">
-    <div class="card ">
+    <div class="card " *ngFor="let key of keys">
       <div class="card-body shadow-lg py-5">
-        <img class="img-fluid" src="assets/img/Hunk-Sports-Argentina-.png" alt="Hunk Sports">
-      </div>
-
-
-    </div>
-
-    <div class="card">
-      <div class="card-body shadow-lg py-5">
-        <img class="img-fluid" src="assets/img/Hunk-Clasica-150-Argentina.png" alt="Hunk 150">
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body shadow-lg py-5">
-        <img class="img-fluid" src="assets/img/hero-ignitor-125.png" alt="Ignitor">
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body shadow-lg py-5">
-        <img class="img-fluid" src="assets/img/hero-dash-110-.png" alt="Dash">
+        <img class="img-fluid" src="{{photos[key]}}" alt="{{key}}">
       </div>
     </div>
   </div>
 
   <div class="row mt-4 d-none d-sm-flex">
-
-    <div class="col-3 text-center">
-
-      <h3>HUNK SPORTS</h3>
-
-      <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(3)">Reservar</button>
-
-
-    </div>
-
-    <div class="col-3 text-center">
-
-      <h3>HUNK 150</h3>
-
-      <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(1)">Reservar</button>
-
-
-    </div>
-
-    <div class="col-3 text-center">
-
-      <h3>IGNITOR</h3>
-
-      <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(2)">Reservar</button>
-
-
-    </div>
-
-    <div class="col-3 text-center">
-
-      <h3>DASH</h3>
-
-      <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(4)">Reservar</button>
-
-
+    <div class="col-3 text-center" *ngFor="let key of keys">
+      <h3>{{key}}</h3>
+      <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(ids[key])">Reservar</button>
     </div>
   </div>
 
