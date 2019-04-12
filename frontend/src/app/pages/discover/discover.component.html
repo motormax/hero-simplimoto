@@ -12,7 +12,7 @@
 </div>
 
 <!--contain-->
-<div class="container">
+<div  *ngIf="lead$ | async as lead" class="container">
 
   <div class="row">
 
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-4">
 
-          <img src="assets/img/Hunk-Sports-Argentina-.png" class="img-fluid" alt="HUNK SPORTS">
+          <img src="{{photo}}" class="img-fluid" alt="{{name}}">
 
 
         </div>
@@ -39,8 +39,8 @@
           <table class="table he_table">
             <thead class="text-danger">
             <tr>
-              <th scope="col ">HUNK SPORTS</th>
-              <th scope="col" class="text-right">$52.900</th>
+              <th scope="col">{{name}}</th>
+              <th scope="col" class="text-right">${{lead.data.motorcycle.price}}</th>
 
             </tr>
             </thead>
@@ -52,7 +52,7 @@
             </tr>
             <tr>
               <th class="text-secondary">Accesorios</th>
-              <td>$6.000</td>
+              <td>$0</td>
 
             </tr>
             <tr>
@@ -72,7 +72,7 @@
             </tr>
             <tr>
               <th><h3>TOTAL</h3></th>
-              <td><h3>$58.900</h3></td>
+              <td><h3>${{lead.data.motorcycle.price}}</h3></td>
 
             </tr>
 
@@ -90,7 +90,7 @@
 
       <div routerLink="/personaliza" class="col-8 offset-2 col-md-4 offset-md-4 bg-danger text-white text-center py-1 he_model_btn" style="cursor: pointer;">
 
-        HUNK SPORTS
+        {{name}}
 
       </div>
 

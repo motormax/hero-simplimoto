@@ -11,3 +11,5 @@ export const IDS = {
   IGNITOR: 2,
   DASH: 4
 };
+
+export const NAMES = Object.keys(IDS).map(name => ({ [IDS[name]]: name })).reduce((a, e) => ({ ...a, ...e }), {});
