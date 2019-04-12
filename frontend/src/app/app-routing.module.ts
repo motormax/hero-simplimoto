@@ -17,7 +17,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'descubri',
+    path: 'descubri/:leadId',
     component: DiscoverComponent
   },
   {

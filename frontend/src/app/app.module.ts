@@ -13,6 +13,7 @@ import { PatenteComponent } from './pages/patente/patente.component';
 import { AccessoriesComponent } from './pages/accessories/accessories.component';
 import { DeliveryComponent } from './pages/delivery/delivery.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
