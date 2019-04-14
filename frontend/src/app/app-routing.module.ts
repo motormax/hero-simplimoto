@@ -21,7 +21,7 @@ const routes: Routes = [
     component: DiscoverComponent
   },
   {
-    path: 'personaliza',
+    path: 'personaliza/:leadId',
     component: CustomizeComponent
   },
   {

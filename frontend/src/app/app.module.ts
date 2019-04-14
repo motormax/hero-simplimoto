@@ -14,6 +14,8 @@ import { AccessoriesComponent } from './pages/accessories/accessories.component'
 import { DeliveryComponent } from './pages/delivery/delivery.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BikeSummaryComponent } from './components/bike-summary/bike-summary.component';
+import { BikeDetailsComponent } from './components/bike-details/bike-details.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { HttpClientModule } from '@angular/common/http';
     PatenteComponent,
     AccessoriesComponent,
     DeliveryComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    BikeSummaryComponent,
+    BikeDetailsComponent
   ],
   imports: [
     BrowserModule,
