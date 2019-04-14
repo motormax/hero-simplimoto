@@ -25,7 +25,7 @@ const routes: Routes = [
     component: CustomizeComponent
   },
   {
-    path: 'financia',
+    path: 'financia/:leadId',
     component: FinanceComponent
   },
   {
