@@ -74,8 +74,6 @@ export class FinanceComponent implements OnInit {
       if (!r) { return; }
 
       this.price = r.data.motorcycle.price;
-      console.log(r);
-      console.log(this.price);
     });
     this.initMercadopago();
   }
@@ -100,7 +98,6 @@ export class FinanceComponent implements OnInit {
   private getCreditCards() {
     // @ts-ignore
     window.Mercadopago.getAllPaymentMethods((code: number, response: PaymentMethod[]) => {
-      console.log(response);
       this.paymentMethods = response.filter(pm => pm.payment_type_id === 'credit_card');
     });
   }
@@ -108,13 +105,11 @@ export class FinanceComponent implements OnInit {
   private getIssuers(id) {
     // @ts-ignore
     window.Mercadopago.getIssuers(id, (code: number, response: Issuer[]) => {
-      console.log(response);
       this.issuers = response;
     });
   }
 
   private getInstallments() {
-    console.log('aaaaaa');
     const params = {
       issuer_id: this.selectedIssuer.id,
       payment_method_id: this.selectedId,
@@ -123,7 +118,6 @@ export class FinanceComponent implements OnInit {
     // @ts-ignore
     window.Mercadopago.getInstallments(params, (code: number, response: InstallmentsResponse[]) => {
       this.installments = response[0].payer_costs;
-      console.log(response);
     });
   }
 }
