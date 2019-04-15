@@ -33,7 +33,7 @@ const routes: Routes = [
     component: UsedComponent
   },
   {
-    path: 'seguro',
+    path: 'seguro/:leadId',
     component: InsuranceComponent
   },
   {
