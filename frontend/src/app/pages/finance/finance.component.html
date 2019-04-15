@@ -116,87 +116,39 @@
 <div class="container-fluid he_bg_lightgray he_options">
   <div class="row p-5">
 
-    <div class="col-12 col-md-10 offset-md-1 p-0">
+    <div *ngIf="!!paymentMethods" class="col-12 col-md-10 offset-md-1 p-0">
       <h3 class="text-danger mb-3">ELEGÍ TU TARJETA DE CRÉDITO</h3>
       <div class="row">
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
+        <div
+          *ngFor="let paymentMethod of paymentMethods"
+          class="text-center m-1"
+          style="max-width: 100px;"
+          [style.backgroundColor]="paymentMethod.id === selectedId ? 'orange' : 'transparent'"
+          (click)="onCardSelected(paymentMethod.id)">
+          <span class="badge badge-light p-3 shadow-sm border ">
+            <img src="{{paymentMethod.secure_thumbnail}}">
+          </span><br>
+          <small>{{paymentMethod.name}}</small>
         </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-        <div class="text-center m-1">
-                                <span class="badge badge-light p-3 shadow-sm border ">
-                                        <img src="https://www.mercadopago.com/org-img/MP3/API/logos/visa.gif">
-                                    </span><br>
-          <span><b>Visa</b></span>
-        </div>
-
-
-
-
-
-
-
-
       </div>
     </div>
 
 
-    <div class="col-12 col-md-10 offset-md-1 p-0">
+    <div *ngIf="!!issuers" class="col-12 col-md-10 offset-md-1 p-0">
       <h3 class="text-danger mb-3">ELEGÍ TU BANCO</h3>
       <div class="row">
         <div class="dropdown w-100">
           <a class="btn btn-light btn-block text-left dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Elegí Tu Banco Emisor
+            {{selectedIssuer && selectedIssuer.name || 'Elegí Tu Banco Emisor'}}
           </a>
 
           <div class="dropdown-menu  w-100" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">Provencred<img src="https://www.mercadopago.com/org-img/MP3/API/logos/1005.gif" class="float-right"></a>
-            <a class="dropdown-item" href="#">Banco Nacion<img src="https://www.mercadopago.com/org-img/MP3/API/logos/282.gif" class="float-right"></a>
-            <a class="dropdown-item" href="#">Macro<img src="https://www.mercadopago.com/org-img/MP3/API/logos/297.gif" class="float-right"></a>
+            <!--<a *ngFor="let issuer of issuers" class="dropdown-item" href="#">-->
+            <div *ngFor="let issuer of issuers" class="dropdown-item" (click)="onIssuerSelected(issuer)">
+              {{issuer.name}}
+              <img src="{{issuer.secure_thumbnail}}" class="float-right">
+            </div>
+            <!--</a>-->
           </div>
         </div>
       </div>
