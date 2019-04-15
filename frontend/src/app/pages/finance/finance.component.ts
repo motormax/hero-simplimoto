@@ -29,6 +29,28 @@ interface PaymentMethod {
   thumbnail: string;
 }
 
+interface Installments {
+  discount_rate: number;
+  installment_amount: number;
+  installment_rate: number;
+  installment_rate_collector: string[];
+  installments: number;
+  labels: string[];
+  max_allowed_amount: number;
+  min_allowed_amount: number;
+  recommended_message: string;
+  total_amount: number;
+}
+
+interface InstallmentsResponse {
+  issuer: Issuer;
+  merchant_account_id: any;
+  payer_costs: Installments[];
+  payment_method_id: string;
+  payment_type_id: string;
+  processing_mode: string;
+}
+
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
@@ -41,11 +63,20 @@ export class FinanceComponent implements OnInit {
   leadId: string;
   selectedId?: string;
   selectedIssuer?: Issuer;
+  price?: number;
+  installments: any[];
 
   constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.lead$ = fetchLead.call(this);
+    this.lead$.subscribe(r => {
+      if (!r) { return; }
+
+      this.price = r.data.motorcycle.price;
+      console.log(r);
+      console.log(this.price);
+    });
     this.initMercadopago();
   }
 
@@ -56,6 +87,7 @@ export class FinanceComponent implements OnInit {
 
   onIssuerSelected(issuer: Issuer) {
     this.selectedIssuer = issuer;
+    this.getInstallments();
   }
 
   private initMercadopago() {
@@ -78,6 +110,20 @@ export class FinanceComponent implements OnInit {
     window.Mercadopago.getIssuers(id, (code: number, response: Issuer[]) => {
       console.log(response);
       this.issuers = response;
+    });
+  }
+
+  private getInstallments() {
+    console.log('aaaaaa');
+    const params = {
+      issuer_id: this.selectedIssuer.id,
+      payment_method_id: this.selectedId,
+      amount: this.price
+    };
+    // @ts-ignore
+    window.Mercadopago.getInstallments(params, (code: number, response: InstallmentsResponse[]) => {
+      this.installments = response[0].payer_costs;
+      console.log(response);
     });
   }
 }

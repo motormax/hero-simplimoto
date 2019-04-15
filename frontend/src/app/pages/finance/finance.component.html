@@ -155,6 +155,19 @@
 
     </div>
 
+    <div *ngIf="!!installments" class="col-12 col-md-10 offset-md-1 p-0">
+      <h3 class="text-danger mb-3">EN CUANTAS CUOTAS?</h3>
+      <div class="row">
+        <div class="txt-center">
+          <div *ngFor="let installment of installments" class="ui radio checkbox">
+            <input type="radio">
+            <label>{{installment.recommended_message}}</label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
 
 
