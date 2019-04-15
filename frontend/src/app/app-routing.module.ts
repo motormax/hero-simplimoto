@@ -37,15 +37,15 @@ const routes: Routes = [
     component: InsuranceComponent
   },
   {
-    path: 'accesorios',
+    path: 'accesorios/:leadId',
     component: AccessoriesComponent
   },
   {
-    path: 'patente',
+    path: 'patente/:leadId',
     component: PatenteComponent
   },
   {
-    path: 'envio',
+    path: 'envio/:leadId',
     component: DeliveryComponent
   },
   {

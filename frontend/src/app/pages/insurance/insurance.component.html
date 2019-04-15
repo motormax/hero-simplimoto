@@ -25,10 +25,10 @@
 
   <div class="row">
 
-    <div class="col-md-1 d-none d-md-inline-flex mr-1 ">
+    <div class="col-md-1 d-none d-md-inline-flex">
       <div class="row">
         <div class="col-12">
-          <div class="he_next-btn bg-secondary text-white">
+          <div  [routerLink]="['/vende', leadId]" class="he_next-btn bg-secondary text-white">
             <i class="fas fa-angle-left"></i>
           </div>
           <div class="col-12 text-center text-dark">
@@ -101,6 +101,20 @@
       </div>
     </div>
 
+    <div class="col-md-1 d-none d-md-inline-flex ">
+      <div class="row">
+        <div class="col-12">
+          <div [routerLink]="['/accesorios', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>REVISÁ TU COMPRA</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 

@@ -13,115 +13,9 @@
 </div>
 
 <!--contain-->
-<div class="container">
+<div *ngIf="lead$ | async as lead" class="container">
 
-  <div class="row">
-    <div class="col-md-1 d-inline-flex d-md-none col-3 my-2  mr-1 ">
-      <div class="row">
-        <div class="col-12">
-          <div class="he_next-btn mt-1  bg-secondary text-white">
-            <i class="fas fa-angle-left"></i>
-          </div>
-          <div class="col-12 text-center text-dark">
-
-            <small><b>VOLVER</b></small>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 my-3">
-
-      <button class="rounded-pill btn btn-outline-danger he_btn">Ver otras motos</button>
-
-    </div>
-
-    <div class="col-10 offset-1 col-md-8 offset-md-2 bg-white shadow-lg p-4 rounded">
-      <div class="row">
-        <div class="col-md-11 text-md-right text-center">
-          <h3>RESUMEN DE TU MOTO</h3>
-        </div>
-        <div class="col-md-4">
-
-          <img src="assets/img/Hunk-Sports-Argentina-.png" class="img-fluid" alt="HUNK SPORTS">
-
-
-        </div>
-
-        <div class="col-md-8">
-
-          <table class="table he_table">
-            <thead class="text-danger">
-            <tr>
-              <th scope="col ">HUNK SPORTS</th>
-              <th scope="col" class="text-right">$52.900</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th class="text-secondary">Personalización</th>
-              <td class="text-success">GRATIS</td>
-
-            </tr>
-            <tr>
-              <th class="text-secondary">Accesorios</th>
-              <td>$6.000</td>
-
-            </tr>
-            <tr>
-              <th class="text-secondary">Financiación</th>
-              <td>$0</td>
-
-            </tr>
-            <tr>
-              <th class="text-secondary">Entrega a Domicilio</th>
-              <td class="text-success">GRATIS</td>
-
-            </tr>
-            <tr class="border-bottom border-secondary">
-              <th class="text-secondary">Seguro</th>
-              <td>Sí</td>
-
-            </tr>
-            <tr>
-              <th>
-                <h3>TOTAL</h3>
-              </th>
-              <td>
-                <h3>$58.900</h3>
-              </td>
-
-            </tr>
-
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-
-
-    </div>
-
-    <div class="col-12 my-3">
-
-      <div routerLink="/checkout" class="col-8 offset-2 col-md-4 offset-md-4 bg-danger text-white text-center py-1 he_model_btn" style="cursor: pointer;">
-
-        HUNK SPORTS
-
-      </div>
-
-      <div class="col-8 offset-2 col-md-4  my-5 d-none d-md-inline-flex  offset-md-4 ">
-        <button class="btn btn-block btn-secondary rounded-pill"> <i class="fas fa-shopping-cart"></i>
-          FINALIZAR COMPRA</button>
-      </div>
-
-    </div>
-
-
-  </div>
-
+  <app-bike-details [lead]="lead"></app-bike-details>
 
 </div>
 
@@ -134,7 +28,7 @@
     <div class="col-md-1 d-none d-md-inline-flex mr-1 ">
       <div class="row">
         <div class="col-12">
-          <div class="he_next-btn bg-secondary text-white">
+          <div [routerLink]="['/patente', leadId]" class="he_next-btn bg-secondary text-white">
             <i class="fas fa-angle-left"></i>
           </div>
           <div class="col-12 text-center text-dark">
