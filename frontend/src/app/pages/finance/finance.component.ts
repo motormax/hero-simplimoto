@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {fetchLead, LeadResponse} from '../../utils';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 
 interface Issuer {
@@ -61,12 +61,13 @@ export class FinanceComponent implements OnInit {
   issuers: Issuer[];
   paymentMethods: PaymentMethod[];
   leadId: string;
-  selectedId?: string;
+  selectedPaymentMethod?: PaymentMethod;
   selectedIssuer?: Issuer;
+  selectedInstallments?: Installments;
   price?: number;
-  installments: any[];
+  installments: Installments[];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.lead$ = fetchLead.call(this);
@@ -78,14 +79,45 @@ export class FinanceComponent implements OnInit {
     this.initMercadopago();
   }
 
-  onCardSelected(id: string) {
-    this.selectedId = id;
-    this.getIssuers(id);
+  onCardSelected(paymentMethod: PaymentMethod) {
+    this.selectedPaymentMethod = paymentMethod;
+    this.getIssuers(paymentMethod.id);
   }
 
   onIssuerSelected(issuer: Issuer) {
     this.selectedIssuer = issuer;
     this.getInstallments();
+  }
+
+  onInstallmentsSelected(installments: Installments) {
+    this.selectedInstallments = installments;
+  }
+
+  onConfirm() {
+    console.log(this.selectedInstallments);
+    console.log(this.selectedPaymentMethod);
+    console.log(this.selectedIssuer);
+    const body = {
+      financing_data: {
+        cash_amount: 0,
+        costs: this.selectedInstallments.labels[0], // Dudoso
+        installments: this.selectedInstallments.installments,
+        issuer_id: this.selectedIssuer.id,
+        issuer_logo: this.selectedIssuer.secure_thumbnail,
+        issuer_name: this.selectedIssuer.name,
+        message: this.selectedInstallments.recommended_message,
+        monthly_amount: this.selectedInstallments.installment_amount,
+        payment_method_id: this.selectedPaymentMethod.id,
+        payment_method_logo: this.selectedPaymentMethod.secure_thumbnail,
+        payment_method_name: this.selectedPaymentMethod.name,
+        provider: 'MERCADOPAGO'
+      }
+    };
+    this.http.post(`/api/leads/${this.leadId}/financing_data`, body)
+      .subscribe(response => {
+        console.log(response);
+        this.router.navigate(['/vende', this.leadId]);
+      });
   }
 
   private initMercadopago() {
@@ -112,7 +144,7 @@ export class FinanceComponent implements OnInit {
   private getInstallments() {
     const params = {
       issuer_id: this.selectedIssuer.id,
-      payment_method_id: this.selectedId,
+      payment_method_id: this.selectedPaymentMethod.id,
       amount: this.price
     };
     // @ts-ignore

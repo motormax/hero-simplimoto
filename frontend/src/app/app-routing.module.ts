@@ -29,7 +29,7 @@ const routes: Routes = [
     component: FinanceComponent
   },
   {
-    path: 'vende',
+    path: 'vende/:leadId',
     component: UsedComponent
   },
   {

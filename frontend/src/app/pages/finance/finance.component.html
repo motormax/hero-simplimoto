@@ -123,8 +123,8 @@
           *ngFor="let paymentMethod of paymentMethods"
           class="text-center m-1"
           style="max-width: 100px;"
-          [style.backgroundColor]="paymentMethod.id === selectedId ? 'orange' : 'transparent'"
-          (click)="onCardSelected(paymentMethod.id)">
+          [style.backgroundColor]="paymentMethod.id === selectedPaymentMethod?.id ? 'orange' : 'transparent'"
+          (click)="onCardSelected(paymentMethod)">
           <span class="badge badge-light p-3 shadow-sm border ">
             <img src="{{paymentMethod.secure_thumbnail}}">
           </span><br>
@@ -160,12 +160,15 @@
       <div class="row">
         <div class="txt-center">
           <div *ngFor="let installment of installments" class="ui radio checkbox">
-            <input type="radio">
-            <label>{{installment.recommended_message}}</label>
+            <label>
+              <input (change)="onInstallmentsSelected(installment)" type="radio" name="installments" value="{{installment.installments}}">
+              {{installment.recommended_message}}
+            </label>
           </div>
         </div>
       </div>
 
+      <button (click)="onConfirm()" [disabled]="!selectedInstallments">CONFIRMAR</button>
     </div>
 
 
