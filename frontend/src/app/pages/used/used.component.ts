@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {fetchLead, LeadResponse} from '../../utils';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-used',
@@ -6,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./used.component.css']
 })
 export class UsedComponent implements OnInit {
+  lead$: Observable<LeadResponse>;
+  leadId: string;
 
-  constructor() { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.lead$ = fetchLead.call(this);
   }
 
 }
