@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {fetchLead, LeadResponse} from '../../utils';
+import {fetchLead, LeadResponse, totalAmount} from '../../utils';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -74,7 +74,7 @@ export class FinanceComponent implements OnInit {
     this.lead$.subscribe(r => {
       if (!r) { return; }
 
-      this.price = r.data.motorcycle.price;
+      this.price = totalAmount(r);
     });
     this.initMercadopago();
   }

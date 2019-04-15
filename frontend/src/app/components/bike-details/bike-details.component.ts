@@ -9,6 +9,7 @@ import {LeadResponse} from '../../utils';
 export class BikeDetailsComponent implements OnInit {
   data: LeadResponse;
   name: string;
+  accessoriesSum: number;
 
   constructor() { }
 

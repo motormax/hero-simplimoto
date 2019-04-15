@@ -1,4 +1,4 @@
-import {switchMap} from 'rxjs/operators';
+import {flatMap, map, switchMap} from 'rxjs/operators';
 import {merge, Observable, of} from 'rxjs';
 
 export interface LeadResponse {
@@ -10,7 +10,20 @@ export interface LeadResponse {
       name: string;
       price: number;
     }
+    accessories: Accessory[];
   };
+}
+
+export function accessoriesAmount(lead: LeadResponse): number {
+  return (lead.data.accessories || []).reduce((a, e) => parseInt(e.price, 10) + a, 0);
+}
+
+export function totalAmount(lead: LeadResponse): number {
+  return lead.data.motorcycle.price + accessoriesAmount(lead);
+}
+
+export interface LeadAccessoriesResponse {
+  data: Accessory[];
 }
 
 export function fetchLead() {
@@ -20,13 +33,21 @@ export function fetchLead() {
       this.leadId = params.get('leadId');
       return merge(
         of(null),
-        this.http.get(`/api/leads/${this.leadId}`)
+        this.http.get(`/api/leads/${this.leadId}`).pipe(
+          flatMap((lr: LeadResponse) =>
+            this.http.get(`/api/leads/${this.leadId}/accessories`).pipe(
+              map((ar: LeadAccessoriesResponse) =>
+                ({ data: { ...(lr.data), accessories: ar.data } })
+              )
+            )
+          )
+        )
       );
     })
   ) as Observable<LeadResponse>;
 }
 
-interface Accessory {
+export interface Accessory {
   price: string;
   name: string;
   logo_url: string;
