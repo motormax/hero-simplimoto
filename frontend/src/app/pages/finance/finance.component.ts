@@ -17,6 +17,11 @@ export class FinanceComponent implements OnInit {
 
   ngOnInit() {
     this.lead$ = fetchLead.call(this);
+    // @ts-ignore
+    window.Mercadopago.setPublishableKey('TEST-98638d24-eb00-4dd5-82d8-4e573fac6a80');
+    // @ts-ignore
+    window.Mercadopago.getIssuers('visa', r => console.log(r));
+
   }
 
 }
