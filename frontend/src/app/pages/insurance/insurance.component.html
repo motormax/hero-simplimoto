@@ -135,30 +135,35 @@
         <form>
           <div class="form-group">
 
-            <select class="form-control">
-              <option>Deseo cotizar mi seguro con Hero</option>
-              <option>Voy a contratar mi propio seguro</option>
+            <select class="form-control" name="option" id="option" [(ngModel)]="option">
+              <option value="with_hero">Deseo cotizar mi seguro con Hero</option>
+              <option value="without_hero">Voy a contratar mi propio seguro</option>
             </select>
 
-            <div class="form-row">
-              <div class="col-md  mt-3">
-                <label for="provincia" >Provincia<span class="text-danger">*</span></label>
-                <select id="provincia" class="form-control">
-                  <option>Capital Federal</option>
-                </select>
-              </div>
-              <div class="col-md mt-3">
-                <label for="codigoPostal" >Código Postal<span class="text-danger">*</span></label>
-                <input id="codigoPostal" class="form-control" type="text" placeholder="Código Postal">
-              </div>
-              <div class="col-md mt-3">
-                <label for="edad" >Edad<span class="text-danger">*</span></label>
-                <input id="edad" class="form-control" type="text" placeholder="Edad">
-              </div>
+            <div *ngIf="selectedOption === 'with_hero'">
+              <div class="form-row">
+                <div class="col-md  mt-3">
+                  <label for="provincia" >Provincia<span class="text-danger">*</span></label>
+                  <select id="provincia" class="form-control">
+                    <option>Capital Federal</option>
+                  </select>
+                </div>
+                <div class="col-md mt-3">
+                  <label for="codigoPostal" >Código Postal<span class="text-danger">*</span></label>
+                  <input id="codigoPostal" class="form-control" type="text" placeholder="Código Postal">
+                </div>
+                <div class="col-md mt-3">
+                  <label for="edad" >Edad<span class="text-danger">*</span></label>
+                  <input id="edad" class="form-control" type="text" placeholder="Edad">
+                </div>
 
+              </div>
+              <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Cotizar">
             </div>
-            <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Cotizar">
 
+            <div *ngIf="selectedOption === 'without_hero'">
+              <input (click)="continueWithoutInsurance()" type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Continuar">
+            </div>
           </div>
         </form>
       </div>
