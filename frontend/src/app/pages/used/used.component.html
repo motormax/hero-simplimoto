@@ -129,102 +129,62 @@
 <!--options-->
 
 <div class="container-fluid he_bg_lightgray  he_options">
+  <form [formGroup]="sellForm" (ngSubmit)="submit()">
+    <div class="container">
+      <div class="row txt-center pt-5">
+        <h4>TUS DATOS</h4>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input id="fullName" class="form-control" formControlName="fullName" [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }" type="text" placeholder="Nombre Completo">
+        </div>
+
+        <div class="form-group col-md-3">
+          <input id="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" type="email" placeholder="Email">
+        </div>
+
+        <div class="form-group col-md-3">
+          <input id="phone" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" type="text" placeholder="Teléfono">
+        </div>
+
+        <div class="form-group  col-md-3">
+          <input id="location" class="form-control" formControlName="location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" type="text" placeholder="Localidad">
+        </div>
+      </div>
+
+      <div class="row txt-center">
+        <h4>¿QUÉ MOTO QUERÉS VENDER?</h4>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-3">
+          <input id="brand" class="form-control" formControlName="brand" [ngClass]="{ 'is-invalid': submitted && f.brand.errors }" type="text" placeholder="Marca">
+        </div>
+
+        <div class="form-group col-md-3">
+          <input id="model" class="form-control" formControlName="model" [ngClass]="{ 'is-invalid': submitted && f.model.errors }" type="text" placeholder="Modelo">
+        </div>
+
+        <div class="form-group col-md-3">
+          <input id="year" class="form-control" formControlName="year" [ngClass]="{ 'is-invalid': submitted && f.year.errors }" type="text" placeholder="Año">
+        </div>
+
+        <div class="form-group  col-md-3">
+          <input id="plate" class="form-control" formControlName="plate" [ngClass]="{ 'is-invalid': submitted && f.plate.errors }" type="text" placeholder="Patente">
+        </div>
+      </div>
+
+      <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4 text-white " value="Confirmar">
+
+    </div>
+  </form>
+</div>
+
+<div class="container-fluid he_bg_lightgray  he_options">
   <div class="container">
     <div class="row">
 
-
-
-      <div class="col-md-4   pt-5">
-
-        <h4>¿QUÉ MOTO QUERÉS VENDER?</h4>
-        <div class="form-group mt-3">
-          <select class="form-control" id="brand">
-            <option disabled selected>Marca</option>
-            <option>Honda</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <select class="form-control" id="brand">
-            <option disabled selected>Modelo</option>
-            <option>Storm</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <select class="form-control" id="year">
-            <option disabled selected>Año</option>
-            <option>2015</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <select class="form-control" id="millage">
-            <option disabled selected>Kilometraje</option>
-            <option>10.000 km</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <select class="form-control" id="location">
-            <option disabled selected>Localidad</option>
-            <option>C.A.B.A.</option>
-          </select>
-        </div>
-
-        <div class="form-group mb-5">
-          <input type="text" class="form-control" id="registration" placeholder="Patente">
-        </div>
-      </div>
-      <div class="col-md-4  pt-5">
-
-
-        <h4>TUS DATOS</h4>
-
-        <div class="form-group mt-3">
-          <input id="firstName" class="form-control" type="text" placeholder="Nombre">
-        </div>
-
-        <div class="form-group">
-          <input id="lastName" class="form-control" type="text" placeholder="Apellido">
-        </div>
-
-        <div class="form-group">
-          <input id="email" class="form-control" type="email" placeholder="Email">
-        </div>
-
-        <div class="form-group mb-5">
-          <input id="phone" class="form-control" type="email" placeholder="Teléfono">
-        </div>
-      </div>
-      <div class="col-md-4   pt-5">
-
-        <h4>MOSTRANOS TU USADO</h4>
-
-
-        <div class="custom-file  mt-2">
-          <input type="file" class="custom-file-input" id="frontView">
-          <label class="custom-file-label" for="customFile">Frente</label>
-        </div>
-        <div class="custom-file mt-3">
-          <input type="file" class="custom-file-input" id="leftSide">
-          <label class="custom-file-label" for="customFile">Lateral Izquierdo</label>
-        </div>
-        <div class="custom-file mt-3">
-          <input type="file" class="custom-file-input" id="rigthSide">
-          <label class="custom-file-label" for="customFile">Lateral Derecho</label>
-        </div>
-        <div class="custom-file mt-3">
-          <input type="file" class="custom-file-input" id="backView">
-          <label class="custom-file-label" for="customFile">Patrte Trasera</label>
-        </div>
-
-
-
-
-
-
-      </div>
       <div class="row">
         <div class="col-4">
           <div class="col-md-1 d-inline-flex d-md-none col-3 my-2  mr-1 ">

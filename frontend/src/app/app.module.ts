@@ -16,6 +16,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BikeSummaryComponent } from './components/bike-summary/bike-summary.component';
 import { BikeDetailsComponent } from './components/bike-details/bike-details.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,9 @@ import { BikeDetailsComponent } from './components/bike-details/bike-details.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
