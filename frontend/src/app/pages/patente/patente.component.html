@@ -147,99 +147,104 @@
         <form>
           <div class="form-group mt-5">
 
-            <select class="form-control">
-              <option>Quiero que patenten mi moto</option>
-              <option>Quiero que patenten mi motoVoy a realizar el patentamiento</option>
+            <select class="form-control" name="option" id="option" [(ngModel)]="option">
+              <option value="with_hero">Quiero que patenten mi moto</option>
+              <option value="without_hero">Voy a realizar el patentamiento</option>
             </select>
 
-            <div class="col-md-8 offset-md-2">
-              <div class="row">
+            <div *ngIf="selectedOption === 'with_hero'">
+              <div class="col-md-8 offset-md-2">
+                <div class="row">
 
-                <div class="form-group">
-                  <div class="col-12 mt-4 text-center">
-                    <h4>Foto de tu Documento de Identidad de quién será propietario de la
-                      moto.</h4>
+                  <div class="form-group">
+                    <div class="col-12 mt-4 text-center">
+                      <h4>Foto de tu Documento de Identidad de quién será propietario de la
+                        moto.</h4>
 
-                    <p>
-                      Te vamos a pedir que le saques una foto a tu documento y la cargues
-                      con el siguiente botón.
-                    </p>
-                  </div>
-                  <div class="form-row mb-3">
-                    <div class="col-md-6">
-                      <img class="img-fluid"
-                           src="https://argentina.heromotodigital.com/static/media/dni.528e7cc6.svg">
+                      <p>
+                        Te vamos a pedir que le saques una foto a tu documento y la cargues
+                        con el siguiente botón.
+                      </p>
                     </div>
-                    <div class="col-md-6">
-                      <button
-                        class="rounded-pill btn-block btn btn-outline-danger he_btn my-2"><i
-                        class="fas fa-upload text-danger"></i> <b>Imagen frontal
-                        DNI</b></button>
-                      <button class="rounded-pill btn-block btn btn-outline-danger he_btn"><i
-                        class="fas fa-upload text-danger"></i> <b>Imagen dorso
-                        DNI</b></button>
+                    <div class="form-row mb-3">
+                      <div class="col-md-6">
+                        <img class="img-fluid"
+                             src="https://argentina.heromotodigital.com/static/media/dni.528e7cc6.svg">
+                      </div>
+                      <div class="col-md-6">
+                        <button
+                          class="rounded-pill btn-block btn btn-outline-danger he_btn my-2"><i
+                          class="fas fa-upload text-danger"></i> <b>Imagen frontal
+                          DNI</b></button>
+                        <button class="rounded-pill btn-block btn btn-outline-danger he_btn"><i
+                          class="fas fa-upload text-danger"></i> <b>Imagen dorso
+                          DNI</b></button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="firstName">Nombre<span class="text-danger">*</span></label>
-                    <input id="firstName" class="form-control" type="text" placeholder="Nombre">
-                  </div>
+                    <div class="form-group">
+                      <label for="firstName">Nombre<span class="text-danger">*</span></label>
+                      <input id="firstName" class="form-control" type="text" placeholder="Nombre">
+                    </div>
 
-                  <div class="form-group">
-                    <label for="lastName">Apellido<span class="text-danger">*</span></label>
-                    <input id="lastName" class="form-control" type="text"
-                           placeholder="Apellido">
+                    <div class="form-group">
+                      <label for="lastName">Apellido<span class="text-danger">*</span></label>
+                      <input id="lastName" class="form-control" type="text"
+                             placeholder="Apellido">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="dni">DNI<span class="text-danger">*</span></label>
+                      <input id="dni" class="form-control" type="number" placeholder="DNI">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="adress">Dirección que aparece en el DNI<span
+                        class="text-danger">*</span></label>
+                      <input id="adress" class="form-control" type="number"
+                             placeholder="Dirección que aparece en el DNI">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="apartment">Piso/Depto<span class="text-danger">*</span></label>
+                      <input id="apartment" class="form-control" type="number"
+                             placeholder="Piso/Depto">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="apartment">Código Postal<span
+                        class="text-danger">*</span></label>
+                      <input id="postalCode" class="form-control" type="number"
+                             placeholder="Código Postal">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="email">Email<span class="text-danger">*</span></label>
+                      <input id="email" class="form-control" type="email" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="phone">Celular/Teléfono Fijo<span
+                        class="text-danger">*</span></label>
+                      <input id="phone" class="form-control" type="number"
+                             placeholder="Celular/Teléfono Fijo">
+                    </div>
+
+
+                    <input type="submit"
+                           class="rounded-pill btn btn-danger col-md-4 col-6 offset-md-4 offset-3 mt-5 text-white "
+                           value="Confirmar">
+
                   </div>
-
-                  <div class="form-group">
-                    <label for="dni">DNI<span class="text-danger">*</span></label>
-                    <input id="dni" class="form-control" type="number" placeholder="DNI">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="adress">Dirección que aparece en el DNI<span
-                      class="text-danger">*</span></label>
-                    <input id="adress" class="form-control" type="number"
-                           placeholder="Dirección que aparece en el DNI">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="apartment">Piso/Depto<span class="text-danger">*</span></label>
-                    <input id="apartment" class="form-control" type="number"
-                           placeholder="Piso/Depto">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="apartment">Código Postal<span
-                      class="text-danger">*</span></label>
-                    <input id="postalCode" class="form-control" type="number"
-                           placeholder="Código Postal">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="email">Email<span class="text-danger">*</span></label>
-                    <input id="email" class="form-control" type="email" placeholder="Email">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="phone">Celular/Teléfono Fijo<span
-                      class="text-danger">*</span></label>
-                    <input id="phone" class="form-control" type="number"
-                           placeholder="Celular/Teléfono Fijo">
-                  </div>
-
-
-                  <input type="submit"
-                         class="rounded-pill btn btn-danger col-md-4 col-6 offset-md-4 offset-3 mt-5 text-white "
-                         value="Confirmar">
 
                 </div>
 
               </div>
+            </div>
+            <div *ngIf="selectedOption === 'without_hero'">
+
+              <input (click)="continueWithoutHero()" type="submit" class="rounded-pill btn btn-danger col-md-4 col-6 offset-md-4 offset-3 mt-5 text-white " value="Continuar">
 
             </div>
-
-
 
 
 
