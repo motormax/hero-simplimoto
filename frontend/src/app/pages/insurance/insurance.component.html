@@ -149,20 +149,54 @@
                   </select>
                 </div>
                 <div class="col-md mt-3">
-                  <label for="codigoPostal" >Código Postal<span class="text-danger">*</span></label>
-                  <input id="codigoPostal" class="form-control" type="text" placeholder="Código Postal">
+                  <label for="postalCode" >Código Postal<span class="text-danger">*</span></label>
+                  <input id="postalCode" name="postalCode" class="form-control" type="number" placeholder="Código Postal" [(ngModel)]="postalCode">
                 </div>
                 <div class="col-md mt-3">
-                  <label for="edad" >Edad<span class="text-danger">*</span></label>
-                  <input id="edad" class="form-control" type="text" placeholder="Edad">
+                  <label for="age" >Edad<span class="text-danger">*</span></label>
+                  <input id="age" name="age" class="form-control" type="number" placeholder="Edad" [(ngModel)]="age">
                 </div>
 
               </div>
-              <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Cotizar">
+              <input *ngIf="!fetched" (click)="fetchInsuranceOptions()" [disabled]="submitDisabled" type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Cotizar">
             </div>
 
             <div *ngIf="selectedOption === 'without_hero'">
               <input (click)="continueWithoutInsurance()" type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Continuar">
+            </div>
+
+            <div *ngIf="fetched" class="text-center" style="margin-top: 20px;">
+
+              <div *ngIf="loading">
+                Cargando...
+              </div>
+
+              <div *ngIf="!loading">
+                <table style="border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0; width: 100%; vertical-align: middle; line-height: 1; text-align: center" cellpadding="0" cellspacing="0">
+                  <thead>
+                  <tr style="height: 60px;">
+                    <th style="background: #f4f4f4; vertical-align: middle; border-top: 1px solid #ddd">
+                    </th>
+                    <td *ngFor="let option of options" style="border: 1px solid #ddd; width: 30%; vertical-align: middle; color: #333333; font-weight: 400; font-size: 13px; min-height: 70px; padding: 0 5px;">
+                      {{option.title}}
+                    </td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let issuer of issuers" style="height: 60px;">
+                    <th style="border: 1px solid #ddd; height: 60px; background-color: #f6f6f6;">
+                      <img src="{{issuer.image}}" alt="{{issuer.name}}" style="height: 60px;" />
+                    </th>
+                    <td *ngFor="let option of issuerOptions(issuer)" (click)="onOptionSelected(issuer, option.option)" style="border: 1px solid #ddd; width: 20%; font-size: 19px; font-weight: 500; vertical-align: middle;" [ngStyle]="{ 'background-color': option.selected ? 'orange' : '', 'color': option.selected ? 'white': '' }">
+                      {{option.content}}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <input (click)="continueWithInsurance()" [disabled]="!selected" type="submit" class="rounded-pill btn btn-danger col-4 mt-5 text-white " value="Continuar">
+              </div>
+
             </div>
           </div>
         </form>
