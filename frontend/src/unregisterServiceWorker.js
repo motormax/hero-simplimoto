@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function () {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations()
