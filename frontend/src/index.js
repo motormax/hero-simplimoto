@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 
 import './index.css';
 import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
+import unregisterServiceWorker from './unregisterServiceWorker';
 import createAppStoreAndHistory from './store';
 import i18n from './i18n';
 import { leadFetched, startedFetchingLead } from './actions/beginning';
@@ -56,7 +56,7 @@ const render = () => {
   );
 };
 render();
-registerServiceWorker();
+unregisterServiceWorker();
 
 if (module.hot) {
   module.hot.accept('./components/App', () => {
