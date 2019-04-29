@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 
 import './index.css';
 import App from './components/App';
-import unregisterServiceWorker from './unregisterServiceWorker';
+import { unregister as unregisterServiceWorker } from './registerServiceWorker';
 import createAppStoreAndHistory from './store';
 import i18n from './i18n';
 import { leadFetched, startedFetchingLead } from './actions/beginning';
@@ -55,6 +55,7 @@ const render = () => {
     , document.getElementById('root'),
   );
 };
+
 render();
 unregisterServiceWorker();
 
