@@ -154,98 +154,99 @@
 
             <div *ngIf="selectedOption === 'with_hero'">
               <div class="col-md-8 offset-md-2">
-                <div class="row">
+                <form [formGroup]="form" (ngSubmit)="continueWithHero()">
+                  <div class="row">
 
-                  <div class="form-group">
-                    <div class="col-12 mt-4 text-center">
-                      <h4>Foto de tu Documento de Identidad de quién será propietario de la
-                        moto.</h4>
+                    <div class="form-group">
+                      <div class="col-12 mt-4 text-center">
+                        <h4>Foto de tu Documento de Identidad de quién será propietario de la
+                          moto.</h4>
 
-                      <p>
-                        Te vamos a pedir que le saques una foto a tu documento y la cargues
-                        con el siguiente botón.
-                      </p>
-                    </div>
-                    <div class="form-row mb-3">
-                      <div class="col-md-6">
-                        <img class="img-fluid"
-                             src="https://argentina.heromotodigital.com/static/media/dni.528e7cc6.svg">
+                        <p>
+                          Te vamos a pedir que le saques una foto a tu documento y la cargues
+                          con el siguiente botón.
+                        </p>
                       </div>
-                      <div class="col-md-6">
-                        <div class="required field">
-                          <label
-                            [ngClass]="frontDniBase64 ? 'btn-success' : ''" class="rounded-pill btn-block btn-outline-danger btn he_btn my-2" for="frontDni">
-                            <i class="fas fa-upload text-danger"></i> <b>Imagen frontal DNI</b>
-                          </label>
-                          <input type="file" id="frontDni" style="display: none;" (change)="onFrontDniChange($event)">
+                      <div class="form-row mb-3">
+                        <div class="col-md-6">
+                          <img class="img-fluid"
+                               src="https://argentina.heromotodigital.com/static/media/dni.528e7cc6.svg">
                         </div>
+                        <div class="col-md-6">
+                          <div class="required field">
+                            <label
+                              [ngClass]="frontDniBase64 ? 'btn-success' : ''" class="rounded-pill btn-block btn-outline-danger btn he_btn my-2" for="frontDni">
+                              <i class="fas fa-upload text-danger"></i> <b>Imagen frontal DNI</b>
+                            </label>
+                            <input type="file" id="frontDni" style="display: none;" (change)="onFrontDniChange($event)">
+                          </div>
 
-                        <div class="required field">
-                          <label
-                            [ngClass]="backDniBase64 ? 'btn-success' : ''" class="rounded-pill btn-block btn-outline-danger btn he_btn my-2" for="backDni">
-                            <i class="fas fa-upload text-danger"></i> <b>Imagen dorso DNI</b>
-                          </label>
-                          <input type="file" id="backDni" style="display: none;" (change)="onBackDniChange($event)">
+                          <div class="required field">
+                            <label
+                              [ngClass]="backDniBase64 ? 'btn-success' : ''" class="rounded-pill btn-block btn-outline-danger btn he_btn my-2" for="backDni">
+                              <i class="fas fa-upload text-danger"></i> <b>Imagen dorso DNI</b>
+                            </label>
+                            <input type="file" id="backDni" style="display: none;" (change)="onBackDniChange($event)">
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="firstName">Nombre<span class="text-danger">*</span></label>
-                      <input id="firstName" class="form-control" type="text" placeholder="Nombre">
-                    </div>
+                      <div class="form-group">
+                        <label for="firstName">Nombre<span class="text-danger">*</span></label>
+                        <input id="firstName" class="form-control" formControlName="firstName" type="text" placeholder="Nombre">
+                      </div>
 
-                    <div class="form-group">
-                      <label for="lastName">Apellido<span class="text-danger">*</span></label>
-                      <input id="lastName" class="form-control" type="text"
-                             placeholder="Apellido">
+                      <div class="form-group">
+                        <label for="lastName">Apellido<span class="text-danger">*</span></label>
+                        <input id="lastName" class="form-control" formControlName="lastName" type="text"
+                               placeholder="Apellido">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="dni">DNI<span class="text-danger">*</span></label>
+                        <input id="dni" class="form-control" formControlName="dni" type="number" placeholder="DNI">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="address">Dirección que aparece en el DNI<span
+                          class="text-danger">*</span></label>
+                        <input id="address" class="form-control" formControlName="address" type="text"
+                               placeholder="Dirección que aparece en el DNI">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="floor">Piso/Depto<span class="text-danger">*</span></label>
+                        <input id="floor" class="form-control" formControlName="floor" type="number"
+                               placeholder="Piso/Depto">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="postalCode">Código Postal<span
+                          class="text-danger">*</span></label>
+                        <input id="postalCode" class="form-control" formControlName="postalCode" type="number"
+                               placeholder="Código Postal">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="email">Email<span class="text-danger">*</span></label>
+                        <input id="email" class="form-control" formControlName="email" type="email" placeholder="Email">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="phone">Celular/Teléfono Fijo<span
+                          class="text-danger">*</span></label>
+                        <input id="phone" class="form-control" formControlName="phone" type="number"
+                               placeholder="Celular/Teléfono Fijo">
+                      </div>
+
+
+                      <input type="submit"
+                             class="rounded-pill btn btn-danger col-md-4 col-6 offset-md-4 offset-3 mt-5 text-white "
+                             value="Confirmar">
+
                     </div>
-
-                    <div class="form-group">
-                      <label for="dni">DNI<span class="text-danger">*</span></label>
-                      <input id="dni" class="form-control" type="number" placeholder="DNI">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="adress">Dirección que aparece en el DNI<span
-                        class="text-danger">*</span></label>
-                      <input id="adress" class="form-control" type="number"
-                             placeholder="Dirección que aparece en el DNI">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="apartment">Piso/Depto<span class="text-danger">*</span></label>
-                      <input id="apartment" class="form-control" type="number"
-                             placeholder="Piso/Depto">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="apartment">Código Postal<span
-                        class="text-danger">*</span></label>
-                      <input id="postalCode" class="form-control" type="number"
-                             placeholder="Código Postal">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="email">Email<span class="text-danger">*</span></label>
-                      <input id="email" class="form-control" type="email" placeholder="Email">
-                    </div>
-
-                    <div class="form-group">
-                      <label for="phone">Celular/Teléfono Fijo<span
-                        class="text-danger">*</span></label>
-                      <input id="phone" class="form-control" type="number"
-                             placeholder="Celular/Teléfono Fijo">
-                    </div>
-
-
-                    <input type="submit"
-                           class="rounded-pill btn btn-danger col-md-4 col-6 offset-md-4 offset-3 mt-5 text-white "
-                           value="Confirmar">
 
                   </div>
-
-                </div>
-
+                </form>
               </div>
             </div>
             <div *ngIf="selectedOption === 'without_hero'">

@@ -36,7 +36,6 @@ export class UsedComponent implements OnInit {
   get f() { return this.sellForm.controls; }
 
   submit() {
-    console.log('aaaa');
     this.submitted = true;
     if (this.sellForm.invalid) {
       console.log('invalid');
