@@ -118,8 +118,9 @@
         <div
           *ngFor="let paymentMethod of paymentMethods"
           class="text-center m-1"
-          style="max-width: 100px;"
+          style="max-width: 100px; padding: 10px;"
           [style.backgroundColor]="paymentMethod.id === selectedPaymentMethod?.id ? 'orange' : 'transparent'"
+          [style.color]="paymentMethod.id === selectedPaymentMethod?.id ? 'white' : 'black'"
           (click)="onCardSelected(paymentMethod)">
           <span class="badge badge-light p-3 shadow-sm border ">
             <img src="{{paymentMethod.secure_thumbnail}}">
@@ -153,18 +154,20 @@
 
     <div *ngIf="!!installments" class="col-12 col-md-10 offset-md-1 p-0">
       <h3 class="text-danger mb-3">EN CUANTAS CUOTAS?</h3>
-      <div class="row">
-        <div class="txt-center">
-          <div *ngFor="let installment of installments" class="ui radio checkbox">
-            <label>
-              <input (change)="onInstallmentsSelected(installment)" type="radio" name="installments" value="{{installment.installments}}">
-              {{installment.recommended_message}}
-            </label>
+      <div style="text-align: center;">
+        <div class="row">
+          <div class="txt-center">
+            <div *ngFor="let installment of installments" class="ui radio checkbox">
+              <label>
+                <input (change)="onInstallmentsSelected(installment)" type="radio" name="installments" value="{{installment.installments}}">
+                {{installment.recommended_message}}
+              </label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button (click)="onConfirm()" [disabled]="!selectedInstallments">CONFIRMAR</button>
+        <button class="rounded-pill btn btn-danger text-white" (click)="onConfirm()" [disabled]="!selectedInstallments">CONFIRMAR</button>
+      </div>
     </div>
 
 
