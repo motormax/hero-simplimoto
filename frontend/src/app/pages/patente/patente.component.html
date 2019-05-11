@@ -172,13 +172,21 @@
                              src="https://argentina.heromotodigital.com/static/media/dni.528e7cc6.svg">
                       </div>
                       <div class="col-md-6">
-                        <button
-                          class="rounded-pill btn-block btn btn-outline-danger he_btn my-2"><i
-                          class="fas fa-upload text-danger"></i> <b>Imagen frontal
-                          DNI</b></button>
-                        <button class="rounded-pill btn-block btn btn-outline-danger he_btn"><i
-                          class="fas fa-upload text-danger"></i> <b>Imagen dorso
-                          DNI</b></button>
+                        <div class="required field">
+                          <label
+                            [ngClass]="frontDniBase64 ? 'btn-success' : ''" class="rounded-pill btn-block btn-outline-danger btn he_btn my-2" for="frontDni">
+                            <i class="fas fa-upload text-danger"></i> <b>Imagen frontal DNI</b>
+                          </label>
+                          <input type="file" id="frontDni" style="display: none;" (change)="onFrontDniChange($event)">
+                        </div>
+
+                        <div class="required field">
+                          <label
+                            [ngClass]="backDniBase64 ? 'btn-success' : ''" class="rounded-pill btn-block btn-outline-danger btn he_btn my-2" for="backDni">
+                            <i class="fas fa-upload text-danger"></i> <b>Imagen dorso DNI</b>
+                          </label>
+                          <input type="file" id="backDni" style="display: none;" (change)="onBackDniChange($event)">
+                        </div>
                       </div>
                     </div>
                     <div class="form-group">
