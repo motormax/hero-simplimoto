@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BikeSummaryComponent } from './components/bike-summary/bike-summary.component';
 import { BikeDetailsComponent } from './components/bike-details/bike-details.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AgmCoreModule} from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     BikeDetailsComponent
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCoFEZ8yAxkd25I_CLcBWuU0w0MpWVavzk',
+      libraries: ['places']
+    }),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

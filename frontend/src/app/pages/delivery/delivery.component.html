@@ -122,44 +122,45 @@
         <h4 class="text-secondary text-center mb-5">Con la compra de tu moto Hero tenés el envío a domicilio
           totalmente bonificado</h4>
 
+        <div class="form-group mt-5">
+          <select class="form-control">
+            <option>Quiero que me envien la moto</option>
+            <option>Quiero retirar la moto por un concesionario</option>
+          </select>
+        </div>
 
-        <form>
-          <div class="form-group mt-5">
+        <form [formGroup]="deliveryForm" (ngSubmit)="continueWithDelivery()">
+          <div class="form-group">
+
             <div class="form-group">
-              <select class="form-control">
-                <option>Quiero que me envien la moto</option>
-                <option>Quiero retirar la moto por un concesionario</option>
-              </select>
+              <label for="address">Dirección<span class="text-danger">*</span></label>
+              <input id="address" placeholder="Dirección" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search formControlName="address">
             </div>
 
-
-            <div class="form-group">
-              <label for="adress">Dirección<span class="text-danger">*</span></label>
-              <input id="adress" class="form-control" type="text" placeholder="Dirección">
-            </div>
             <div class="form-row">
               <div class="col-md">
                 <label for="apartment">Piso/Depto<span class="text-danger">*</span></label>
-                <input id="apartment" class="form-control" type="number" placeholder="Piso/Depto">
+                <input id="apartment" class="form-control" type="number" placeholder="Piso/Depto" formControlName="floor">
               </div>
 
               <div class="col-md">
                 <label for="postalCode">Código Postal<span class="text-danger">*</span></label>
-                <input id="postalCode" class="form-control" type="number"
-                       placeholder="Código Postal">
+                <input id="postalCode" class="form-control" type="number" placeholder="Código Postal" formControlName="postalCode">
               </div>
               <div class="col-md">
                 <label for="phone">Celular<span class="text-danger">*</span></label>
-                <input id="phone" class="form-control" type="email" placeholder="Celular">
+                <input id="phone" class="form-control" type="email" placeholder="Celular" formControlName="phone">
               </div>
 
             </div>
-            <div class="form-row">
-              <div id="map" class="my-5"></div>
+
+            <div style="margin: 20px 0;">
+              <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" style="height: 300px;">
+                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              </agm-map>
             </div>
 
-            <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4  text-white "
-                   value="Confirmar">
+            <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4  text-white " value="Confirmar">
 
           </div>
         </form>

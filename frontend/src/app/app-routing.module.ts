@@ -49,7 +49,7 @@ const routes: Routes = [
     component: DeliveryComponent
   },
   {
-    path: 'checkout',
+    path: 'checkout/:leadId',
     component: CheckoutComponent
   }
 ];
