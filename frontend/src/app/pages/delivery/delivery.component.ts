@@ -16,9 +16,18 @@ import { } from 'googlemaps';
 export class DeliveryComponent implements OnInit {
   lead$: Observable<LeadResponse>;
   leadId: string;
+  selectedOption = 'delivery';
   public latitude: number;
   public longitude: number;
   public zoom: number;
+
+  set option(value) {
+    this.selectedOption = value;
+  }
+
+  get option() {
+    return this.selectedOption;
+  }
 
   @ViewChild('search')
   public searchElementRef: ElementRef;

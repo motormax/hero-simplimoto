@@ -123,13 +123,13 @@
           totalmente bonificado</h4>
 
         <div class="form-group mt-5">
-          <select class="form-control">
-            <option>Quiero que me envien la moto</option>
-            <option>Quiero retirar la moto por un concesionario</option>
+          <select class="form-control" name="option" id="option" [(ngModel)]="option">
+            <option value="delivery">Quiero que me envien la moto</option>
+            <option value="pickup">Quiero retirar la moto por un concesionario</option>
           </select>
         </div>
 
-        <form [formGroup]="deliveryForm" (ngSubmit)="continueWithDelivery()">
+        <form *ngIf="selectedOption === 'delivery'" [formGroup]="deliveryForm" (ngSubmit)="continueWithDelivery()">
           <div class="form-group">
 
             <div class="form-group">
