@@ -11,7 +11,7 @@ const availableMotorcycles = {
   HUNK: {
     id: 1,
     displayName: 'Hunk',
-    monthlyPrice: 66900,
+    monthlyPrice: 69900,
     defaultImageUrl: hunkImgUrl,
     videoId: 'ksVob1Jc0E0',
     specsTitle: 'Hunk',
@@ -107,7 +107,7 @@ const availableMotorcycles = {
   IGNITOR: {
     id: 2,
     displayName: 'Ignitor',
-    monthlyPrice: 59900,
+    monthlyPrice: 62300,
     defaultImageUrl: ignitorImgUrl,
     videoId: 'xFCnbwFHn7E',
     specsTitle: 'Ignitor',
@@ -285,7 +285,7 @@ const availableMotorcycles = {
   DASH: {
     id: 4,
     displayName: 'Dash',
-    monthlyPrice: 64200,
+    monthlyPrice: 66000,
     defaultImageUrl: dashImgUrl,
     videoId: 'E7Quvpn_EIw',
     specsTitle: 'Dash',
