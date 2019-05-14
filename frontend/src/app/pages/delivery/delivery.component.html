@@ -164,6 +164,24 @@
 
           </div>
         </form>
+
+        <div *ngIf="selectedOption === 'pickup'">
+          <div class="form-group">
+
+            <select class="form-control" name="pickupLocation" id="pickupLocation" [(ngModel)]="pickupOption">
+              <option *ngFor="let pickupOption of pickupOptions" [value]="pickupOption.title">{{pickupOption.title}}</option>
+            </select>
+
+            <div style="margin: 20px 0;">
+              <agm-map [latitude]="pickupLatitude" [longitude]="pickupLongitude" [scrollwheel]="false" [zoom]="zoom" style="height: 300px;">
+                <agm-marker [latitude]="pickupLatitude" [longitude]="pickupLongitude"></agm-marker>
+              </agm-map>
+            </div>
+
+            <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4  text-white " value="Confirmar" (click)="continueWithPickup()">
+
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-4">

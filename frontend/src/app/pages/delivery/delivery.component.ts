@@ -17,8 +17,25 @@ export class DeliveryComponent implements OnInit {
   lead$: Observable<LeadResponse>;
   leadId: string;
   selectedOption = 'delivery';
+  selectedPickupOption?: any;
+  pickupOptions = [
+    {
+      value: 'Showroom Hero Vicente Lopez, Av Del Libertador 1150, Buenos Aires, Vicente Lopez, 4796-5514',
+      title: 'Showroom Hero Vicente Lopez',
+      latitude: -34.5232709,
+      longitude: -58.473125
+    },
+    {
+      value: 'Showroom Hero Lanus, Eva Perón 38, Buenos Aires, Lanus Oeste, 21218018',
+      title: 'Showroom Hero Lanus',
+      latitude: -34.698525,
+      longitude: -58.3917687
+    }
+  ];
   public latitude: number;
   public longitude: number;
+  public pickupLatitude: number;
+  public pickupLongitude: number;
   public zoom: number;
 
   set option(value) {
@@ -29,9 +46,26 @@ export class DeliveryComponent implements OnInit {
     return this.selectedOption;
   }
 
+  set pickupOption(value) {
+    console.log(value);
+    console.log(typeof value);
+    console.log(JSON.stringify(value));
+    this.selectedPickupOption = this.pickupOptions.find(o => o.title === value);
+    if (this.selectedPickupOption) {
+      this.pickupLatitude = this.selectedPickupOption.latitude;
+      this.pickupLongitude = this.selectedPickupOption.longitude;
+    }
+    console.log(this.selectedPickupOption);
+    console.log(JSON.stringify(this.selectedPickupOption));
+  }
+
+  get pickupOption() {
+    return this.selectedPickupOption && this.selectedPickupOption.title;
+  }
+
   @ViewChild('search')
   public searchElementRef: ElementRef;
-  private deliveryForm: FormGroup;
+  deliveryForm: FormGroup;
 
   constructor(
     private http: HttpClient,
@@ -102,6 +136,21 @@ export class DeliveryComponent implements OnInit {
           telephone_number: `${this.deliveryForm.get('phone').value}`,
           town: ''
         }
+      }
+    };
+
+    this.http.post(`/api/leads/${this.leadId}/delivery_choice`, body)
+      .subscribe(() => this.router.navigate(['/checkout', this.leadId]));
+  }
+
+  continueWithPickup() {
+    if (!this.selectedPickupOption) {
+      return;
+    }
+
+    const body = {
+      delivery_choice: {
+        pickup_location: this.selectedPickupOption.title
       }
     };
 
