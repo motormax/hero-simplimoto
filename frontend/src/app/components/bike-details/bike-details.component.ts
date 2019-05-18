@@ -15,6 +15,7 @@ export class BikeDetailsComponent implements OnInit {
 
   @Input()
   set lead(lead: LeadResponse) {
+    console.log(lead);
     this.data = lead;
     this.name = lead.data.motorcycle.name;
   }

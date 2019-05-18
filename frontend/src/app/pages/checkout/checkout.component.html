@@ -73,7 +73,7 @@
 
         <div class="form-group">
           <label for="cardNumber">Número de Tarjeta<span class="text-danger">*</span></label>
-          <input formControlName="cardNumber" id="cardNumber" class="form-control" type="number" placeholder="4509 9535 6623 3704">
+          <input formControlName="cardNumber" id="cardNumber" class="form-control" type="number" placeholder="4509 9535 6623 3704" (input)="onCardNumberChanged()">
         </div>
 
         <div class="row">
