@@ -3,6 +3,7 @@ import {fetchLead, LeadResponse, totalAmount} from '../../utils';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 interface Issuer {
   id: string;
@@ -122,7 +123,7 @@ export class FinanceComponent implements OnInit {
 
   private initMercadopago() {
     // @ts-ignore
-    window.Mercadopago.setPublishableKey('TEST-5cf66383-f185-4848-a5d1-367710c38f62');
+    window.Mercadopago.setPublishableKey(environment.mpKey);
     // this.getIssuers();
     this.getCreditCards();
   }

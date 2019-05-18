@@ -36,9 +36,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   private initMercadopago() {
-    // TODO: Extract mp key
     // @ts-ignore
-    window.Mercadopago.setPublishableKey('TEST-5cf66383-f185-4848-a5d1-367710c38f62');
+    window.Mercadopago.setPublishableKey(process.env.REACT_APP_MERCADO_LIBRE_KEY);
   }
 
   submit() {
