@@ -1,0 +1,244 @@
+<!--Header-->
+<div class="container">
+
+  <div class="row border-bottom">
+
+
+    <div class="col-md-2 offset-md-5 col-6 offset-3 text-center my-2">
+      <img class="img-fluid" src="assets/img/Logo-Hero.png" alt="Hero Motos">
+    </div>
+
+  </div>
+
+</div>
+
+<!--contain-->
+<div *ngIf="lead$ | async as lead" class="container">
+
+  <app-bike-details [lead]="lead"></app-bike-details>
+
+</div>
+
+<!--Steps-->
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-1 d-none d-md-inline-flex mr-1 ">
+      <div class="row">
+        <div class="col-12">
+          <div [routerLink]="['/patente', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-left"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>VOLVER</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 my-5">
+      <div class="row">
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">5</span>
+              <span class="he_step_detail">Seguro</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">6</span>
+              <span class="he_step_detail">Accesorios</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int    text-center">
+
+              <span class="he_step_number text-center col-12">7</span>
+              <span class="he_step_detail">patente</span>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">8</span>
+              <span class="he_step_detail">envío</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+
+
+</div>
+
+<!--options-->
+<div class="container">
+  <div class="row he_bg_lightgray">
+
+    <div class="col-12   pt-5">
+      <h2 class="text-center text-danger">ENTREGA A DOMICILIO</h2>
+      <div class="col-md-8 offset-md-2 mt-5">
+
+        <h4 class="text-secondary text-center mb-5">Con la compra de tu moto Hero tenés el envío a domicilio
+          totalmente bonificado</h4>
+
+        <div class="form-group mt-5">
+          <select class="form-control" name="option" id="option" [(ngModel)]="option">
+            <option value="delivery">Quiero que me envien la moto</option>
+            <option value="pickup">Quiero retirar la moto por un concesionario</option>
+          </select>
+        </div>
+
+        <form *ngIf="selectedOption === 'delivery'" [formGroup]="deliveryForm" (ngSubmit)="continueWithDelivery()">
+          <div class="form-group">
+
+            <div class="form-group">
+              <label for="address">Dirección<span class="text-danger">*</span></label>
+              <input id="address" placeholder="Dirección" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search formControlName="address">
+            </div>
+
+            <div class="form-row">
+              <div class="col-md">
+                <label for="apartment">Piso/Depto<span class="text-danger">*</span></label>
+                <input id="apartment" class="form-control" type="number" placeholder="Piso/Depto" formControlName="floor">
+              </div>
+
+              <div class="col-md">
+                <label for="postalCode">Código Postal<span class="text-danger">*</span></label>
+                <input id="postalCode" class="form-control" type="number" placeholder="Código Postal" formControlName="postalCode">
+              </div>
+              <div class="col-md">
+                <label for="phone">Celular<span class="text-danger">*</span></label>
+                <input id="phone" class="form-control" type="email" placeholder="Celular" formControlName="phone">
+              </div>
+
+            </div>
+
+            <div style="margin: 20px 0;">
+              <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom" style="height: 300px;">
+                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              </agm-map>
+            </div>
+
+            <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4  text-white " value="Confirmar">
+
+          </div>
+        </form>
+
+        <div *ngIf="selectedOption === 'pickup'">
+          <div class="form-group">
+
+            <select class="form-control" name="pickupLocation" id="pickupLocation" [(ngModel)]="pickupOption">
+              <option *ngFor="let pickupOption of pickupOptions" [value]="pickupOption.title">{{pickupOption.title}}</option>
+            </select>
+
+            <div style="margin: 20px 0;">
+              <agm-map [latitude]="pickupLatitude" [longitude]="pickupLongitude" [scrollwheel]="false" [zoom]="zoom" style="height: 300px;">
+                <agm-marker [latitude]="pickupLatitude" [longitude]="pickupLongitude"></agm-marker>
+              </agm-map>
+            </div>
+
+            <input type="submit" class="rounded-pill btn btn-danger col-4 offset-4  text-white " value="Confirmar" (click)="continueWithPickup()">
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="col-md-1 d-inline-flex d-md-none col-3 my-2  mr-1 ">
+            <div class="row">
+              <div class="col-12">
+                <div class="he_next-btn mt-1  bg-secondary text-white">
+                  <i class="fas fa-angle-left"></i>
+                </div>
+                <div class="col-12 text-center text-dark">
+
+                  <small><b>VOLVER</b></small>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="col-md-1 d-inline-flex d-md-none p-0 my-2  mr-1 text-center ">
+            <div class="row">
+              <div class="col-12 p-0 ml-2 ">
+                <div class="he_next-btn mt-1  bg-secondary text-white">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="col-12 text-center text-dark">
+
+                  <small><b>REVISA <br> TU COMPRA</b></small>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="col-md-1 d-inline-flex d-md-none col-3 my-2  mr-1 ">
+            <div class="row">
+              <div class="col-12">
+                <div class="he_next-btn mt-1  bg-secondary text-white">
+                  <i class="fas fa-angle-right"></i>
+                </div>
+                <div class="col-12 text-center text-dark">
+
+                  <small><b>SIGUIENTE</b></small>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>

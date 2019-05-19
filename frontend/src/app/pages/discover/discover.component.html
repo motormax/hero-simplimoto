@@ -1,0 +1,195 @@
+<div class="container">
+
+  <div class="row border-bottom">
+
+
+    <div class="col-md-2 offset-md-5 col-6 offset-3 text-center my-2">
+      <img class="img-fluid" src="assets/img/Logo-Hero.png" alt="Hero Motos">
+    </div>
+
+  </div>
+
+</div>
+
+<!--contain-->
+<div  *ngIf="lead$ | async as lead" class="container">
+
+  <app-bike-details [lead]="lead"></app-bike-details>
+
+</div>
+
+<!--Steps-->
+
+<div class="container">
+
+  <div class="row">
+
+
+    <div class="col-md-10 offset-md-1 my-5">
+      <div class="row">
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">1</span>
+              <span class="he_step_detail">descubrí tu <br>moto</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">2</span>
+              <span class="he_step_detail">personalizá <br>tu moto</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">3</span>
+              <span class="he_step_detail">financíala</span>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">4</span>
+              <span class="he_step_detail">vende <br>tu usado</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-1 d-none d-md-inline-flex ">
+      <div class="row">
+        <div class="col-12">
+          <div [routerLink]="['/personaliza', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>SIGUIENTE</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+<!--options-->
+
+<div class="container-fluid he_options">
+  <div class="row">
+    <div class="col-md he_bg_gray text-center pt-5">
+
+      <div class="col w-100 mb-3">
+
+        <img src="assets/img/Live-tour.png" width="100px"><br>
+        <h4 class="mt-2">Live Tour</h4>
+
+      </div>
+      <p class="text-justify">
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+
+    </div>
+    <div class="col-md he_bg_lightgray  text-center pt-5">
+      <div class="col w-100 mb-3">
+
+        <img src="assets/img/Hero_Rider.png" width="100px"><br>
+        <h4 class="mt-2">Hero Rider</h4>
+
+
+      </div>
+      <p class="text-justify">
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+
+    </div>
+    <div class="col-md he_bg_gray text-center pt-5">
+
+      <div class="col w-100 mb-3">
+
+        <img src="assets/img/cube.png" width="100px">
+        <h4 class="mt-2">3D Tour</h4>
+
+
+      </div>
+      <p class="text-justify">
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+
+    </div>
+    <div class="col-md he_bg_lightgray  text-center pt-5">
+      <div class="col w-100 mb-3">
+
+        <img src="assets/img/Caracteristicas.png" width="100px">
+        <h4 class="mt-2">Características</h4>
+
+
+      </div>
+      <p class="text-justify">
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

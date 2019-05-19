@@ -1,0 +1,152 @@
+<!--Header-->
+<div class="container">
+
+  <div class="row border-bottom">
+
+
+    <div class="col-md-2 offset-md-5 col-6 offset-3 text-center my-2">
+      <img class="img-fluid" src="assets/img/Logo-Hero.png" alt="Hero Motos">
+    </div>
+
+  </div>
+
+</div>
+
+<!--contain-->
+<div *ngIf="lead$ | async as lead" class="container">
+
+  <app-bike-details [lead]="lead"></app-bike-details>
+
+</div>
+
+<!--Steps-->
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-1 d-none d-md-inline-flex">
+      <div class="row">
+        <div class="col-12">
+          <div  [routerLink]="['/seguro', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-left"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>VOLVER</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-10 my-5">
+      <div class="row">
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step  he_step_next">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">5</span>
+              <span class="he_step_detail">Seguro</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step  ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">6</span>
+              <span class="he_step_detail">Accesorios</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">7</span>
+              <span class="he_step_detail">patente</span>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">8</span>
+              <span class="he_step_detail">envío</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-1 d-none d-md-inline-flex ">
+      <div class="row">
+        <div class="col-12">
+          <div [routerLink]="['/patente', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>REVISÁ TU COMPRA</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<!--options-->
+<div *ngIf="accessories$ | async as accessories" class="container-fluid he_options ">
+  <div class="row  he_bg_gray pt-5">
+    <div class="col-12">
+      <h4 class="text-center text-danger">ACCESORIOS ADICIONALES</h4>
+    </div>
+    <div class="col-md-10 offset-md-1 text-center">
+      <div class="row d-flex justify-content-center">
+        <div *ngFor="let accessory of accessories.data" class="col-md-3 col-6">
+          <label>
+            <img src="{{accessory.logo_url}}" class="img-fluid"><br>
+            {{accessory.name}}<br>
+            ${{accessory.price}}<br>
+            <input (change)="onAccessorySelected(accessory)" type="checkbox" class="mt-2">
+          </label>
+        </div>
+      </div>
+
+      <input [routerLink]="['/patente', leadId]" type="submit" class="rounded-pill btn btn-danger col-4 mt-5 text-white " value="Continuar">
+
+    </div>
+
+
+
+  </div>
+
+
+</div>

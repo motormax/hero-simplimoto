@@ -1,0 +1,63 @@
+<div class="col-10 offset-1 col-md-8 offset-md-2 bg-white shadow-lg p-4 rounded">
+  <div class="row">
+    <div class="col-md-11 text-md-right text-center">
+      <h3>RESUMEN DE TU MOTO</h3>
+    </div>
+    <div class="col-md-4">
+
+      <img src="{{photo}}" class="img-fluid" alt="{{name}}">
+
+
+    </div>
+
+    <div class="col-md-8">
+
+      <table class="table he_table">
+        <thead class="text-danger">
+        <tr>
+          <th scope="col">{{name}}</th>
+          <th scope="col" class="text-right">${{price}}</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th class="text-secondary">Personalización</th>
+          <td class="text-success">GRATIS</td>
+
+        </tr>
+        <tr>
+          <th class="text-secondary">Accesorios</th>
+          <td>${{accessoriesSum}}</td>
+
+        </tr>
+        <tr>
+          <th class="text-secondary">Financiación</th>
+          <td>$0</td>
+
+        </tr>
+        <tr>
+          <th class="text-secondary">Entrega a Domicilio</th>
+          <td class="text-success">GRATIS</td>
+
+        </tr>
+        <tr class="border-bottom border-secondary">
+          <th class="text-secondary">Seguro</th>
+          <td>Sí</td>
+
+        </tr>
+        <tr>
+          <th><h3>TOTAL</h3></th>
+          <td><h3>${{totalPrice}}</h3></td>
+
+        </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+</div>

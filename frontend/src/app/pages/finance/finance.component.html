@@ -1,0 +1,177 @@
+<div class="container">
+
+  <div class="row border-bottom">
+
+
+    <div class="col-md-2 offset-md-5 col-6 offset-3 text-center my-2">
+      <img class="img-fluid" src="assets/img/Logo-Hero.png" alt="Hero Motos">
+    </div>
+
+  </div>
+
+</div>
+
+<!--contain-->
+<div *ngIf="lead$ | async as lead" class="container">
+  <app-bike-details [lead]="lead"></app-bike-details>
+</div>
+
+
+
+  <!--Steps-->
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-1 d-none d-md-inline-flex">
+        <div class="row">
+          <div class="col-12">
+            <div  [routerLink]="['/personaliza', leadId]" class="he_next-btn bg-secondary text-white">
+              <i class="fas fa-angle-left"></i>
+            </div>
+            <div class="col-12 text-center text-dark">
+
+              <small><b>VOLVER</b></small>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-10 my-5">
+        <div class="row">
+          <div class="col-md-3 text-center mb-3">
+
+            <div class="he_step he_step_next">
+
+              <div class="he_int   text-center">
+
+                <span class="he_step_number text-center col-12">1</span>
+                <span class="he_step_detail">descubrí tu <br>moto</span>
+
+              </div>
+
+            </div>
+
+          </div>
+          <div class="col-md-3 text-center mb-3">
+
+            <div class="he_step he_step_next ">
+
+              <div class="he_int   text-center">
+
+                <span class="he_step_number text-center col-12">2</span>
+                <span class="he_step_detail">personalizá <br>tu moto</span>
+
+              </div>
+
+            </div>
+
+          </div>
+          <div class="col-md-3 text-center mb-3">
+
+            <div class="he_step  ">
+
+              <div class="he_int   text-center">
+
+                <span class="he_step_number text-center col-12">3</span>
+                <span class="he_step_detail">financíala</span>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="col-md-3 text-center mb-3">
+
+            <div class="he_step he_step_next">
+
+              <div class="he_int   text-center">
+
+                <span class="he_step_number text-center col-12">4</span>
+                <span class="he_step_detail">vende <br>tu usado</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+<!--</div>-->
+
+<!--options-->
+<div class="container-fluid he_bg_lightgray he_options">
+  <div class="row p-5">
+
+    <div *ngIf="!!paymentMethods" class="col-12 col-md-10 offset-md-1 p-0">
+      <h3 class="text-danger mb-3">ELEGÍ TU TARJETA DE CRÉDITO</h3>
+      <div class="row">
+        <div
+          *ngFor="let paymentMethod of paymentMethods"
+          class="text-center m-1"
+          style="max-width: 100px; padding: 10px;"
+          [style.backgroundColor]="paymentMethod.id === selectedPaymentMethod?.id ? 'orange' : 'transparent'"
+          [style.color]="paymentMethod.id === selectedPaymentMethod?.id ? 'white' : 'black'"
+          (click)="onCardSelected(paymentMethod)">
+          <span class="badge badge-light p-3 shadow-sm border ">
+            <img src="{{paymentMethod.secure_thumbnail}}">
+          </span><br>
+          <small>{{paymentMethod.name}}</small>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="!!issuers" class="col-12 col-md-10 offset-md-1 p-0">
+      <h3 class="text-danger mb-3">ELEGÍ TU BANCO</h3>
+      <div class="row">
+        <div class="dropdown w-100">
+          <a class="btn btn-light btn-block text-left dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{selectedIssuer && selectedIssuer.name || 'Elegí Tu Banco Emisor'}}
+          </a>
+
+          <div class="dropdown-menu  w-100" aria-labelledby="dropdownMenuLink">
+            <!--<a *ngFor="let issuer of issuers" class="dropdown-item" href="#">-->
+            <div *ngFor="let issuer of issuers" class="dropdown-item" (click)="onIssuerSelected(issuer)">
+              {{issuer.name}}
+              <img src="{{issuer.secure_thumbnail}}" class="float-right">
+            </div>
+            <!--</a>-->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="!!installments" class="col-12 col-md-10 offset-md-1 p-0">
+      <h3 class="text-danger mb-3">EN CUANTAS CUOTAS?</h3>
+      <div style="text-align: center;">
+        <div class="row">
+          <div class="txt-center">
+            <div *ngFor="let installment of installments" class="ui radio checkbox">
+              <label>
+                <input (change)="onInstallmentsSelected(installment)" type="radio" name="installments" value="{{installment.installments}}">
+                {{installment.recommended_message}}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button class="rounded-pill btn btn-danger text-white" (click)="onConfirm()" [disabled]="!selectedInstallments">CONFIRMAR</button>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>

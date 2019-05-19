@@ -1,0 +1,178 @@
+<!--Header-->
+<div class="container">
+
+  <div class="row border-bottom">
+
+
+    <div class="col-md-2 offset-md-5 col-6 offset-3 text-center my-2">
+      <img class="img-fluid" src="assets/img/Logo-Hero.png" alt="Hero Motos">
+    </div>
+
+  </div>
+
+</div>
+
+<!--contain-->
+<div class="container">
+
+  <div class="row text-center mb-5">
+    <div class="col-12 mt-5">
+      <h1>NUESTROS MODELOS</h1>
+    </div>
+    <div class="col-12 mt-3">
+
+      <button class="rounded-pill btn btn-outline-danger he_btn">¡Subite a una Hero!</button>
+
+    </div>
+
+
+  </div>
+
+  <!--Carousel only for Mobile-->
+  <div class="row d-block d-sm-none ">
+
+    <div id="carouselModels" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div *ngFor="let key of keys; let i = index" class="carousel-item px-2 text-center {{i === 0 ? 'active' : ''}}">
+          <div class="card col-8 offset-2 shadow-lg py-5 mb-3">
+            <div class="card-body ">
+              <img class="img-fluid" src="{{photos[key]}}" alt="{{key}}">
+            </div>
+          </div>
+          <h3>{{key}}</h3>
+
+          <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(ids[key])">Reservar</button>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselModels" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselModels" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+
+  </div>
+
+
+
+  <!--Model Deck for all devices except Mobile-->
+  <div class="card-deck d-none d-sm-inline-flex">
+    <div class="card " *ngFor="let key of keys">
+      <div class="card-body shadow-lg py-5">
+        <img class="img-fluid" src="{{photos[key]}}" alt="{{key}}">
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4 d-none d-sm-flex">
+    <div class="col-3 text-center" *ngFor="let key of keys">
+      <h3>{{key}}</h3>
+      <button class="rounded-pill btn btn-danger col-10 offset-1 m-0 text-white " (click)="onCreateLead(ids[key])">Reservar</button>
+    </div>
+  </div>
+
+
+</div>
+
+<!--Steps-->
+
+<div class="container">
+
+  <div class="row">
+
+
+    <div class="col-md-10 offset-md-1 my-5">
+      <div class="row">
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">1</span>
+              <span class="he_step_detail">descubrí tu <br>moto</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">2</span>
+              <span class="he_step_detail">personalizá <br>tu moto</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">3</span>
+              <span class="he_step_detail">financíala</span>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">4</span>
+              <span class="he_step_detail">vende <br>tu usado</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

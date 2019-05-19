@@ -1,0 +1,285 @@
+<!--Header-->
+<div class="container">
+
+  <div class="row border-bottom">
+
+
+    <div class="col-md-2 offset-md-5 col-6 offset-3 text-center my-2">
+      <img class="img-fluid" src="assets/img/Logo-Hero.png" alt="Hero Motos">
+    </div>
+
+  </div>
+
+</div>
+
+<!--contain-->
+<div *ngIf="lead$ | async as lead" class="container">
+
+  <app-bike-details [lead]="lead"></app-bike-details>
+
+</div>
+
+<!--Steps-->
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-1 d-none d-md-inline-flex">
+      <div class="row">
+        <div class="col-12">
+          <div  [routerLink]="['/vende', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-left"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>VOLVER</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 my-5">
+      <div class="row">
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">5</span>
+              <span class="he_step_detail">Seguro</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">6</span>
+              <span class="he_step_detail">Accesorios</span>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next ">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">7</span>
+              <span class="he_step_detail">patente</span>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="col-md-3 text-center mb-3">
+
+          <div class="he_step he_step_next">
+
+            <div class="he_int   text-center">
+
+              <span class="he_step_number text-center col-12">8</span>
+              <span class="he_step_detail">envío</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-md-1 d-none d-md-inline-flex ">
+      <div class="row">
+        <div class="col-12">
+          <div [routerLink]="['/accesorios', leadId]" class="he_next-btn bg-secondary text-white">
+            <i class="fas fa-angle-right"></i>
+          </div>
+          <div class="col-12 text-center text-dark">
+
+            <small><b>REVISÁ TU COMPRA</b></small>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </div>
+
+
+</div>
+
+<!--options-->
+<div class="container-fluid he_options">
+  <div class="row">
+
+    <div class="col-12 he_bg_lightgray pt-5">
+      <h2 class="text-center">¿CÓMO QUERES ASEGURAR TU MOTO?</h2>
+      <div class="col-md-8 offset-md-2 mt-5">
+        <form>
+          <div class="form-group">
+
+            <select class="form-control" name="option" id="option" [(ngModel)]="option">
+              <option value="with_hero">Deseo cotizar mi seguro con Hero</option>
+              <option value="without_hero">Voy a contratar mi propio seguro</option>
+            </select>
+
+            <div *ngIf="selectedOption === 'with_hero'">
+              <div class="form-row">
+                <div class="col-md  mt-3">
+                  <label for="provincia" >Provincia<span class="text-danger">*</span></label>
+                  <select id="provincia" class="form-control">
+                    <option>Capital Federal</option>
+                  </select>
+                </div>
+                <div class="col-md mt-3">
+                  <label for="postalCode" >Código Postal<span class="text-danger">*</span></label>
+                  <input id="postalCode" name="postalCode" class="form-control" type="number" placeholder="Código Postal" [(ngModel)]="postalCode">
+                </div>
+                <div class="col-md mt-3">
+                  <label for="age" >Edad<span class="text-danger">*</span></label>
+                  <input id="age" name="age" class="form-control" type="number" placeholder="Edad" [(ngModel)]="age">
+                </div>
+
+              </div>
+              <input *ngIf="!fetched" (click)="fetchInsuranceOptions()" [disabled]="submitDisabled" type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Cotizar">
+            </div>
+
+            <div *ngIf="selectedOption === 'without_hero'">
+              <input (click)="continueWithoutInsurance()" type="submit" class="rounded-pill btn btn-danger col-4 offset-4 mt-5 text-white " value="Continuar">
+            </div>
+
+            <div *ngIf="fetched" class="text-center" style="margin-top: 20px;">
+
+              <div *ngIf="loading">
+                Cargando...
+              </div>
+
+              <div *ngIf="!loading">
+                <table style="border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0; width: 100%; vertical-align: middle; line-height: 1; text-align: center" cellpadding="0" cellspacing="0">
+                  <thead>
+                  <tr style="height: 60px;">
+                    <th style="background: #f4f4f4; vertical-align: middle; border-top: 1px solid #ddd">
+                    </th>
+                    <td *ngFor="let option of options" style="border: 1px solid #ddd; width: 30%; vertical-align: middle; color: #333333; font-weight: 400; font-size: 13px; min-height: 70px; padding: 0 5px;">
+                      {{option.title}}
+                    </td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let issuer of issuers" style="height: 60px;">
+                    <th style="border: 1px solid #ddd; height: 60px; background-color: #f6f6f6;">
+                      <img src="{{issuer.image}}" alt="{{issuer.name}}" style="height: 60px;" />
+                    </th>
+                    <td *ngFor="let option of issuerOptions(issuer)" (click)="onOptionSelected(issuer, option.option)" style="border: 1px solid #ddd; width: 20%; font-size: 19px; font-weight: 500; vertical-align: middle;" [ngStyle]="{ 'background-color': option.selected ? 'orange' : '', 'color': option.selected ? 'white': '' }">
+                      {{option.content}}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <input (click)="continueWithInsurance()" [disabled]="!selected" type="submit" class="rounded-pill btn btn-danger col-4 mt-5 text-white " value="Continuar">
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="col-md-1 d-inline-flex d-md-none col-3 my-2  mr-1 ">
+            <div class="row">
+              <div class="col-12">
+                <div class="he_next-btn mt-1  bg-secondary text-white">
+                  <i class="fas fa-angle-left"></i>
+                </div>
+                <div class="col-12 text-center text-dark">
+
+                  <small><b>VOLVER</b></small>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="col-md-1 d-inline-flex d-md-none p-0 my-2  mr-1 text-center ">
+            <div class="row">
+              <div class="col-12 p-0 ml-2 ">
+                <div class="he_next-btn mt-1  bg-secondary text-white">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="col-12 text-center text-dark">
+
+                  <small><b>REVISA <br> TU COMPRA</b></small>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="col-md-1 d-inline-flex d-md-none col-3 my-2  mr-1 ">
+            <div class="row">
+              <div class="col-12">
+                <div class="he_next-btn mt-1  bg-secondary text-white">
+                  <i class="fas fa-angle-right"></i>
+                </div>
+                <div class="col-12 text-center text-dark">
+
+                  <small><b>SIGUIENTE</b></small>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
